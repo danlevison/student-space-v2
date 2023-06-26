@@ -1,8 +1,11 @@
 import './globals.css'
-import { Inter } from 'next/font/google'
+import { Nunito } from 'next/font/google'
 import Nav from "@/components/Nav"
 
-const inter = Inter({ subsets: ['latin'] })
+const nunito = Nunito({ 
+  subsets: ['latin'], 
+  variable: "--font-nunito"
+})
 
 export const metadata = {
   title: 'Student Space',
@@ -12,7 +15,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
+      <body className={`${nunito.variable} font-nunito`}>
         <Nav />
         {children}
       </body>

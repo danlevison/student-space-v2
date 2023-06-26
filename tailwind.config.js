@@ -8,11 +8,12 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        mont: ["var(--font-montserrat)"]
+        nunito: ["var(--font-nunito)"]
       },
       colors: {
           primaryTextClr: "#fff", 
           secondaryTextClr: "#333",
+          tertiaryTextClr: "#8f9093;",
           buttonClr: "#5065A8",
           iconClr: "#5065A8",
       },  

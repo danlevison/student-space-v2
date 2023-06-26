@@ -1,11 +1,13 @@
 "use client"
 
 import React, { useState, useEffect } from 'react';
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from "../../utils/firebase";
 import Logo from "../../public/assets/student-space-logo.png"
+import LogoWhite from "../../public/assets/student-space-logo-white.png"
 import { FiMenu } from "react-icons/fi"
 import { CgClose } from "react-icons/cg"
 
@@ -15,25 +17,48 @@ const Nav = () => {
   const [nav, setNav] = useState(false)
   const [navBgColor, setNavBgColor] = useState("transparent");
   const [navLinkColor, setNavLinkColor] = useState("white")
+  const [logo, setLogo] = useState(LogoWhite)
+  const pathname = usePathname()
 
-  // Change background colour/nav link colour when user scroll
+  // Change nav background colour/nav link colour when user scroll
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setNavBgColor("rgb(241 245 249)"); 
-        setNavLinkColor("black")
-      } else {
-        setNavBgColor("transparent");
-        setNavLinkColor("white")
+      if (typeof window !== 'undefined') {
+        if (window.scrollY > 0 && pathname === "/") {
+          setNavBgColor("white"); 
+          setNavLinkColor("#5f5f7f");
+          setLogo(Logo);
+        } else if (window.scrollY === 0 && pathname === "/") {
+          setNavBgColor("transparent");
+          setNavLinkColor("white");
+          setLogo(LogoWhite);
+        }
       }
     };
-
-    window.addEventListener("scroll", handleScroll);
-
+  
+    if (typeof window !== 'undefined') {
+      window.addEventListener("scroll", handleScroll);
+    }
+  
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      if (typeof window !== 'undefined') {
+        window.removeEventListener("scroll", handleScroll);
+      }
     };
-  }, []);
+  }, [pathname]);
+
+//  Change nav background colour/nav link colour when not on homepage
+  useEffect(() => {
+    if (pathname !== "/") {
+      setNavBgColor("white");
+      setNavLinkColor("#5f5f7f");
+      setLogo(Logo)
+    } else {
+      setNavBgColor("transparent")
+      setNavLinkColor("white")
+      setLogo(LogoWhite)
+    }
+  }, [pathname]);
 
   const handleNav = () => {
     setNav(!nav)
@@ -41,34 +66,34 @@ const Nav = () => {
 
   const NavLink = ({href, title, className=""}) => {
     return (
-      <Link onClick={() => setNav(false)} scroll={false} href={href} className={`${className}`} style={{ color: navLinkColor}}>
+      <Link onClick={() => setNav(false)} scroll={false} href={href} className={`${className}`}>
         {title}
       </Link>
     )
   }
 
   return (
-      <nav className="fixed w-full h-[6rem] z-[100]" style={{ backgroundColor: navBgColor, transition: "background-color 0.4s ease", }}>
+      <nav className={pathname === "/" && window.scrollY === 0 ? "fixed w-full h-[6rem] z-[100] px-8" : "shadow-xl fixed w-full h-[6rem] z-[100] px-8"} style={{ backgroundColor: navBgColor, transition: "background-color 0.4s ease"}}>
         <div className="flex justify-between items-center gap-4 w-full h-full px-2 2xl:px-16">
           <Link href={"/"} onClick={() => setNav(false)}>
-            <Image src={Logo} alt="Student Space Logo" width={130} height={130} />
+            <Image src={logo} alt="Student Space Logo" width={130} height={130} />
           </Link>
           {/* Desktop */}
-          <ul className="hidden md:flex items-center gap-16">
-            <NavLink href={"/"} title={"Home"} className="text-sm text-primaryTextClr"/>
-            <NavLink href={"/#about"} title={"About"} className="text-sm text-primaryTextClr"/>
+          <ul className="hidden md:flex items-center gap-16 font-bold text-primaryTextClr" style={{ color: navLinkColor}}>
+            <NavLink href={"/"} title={"Home"} />
+            <NavLink href={"/#about"} title={"About"} />
             {!user && (
-              <NavLink href={"/login"} title={"Sign in"} className="py-2 px-4 text-sm bg-buttonClr text-primaryTextClr rounded-lg" />
+              <NavLink href={"/login"} title={"Sign in"} />
             )}
             {user && (
               <div className="flex items-center gap-16">
-                <NavLink href={"/dashboard"} title={"Dashboard"} className="text-sm text-primaryTextClr"/>
-                <button onClick={() => auth.signOut()} className="text-sm text-primaryTextClr" style={{ color: navLinkColor }}>Sign out</button>
+                <NavLink href={"/dashboard"} title={"Dashboard"} />
+                <button onClick={() => auth.signOut()}>Sign out</button>
               </div>
             )}
           </ul>
           <div onClick={handleNav} className="md:hidden cursor-pointer">
-            {nav ? <CgClose size={30} className="text-primaryTextClr" /> : <FiMenu size={30} className="text-primaryTextClr" /> }
+            <FiMenu size={30} className="text-primaryTextClr" style={{ color: navLinkColor}} />
           </div>
         </div>
 
@@ -76,18 +101,27 @@ const Nav = () => {
         <div className={nav ? "md:hidden fixed left-0 top-24 w-full h-screen bg-black/70" : ""}>
           <div className={
             nav 
-            ? "fixed left-0 top-24 w-full text-center sm:text-left sm:w-[60%] h-screen bg-orange-200 p-7 ease-in-out duration-700"
-            : "fixed left-[-100%] top-24 p-10 ease-in-out duration-700 h-screen"}>
-              <div className="">
-                <ul className="flex flex-col items-center gap-32">
-                  <NavLink href={"/"} title={"Home"} className="text-sm text-primaryTextClr" />
-                  <NavLink href={"/#about"} title={"About"} className="text-sm text-primaryTextClr"/>
+            ? "fixed left-0 top-0 w-full text-center sm:text-left h-screen bg-white p-7 ease-in-out duration-700"
+            : "fixed left-[-100%] top-0 p-10 ease-in-out duration-700 h-screen"}>
+              <div>
+                <div className="flex justify-between items-center pb-24">
+                  <Link href={"/"} onClick={() => setNav(false)}>
+                    <Image src={Logo} alt="Student Space Logo" width={130} height={130} />
+                  </Link>
+                  <div onClick={handleNav}>
+                    <CgClose size={30} className="text-secondaryTextClr" />
+                  </div>
+                </div>
+              
+                <ul className="flex flex-col items-center gap-32 font-bold text-secondaryTextClr">
+                  <NavLink href={"/"} title={"Home"} />
+                  <NavLink href={"/#about"} title={"About"} />
                   {!user && (
-                    <NavLink href={"/login"} title={"Sign in"} className="py-2 px-4 text-sm bg-buttonClr text-primaryTextClr rounded-lg" />
+                    <NavLink href={"/login"} title={"Sign in"} />
                   )}
                   {user && (
                     <div className="flex flex-col gap-32">
-                     <NavLink href={"/dashboard"} title={"Dashboard"} className="text-sm text-primaryTextClr"/>
+                     <NavLink href={"/dashboard"} title={"Dashboard"} />
                      <button onClick={() => {
                         auth.signOut()
                         setNav(false)

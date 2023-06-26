@@ -8,7 +8,7 @@ import { updateDoc, doc, getDoc } from "firebase/firestore";
 import CreateClass from "@/components/CreateClass";
 import Link from "next/link";
 
-const Page = () => {
+const Dashboard = () => {
   const [user, loading] = useAuthState(auth);
   const [className, setClassName] = useState(null)
   const [isClassMade, setIsClassMade] = useState(false)
@@ -66,7 +66,7 @@ const Page = () => {
       <div className="flex flex-col justify-center items-center">
         <h1 className="text-2xl lg:text-5xl">Welcome</h1>
         <div className="flex flex-col md:flex-row justify-center items-center gap-10 mt-12 w-full h-full">
-          <Link href={"/"}>
+          <Link href={"/democlass"}>
             <div className="w-[192px] h-[192px] bg-white border border-[#5065A8] rounded-2xl hover:scale-105 duration-300 ease-out">
                 <div className="flex flex-col justify-center items-center">
                   <p className="text-lg">Demo Class</p>
@@ -93,4 +93,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default Dashboard;

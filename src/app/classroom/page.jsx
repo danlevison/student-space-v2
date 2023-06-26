@@ -6,7 +6,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from '../../../utils/firebase';
 import { doc, getDoc } from "firebase/firestore"; 
 
-const page = () => {
+const Classroom = () => {
   const [user, loading] = useAuthState(auth);
   const [classname, setClassname] = useState('');
   const router = useRouter();
@@ -41,4 +41,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Classroom;
