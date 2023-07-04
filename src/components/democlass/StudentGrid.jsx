@@ -6,6 +6,7 @@ import { IoMdSettings } from 'react-icons/io';
 import { RiAddLine } from "react-icons/ri";
 import PlaceholderImage from '../../../public/assets/placeholder.jpg';
 import AddStudent from "./AddStudent"
+import Options from "../../components/democlass/Options"
 
 const StudentGrid = () => {
     const [students, setStudents] = useState(studentData)
@@ -27,7 +28,10 @@ const StudentGrid = () => {
       }
 
       return (
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(210px,1fr))] gap-4 items-center justify-center px-10">
+            <div className="relative grid grid-cols-[repeat(auto-fit,minmax(210px,1fr))] gap-4 items-center justify-center px-10">
+               <div className="z-[30] w-32 absolute top-[-40px] right-5">
+                  <Options students={students} setStudents={setStudents} />
+                </div>  
                 {students.map((student) => (
                     <div key={student.uuid} className="relative flex flex-col justify-center items-center p-8 shadow-lg rounded-md bg-[#f5f5f5]">
                     <p className="font-bold tracking-wide">{student.name}</p>
@@ -52,8 +56,8 @@ const StudentGrid = () => {
                     </button>
                     </div>
                 ))}
-                <button onClick={handleAddStudentModal} className="flex flex-col justify-center items-center p-10 shadow-lg rounded-full bg-[#f5f5f5] hover:scale-105 duration-300">
-                    <p>Add student</p>
+                <button onClick={handleAddStudentModal} className="flex flex-col justify-center items-center max-w-[210px] p-[2.40rem] shadow-lg rounded-md bg-[#f5f5f5] hover:scale-105 duration-300">
+                    <p className="text-lg font-bold">Add student</p>
                     <RiAddLine size={30} />
                 </button>
                 
