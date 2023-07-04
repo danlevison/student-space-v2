@@ -13,7 +13,7 @@ module.exports = {
       colors: {
           primaryTextClr: "#fff", 
           secondaryTextClr: "#333",
-          tertiaryTextClr: "#8f9093;",
+          tertiaryTextClr: "#8f9093",
           buttonClr: "#5065A8",
           iconClr: "#5065A8",
           modalBackdropClr: "rgba(50, 65, 108, 0.9)"
