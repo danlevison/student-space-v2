@@ -58,8 +58,13 @@ const Dashboard = () => {
     setClassName(e.target.value);
   };
 
+  useEffect(() => {
+    if (!user) {
+      router.push("/login");
+    }
+  }, [user]);
+
   if (loading) return <h1>Loading...</h1>;
-  if (!user) router.push("/login");
 
   return (
     <main className="py-32">

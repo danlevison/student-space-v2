@@ -1,0 +1,66 @@
+import React, {useState} from 'react';
+import Image from 'next/image';
+import studentData from "../../app/studentData"
+import { FaAward } from 'react-icons/fa';
+import { IoMdSettings } from 'react-icons/io';
+import { RiAddLine } from "react-icons/ri";
+import PlaceholderImage from '../../../public/assets/placeholder.jpg';
+import AddStudent from "./AddStudent"
+
+const StudentGrid = () => {
+    const [students, setStudents] = useState(studentData)
+    const [isOpen, setIsOpen] = useState(false)
+
+    const handlePointClick = (uuid) => {
+        setStudents((prevStudents) => {
+          return prevStudents.map((student) => {
+            if (student.uuid === uuid) {
+              return { ...student, points: student.points + 1 }
+            }
+            return student;
+          })
+        })
+      }
+
+      const handleAddStudentModal = () => {
+        setIsOpen(true)
+      }
+
+      return (
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(210px,1fr))] gap-4 items-center justify-center px-10">
+                {students.map((student) => (
+                    <div key={student.uuid} className="relative flex flex-col justify-center items-center p-8 shadow-lg rounded-md bg-[#f5f5f5]">
+                    <p className="font-bold tracking-wide">{student.name}</p>
+                    <p className="text-center text-primaryTextClr w-[50px] p-2 bg-blue-400 rounded-lg mx-auto my-1">{student.points}</p>
+                    <button onClick={() => handlePointClick(student.uuid)}>
+                        <FaAward size={30} className="absolute top-2 right-1 text-iconClr hover:scale-105 duration-300 ease-in"/>
+                    </button>
+                    <button className="absolute top-1 left-1">
+                        <Image 
+                        src={PlaceholderImage}
+                        alt="/"
+                        width={60}
+                        height={60}
+                        className="rounded-full"
+                        style={{
+                            objectFit: "cover"
+                        }}
+                        />
+                    </button>
+                    <button className="absolute bottom-2 right-2">
+                        <IoMdSettings size={20} className="text-gray-400"/>
+                    </button>
+                    </div>
+                ))}
+                <button onClick={handleAddStudentModal} className="flex flex-col justify-center items-center p-10 shadow-lg rounded-full bg-[#f5f5f5] hover:scale-105 duration-300">
+                    <p>Add student</p>
+                    <RiAddLine size={30} />
+                </button>
+                
+                {/* Add Student Modal */}
+                 {isOpen && <AddStudent isOpen={isOpen} setIsOpen={setIsOpen} students={students} setStudents={setStudents} />}
+            </div>
+      )
+  }
+  
+  export default StudentGrid

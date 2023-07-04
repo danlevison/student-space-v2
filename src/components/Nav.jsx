@@ -19,6 +19,7 @@ const Nav = () => {
   const [navLinkColor, setNavLinkColor] = useState("white")
   const [logo, setLogo] = useState(LogoWhite)
   const pathname = usePathname()
+  const scrollY = window.scrollY === 0
 
   // Change nav background colour/nav link colour when user scroll
   useEffect(() => {
@@ -73,7 +74,7 @@ const Nav = () => {
   }
 
   return (
-      <nav className={pathname === "/" && window.scrollY === 0 ? "fixed w-full h-[6rem] z-[100] px-8" : "shadow-xl fixed w-full h-[6rem] z-[100] px-8"} style={{ backgroundColor: navBgColor, transition: "background-color 0.4s ease"}}>
+      <nav className={pathname === "/"  && scrollY ? "fixed w-full h-[6rem] z-[100] px-8" : "shadow-xl fixed w-full h-[6rem] z-[100] px-8"} style={{ backgroundColor: navBgColor, transition: "background-color 0.4s ease"}}>
         <div className="flex justify-between items-center gap-4 w-full h-full px-2 2xl:px-16">
           <Link href={"/"} onClick={() => setNav(false)}>
             <Image src={logo} alt="Student Space Logo" width={130} height={130} />
@@ -101,7 +102,7 @@ const Nav = () => {
         <div className={nav ? "md:hidden fixed left-0 top-24 w-full h-screen bg-black/70" : ""}>
           <div className={
             nav 
-            ? "fixed left-0 top-0 w-full text-center sm:text-left h-screen bg-white p-7 ease-in-out duration-700"
+            ? "fixed left-0 top-0 w-full text-center sm:text-left h-screen bg-white p-10 ease-in-out duration-700"
             : "fixed left-[-100%] top-0 p-10 ease-in-out duration-700 h-screen"}>
               <div>
                 <div className="flex justify-between items-center pb-24">
@@ -116,23 +117,25 @@ const Nav = () => {
                 <ul className="flex flex-col items-center gap-32 font-bold text-secondaryTextClr">
                   <NavLink href={"/"} title={"Home"} />
                   <NavLink href={"/#about"} title={"About"} />
-                  {!user && (
-                    <NavLink href={"/login"} title={"Sign in"} />
-                  )}
-                  {user && (
+                  {user ? (
                     <div className="flex flex-col gap-32">
-                     <NavLink href={"/dashboard"} title={"Dashboard"} />
-                     <button onClick={() => {
-                        auth.signOut()
-                        setNav(false)
+                      <NavLink href={"/dashboard"} title={"Dashboard"} />
+                      <button
+                        onClick={() => {
+                          auth.signOut();
+                          setNav(false);
                         }}
                         className="text-sm text-primaryTextClr"
-                        style={{ color: navLinkColor }}>
+                        style={{ color: navLinkColor }}
+                      >
                         Sign out
                       </button>
                     </div>
+                  ) : (
+                    <NavLink href={"/login"} title={"Sign in"} />
                   )}
                 </ul>
+
               </div>
           </div>
         </div>
