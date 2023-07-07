@@ -1,19 +1,19 @@
-import React, {useState} from 'react';
-import Image from 'next/image';
-import studentData from "../../app/studentData"
-import { FaAward } from 'react-icons/fa';
-import { IoMdSettings } from 'react-icons/io';
-import { RiAddLine } from "react-icons/ri";
-import PlaceholderImage from '../../../public/assets/placeholder.jpg';
+import React, {useState, useContext} from 'react'
+import Image from 'next/image'
+import { DemoStudentDataContext } from "../../app/democlass/page"
+import { FaAward } from 'react-icons/fa'
+import { IoMdSettings } from 'react-icons/io'
+import { RiAddLine } from "react-icons/ri"
+import PlaceholderImage from '../../../public/assets/placeholder.jpg'
 import AddStudent from "./AddStudent"
 import Options from "../../components/democlass/Options"
 
 const StudentGrid = () => {
-    const [students, setStudents] = useState(studentData)
-    const [isOpen, setIsOpen] = useState(false)
+    const { demoStudentData, setDemoStudentData } = useContext(DemoStudentDataContext)  
+    const [isAddStudentModalOpen, setIsAddStudentModalOpen] = useState(false)
 
     const handlePointClick = (uuid) => {
-        setStudents((prevStudents) => {
+        setDemoStudentData((prevStudents) => {
           return prevStudents.map((student) => {
             if (student.uuid === uuid) {
               return { ...student, points: student.points + 1 }
@@ -24,15 +24,15 @@ const StudentGrid = () => {
       }
 
       const handleAddStudentModal = () => {
-        setIsOpen(true)
+        setIsAddStudentModalOpen(true)
       }
 
       return (
             <div className="relative grid grid-cols-[repeat(auto-fit,minmax(210px,1fr))] gap-4 items-center justify-center px-10">
                <div className="z-[30] w-32 absolute top-[-40px] right-5">
-                  <Options students={students} setStudents={setStudents} />
+                  <Options />
                 </div>  
-                {students.map((student) => (
+                {demoStudentData.map((student) => (
                     <div key={student.uuid} className="relative flex flex-col justify-center items-center p-8 shadow-lg rounded-md bg-[#f5f5f5]">
                     <p className="font-bold tracking-wide">{student.name}</p>
                     <p className="text-center text-primaryTextClr w-[50px] p-2 bg-blue-400 rounded-lg mx-auto my-1">{student.points}</p>
@@ -62,7 +62,7 @@ const StudentGrid = () => {
                 </button>
                 
                 {/* Add Student Modal */}
-                 {isOpen && <AddStudent isOpen={isOpen} setIsOpen={setIsOpen} students={students} setStudents={setStudents} />}
+                 {isAddStudentModalOpen && <AddStudent isAddStudentModalOpen={isAddStudentModalOpen} setIsAddStudentModalOpen={setIsAddStudentModalOpen} />}
             </div>
       )
   }

@@ -1,16 +1,19 @@
-import React from 'react'
+import React, {useContext} from 'react'
+import { DemoStudentDataContext } from "../../app/democlass/page"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from "react-icons/ai"
 import PlaceholderImage from '../../../public/assets/placeholder.jpg';
 
-const AddStudent = ({ isOpen, setIsOpen, students, setStudents }) => {
+const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen }) => {
+
+    const { demoStudentData, setDemoStudentData } = useContext(DemoStudentDataContext) 
     
     const handleAddStudentSubmit = (e) => {
         e.preventDefault();
         const name = e.target.name.value
         const dob = e.target.dob.value
         const uuid = crypto.randomUUID()
-        const existingStudent = students.find(student => student.name === name)
+        const existingStudent = demoStudentData.find(student => student.name === name)
         
         if(existingStudent) {
           alert("A student with this name already exists!")
@@ -26,7 +29,7 @@ const AddStudent = ({ isOpen, setIsOpen, students, setStudents }) => {
           uuid: uuid
         };
       
-        setStudents((prevStudents) => {
+        setDemoStudentData((prevStudents) => {
           return [...prevStudents, newStudent];
         });
 
@@ -36,8 +39,8 @@ const AddStudent = ({ isOpen, setIsOpen, students, setStudents }) => {
   return (
     <>
         <Dialog
-            open={isOpen}
-            onClose={() => setIsOpen(false)}
+            open={isAddStudentModalOpen}
+            onClose={() => setIsAddStudentModalOpen(false)}
             className="relative z-50"
         >
             {/* Backdrop */}
@@ -49,7 +52,7 @@ const AddStudent = ({ isOpen, setIsOpen, students, setStudents }) => {
                 <Dialog.Panel className="p-5 w-[400px] h-[300px] rounded-xl bg-blue-100">
                     <div className="flex justify-between items-center">
                         <Dialog.Title className="font-bold text-xl">Add student</Dialog.Title>
-                        <button onClick={() => setIsOpen(false)}>
+                        <button onClick={() => setIsAddStudentModalOpen(false)}>
                             <AiOutlineClose size={28} className="bg-white text-secondaryTextClr hover:bg-buttonClr rounded-full hover:text-primaryTextClr p-1"/>
                         </button>
                     </div>

@@ -1,14 +1,14 @@
 "use client"
 
-import React from 'react';
-import Link from "next/link";
-import Image from "next/image";
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from "../../utils/firebase";
-import LandingPageBg from "../../public/assets/student-space-bg.jpg";
+import React from 'react'
+import Link from "next/link"
+import Image from "next/image"
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { auth } from "../../utils/firebase"
+import LandingPageBg from "../../public/assets/confetti.png"
 
 const LandingPage = () => {
-  const [user, loading] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth)
 
   return (
     <section className="flex flex-col justify-center items-center w-full text-center min-h-screen py-10 md:py-0 relative">
@@ -24,7 +24,7 @@ const LandingPage = () => {
             objectFit: "cover"
           }}
         />
-        <div className="w-full h-full bg-black opacity-60"></div>
+        {/* <div className="w-full h-full bg-black opacity-60"></div> */}
       </div>
       <div className="max-w-[1240px] w-full h-full mx-auto p-2 flex flex-col justify-center items-center relative">
         <h1 className="text-3xl md:text-6xl lg:text-8xl text-center uppercase tracking-wider text-yellow-400">Student Space</h1>
