@@ -1,20 +1,20 @@
 import { useState } from 'react'
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation'
 import { Dialog } from '@headlessui/react'
 import { RiAddLine } from "react-icons/ri"
 
 function CreateClass({ handleInputChange, setIsClassMade }) {
   const [isOpen, setIsOpen] = useState(false)
-  const router = useRouter();
+  const router = useRouter()
 
   const handleClickOpen = () => {
-    setIsOpen(true);
+    setIsOpen(true)
   };
 
   const handleCreateClass = (e) => {
-    e.preventDefault();
-    setIsOpen(false);
-    setIsClassMade(true);  
+    e.preventDefault()
+    setIsOpen(false)
+    setIsClassMade(true)
     router.push("/classroom")
   }
 
@@ -41,7 +41,7 @@ function CreateClass({ handleInputChange, setIsClassMade }) {
                 <Dialog.Title className="text-3xl font-bold text-center">Create Class</Dialog.Title>
                 <form className="flex flex-col justify-between h-full pt-4">
                     <div className="flex flex-col">
-                        <label htmlFor="classname" className="text-lg py-2">Class Name</label>
+                        <label htmlFor="classname" className="text-lg py-2">Class name</label>
                         <input onChange={handleInputChange} type="text" id="classname" className="py-3 px-2 border border-gray-300 rounded-lg" required={true} />
                     </div>
                     <div className="flex justify-center gap-12">

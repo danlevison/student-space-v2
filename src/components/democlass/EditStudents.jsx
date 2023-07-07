@@ -1,12 +1,15 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
+import { DemoStudentDataContext } from "../../app/democlass/page"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from "react-icons/ai"
 
-const EditStudents = ({ isOpen, setIsOpen, students, setStudents }) => {
+const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) => {
     const [openStudentInfo, setOpenStudentInfo] = useState(false) 
     const [selectedStudent, setSelectedStudent] = useState({
         name: ''
       });
+
+    const { demoStudentData, setDemoStudentData } = useContext(DemoStudentDataContext)  
 
     const handleStudentModal = (student) => {
         setSelectedStudent(student)
@@ -24,7 +27,7 @@ const EditStudents = ({ isOpen, setIsOpen, students, setStudents }) => {
             e.preventDefault()
             const updatedName = e.target.name.value
 
-            const existingStudent = students.find(student => student.name === updatedName)
+            const existingStudent = demoStudentData.find(student => student.name === updatedName)
         
             if(existingStudent) {
             alert("A student with this name already exists!")
@@ -32,7 +35,7 @@ const EditStudents = ({ isOpen, setIsOpen, students, setStudents }) => {
             return
             }
             
-            setStudents((prevStudents) => {
+            setDemoStudentData((prevStudents) => {
               return prevStudents.map((student) => {
                 if (student.uuid === selectedStudent.uuid) {
                   return { ...student, name: updatedName }
@@ -44,7 +47,7 @@ const EditStudents = ({ isOpen, setIsOpen, students, setStudents }) => {
           }
 
           const removeStudent = () => {
-            setStudents((prevStudents) => {
+            setDemoStudentData((prevStudents) => {
                 // Ensures that only students with a different UUID than the UUID of the selectedStudent will be included in the new array.
               return prevStudents.filter((student) => student.uuid !== selectedStudent.uuid)
             })
@@ -54,8 +57,8 @@ const EditStudents = ({ isOpen, setIsOpen, students, setStudents }) => {
     return (
         <>
           <Dialog
-            open={isOpen}
-            onClose={() => setIsOpen(false)}
+            open={isEditStudentsModalOpen}
+            onClose={() => setIsEditStudentsModalOpen(false)}
             className="relative z-40"
           >
             {/* Backdrop */}
@@ -66,7 +69,7 @@ const EditStudents = ({ isOpen, setIsOpen, students, setStudents }) => {
               <Dialog.Panel className="p-5 w-[80%] max-w-[500px] h-[40%] rounded-xl bg-blue-100">
                 <div className="flex justify-between items-center">
                   <Dialog.Title className="font-bold text-xl">Edit Students</Dialog.Title>
-                  <button onClick={() => setIsOpen(false)}>
+                  <button onClick={() => setIsEditStudentsModalOpen(false)}>
                     <AiOutlineClose
                       size={28}
                       className="bg-white text-secondaryTextClr hover:bg-buttonClr rounded-full hover:text-primaryTextClr p-1"
@@ -74,7 +77,7 @@ const EditStudents = ({ isOpen, setIsOpen, students, setStudents }) => {
                   </button>
                 </div>
                 <div className="overflow-auto h-5/6 mt-4">
-                  {students.map((student) => (
+                  {demoStudentData.map((student) => (
                     <button
                       key={student.uuid}
                       onClick={() => handleStudentModal(student)}
@@ -110,7 +113,7 @@ const EditStudents = ({ isOpen, setIsOpen, students, setStudents }) => {
                         </button>
                     </div>
                     <form onSubmit={handleStudentInfoSubmit} className="flex flex-col py-4">
-                        <label htmlFor="name">Name</label>
+                        <label htmlFor="name">First name</label>
                         {selectedStudent && (
                             <input
                                 className="w-full rounded-lg p-2"

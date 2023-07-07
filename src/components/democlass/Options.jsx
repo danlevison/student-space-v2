@@ -1,16 +1,22 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useContext } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { AiFillCaretDown } from "react-icons/ai"
 import { CiEdit } from "react-icons/ci"
 import { RxReset } from "react-icons/rx"
 import { TiSortAlphabetically } from "react-icons/ti"
 import EditStudents from "./EditStudents"
+import ResetPoints from "./ResetPoints"
 
-const Options = ({ students, setStudents }) => {
-    const [isOpen, setIsOpen] = useState(false)
-
+const Options = () => {
+    const [isEditStudentsModalOpen, setIsEditStudentsModalOpen] = useState(false)
+    const [openResetPointsModal, setOpenResetPointsModal] = useState(false)
+    
     const handleEditStudentsModal = () => {
-        setIsOpen(true)
+        setIsEditStudentsModalOpen(true)
+    }
+
+    const handleResetPointsModal = () => {
+        setOpenResetPointsModal(true)
     }
   
     return (
@@ -38,7 +44,8 @@ const Options = ({ students, setStudents }) => {
             <div className="px-1 py-1 ">
                 <Menu.Item>
                 {({ active }) => (
-                    <button onClick={handleEditStudentsModal}
+                    <button 
+                    onClick={handleEditStudentsModal}
                     className={`${
                         active ? 'bg-buttonClr text-primaryTextClr' : 'text-secondaryTextClr'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
@@ -61,6 +68,7 @@ const Options = ({ students, setStudents }) => {
                 <Menu.Item>
                 {({ active }) => (
                     <button
+                    onClick={handleResetPointsModal}
                     className={`${
                         active ? 'bg-buttonClr text-primaryTextClr' : 'text-secondaryTextClr'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
@@ -110,7 +118,9 @@ const Options = ({ students, setStudents }) => {
         </Menu>
 
         {/* Edit Student Modal */}
-        {isOpen && <EditStudents isOpen={isOpen} setIsOpen={setIsOpen} students={students} setStudents={setStudents} />}
+        {isEditStudentsModalOpen && <EditStudents isEditStudentsModalOpen={isEditStudentsModalOpen} setIsEditStudentsModalOpen={setIsEditStudentsModalOpen} />}
+        {/* Reset Points Modal */}
+        {openResetPointsModal && <ResetPoints openResetPointsModal={openResetPointsModal} setOpenResetPointsModal={setOpenResetPointsModal} />}
     </div>
   )
 }
