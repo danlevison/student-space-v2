@@ -4,13 +4,19 @@ import DemoStudentDataContext from "../../DemoStudentDataContext"
 import { FaAward } from 'react-icons/fa'
 import { IoMdSettings } from 'react-icons/io'
 import { RiAddLine } from "react-icons/ri"
-import PlaceholderImage from '../../../public/assets/placeholder.jpg'
 import AddStudent from "./AddStudent"
-import Options from "../../components/democlass/Options"
+import Options from "./options/Options"
+import bearAvatar from "../../../public/assets/avatars/bear.png"
+import catAvatar from "../../../public/assets/avatars/cat.png"
+import rabbitAvatar from "../../../public/assets/avatars/rabbit.png"
+import pandaAvatar from "../../../public/assets/avatars/panda.png"
+import chickenAvatar from "../../../public/assets/avatars/chicken.png"
+import dogAvatar from "../../../public/assets/avatars/dog.png"
 
 const StudentGrid = () => {
     const { demoStudentData, setDemoStudentData } = useContext(DemoStudentDataContext)  
     const [isAddStudentModalOpen, setIsAddStudentModalOpen] = useState(false)
+    const [currentAvatarIndex, setCurrentAvatarIndex] = useState(0);
 
     const handlePointClick = (uuid) => {
         setDemoStudentData((prevStudents) => {
@@ -18,9 +24,23 @@ const StudentGrid = () => {
             if (student.uuid === uuid) {
               return { ...student, points: student.points + 1 }
             }
-            return student;
+            return student
           })
         })
+      }
+
+      const handleAvatarClick = (uuid) => {
+        const images = [catAvatar, rabbitAvatar, pandaAvatar, bearAvatar, chickenAvatar, dogAvatar]
+        setDemoStudentData((prevDemoStudentData) => {
+          return prevDemoStudentData.map((student) => {
+            if (student.uuid === uuid) {
+              const nextIndex = (currentAvatarIndex + 1) % images.length
+              return { ...student, avatar: images[nextIndex] }
+            }
+            return student
+          })
+        })
+        setCurrentAvatarIndex((prevIndex) => (prevIndex + 1) % images.length)
       }
 
       const handleAddStudentModal = () => {
@@ -39,9 +59,11 @@ const StudentGrid = () => {
                     <button onClick={() => handlePointClick(student.uuid)}>
                         <FaAward size={30} className="absolute top-2 right-1 text-iconClr hover:text-yellow-500 hover:scale-110 duration-300 ease-in"/>
                     </button>
-                    <button className="absolute top-1 left-1">
+                    <button
+                      onClick={() => handleAvatarClick(student.uuid)} 
+                      className="absolute top-1 left-1">
                         <Image 
-                        src={PlaceholderImage}
+                        src={student.avatar}
                         alt="/"
                         width={60}
                         height={60}

@@ -1,5 +1,6 @@
 import { Fragment, useState, useContext } from 'react'
 import { Menu, Transition } from '@headlessui/react'
+import DemoStudentDataContext from "../../../DemoStudentDataContext"
 import { AiFillCaretDown } from "react-icons/ai"
 import { CiEdit } from "react-icons/ci"
 import { RxReset } from "react-icons/rx"
@@ -10,6 +11,7 @@ import ResetPoints from "./ResetPoints"
 const Options = () => {
     const [isEditStudentsModalOpen, setIsEditStudentsModalOpen] = useState(false)
     const [openResetPointsModal, setOpenResetPointsModal] = useState(false)
+    const { setDemoStudentData } = useContext(DemoStudentDataContext) 
     
     const handleEditStudentsModal = () => {
         setIsEditStudentsModalOpen(true)
@@ -18,6 +20,14 @@ const Options = () => {
     const handleResetPointsModal = () => {
         setOpenResetPointsModal(true)
     }
+
+    const sortStudentsAlphabetically = () => {
+        setDemoStudentData(prevDemoStudentData => {
+          const sortedData = [...prevDemoStudentData]
+          sortedData.sort((a, b) => a.name.localeCompare(b.name))
+          return sortedData
+        })
+      }
   
     return (
         <div>
@@ -93,6 +103,7 @@ const Options = () => {
                 <Menu.Item>
                 {({ active }) => (
                     <button
+                    onClick={sortStudentsAlphabetically}
                     className={`${
                         active ? 'bg-buttonClr text-primaryTextClr' : 'text-secondaryTextClr'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
