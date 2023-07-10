@@ -2,8 +2,8 @@ import React from 'react'
 import { RiTimerFill } from "react-icons/ri"
 import { GiCardRandom } from "react-icons/gi"
 import { GoTasklist } from "react-icons/go"
-import { IoIosOptions } from "react-icons/io"
 import { RiArrowLeftSLine } from "react-icons/ri"
+import { AiOutlineUnorderedList } from "react-icons/ai"
 
 const ToolbarIcon = ({ icon, text }) => (
   <li className="z-[1000] relative flex items-center justify-center h-12 w-12 shadow-lg bg-gray-300 hover:bg-slate-400 rounded-3xl hover:rounded-xl transition-all duration-300 ease-linear group">
@@ -30,7 +30,7 @@ const Toolbar = ({ toolbarMenu, setToolbarMenu }) => {
           <ToolbarIcon icon={<RiTimerFill size={26} />} text="Timer" />
           <ToolbarIcon icon={<GiCardRandom size={26} />} text="Random Student" />
           <ToolbarIcon icon={<GoTasklist size={26} />} text="Task-List" />
-          <ToolbarIcon icon={<IoIosOptions size={26} />} text="Settings" />
+          <ToolbarIcon icon={<AiOutlineUnorderedList size={26} />} text="Instructions" />
         </ul>
       </div>
   )

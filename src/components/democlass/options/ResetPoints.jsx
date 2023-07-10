@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import DemoStudentDataContext from "../../DemoStudentDataContext"
+import DemoStudentDataContext from "../../../DemoStudentDataContext"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from "react-icons/ai"
 
@@ -35,6 +35,9 @@ const ResetPoints = ({ openResetPointsModal, setOpenResetPointsModal }) => {
                         />
                         </button>
                     </div>
+                    <Dialog.Description className="text-center text-lg">
+                            This will reset all of your students points
+                    </Dialog.Description>
                     <div className="flex justify-center items-center">
                         <button onClick={resetPoints} className="text-sm md:text-base bg-buttonClr text-primaryTextClr rounded-lg shadow-lg hover:scale-105 duration-300 p-4">Reset Students Points</button>
                     </div>
