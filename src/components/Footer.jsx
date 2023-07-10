@@ -29,7 +29,7 @@ const Footer = () => {
         </div>
       </div>
       <div>
-        <p className="capitalize py-2 text-center absolute bottom-0 left-[50%] translate-x-[-50%]">&copy; {currentYear} all rights reserved | website developed by <a href={"https://danlevison.vercel.app/"} target="_blank" className="font-bold">Dan Levison <span className="sr-only">Opens in a new tab</span></a></p>
+        <p className="w-full capitalize py-2 text-center absolute bottom-0 left-[50%] translate-x-[-50%]">&copy; {currentYear} all rights reserved | website developed by <a href={"https://danlevison.vercel.app/"} target="_blank" className="font-bold">Dan Levison <span className="sr-only">Opens in a new tab</span></a></p>
       </div>
     </footer>
   )
