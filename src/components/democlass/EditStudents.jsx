@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react'
-import { DemoStudentDataContext } from "../../app/democlass/page"
+import DemoStudentDataContext from "../../DemoStudentDataContext"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from "react-icons/ai"
 

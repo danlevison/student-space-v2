@@ -1,65 +1,54 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
-import { usePathname } from "next/navigation";
-import Link from "next/link";
-import Image from "next/image";
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from "../../utils/firebase";
+import React, { useState, useEffect } from 'react'
+import { usePathname } from "next/navigation"
+import Link from "next/link"
+import Image from "next/image"
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { auth } from "../../utils/firebase"
 import Logo from "../../public/assets/student-space-logo.png"
 import LogoWhite from "../../public/assets/student-space-logo-white.png"
 import { FiMenu } from "react-icons/fi"
 import { CgClose } from "react-icons/cg"
 
-
 const Nav = () => {
   const [user, loading] = useAuthState(auth)
   const [nav, setNav] = useState(false)
-  const [navBgColor, setNavBgColor] = useState("transparent");
+  const [navBgColor, setNavBgColor] = useState("transparent")
   const [navLinkColor, setNavLinkColor] = useState("white")
+  const [scrollY, setScrollY] = useState(0)
   const [logo, setLogo] = useState(LogoWhite)
   const pathname = usePathname()
-  const scrollY = window.scrollY === 0
 
-  // Change nav background colour/nav link colour when user scroll
   useEffect(() => {
     const handleScroll = () => {
-      if (typeof window !== 'undefined') {
-        if (window.scrollY > 0 && pathname === "/") {
-          setNavBgColor("white"); 
-          setNavLinkColor("#5f5f7f");
-          setLogo(Logo);
-        } else if (window.scrollY === 0 && pathname === "/") {
-          setNavBgColor("transparent");
-          setNavLinkColor("white");
-          setLogo(LogoWhite);
-        }
-      }
-    };
-  
-    if (typeof window !== 'undefined') {
-      window.addEventListener("scroll", handleScroll);
+      setScrollY(window.scrollY)
     }
-  
-    return () => {
-      if (typeof window !== 'undefined') {
-        window.removeEventListener("scroll", handleScroll);
-      }
-    };
-  }, [pathname]);
 
-//  Change nav background colour/nav link colour when not on homepage
-  useEffect(() => {
-    if (pathname !== "/") {
-      setNavBgColor("white");
-      setNavLinkColor("#5f5f7f");
-      setLogo(Logo)
-    } else {
-      setNavBgColor("transparent")
-      setNavLinkColor("white")
-      setLogo(LogoWhite)
+    const handleNavigation = () => {
+      if (scrollY > 0 && pathname === "/") {
+        setNavBgColor("white")
+        setNavLinkColor("#5f5f7f")
+        setLogo(Logo)
+      } else if (scrollY === 0 && pathname === "/") {
+        setNavBgColor("transparent")
+        setNavLinkColor("white")
+        setLogo(LogoWhite)
+      } else if (pathname !== "/") {
+        setNavBgColor("white")
+        setNavLinkColor("#5f5f7f")
+        setLogo(Logo)
+      }
     }
-  }, [pathname]);
+
+    window.addEventListener("scroll", handleScroll)
+    handleNavigation() // Handle navigation immediately when component mounts
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [pathname, scrollY])
+
 
   const handleNav = () => {
     setNav(!nav)
@@ -74,7 +63,7 @@ const Nav = () => {
   }
 
   return (
-      <nav className={pathname === "/"  && scrollY ? "fixed w-full h-[6rem] z-[100] px-8" : "shadow-xl fixed w-full h-[6rem] z-[100] px-8"} style={{ backgroundColor: navBgColor, transition: "background-color 0.4s ease"}}>
+      <nav className={pathname === "/" ? "shadow-xl fixed w-full h-[6rem] z-[100] px-8" : "shadow-xl fixed w-full h-[6rem] z-[100] px-8"} style={{ backgroundColor: navBgColor, transition: "background-color 0.4s ease"}}>
         <div className="flex justify-between items-center gap-4 w-full h-full px-2 2xl:px-16">
           <Link href={"/"} onClick={() => setNav(false)}>
             <Image src={logo} alt="Student Space Logo" width={130} height={130} />
