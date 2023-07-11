@@ -6,9 +6,12 @@ import { useRouter } from 'next/navigation'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../../../utils/firebase'
 import { DemoStudentDataProvider } from "../../DemoStudentDataContext"
+import Options from "../../components/democlass/options/Options"
 import CurrentDate from "../../components/democlass/date"
 import StudentGrid from "../../components/democlass/StudentGrid"
+import TableGrid from "../../components/democlass/TableGrid"
 import Toolbar from "../../components/democlass/Toolbar"
+import Weather from "../../components/democlass/Weather"
 import { HiMenuAlt4 } from "react-icons/hi"
 import { FaHome } from "react-icons/fa"
 
@@ -16,6 +19,7 @@ const DemoClass = () => {
   const [user, loading] = useAuthState(auth)
   const router = useRouter()
   const [toolbarMenu, setToolbarMenu] = useState(false)
+  const [showTableGrid, setShowTableGrid] = useState(false)
 
   useEffect(() => {
     if (!user) {
@@ -33,7 +37,7 @@ const DemoClass = () => {
     <DemoStudentDataProvider>
       <main className="min-h-screen w-full bg-sky-200">
 
-        <nav className="bg-white fixed z-[999] top-0 h-12 w-full px-8">
+        <nav className="bg-white fixed z-[20] top-0 h-12 w-full px-8">
           <ul className="flex items-center gap-8">
             <li className="relative group">
               <button onClick={handleToolbar}>
@@ -51,6 +55,12 @@ const DemoClass = () => {
                 Dashboard
               </span>
             </li>
+            <li className="hidden sm:block">
+              <CurrentDate />
+            </li>
+            <li className="ml-auto">
+              <Options />
+            </li>
           </ul>
         </nav>
 
@@ -63,9 +73,23 @@ const DemoClass = () => {
             <div className="flex flex-col justify-center items-center pb-10 sm:pb-0">
               <h1 className="text-3xl md:text-4xl lg:text-6xl text-center">Good Morning, 4N!</h1>
               <CurrentDate />
-              <p className="text-lg py-4">Weather</p>
+              <Weather />
+              <div className="flex items-center gap-10 pb-4">
+                <button 
+                onClick={() => setShowTableGrid(false)}
+                className={showTableGrid === false ? "text-lg text-buttonClr font-bold underline" : "text-lg font-bold hover:scale-105 duration-300"}
+                >
+                  Students
+                </button>
+                <button 
+                onClick={() => setShowTableGrid(true)}
+                className={showTableGrid ? "text-lg text-buttonClr font-bold underline" : "text-lg font-bold hover:scale-105 duration-300"}
+                >
+                  Tables
+                </button>
+              </div>
             </div>
-            <StudentGrid />
+            {showTableGrid ? <TableGrid /> : <StudentGrid />}
           </div>
         </div>
 

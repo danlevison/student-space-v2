@@ -78,7 +78,7 @@ const Dashboard = () => {
           <div className="flex flex-col md:flex-row justify-center items-center gap-10 mt-12 w-full h-full">
             <Link href={"/democlass"}>
               <div className="w-[192px] h-[192px] bg-white border border-[#5065A8] rounded-2xl hover:scale-105 duration-300 ease-out">
-                  <div className="flex flex-col justify-center items-center">
+                  <div className="flex flex-col justify-center items-center h-full">
                     <p className="text-lg">Demo Class</p>
                   </div>
               </div>
@@ -87,7 +87,7 @@ const Dashboard = () => {
             {isClassMade && 
             <Link href={"/classroom"}>
               <div className="w-[192px] h-[192px] bg-white border border-[#5065A8] rounded-2xl hover:scale-105 duration-300 ease-out">
-                  <div className="flex flex-col justify-center items-center">
+                  <div className="flex flex-col justify-center items-center h-full">
                     <p className="text-lg">{className}</p>
                   </div>
               </div>

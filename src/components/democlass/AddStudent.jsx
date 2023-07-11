@@ -2,7 +2,7 @@ import React, {useContext} from 'react'
 import DemoStudentDataContext from "../../DemoStudentDataContext"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from "react-icons/ai"
-import PlaceholderImage from '../../../public/assets/placeholder.jpg';
+import defaultAvatar from "../../../public/assets/avatars/user.svg"
 
 const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen }) => {
 
@@ -18,23 +18,24 @@ const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen }) => {
         if(existingStudent) {
           alert("A student with this name already exists!")
           e.target.reset()
-          return;
+          return
         }
       
         const newStudent = {
           name: name,
           dob: dob,
           points: 0,
-          avatar: {PlaceholderImage}, // Add the desired value for the avatar property
+          avatar: {defaultAvatar},
+          tableName: "",
           uuid: uuid
-        };
+        }
       
         setDemoStudentData((prevStudents) => {
-          return [...prevStudents, newStudent];
-        });
+          return [...prevStudents, newStudent]
+        })
 
         e.target.reset() // Reset the form fields
-      };
+      }
 
   return (
     <>

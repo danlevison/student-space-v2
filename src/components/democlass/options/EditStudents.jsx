@@ -66,7 +66,7 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
       
             {/* Full-screen container to center the panel */}
             <div className="fixed inset-0 flex items-center justify-center p-4">
-              <Dialog.Panel className="p-5 w-[80%] max-w-[500px] h-[40%] rounded-xl bg-blue-100">
+              <Dialog.Panel className="p-5 w-[80%] max-w-[500px] h-[365px] rounded-xl bg-modalBgClr">
                 <div className="flex justify-between items-center">
                   <Dialog.Title className="font-bold text-xl">Edit Students</Dialog.Title>
                   <button onClick={() => setIsEditStudentsModalOpen(false)}>
@@ -81,7 +81,7 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
                     <button
                       key={student.uuid}
                       onClick={() => handleStudentModal(student)}
-                      className="block w-full bg-gray-100 border-b border-gray-400 py-2"
+                      className="block w-full bg-gray-100 hover:bg-gray-400 border-b border-gray-400 py-2"
                     >
                       {student.name}
                     </button>
@@ -102,7 +102,7 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
         
                 {/* Full-screen container to center the panel */}
                 <div className="fixed inset-0 flex items-center justify-center p-4">
-                    <Dialog.Panel className="flex flex-col justify-between p-5 w-[80%] max-w-[500px] h-[35%] md:h-[24%] rounded-xl bg-blue-100">
+                    <Dialog.Panel className="flex flex-col justify-between p-5 w-[80%] max-w-[500px] h-[260px] md:h-[200px] rounded-xl bg-modalBgClr">
                     <div className="flex justify-between items-center">
                         <Dialog.Title className="font-bold text-xl">{selectedStudent.name}</Dialog.Title>
                         <button onClick={() => setOpenStudentInfo(false)}>
@@ -124,11 +124,11 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
                                 onChange={updateStudentName}
                             />
                             )}
-                        <div className="flex flex-col md:flex-row items-center mt-7">
+                        <div className="flex flex-col md:flex-row items-center mt-5">
                             <button onClick={removeStudent} type="button" className="md:mr-auto bg-red-400 hover:bg-red-800 rounded-2xl p-2 text-sm text-primaryTextClr font-bold">Remove student from class</button>
-                            <div className="flex items-center justify-center mt-3 md:mt-0">
-                                <button onClick={() => setOpenStudentInfo(false)} type="button" className="md:mx-10 bg-blue-100 hover:bg-white rounded-2xl p-2 text-buttonClr font-bold text-sm">Cancel</button>
-                                <button className="text-sm font-bold bg-white hover:bg-slate-100 rounded-2xl py-2 px-3">Save</button>
+                            <div className="flex items-center justify-center gap-2 mt-3 md:mt-0">
+                                <button onClick={() => setOpenStudentInfo(false)} type="button" className="bg-blue-100 hover:bg-white rounded-2xl p-2 text-buttonClr font-bold text-sm">Cancel</button>
+                                <button className="text-sm font-bold bg-white hover:bg-green-100 rounded-2xl py-2 px-3">Save</button>
                             </div>
                         </div>
                     </form>

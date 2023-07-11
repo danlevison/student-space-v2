@@ -42,11 +42,11 @@ function CreateClass({ handleInputChange, setIsClassMade }) {
                 <form className="flex flex-col justify-between h-full pt-4">
                     <div className="flex flex-col">
                         <label htmlFor="classname" className="text-lg py-2">Class name</label>
-                        <input onChange={handleInputChange} type="text" id="classname" className="py-3 px-2 border border-gray-300 rounded-lg" required={true} />
+                        <input onChange={handleInputChange} type="text" id="classname" className="py-3 px-2 border border-gray-300 rounded-lg" required />
                     </div>
-                    <div className="flex justify-center gap-12">
-                        <button onClick={() => setIsOpen(false)} type="button" className="w-full text-xl text-white bg-blue-300 py-3 rounded-2xl shadow-md hover:scale-105 duration-300">Cancel</button>
-                        <button onClick={handleCreateClass} className="w-full text-xl text-white bg-blue-300 py-3 rounded-2xl shadow-md hover:scale-105 duration-300">Create Class</button>
+                    <div className="flex justify-center gap-8">
+                        <button onClick={() => setIsOpen(false)} type="button" className="w-full text-sm sm:text-xl text-white bg-buttonClr py-3 rounded-2xl shadow-md hover:scale-105 duration-300">Cancel</button>
+                        <button onClick={handleCreateClass} className="w-full text-sm sm:text-xl text-white bg-buttonClr py-3 rounded-2xl shadow-md hover:scale-105 duration-300">Create Class</button>
                     </div>
                 </form>
             </Dialog.Panel>

@@ -25,7 +25,7 @@ const ResetPoints = ({ openResetPointsModal, setOpenResetPointsModal }) => {
         
                 {/* Full-screen container to center the panel */}
                 <div className="fixed inset-0 flex items-center justify-center p-4">
-                    <Dialog.Panel className="flex flex-col justify-between p-5 w-[80%] max-w-[500px] h-[35%] md:h-[24%] rounded-xl bg-blue-100">
+                    <Dialog.Panel className="flex flex-col justify-between p-5 w-[80%] max-w-[500px] h-[200px] rounded-xl bg-modalBgClr">
                     <div className="flex justify-between items-center">
                         <Dialog.Title className="font-bold text-xl">Reset Points</Dialog.Title>
                         <button onClick={() => setOpenResetPointsModal(false)}>
