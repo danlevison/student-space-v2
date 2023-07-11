@@ -16,6 +16,7 @@ module.exports = {
           tertiaryTextClr: "#8f9093",
           buttonClr: "#5065A8",
           iconClr: "#5065A8",
+          modalBgClr: "rgb(219, 234, 254)",
           modalBackdropClr: "rgba(50, 65, 108, 0.9)"
       },  
     },

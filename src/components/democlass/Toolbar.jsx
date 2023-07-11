@@ -20,13 +20,13 @@ const Toolbar = ({ toolbarMenu, setToolbarMenu }) => {
   return (
       <div
         className={toolbarMenu ? 
-          "z-[1000] fixed top-0 left-0 md:static h-full w-20 flex flex-col items-center bg-white ease-in-out duration-300"
-        : "overflow-x-hidden z-[1000] fixed top-0 left-[-30%] md:static h-full w-0 flex flex-col items-center bg-white ease-in-out duration-300"}
+          "z-10 fixed top-0 left-0 md:static h-full w-20 flex flex-col items-center bg-white ease-in-out duration-300"
+        : "z-10 overflow-x-hidden fixed top-0 left-[-30%] md:static h-full w-0 flex flex-col items-center bg-white ease-in-out duration-300"}
       >
-        <button onClick={() => setToolbarMenu(false)} className="pt-3 sm:hidden z-[1000]">
+        {/* <button onClick={() => setToolbarMenu(false)} className="pt-3">
           <RiArrowLeftSLine size={30} className="text-buttonClr"/>
-        </button>
-        <ul className="flex flex-col justify-evenly items-center h-full text-iconClr z-10">
+        </button> */}
+        <ul className="flex flex-col justify-evenly md:justify-normal items-center md:mt-48 md:gap-32 h-full text-iconClr z-10">
           <ToolbarIcon icon={<RiTimerFill size={26} />} text="Timer" />
           <ToolbarIcon icon={<GiCardRandom size={26} />} text="Random Student" />
           <ToolbarIcon icon={<GoTasklist size={26} />} text="Task-List" />

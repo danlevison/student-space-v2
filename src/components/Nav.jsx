@@ -63,7 +63,7 @@ const Nav = () => {
   }
 
   return (
-      <nav className={pathname === "/" ? "shadow-xl fixed w-full h-[6rem] z-[100] px-8" : "shadow-xl fixed w-full h-[6rem] z-[100] px-8"} style={{ backgroundColor: navBgColor, transition: "background-color 0.4s ease"}}>
+      <nav className={pathname === "/" ? "shadow-xl fixed w-full h-[6rem] z-[10] px-8" : "shadow-xl fixed w-full h-[6rem] z-[10] px-8"} style={{ backgroundColor: navBgColor, transition: "background-color 0.4s ease"}}>
         <div className="flex justify-between items-center gap-4 w-full h-full px-2 2xl:px-16">
           <Link href={"/"} onClick={() => setNav(false)}>
             <Image src={logo} alt="Student Space Logo" width={130} height={130} />
