@@ -5,12 +5,12 @@ import square from "../../../public/assets/grey-square.png"
 
 const RewardManagement = () => {
   return (
-    <section className="bg-[#f6f7fa] py-16 lg:py-32 w-full">
-        <div className="max-w-[1240px] mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-32 px-10">
-            <div>
-                <Image src={square} alt="/" width={400} height={400} />
+    <section className="bg-[#f6f7fa] py-24 w-full">
+        <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-12 lg:gap-32 px-10">
+            <div className="order-2 lg:order-1">
+                <Image src={square} alt="/" width={500} height={400} />
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col order-1">
                 <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold underline capitalize">Reward management</h2>
                 <p className="text-tertiaryTextClr leading-7 py-4">We understand the powerful impact of positive reinforcement on student motivation and engagement. Through our points system, you can easily track and distribute rewards, ensuring that every achievement is acknowledged and celebrated.</p>
 

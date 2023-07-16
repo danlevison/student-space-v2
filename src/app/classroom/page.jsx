@@ -3,7 +3,7 @@
 import React, {useEffect, useState} from 'react'
 import { useRouter } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, db } from '../../../utils/firebase';
+import { auth, db } from '../../utils/firebase';
 import { doc, getDoc } from "firebase/firestore"; 
 
 const Classroom = () => {

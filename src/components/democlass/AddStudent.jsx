@@ -25,7 +25,7 @@ const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen }) => {
           name: name,
           dob: dob,
           points: 0,
-          avatar: {defaultAvatar},
+          avatar: defaultAvatar,
           tableName: "",
           uuid: uuid
         }

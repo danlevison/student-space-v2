@@ -5,8 +5,8 @@ import square from "../../../public/assets/grey-square.png"
 
 const ClassroomManagement = () => {
   return (
-    <section className="bg-white py-16 lg:py-32 w-full">
-        <div className="max-w-[1240px] mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-32 px-10">
+    <section className="bg-white py-24 w-full">
+        <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-12 lg:gap-32 px-10">
             <div className="flex flex-col">
                 <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold underline capitalize">Classroom management</h2>
                 <p className="text-tertiaryTextClr leading-7 py-4">We believe that effective classroom management is key to nurturing a productive and inclusive learning environment. Our comprehensive suite of tools are designed to simplify your daily tasks, saving you valuable time and energy, allowing you to focus on what truly matters - your students' education.</p>
@@ -33,7 +33,7 @@ const ClassroomManagement = () => {
                 </div>
               </div>
               <div>
-                <Image src={square} alt="/" width={400} height={400} />
+                <Image src={square} alt="/" width={500} height={400} />
             </div> 
         </div>
     </section>

@@ -78,23 +78,22 @@ const Options = () => {
                 <Menu.Item>
                 {({ active }) => (
                     <button
-                    onClick={handleResetPointsModal}
                     className={`${
                         active ? 'bg-buttonClr text-primaryTextClr' : 'text-secondaryTextClr'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                     >
                     {active ? (
-                        <RxReset
+                        <CiEdit
                         className="mr-2 h-5 w-5 text-primaryTextClr"
                         aria-hidden="true"
                         />
                     ) : (
-                        <RxReset
+                        <CiEdit
                         className="mr-2 h-5 w-5 text-iconClr"
                         aria-hidden="true"
                         />
                     )}
-                    Reset All Points
+                    Edit Tables
                     </button>
                 )}
                 </Menu.Item>
@@ -120,6 +119,29 @@ const Options = () => {
                         />
                     )}
                     Order A-Z
+                    </button>
+                )}
+                </Menu.Item>
+                <Menu.Item>
+                {({ active }) => (
+                    <button
+                    onClick={handleResetPointsModal}
+                    className={`${
+                        active ? 'bg-buttonClr text-primaryTextClr' : 'text-secondaryTextClr'
+                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                    >
+                    {active ? (
+                        <RxReset
+                        className="mr-2 h-5 w-5 text-primaryTextClr"
+                        aria-hidden="true"
+                        />
+                    ) : (
+                        <RxReset
+                        className="mr-2 h-5 w-5 text-iconClr"
+                        aria-hidden="true"
+                        />
+                    )}
+                    Reset Points
                     </button>
                 )}
                 </Menu.Item>

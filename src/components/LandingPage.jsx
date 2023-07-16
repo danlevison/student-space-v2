@@ -4,7 +4,7 @@ import React from 'react'
 import Link from "next/link"
 import Image from "next/image"
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { auth } from "../../utils/firebase"
+import { auth } from "../utils/firebase"
 import LandingPageBg from "../../public/assets/confetti.png"
 
 const LandingPage = () => {

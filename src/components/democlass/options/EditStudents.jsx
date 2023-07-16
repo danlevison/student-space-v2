@@ -125,10 +125,10 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
                             />
                             )}
                         <div className="flex flex-col md:flex-row items-center mt-5">
-                            <button onClick={removeStudent} type="button" className="md:mr-auto bg-red-400 hover:bg-red-800 rounded-2xl p-2 text-sm text-primaryTextClr font-bold">Remove student from class</button>
+                            <button onClick={removeStudent} type="button" className="md:mr-auto bg-red-500 hover:bg-red-700 rounded-2xl p-2 text-sm text-primaryTextClr font-bold">Remove student from class</button>
                             <div className="flex items-center justify-center gap-2 mt-3 md:mt-0">
-                                <button onClick={() => setOpenStudentInfo(false)} type="button" className="bg-blue-100 hover:bg-white rounded-2xl p-2 text-buttonClr font-bold text-sm">Cancel</button>
-                                <button className="text-sm font-bold bg-white hover:bg-green-100 rounded-2xl py-2 px-3">Save</button>
+                                <button onClick={() => setOpenStudentInfo(false)} type="button" className="bg-modalBgClr hover:bg-white rounded-2xl p-2 text-buttonClr font-bold text-sm">Cancel</button>
+                                <button className="text-sm font-bold bg-white hover:bg-green-200 rounded-2xl py-2 px-3">Save</button>
                             </div>
                         </div>
                     </form>
