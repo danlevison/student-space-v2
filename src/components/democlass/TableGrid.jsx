@@ -1,18 +1,27 @@
 import React, {useState, useContext} from 'react'
 import DemoStudentDataContext from "../../DemoStudentDataContext"
-import tableData from "../../TableData"
 import AddTable from "./AddTable"
 import { FaAward } from 'react-icons/fa'
 import { IoMdSettings } from 'react-icons/io'
 import { RiAddLine } from "react-icons/ri"
 
 const GroupGrid = () => {
-    const { demoStudentData, setDemoStudentData } = useContext(DemoStudentDataContext)
-    const [demoTableData, setDemoTableData] = useState(tableData)
+    const { demoTableData, setDemoTableData } = useContext(DemoStudentDataContext)
     const [isAddTableModalOpen, setIsAddTableModalOpen] = useState(false)
 
     const handleAddTableModal = () => {
         setIsAddTableModalOpen(true)
+      }
+
+      const handlePointClick = (uuid) => {
+        setDemoTableData((prevTables) => {
+          return prevTables.map((table) => {
+            if (table.uuid === uuid) {
+              return { ...table, points: table.points + 1 }
+            }
+            return table
+          })
+        })
       }
     
     return (
@@ -26,7 +35,7 @@ const GroupGrid = () => {
                             <p>{student}</p>
                         ))}
                     </div>
-                    <button>
+                    <button onClick={() => handlePointClick(table.uuid)}>
                         <FaAward size={30} className="absolute top-2 right-1 text-iconClr hover:text-yellow-500 hover:scale-110 duration-300 ease-in"/>
                     </button>
                     <button className="absolute bottom-2 right-2">

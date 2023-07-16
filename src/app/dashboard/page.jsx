@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { auth, db } from '../../../utils/firebase'
+import { auth, db } from '../../utils/firebase'
 import { updateDoc, doc, getDoc } from "firebase/firestore"
 import CreateClass from "../../components/CreateClass"
 import Link from "next/link"

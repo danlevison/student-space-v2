@@ -4,7 +4,7 @@ import React, {useEffect, useState} from 'react'
 import Link from "next/link"
 import { useRouter } from 'next/navigation'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { auth } from '../../../utils/firebase'
+import { auth } from '../../utils/firebase'
 import { DemoStudentDataProvider } from "../../DemoStudentDataContext"
 import Options from "../../components/democlass/options/Options"
 import CurrentDate from "../../components/democlass/date"
@@ -29,6 +29,14 @@ const DemoClass = () => {
 
   const handleToolbar = () => {
     setToolbarMenu(!toolbarMenu)
+  }
+
+  const handleShowTableGrid = () => {
+    setShowTableGrid(true)
+  }
+
+  const handleShowStudentGrid = () => {
+    setShowTableGrid(false)
   }
 
   if (loading) return <h1>Loading...</h1>
@@ -76,13 +84,13 @@ const DemoClass = () => {
               <Weather />
               <div className="flex items-center gap-10 pb-4">
                 <button 
-                onClick={() => setShowTableGrid(false)}
+                onClick={handleShowStudentGrid}
                 className={showTableGrid === false ? "text-lg text-buttonClr font-bold underline" : "text-lg font-bold hover:scale-105 duration-300"}
                 >
                   Students
                 </button>
                 <button 
-                onClick={() => setShowTableGrid(true)}
+                onClick={handleShowTableGrid}
                 className={showTableGrid ? "text-lg text-buttonClr font-bold underline" : "text-lg font-bold hover:scale-105 duration-300"}
                 >
                   Tables

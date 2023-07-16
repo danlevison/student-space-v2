@@ -5,7 +5,7 @@ import square from "../../../public/assets/grey-square.png"
 const UserInterface = () => {
   return (
     <section className="bg-[#f6f7fa] py-16 lg:py-52 w-full">
-        <div className="max-w-[1240px] mx-auto px-10">
+        <div className="max-w-[1440px] mx-auto px-10">
             <div className="flex flex-col justify-center items-center">
               <div className="text-center">
                   <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold underline capitalize">Friendly User-Interface</h2>
