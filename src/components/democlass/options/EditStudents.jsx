@@ -7,7 +7,7 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
     const [openStudentInfo, setOpenStudentInfo] = useState(false) 
     const [selectedStudent, setSelectedStudent] = useState({
         name: ''
-      });
+      })
 
     const { demoStudentData, setDemoStudentData } = useContext(DemoStudentDataContext)  
 
@@ -76,17 +76,23 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
                     />
                   </button>
                 </div>
-                <div className="overflow-auto h-5/6 mt-4">
-                  {demoStudentData.map((student) => (
-                    <button
-                      key={student.uuid}
-                      onClick={() => handleStudentModal(student)}
-                      className="block w-full bg-gray-100 hover:bg-gray-400 border-b border-gray-400 py-2"
-                    >
-                      {student.name}
-                    </button>
-                  ))}
-                </div>
+                {demoStudentData.length === 0 ? (
+                  <div className="flex justify-center items-center h-full">
+                    <p className="text-xl">No students to edit</p>
+                  </div>
+                ) : (
+                  <div className="overflow-auto h-5/6 mt-4">
+                    {demoStudentData.map((student) => (
+                      <button
+                        key={student.uuid}
+                        onClick={() => handleStudentModal(student)}
+                        className="block w-full bg-gray-100 hover:bg-gray-400 border-b border-gray-400 py-2"
+                      >
+                        {student.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </Dialog.Panel>
             </div>
 

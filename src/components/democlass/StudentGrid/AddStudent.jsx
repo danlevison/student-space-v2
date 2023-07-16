@@ -1,8 +1,8 @@
 import React, {useContext} from 'react'
-import DemoStudentDataContext from "../../DemoStudentDataContext"
+import DemoStudentDataContext from "../../../DemoStudentDataContext"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from "react-icons/ai"
-import defaultAvatar from "../../../public/assets/avatars/user.svg"
+import defaultAvatar from "../../../../public/assets/avatars/user.svg"
 
 const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen }) => {
 

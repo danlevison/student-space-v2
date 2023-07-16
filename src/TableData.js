@@ -10,7 +10,7 @@ const tableData = [
     },
     {
         tableName: "Table 2",
-        students: ["Dan", "Amy", "Carina", "Beth", "Luke"],
+        students: ["Dan", "Amy", "Carina", "Beth", "Luke", "Niamh"],
         points: 0,
         avatar: defaultTableAvatar,
         uuid: "5ecb15b7-55d8-4839-b61b-8f8ef0a1923e"   
