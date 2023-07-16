@@ -7,10 +7,12 @@ import { RxReset } from "react-icons/rx"
 import { TiSortAlphabetically } from "react-icons/ti"
 import EditStudents from "./EditStudents"
 import ResetPoints from "./ResetPoints"
+import EditTables from "./EditTables"
 
 const Options = () => {
     const [isEditStudentsModalOpen, setIsEditStudentsModalOpen] = useState(false)
     const [openResetPointsModal, setOpenResetPointsModal] = useState(false)
+    const [isEditTablesModalOpen, setIsEditTablesModalOpen] = useState(false)
     const { setDemoStudentData } = useContext(DemoStudentDataContext) 
     
     const handleEditStudentsModal = () => {
@@ -19,6 +21,10 @@ const Options = () => {
 
     const handleResetPointsModal = () => {
         setOpenResetPointsModal(true)
+    }
+
+    const handleEditTablesModal = () => {
+        setIsEditTablesModalOpen(true)
     }
 
     const sortStudentsAlphabetically = () => {
@@ -78,6 +84,7 @@ const Options = () => {
                 <Menu.Item>
                 {({ active }) => (
                     <button
+                    onClick={handleEditTablesModal}
                     className={`${
                         active ? 'bg-buttonClr text-primaryTextClr' : 'text-secondaryTextClr'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
@@ -150,10 +157,12 @@ const Options = () => {
         </Transition>
         </Menu>
 
-        {/* Edit Student Modal */}
+        {/* Edit Students Modal */}
         {isEditStudentsModalOpen && <EditStudents isEditStudentsModalOpen={isEditStudentsModalOpen} setIsEditStudentsModalOpen={setIsEditStudentsModalOpen} />}
         {/* Reset Points Modal */}
         {openResetPointsModal && <ResetPoints openResetPointsModal={openResetPointsModal} setOpenResetPointsModal={setOpenResetPointsModal} />}
+         {/* Edit Tables Modal */}
+         {isEditTablesModalOpen && <EditTables isEditTablesModalOpen={isEditTablesModalOpen} setIsEditTablesModalOpen={setIsEditTablesModalOpen} />}
     </div>
   )
 }

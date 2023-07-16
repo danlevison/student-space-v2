@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react'
-import DemoStudentDataContext from "../../DemoStudentDataContext"
+import DemoStudentDataContext from "../../../DemoStudentDataContext"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from "react-icons/ai"
 import Image from "next/image"
