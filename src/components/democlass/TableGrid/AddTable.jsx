@@ -29,9 +29,17 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen, demoTableData, 
           return
         }
 
+        // Convert the selected students' names into objects with the 'name' and 'checked' properties
+        const selectedStudentsData = demoStudentData
+            .filter((student) => selectedStudent.includes(student.name))
+            .map((student) => ({
+            name: student.name,
+            checked: true,
+        }))
+
         const newTable = {
           tableName: tableName,
-          students: selectedStudent,
+          students: selectedStudentsData,
           points: 0,
           avatar: "",
           uuid: uuid
@@ -85,7 +93,8 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen, demoTableData, 
                                 <div key={student.uuid} className="flex flex-col items-center gap-2">
                                     <input 
                                         onChange={getSelectedStudent} 
-                                        type="checkbox" id={student.name} 
+                                        type="checkbox" 
+                                        id={student.name} 
                                         name={student.name} 
                                         className="hidden peer"
                                         disabled={student.tableName ? true : false}

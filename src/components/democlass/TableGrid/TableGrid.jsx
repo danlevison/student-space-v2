@@ -42,7 +42,7 @@ const GroupGrid = () => {
                       <p className="text-center text-primaryTextClr text-xl w-[50px] p-2 bg-iconClr rounded-lg mx-auto my-1">{table.points}</p> 
                       <div className="flex flex-wrap justify-center items-center gap-2 font-bold tracking-wide py-2">
                           {table.students.map((student) => (
-                              <p className="bg-white shadow-lg rounded-lg p-2">{student}</p>
+                              <p className="bg-white shadow-lg rounded-lg p-2">{student.name}</p>
                           ))}
                       </div>
                       <button onClick={() => handlePointClick(table.uuid)}>

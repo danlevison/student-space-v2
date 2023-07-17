@@ -6,8 +6,10 @@ import { AiOutlineClose } from "react-icons/ai"
 const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
     const [openTableInfo, setOpenTableInfo] = useState(false)
     const [selectedTable, setSelectedTable] = useState({
-        tableName: ''
-      })
+        tableName: '',
+        students: []
+    })
+    console.log(selectedTable)
     const { demoTableData, setDemoTableData, setDemoStudentData } = useContext(DemoStudentDataContext)
 
     const handleTableModal = (table) => {
@@ -24,28 +26,36 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
     }
 
     const handleTableInfoSubmit = (e) => {
-        e.preventDefault()
-        const updatedTableName = e.target.tableName.value
-        const existingTable = demoTableData.find(table => table.tableName === updatedTableName)
+      e.preventDefault()
+      const updatedTableName = e.target.tableName.value
     
-        if(existingTable) {
-        alert("A table with this name already exists!")
-        e.target.tableName.value = ""
-        return
-        }
-        
-        setDemoTableData((prevTables) => {
-          return prevTables.map((table) => {
-            if (table.uuid === selectedTable.uuid) {
-              return { ...table, tableName: updatedTableName }
-            }
-            return table
-          })
+      // Update the table name for the selected table
+      setDemoTableData((prevTables) => {
+        return prevTables.map((table) => {
+          if (table.uuid === selectedTable.uuid) {
+            return { ...table, tableName: updatedTableName }
+          }
+          return table
         })
-        setOpenTableInfo(false)
-      }
+      })
+    
+      // Filter out the unchecked students from the selectedTable.students array
+      const checkedStudents = selectedTable.students.filter((student) => student.checked)
+    
+      // Update the students array for the selected table in demoTableData
+      setDemoTableData((prevDemoTableData) => {
+        return prevDemoTableData.map((table) => {
+          if (table.uuid === selectedTable.uuid) {
+            return { ...table, students: checkedStudents }
+          }
+          return table
+        })
+      })
+    
+      setOpenTableInfo(false)
+    }
 
-    const removeTable = () => {
+    const deleteTable = () => {
         setDemoTableData((prevTables) => {
             // Ensures that only tables with a different UUID than the UUID of the selectedTable will be included in the new array.
           return prevTables.filter((table) => table.uuid !== selectedTable.uuid)
@@ -53,7 +63,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
 
         // Resets tableName property on demoStudentData if that students table was deleted, so that they can be added to another table.
         // Check to see if a student name matches the name of a student on the table, if so resets that students tableName property.
-        const studentsOnTable = selectedTable.students
+        const studentsOnTable = selectedTable.students.map((student) => student.name)
         setDemoStudentData((prevDemoStudentData) => {
           return prevDemoStudentData.map((student) => {
             if (studentsOnTable.includes(student.name)) {
@@ -66,7 +76,39 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
         setOpenTableInfo(false)
     }
 
-// TODO: If no tables exists edit tables options menu should say "You have no tables to edit" (do same with edit students)
+    const uncheckStudent = (studentToRemove) => {
+      // Find the index of the student in the students array of selectedTable
+      const studentIndex = selectedTable.students.findIndex(
+        (student) => student.name === studentToRemove.name
+      )
+    
+      // Make sure the student is found before proceeding
+      if (studentIndex !== -1) {
+        setDemoStudentData((prevDemoStudentData) => {
+          return prevDemoStudentData.map((student) => {
+            if (student.name === studentToRemove.name) {
+              // Toggle the checked property of the student
+              return { ...student, tableName:"", checked: !student.checked }
+            }
+            return student
+          })
+        })
+    
+        setSelectedTable((prevSelectedTable) => {
+          // Create a new students array with the updated student
+          const updatedStudents = prevSelectedTable.students.map((student) => {
+            if (student.name === studentToRemove.name) {
+              return { ...student, tableName:"", checked: !student.checked }
+            }
+            return student
+          })
+    
+          // Return the updated selectedTable with the modified students array
+          return { ...prevSelectedTable, students: updatedStudents }
+        })
+      }
+    }
+
   return (
     <>
         <Dialog
@@ -121,7 +163,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
         
                 {/* Full-screen container to center the panel */}
                 <div className="fixed inset-0 flex items-center justify-center p-4">
-                    <Dialog.Panel className="flex flex-col justify-between p-5 w-[80%] max-w-[500px] h-[260px] md:h-[200px] rounded-xl bg-modalBgClr">
+                    <Dialog.Panel className="flex flex-col justify-between p-5 w-[80%] max-w-[800px] h-[380px] overflow-auto rounded-xl bg-modalBgClr">
                     <div className="flex justify-between items-center">
                         <Dialog.Title className="font-bold text-xl">{selectedTable.tableName}</Dialog.Title>
                         <button onClick={() => setOpenTableInfo(false)}>
@@ -142,9 +184,28 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                                 value={selectedTable.tableName}
                                 onChange={updateTableName}
                             />
-                            )}
+                        )}
+                        <div className="grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] gap-4 items-center py-4">
+                          {selectedTable.students.map((student) => (
+                            <div key={student.name} className="flex justify-center">
+                              <input
+                                onChange={() => uncheckStudent(student)}
+                                type="checkbox"
+                                checked={student.checked}
+                                id={student.name} 
+                                name={student.name} 
+                                className="hidden peer"
+                              />
+                              <label 
+                                htmlFor={student.name} 
+                                className="select-none flex flex-col items-center w-28 cursor-pointer bg-white p-4 shadow-lg rounded-xl peer-checked:bg-green-200 peer-hover:scale-105 duration-300"
+                              > {student.name}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
                         <div className="flex flex-col md:flex-row items-center mt-5">
-                            <button onClick={removeTable} type="button" className="md:mr-auto bg-red-500 hover:bg-red-700 rounded-2xl p-2 text-sm text-primaryTextClr font-bold">Delete table</button>
+                            <button onClick={deleteTable} type="button" className="md:mr-auto bg-red-500 hover:bg-red-700 rounded-2xl p-2 text-sm text-primaryTextClr font-bold">Delete table</button>
                             <div className="flex items-center justify-center gap-2 mt-3 md:mt-0">
                                 <button onClick={() => setOpenTableInfo(false)} type="button" className="bg-modalBgClr hover:bg-white rounded-2xl p-2 text-buttonClr font-bold text-sm">Cancel</button>
                                 <button className="text-sm font-bold bg-white hover:bg-green-200 rounded-2xl py-2 px-3">Save</button>

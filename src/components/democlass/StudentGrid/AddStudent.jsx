@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'
 import DemoStudentDataContext from "../../../DemoStudentDataContext"
 import { Dialog } from '@headlessui/react'
-import { AiOutlineClose } from "react-icons/ai"
+import { AiOutlineClose, AiOutlineInfoCircle } from "react-icons/ai"
 import defaultAvatar from "../../../../public/assets/avatars/user.svg"
 
 const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen }) => {
@@ -60,8 +60,14 @@ const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen }) => {
                     <form onSubmit={handleAddStudentSubmit} className="flex flex-col py-4">
                         <label htmlFor="name">First name</label>
                         <input className="w-full rounded-lg p-2" type="text" id="name" name="name" required />
-                    
-                        <label className="pt-4" htmlFor="dob">Date of birth</label>
+
+                        <div className="flex items-center gap-2 pt-4 relative">
+                          <label htmlFor="dob">Date of birth</label>
+                          <AiOutlineInfoCircle size={20} className="peer mb-1"/>
+                          <span className="absolute w-auto p-2 min-w-max left-[-18px] sm:left-0 top-[-22px] rounded-md shadow-sm text-white bg-gray-600 text-xs font-bold transition-all duration-100 scale-0 origin-left peer-hover:scale-100">
+                            We use DOB to display students birthdays
+                          </span>
+                        </div>
                         <input className="w-full rounded-lg p-2" type="date" id="dob" name="dob" required />
                     
                         <button className="bg-buttonClr p-3 mt-4 rounded-lg text-primaryTextClr w-full hover:scale-105 duration-300" type="submit" aria-label="Submit add student form">Add Student</button>
