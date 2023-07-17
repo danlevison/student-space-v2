@@ -2,7 +2,6 @@ import React from 'react'
 import { RiTimerFill } from "react-icons/ri"
 import { GiCardRandom } from "react-icons/gi"
 import { GoTasklist } from "react-icons/go"
-import { RiArrowLeftSLine } from "react-icons/ri"
 import { AiOutlineUnorderedList } from "react-icons/ai"
 
 const ToolbarIcon = ({ icon, text }) => (
@@ -16,12 +15,12 @@ const ToolbarIcon = ({ icon, text }) => (
   </li>
 )
 
-const Toolbar = ({ toolbarMenu, setToolbarMenu }) => {
+const Toolbar = ({ toolbarMenu }) => {
   return (
       <div
         className={toolbarMenu ? 
-          "z-10 fixed top-0 left-0 md:static h-full w-20 flex flex-col items-center bg-white ease-in-out duration-300"
-        : "z-10 overflow-x-hidden fixed top-0 left-[-30%] md:static h-full w-0 flex flex-col items-center bg-white ease-in-out duration-300"}
+          "z-10 fixed top-0 left-0 md:static min-h-screen h-full w-20 flex flex-col items-center bg-white ease-in-out duration-300"
+        : "z-10 overflow-x-hidden fixed top-0 left-[-30%] md:static min-h-screen h-full w-0 flex flex-col items-center bg-white ease-in-out duration-300"}
       >
         {/* <button onClick={() => setToolbarMenu(false)} className="pt-3">
           <RiArrowLeftSLine size={30} className="text-buttonClr"/>
