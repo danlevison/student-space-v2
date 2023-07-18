@@ -76,7 +76,7 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen, demoTableData, 
             {/* Full-screen container to center the panel */}
             <div className="fixed inset-0 flex items-center justify-center p-4">
                 
-                <Dialog.Panel className="p-5 w-[80%] h-[620px] overflow-auto rounded-xl bg-blue-100">
+                <Dialog.Panel className="p-5 w-full sm:w-[80%] h-full sm:h-[80%] overflow-auto rounded-xl bg-blue-100">
                     <div className="flex justify-between items-center">
                         <Dialog.Title className="font-bold text-xl">Add Table</Dialog.Title>
                         <button onClick={() => setIsAddTableModalOpen(false)}>

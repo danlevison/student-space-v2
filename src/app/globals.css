@@ -9,4 +9,6 @@ html {
 
 body {
   background-color: white;
+  background-image: url(../../public/assets/paperbg.jpg);
+  background-size: auto;
 }

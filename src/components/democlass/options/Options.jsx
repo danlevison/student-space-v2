@@ -13,7 +13,7 @@ const Options = () => {
     const [isEditStudentsModalOpen, setIsEditStudentsModalOpen] = useState(false)
     const [openResetPointsModal, setOpenResetPointsModal] = useState(false)
     const [isEditTablesModalOpen, setIsEditTablesModalOpen] = useState(false)
-    const { setDemoStudentData } = useContext(DemoStudentDataContext) 
+    const { demoStudentData, setDemoStudentData } = useContext(DemoStudentDataContext) 
     
     const handleEditStudentsModal = () => {
         setIsEditStudentsModalOpen(true)
@@ -133,6 +133,7 @@ const Options = () => {
                 {({ active }) => (
                     <button
                     onClick={handleResetPointsModal}
+                    disabled={demoStudentData.length === 0}
                     className={`${
                         active ? 'bg-buttonClr text-primaryTextClr' : 'text-secondaryTextClr'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}

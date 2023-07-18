@@ -133,7 +133,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                 </div>
                 {demoTableData.length === 0 ? (
                   <div className="flex justify-center items-center h-full">
-                        <p className="text-xl">No tables to edit</p>
+                        <p className="text-xl">No table data available</p>
                   </div>
                 ) : (
                   <div className="overflow-auto h-5/6 mt-4">
@@ -163,7 +163,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
         
                 {/* Full-screen container to center the panel */}
                 <div className="fixed inset-0 flex items-center justify-center p-4">
-                    <Dialog.Panel className="flex flex-col justify-between p-5 w-[80%] max-w-[800px] h-[380px] overflow-auto rounded-xl bg-modalBgClr">
+                    <Dialog.Panel className="flex flex-col p-5 w-full sm:w-[80%] sm:max-w-[800px] h-full sm:h-auto overflow-auto rounded-xl bg-modalBgClr">
                     <div className="flex justify-between items-center">
                         <Dialog.Title className="font-bold text-xl">{selectedTable.tableName}</Dialog.Title>
                         <button onClick={() => setOpenTableInfo(false)}>

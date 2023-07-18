@@ -14,6 +14,8 @@ import Toolbar from "../../components/democlass/Toolbar"
 import Weather from "../../components/democlass/Weather"
 import { HiMenuAlt4 } from "react-icons/hi"
 import { FaHome } from "react-icons/fa"
+import paperBg from "../../../public/assets/paperbg.jpg"
+import Scribble from "../../components/Scribble"
 
 const DemoClass = () => {
   const [user, loading] = useAuthState(auth)
@@ -41,10 +43,20 @@ const DemoClass = () => {
 
   if (loading) return <h1>Loading...</h1>
 
+  const scribblesSvgs = [
+    { src: '/assets/Scribbles/58.svg', alt: 'Black and green triangle scribble', className: 'absolute top-36 left-10 w-[50px] md:w-[150px]' },
+    { src: '/assets/Scribbles/65.svg', alt: 'Blue scribble', className: 'absolute bottom-10 right-20 w-[75px] md:w-[150px] rotate-12' },
+    { src: '/assets/Scribbles/66.svg', alt: 'Yellow flower scribble', className: 'absolute hidden lg:block top-60 right-16 md:right-80 w-[50px] md:w-[100px]' },
+    { src: '/assets/Scribbles/26.svg', alt: 'Yellow pink and red cirlces scribble', className: "absolute bottom-16 left-2 w-[150px] md:w-[200px]" },
+    { src: '/assets/Scribbles/43.svg', alt: 'Yellow and green circle scribble', className: "absolute hidden lg:block top-64 left-24 md:left-72 w-[30px] md:w-[75px] rotate-180" },
+    { src: '/assets/Scribbles/3.svg', alt: 'Pink dots scribble', className: "absolute top-10 right-5 w-[50px] md:w-[100px]" },
+    { src: '/assets/Scribbles/61.svg', alt: 'Pink and black scribble', className: "hidden md:block absolute top-2 left-96 w-[200px] rotate-45" },
+  ]
+
   return (
     <DemoStudentDataProvider>
-      <main className="min-h-screen w-full bg-sky-200">
-
+      <main className="relative min-h-screen w-full bg-[#fbe8de]" style={{ backgroundImage: `url(${paperBg.src})`, backgroundSize: "auto" }}>
+        <Scribble scribblesSvgs={scribblesSvgs} />
         <nav className="bg-white fixed z-[20] top-0 h-12 w-full px-8">
           <ul className="flex items-center gap-8">
             <li className="relative group">
@@ -73,11 +85,11 @@ const DemoClass = () => {
         </nav>
 
         <div className="flex">
-          <aside>
+          <aside className="z-[10]">
             <Toolbar toolbarMenu={toolbarMenu} setToolbarMenu={setToolbarMenu} />
           </aside>
           
-          <div className="flex flex-col mx-auto w-full py-20">
+          <div className="flex flex-col mx-auto w-full py-20 z-10">
             <div className="flex flex-col justify-center items-center pb-10 sm:pb-0">
               <h1 className="text-3xl md:text-4xl lg:text-6xl text-center">Good Morning, 4N!</h1>
               <CurrentDate />
@@ -100,7 +112,6 @@ const DemoClass = () => {
             {showTableGrid ? <TableGrid /> : <StudentGrid />}
           </div>
         </div>
-
       </main>
     </DemoStudentDataProvider>
   )
