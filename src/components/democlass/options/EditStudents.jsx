@@ -78,7 +78,7 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
                 </div>
                 {demoStudentData.length === 0 ? (
                   <div className="flex justify-center items-center h-full">
-                    <p className="text-xl">No students to edit</p>
+                    <p className="text-xl">No student data available</p>
                   </div>
                 ) : (
                   <div className="overflow-auto h-5/6 mt-4">
