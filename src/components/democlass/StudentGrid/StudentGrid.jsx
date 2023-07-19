@@ -15,7 +15,7 @@ import dogAvatar from "../../../../public/assets/avatars/dog.png"
 const StudentGrid = () => {
     const { demoStudentData, setDemoStudentData } = useContext(DemoStudentDataContext)  
     const [isAddStudentModalOpen, setIsAddStudentModalOpen] = useState(false)
-    const [currentAvatarIndex, setCurrentAvatarIndex] = useState(0);
+    const [currentAvatarIndex, setCurrentAvatarIndex] = useState(0)
 
     const handlePointClick = (uuid) => {
         setDemoStudentData((prevStudents) => {

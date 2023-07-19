@@ -179,6 +179,7 @@ const studentData = [
     },
     {
         name: "Farrah",
+        dob: "11.02.2013",
         className: "6J",
         points: 0,
         avatar: defaultAvatar,

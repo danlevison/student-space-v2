@@ -11,7 +11,7 @@ const RewardManagement = () => {
                 <Image src={square} alt="/" width={500} height={400} />
             </div>
             <div className="flex flex-col order-1">
-                <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold underline capitalize">Reward management</h2>
+                <h2 className="text-2xl md:text-3xl lg:text-4xl 2xl:text-5xl font-bold underline capitalize">Reward management</h2>
                 <p className="text-tertiaryTextClr leading-7 py-4">I understand the powerful impact of positive reinforcement on student motivation and engagement. Through the points system, you can easily track and distribute rewards, ensuring that every achievement is acknowledged and celebrated.</p>
 
                 <div className="pt-4 font-bold text-secondaryTextClr capitalize">

@@ -16,6 +16,7 @@ import { HiMenuAlt4 } from "react-icons/hi"
 import { FaHome } from "react-icons/fa"
 import paperBg from "../../../public/assets/paperbg.jpg"
 import Scribble from "../../components/Scribble"
+import Birthday from "@/components/democlass/Birthday"
 
 const DemoClass = () => {
   const [user, loading] = useAuthState(auth)
@@ -92,6 +93,7 @@ const DemoClass = () => {
           <div className="flex flex-col mx-auto w-full py-20 z-10">
             <div className="flex flex-col justify-center items-center pb-10 sm:pb-0">
               <h1 className="text-3xl md:text-4xl lg:text-6xl text-center">Good Morning, 4N!</h1>
+              <Birthday />
               <CurrentDate />
               <Weather />
               <div className="flex items-center gap-10 pb-4">
