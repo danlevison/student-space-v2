@@ -7,7 +7,7 @@ import Logo from "../components/Logo"
 const Footer = () => {
     const currentYear = new Date().getFullYear()
   return (
-    <footer className="relative w-full h-[560px] bg-[#e3f7fc]">
+    <footer className="relative w-full h-[560px] bg-[#e3f7fc] pt-10">
       <div>
         <Image src={footerBg} alt="/" fill={false} className="absolute bottom-0 object-cover bg-[#e3f7fc] w-full"/>
       </div>
@@ -29,7 +29,7 @@ const Footer = () => {
         </div>
       </div>
       <div>
-        <p className="pb-20 sm:pb-0 px-4 w-full capitalize py-2 text-center absolute bottom-0 left-[50%] translate-x-[-50%]">&copy; {currentYear} all rights reserved | website developed by <a href={"https://danlevison.vercel.app/"} target="_blank" className="font-bold">Dan Levison <span className="sr-only">Opens in a new tab</span></a></p>
+        <p className="pb-20 sm:pb-1 px-4 w-full capitalize py-2 text-center absolute bottom-0 left-[50%] translate-x-[-50%]">&copy; {currentYear} all rights reserved | website developed by <a href={"https://danlevison.vercel.app/"} target="_blank" className="font-bold">Dan Levison <span className="sr-only">Opens in a new tab</span></a></p>
       </div>
     </footer>
   )

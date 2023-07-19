@@ -51,13 +51,23 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
           return table
         })
       })
+
+      // Check if there are any students left in the table
+      const isAnyStudentLeft = checkedStudents.length > 0
+
+      // Delete the table if there are no students left
+      if (!isAnyStudentLeft) {
+        setDemoTableData((prevTables) => {
+          return prevTables.filter((table) => table.uuid !== selectedTable.uuid)
+        })
+      }
     
       setOpenTableInfo(false)
     }
 
     const deleteTable = () => {
         setDemoTableData((prevTables) => {
-            // Ensures that only tables with a different UUID than the UUID of the selectedTable will be included in the new array.
+          // Ensures that only tables with a different UUID than the UUID of the selectedTable will be included in the new array.
           return prevTables.filter((table) => table.uuid !== selectedTable.uuid)
         })
 
@@ -76,6 +86,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
         setOpenTableInfo(false)
     }
 
+    // Remove individual students from their table group
     const uncheckStudent = (studentToRemove) => {
       // Find the index of the student in the students array of selectedTable
       const studentIndex = selectedTable.students.findIndex(
