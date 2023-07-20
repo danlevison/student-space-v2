@@ -1,5 +1,7 @@
 import React, {useState, useContext} from 'react'
 import DemoStudentDataContext from "../../../DemoStudentDataContext"
+import { doc, collection, updateDoc } from 'firebase/firestore'
+import { db } from "../../../utils/firebase"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from "react-icons/ai"
 
@@ -9,7 +11,7 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
         name: ''
       })
 
-    const { demoStudentData, setDemoStudentData } = useContext(DemoStudentDataContext)  
+    const { demoStudentData, setDemoStudentData, userUid, classname } = useContext(DemoStudentDataContext)  
 
     const handleStudentModal = (student) => {
         setSelectedStudent(student)
@@ -46,12 +48,28 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
             setOpenStudentInfo(false)
           }
 
-          const removeStudent = () => {
-            setDemoStudentData((prevStudents) => {
-                // Ensures that only students with a different UUID than the UUID of the selectedStudent will be included in the new array.
-              return prevStudents.filter((student) => student.uuid !== selectedStudent.uuid)
-            })
-            setOpenStudentInfo(false)
+          const removeStudent = async () => {
+            try {
+              // Filter out the student with the same UUID as the selectedStudent
+              const updatedDemoStudentData = demoStudentData.filter((student) => student.uuid !== selectedStudent.uuid)
+              // Removes student from demoClass
+              setDemoStudentData(updatedDemoStudentData)
+          
+              if (userUid && classname) {
+                // User is in their own class context (Firebase)
+                const classCollectionRef = collection(db, 'users', userUid, classname)
+                const classDocumentRef = doc(classCollectionRef, userUid)
+          
+                // Update the Firestore document with the updated studentData (Removes student from users class)
+                await updateDoc(classDocumentRef, {
+                  studentData: updatedDemoStudentData,
+                })
+              }
+          
+              setOpenStudentInfo(false)
+            } catch (error) {
+              console.error('Error removing student:', error)
+            }
           }
 
     return (

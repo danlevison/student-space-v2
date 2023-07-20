@@ -1,6 +1,8 @@
-import React, {useState, useContext} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import Image from 'next/image'
 import DemoStudentDataContext from "../../../DemoStudentDataContext"
+import { doc, collection, getDocs, updateDoc } from 'firebase/firestore'
+import { db } from "../../../utils/firebase"
 import { FaAward } from 'react-icons/fa'
 import { IoMdSettings } from 'react-icons/io'
 import { RiAddLine } from "react-icons/ri"
@@ -13,38 +15,114 @@ import chickenAvatar from "../../../../public/assets/avatars/chicken.png"
 import dogAvatar from "../../../../public/assets/avatars/dog.png"
 
 const StudentGrid = () => {
-    const { demoStudentData, setDemoStudentData } = useContext(DemoStudentDataContext)  
+    const { demoStudentData, setDemoStudentData, userUid, classname } = useContext(DemoStudentDataContext)  
     const [isAddStudentModalOpen, setIsAddStudentModalOpen] = useState(false)
-    const [currentAvatarIndex, setCurrentAvatarIndex] = useState(0)
 
-    const handlePointClick = (uuid) => {
-        setDemoStudentData((prevStudents) => {
-          return prevStudents.map((student) => {
-            if (student.uuid === uuid) {
-              return { ...student, points: student.points + 1 }
-            }
-            return student
-          })
-        })
+    // Fetch the user's student data from the Firestore subcollection when userUid and className are available
+    useEffect(() => {
+      if (userUid && classname) {
+        // Implement fetching of student data from Firestore using userUid and className
+        fetchStudentDataFromFirestore()
       }
+    }, [userUid, classname])
 
-      const handleAvatarClick = (uuid) => {
+    const fetchStudentDataFromFirestore = async () => {
+      try {
+        // Implement fetching of student data from Firestore using userUid and className
+        const classCollectionRef = collection(db, 'users', userUid, classname)
+        const classSnapshot = await getDocs(classCollectionRef)
+        const studentsData = classSnapshot.docs.map((doc) => doc.data().studentData) // The studentsData array, obtained from map((doc) => doc.data().studentData), is an array of arrays
+        setDemoStudentData(studentsData.flat()) // The flat() method is used to merge these arrays into a single array 
+        // setting demoStudentData to studentData from firebase allows users studentData to be rendered
+      } catch (error) {
+        console.log('Error fetching student data from Firestore:', error)
+      }
+    }
+
+    const handlePointClick = async (uuid) => {
+      try {
+        // Find the student with the given UUID
+        const studentToUpdate = demoStudentData.find((student) => student.uuid === uuid)
+    
+        if (!studentToUpdate) {
+          console.error('Student not found')
+          return
+        }
+    
+        // Increment the points in the demoStudentData state
+        const updatedDemoStudentData = demoStudentData.map((student) => {
+          if (student.uuid === uuid) {
+            return { ...student, points: student.points + 1 }
+          }
+          return student
+        })
+    
+        // Update the demoStudentData state to reflect the new points in the demoClass
+        setDemoStudentData(updatedDemoStudentData)
+    
+        // Update the points in the users firebase studentData and display in the users class
+        if (userUid && classname) {
+          const classCollectionRef = collection(db, 'users', userUid, classname)
+          const classDocumentRef = doc(classCollectionRef, userUid)
+      
+          await updateDoc(classDocumentRef, {
+            studentData: updatedDemoStudentData,
+          })
+        }
+      } catch (error) {
+        console.error('Error updating student points:', error)
+      }
+    }
+
+    const handleAvatarClick = async (uuid) => {
+      try {
         const images = [catAvatar, rabbitAvatar, pandaAvatar, bearAvatar, chickenAvatar, dogAvatar]
-        setDemoStudentData((prevDemoStudentData) => {
-          return prevDemoStudentData.map((student) => {
-            if (student.uuid === uuid) {
-              const nextIndex = (currentAvatarIndex + 1) % images.length
-              return { ...student, avatar: images[nextIndex] }
-            }
-            return student
-          })
+  
+        // Find the student with the given UUID
+        const studentToUpdate = demoStudentData.find((student) => student.uuid === uuid)
+  
+        if (!studentToUpdate) {
+          console.error('Student not found')
+          return
+        }
+  
+        // Get the current avatar index for the student
+        const currentAvatarIndex = images.findIndex((image) => image.src === studentToUpdate.avatar.src)
+  
+        // Get the index of the next avatar in the images array
+        const nextIndex = (currentAvatarIndex + 1) % images.length
+  
+        // Get the new avatar image from the images array
+        const newAvatar = images[nextIndex]
+  
+        // Update the avatar in the demoStudentData state
+        const updatedDemoStudentData = demoStudentData.map((student) => {
+          if (student.uuid === uuid) {
+            return { ...student, avatar: newAvatar }
+          }
+          return student
         })
-        setCurrentAvatarIndex((prevIndex) => (prevIndex + 1) % images.length)
+  
+        // Update the demoStudentData state to reflect the new avatar in the demoClass
+        setDemoStudentData(updatedDemoStudentData)
+  
+        // Update the avatar in the users firebase studentData and display in the users class
+        if (userUid && classname) {
+          const classCollectionRef = collection(db, 'users', userUid, classname)
+          const classDocumentRef = doc(classCollectionRef, userUid)
+  
+          await updateDoc(classDocumentRef, {
+            studentData: updatedDemoStudentData,
+          })
+        }
+      } catch (error) {
+        console.error('Error updating student avatar:', error)
       }
+    }
 
-      const handleAddStudentModal = () => {
-        setIsAddStudentModalOpen(true)
-      }
+    const handleAddStudentModal = () => {
+      setIsAddStudentModalOpen(true)
+    }
 
       return (
         <>
@@ -92,7 +170,10 @@ const StudentGrid = () => {
             </div>
         )}
             {/* Add Student Modal */}
-            {isAddStudentModalOpen && <AddStudent isAddStudentModalOpen={isAddStudentModalOpen} setIsAddStudentModalOpen={setIsAddStudentModalOpen} />}
+            {isAddStudentModalOpen && 
+            <AddStudent 
+              isAddStudentModalOpen={isAddStudentModalOpen} 
+              setIsAddStudentModalOpen={setIsAddStudentModalOpen} />}
         </>
       )
   }

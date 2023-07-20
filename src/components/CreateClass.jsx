@@ -20,7 +20,7 @@ function CreateClass({ handleInputChange, setIsClassMade }) {
 
   return (
     <div>
-        <button onClick={handleClickOpen} className="w-[192px] h-[192px] border border-[#5065A8] rounded-2xl hover:scale-105 duration-300 ease-out">
+        <button onClick={handleClickOpen} className="w-[192px] h-[192px] border border-[#5065A8] bg-white rounded-2xl hover:scale-105 duration-300 ease-out">
             <div className="flex flex-col justify-center items-center">
                 <p className="text-lg">Create class</p>
                 <RiAddLine size={70} />

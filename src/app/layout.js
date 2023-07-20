@@ -1,5 +1,8 @@
+"use client"
+
 import './globals.css'
 import { Nunito } from 'next/font/google'
+import { DemoStudentDataProvider } from "../DemoStudentDataContext"
 
 const nunito = Nunito({ 
   subsets: ['latin'], 
@@ -14,9 +17,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${nunito.variable} font-nunito`}>
-        {children}
-      </body>
+      <DemoStudentDataProvider>
+        <body className={`${nunito.variable} font-nunito`}>
+          {children}
+        </body>
+      </DemoStudentDataProvider>
     </html>
   )
 }
