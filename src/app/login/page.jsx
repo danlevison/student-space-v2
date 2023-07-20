@@ -6,7 +6,7 @@ import { FcGoogle } from "react-icons/fc"
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth, db } from "../../utils/firebase"
-import { setDoc, doc, getDoc } from "firebase/firestore"
+import { setDoc, doc, getDoc} from "firebase/firestore"
 import Nav from "../../components/Nav"
 import Scribble from "../../components/Scribble"
 
@@ -26,7 +26,7 @@ const Login = () => {
           // User data already exists, handle accordingly
           console.log("User already exists")
           router.push("/dashboard") // Redirect user to the dashboard
-          return;
+          return
         }
 
         // User data does not exist, create new user document
@@ -35,7 +35,7 @@ const Login = () => {
           className: "",
           isClassMade: false,
         })
-    
+
         if(loading) <h1>Loading...</h1> //TODO: Check if this works.
         router.push("/dashboard") // Redirect user to the dashboard
         } catch (error) {

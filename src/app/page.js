@@ -13,7 +13,7 @@ export default function Home() {
         <LandingPage />
         <About />
       </main>
-        <Footer />
+      <Footer />
     </>
   )
 }

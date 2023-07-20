@@ -1,6 +1,8 @@
 import { Fragment, useState, useContext } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import DemoStudentDataContext from "../../../DemoStudentDataContext"
+import { doc, collection, updateDoc } from 'firebase/firestore'
+import { db } from "../../../utils/firebase"
 import { AiFillCaretDown } from "react-icons/ai"
 import { CiEdit } from "react-icons/ci"
 import { RxReset } from "react-icons/rx"
@@ -13,7 +15,7 @@ const Options = () => {
     const [isEditStudentsModalOpen, setIsEditStudentsModalOpen] = useState(false)
     const [openResetPointsModal, setOpenResetPointsModal] = useState(false)
     const [isEditTablesModalOpen, setIsEditTablesModalOpen] = useState(false)
-    const { demoStudentData, setDemoStudentData } = useContext(DemoStudentDataContext) 
+    const { demoStudentData, setDemoStudentData, userUid, classname } = useContext(DemoStudentDataContext) 
     
     const handleEditStudentsModal = () => {
         setIsEditStudentsModalOpen(true)
@@ -26,6 +28,26 @@ const Options = () => {
     const handleEditTablesModal = () => {
         setIsEditTablesModalOpen(true)
     }
+
+    // TODO: Decide if you want to have the sorting permanent
+    // const sortStudentsAlphabetically = async () => {
+    //     try {
+    //       const sortedData = [...demoStudentData].sort((a, b) => a.name.localeCompare(b.name))
+    //       setDemoStudentData(sortedData)
+      
+    //       if (classname) {
+    //         // User is in their own class context (Firebase)
+    //         const classCollectionRef = collection(db, 'users', userUid, classname);
+    //         const classDocumentRef = doc(classCollectionRef, userUid)
+      
+    //         await updateDoc(classDocumentRef, {
+    //           studentData: sortedData,
+    //         })
+    //       }
+    //     } catch (error) {
+    //       console.error('Error sorting students alphabetically:', error)
+    //     }
+    //   }
 
     const sortStudentsAlphabetically = () => {
         setDemoStudentData(prevDemoStudentData => {

@@ -90,7 +90,7 @@ const DemoClass = () => {
             <Toolbar toolbarMenu={toolbarMenu} setToolbarMenu={setToolbarMenu} />
           </aside>
           
-          <div className="flex flex-col mx-auto w-full py-20 z-10">
+          <div className="flex flex-col mx-auto w-full py-20 z-0">
             <div className="flex flex-col justify-center items-center pb-10 sm:pb-0">
               <h1 className="text-3xl md:text-4xl lg:text-6xl text-center">Good Morning, 4N!</h1>
               <Birthday />
