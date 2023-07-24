@@ -25,28 +25,45 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
           }))
         }
 
-        const handleStudentInfoSubmit = (e) => {
+        const handleStudentInfoSubmit = async (e) => {
+          try {
             e.preventDefault()
             const updatedName = e.target.name.value
-
-            const existingStudent = demoStudentData.find(student => student.name === updatedName)
         
-            if(existingStudent) {
-            alert("A student with this name already exists!")
-            e.target.name.value = ""
-            return
+            const existingStudent = demoStudentData.find((student) => student.name === updatedName)
+        
+            if (existingStudent) {
+              alert("A student with this name already exists!")
+              e.target.name.value = updatedName
+              return
             }
-            
-            setDemoStudentData((prevStudents) => {
-              return prevStudents.map((student) => {
-                if (student.uuid === selectedStudent.uuid) {
-                  return { ...student, name: updatedName }
-                }
-                return student
-              })
+        
+            // Update the student name in the demoClass
+            const updatedStudentData = demoStudentData.map((student) => {
+              if (student.uuid === selectedStudent.uuid) {
+                return { ...student, name: updatedName }
+              }
+              return student
             })
+      
+            setDemoStudentData(updatedStudentData) // Update the local state with the updated student data
+        
+            if (userUid && classname) {
+              // User is in their own class context (Firebase)
+              const classCollectionRef = collection(db, 'users', userUid, classname)
+              const classDocumentRef = doc(classCollectionRef, userUid)
+        
+              // Update the Firestore document with the updated studentData (Updates student name in users class)
+              await updateDoc(classDocumentRef, {
+                studentData: updatedStudentData,
+              })
+            }
+        
             setOpenStudentInfo(false)
+          } catch (error) {
+            console.error('Error updating student information:', error)
           }
+        }
 
           const removeStudent = async () => {
             try {

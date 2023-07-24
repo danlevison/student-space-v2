@@ -1,6 +1,6 @@
 import React, {useContext} from 'react'
 import DemoStudentDataContext from "../../../DemoStudentDataContext"
-import { collection, getDoc, setDoc, doc } from 'firebase/firestore'
+import { collection, updateDoc, doc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose, AiOutlineInfoCircle } from "react-icons/ai"
@@ -11,53 +11,48 @@ const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen }) => {
     const { demoStudentData, setDemoStudentData, userUid, classname } = useContext(DemoStudentDataContext) 
     
     const handleAddStudentSubmit = async (e) => {
-    e.preventDefault()
-    const name = e.target.name.value
-    const dob = e.target.dob.value
-    const uuid = crypto.randomUUID()
-    const existingStudent = demoStudentData.find((student) => student.name === name)
-
-    if (existingStudent) {
-      alert("A student with this name already exists!");
-      e.target.reset()
-      return
-    }
-
-    const newStudent = {
-      name: name,
-      dob: dob,
-      points: 0,
-      avatar: defaultAvatar,
-      tableName: "",
-      uuid: uuid,
-    };
-
-    try {
-      if (classname) {
-        // Get a reference to the document in the className subcollection
-        const classDocumentRef = doc(collection(db, 'users', userUid, classname), userUid)
-
-        // Fetch the current data from the document
-        const classDocumentSnapshot = await getDoc(classDocumentRef)
-        const classDocumentData = classDocumentSnapshot.data()
-
-        // Update the studentData array in the document
-        const updatedStudentData = [...(classDocumentData?.studentData || []), newStudent]
-
-        // Add new student to users firebase studentData
-        await setDoc(classDocumentRef, { studentData: updatedStudentData })
+      e.preventDefault();
+      const name = e.target.name.value;
+      const dob = e.target.dob.value;
+      const uuid = crypto.randomUUID();
+      const existingStudent = demoStudentData.find((student) => student.name === name);
+        
+      if (existingStudent) {
+        alert("A student with this name already exists!");
+        e.target.reset();
+        return;
       }
-    } catch (error) {
-      console.error('Error adding student to user class collection:', error)
+    
+      const newStudent = {
+        name: name,
+        dob: dob,
+        points: 0,
+        avatar: defaultAvatar,
+        tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
+        uuid: uuid,
+      };
+    
+      try {
+        // Update demoStudentData and display added students in the demoClass
+        const updatedStudentData = [...demoStudentData, newStudent]
+        setDemoStudentData(updatedStudentData)
+    
+        if (userUid && classname) {
+          // Get a reference to the document in the className subcollection
+          const classCollectionRef = collection(db, "users", userUid, classname)
+          const classDocumentRef = doc(classCollectionRef, userUid)
+        
+          // Update the Firestore document with the updated studentData (Add new student in the users class)
+          await updateDoc(classDocumentRef, {
+            studentData: updatedStudentData,
+          })
+        }
+      } catch (error) {
+        console.error('Error adding student to user class collection:', error)
+      }
+    
+      e.target.reset() // Reset the form fields
     }
-
-    // Update demoStudentData and display added students in the demoClass
-    setDemoStudentData((prevStudents) => {
-      return [...prevStudents, newStudent]
-    })
-
-    e.target.reset() // Reset the form fields
-  }
 
   return (
     <>

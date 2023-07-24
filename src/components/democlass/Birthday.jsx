@@ -27,7 +27,7 @@ const Birthday = () => {
 
   return (
     <div>
-      <h3 className="font-bold text-3xl pt-4">{bdayMessage}</h3>
+      <h3 className="font-bold text-3xl pt-4 text-center">{bdayMessage}</h3>
     </div>
   )
 }
