@@ -38,7 +38,7 @@ const Classroom = () => {
           const data = docSnap.data()
           setClassname(data.className || '')
 
-          // If the user has a className, create the "Class" subcollection
+          // If the user has a className, create the class subcollection with the name the user chose for their class
           if (data.className) {
             // Set the document ID to the user's uid
             const classDocumentRef = doc(collection(docRef, data.className), user.uid)
@@ -47,8 +47,8 @@ const Classroom = () => {
             const docSnap = await getDoc(classDocumentRef)
           
             if (!docSnap.exists()) {
-              // If the document doesn't exist, create it with the studentData array
-              await setDoc(classDocumentRef, { studentData: [] })
+              // If the document doesn't exist, create it with the studentData and tableData array
+              await setDoc(classDocumentRef, { studentData: [], tableData: [] })
             }
           }
         } else {
@@ -77,7 +77,7 @@ const Classroom = () => {
   if (!user) router.push('/login')
 
   const scribblesSvgs = [
-    { src: '/assets/Scribbles/58.svg', alt: 'Black and green triangle scribble', className: 'absolute top-36 left-10 w-[50px] md:w-[150px]' },
+    { src: '/assets/Scribbles/58.svg', alt: 'Black and green triangle scribble', className: 'absolute top-52 md:top-36 left-10 w-[50px] md:w-[100px] 2xl:w-[150px]' },
     { src: '/assets/Scribbles/65.svg', alt: 'Blue scribble', className: 'absolute bottom-10 right-20 w-[75px] md:w-[150px] rotate-12' },
     { src: '/assets/Scribbles/66.svg', alt: 'Yellow flower scribble', className: 'absolute hidden lg:block top-60 right-16 md:right-80 w-[50px] md:w-[100px]' },
     { src: '/assets/Scribbles/26.svg', alt: 'Yellow pink and red cirlces scribble', className: "absolute bottom-16 left-2 w-[150px] md:w-[200px]" },

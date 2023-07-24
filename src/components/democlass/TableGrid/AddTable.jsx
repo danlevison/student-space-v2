@@ -4,24 +4,26 @@ import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from "react-icons/ai"
 import Image from "next/image"
 
-const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen, demoTableData, setDemoTableData }) => {
+const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
     const { demoStudentData, setDemoStudentData } = useContext(DemoStudentDataContext) 
-    const [selectedStudent, setSelectedStudent] = useState([])
-
+    
     const getSelectedStudent = (e) => {
-        // Gets the name of the selected students and saves it in state
-        if(e.target.checked) {
-            setSelectedStudent((prevSelectedStudent) => {
-                return [...prevSelectedStudent, e.target.name]
+        const studentName = e.target.name
+
+        setDemoStudentData((prevDemoStudentData) => {
+            return prevDemoStudentData.map((student) => {
+                if (student.name === studentName) {
+                    return { ...student, tableData: { ...student.tableData, selected:!student.tableData?.selected || false } }
+                }
+                return student
             })
-        }
+        })
     }
 
     const handleAddTableSubmit = (e) => {
         e.preventDefault()
         const tableName = e.target.tableName.value
-        const uuid = crypto.randomUUID()
-        const existingTable = demoTableData.find(table => table.tableName === tableName)
+        const existingTable = demoStudentData.find(student => student.tableData.tableName === tableName)
         
         if(existingTable) {
           alert("A table with this name already exists!")
@@ -29,34 +31,14 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen, demoTableData, 
           return
         }
 
-        // Convert the selected students' names into objects with the 'name' and 'checked' properties
-        const selectedStudentsData = demoStudentData
-            .filter((student) => selectedStudent.includes(student.name))
-            .map((student) => ({
-            name: student.name,
-            checked: true,
-        }))
-
-        const newTable = {
-          tableName: tableName,
-          students: selectedStudentsData,
-          points: 0,
-          avatar: "",
-          uuid: uuid
-        }
-
-        {/* Update demoStudentData tableName property of selected students with table name inputted in modal */}
+        {/* Update demoStudentData tableData */}
         setDemoStudentData((prevStudentData) => {
             return prevStudentData.map((student) => {
-              if (selectedStudent.includes(student.name)) {
-                return { ...student, tableName: tableName }
+              if (student.tableData.selected) {
+                return { ...student, tableData: {tableName: tableName, isOnTable: true, selected: false} }
               }
               return student
             })
-          })
-
-        setDemoTableData((prevTable) => {
-            return [...prevTable, newTable]
           })
 
         e.target.reset() // Reset the form fields
@@ -96,23 +78,38 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen, demoTableData, 
                                         type="checkbox" 
                                         id={student.name} 
                                         name={student.name} 
+                                        checked={student.tableData.selected}
                                         className="hidden peer"
-                                        disabled={student.tableName ? true : false}
+                                        disabled={student.tableData.tableName ? true : false}
                                     />
                                     <label 
                                         htmlFor={student.name} 
-                                        className="flex flex-col items-center w-28 cursor-pointer bg-white p-4 shadow-lg rounded-xl peer-disabled:bg-gray-200 peer-checked:bg-green-200 peer-hover:scale-105 duration-300"
+                                        className="flex flex-col items-center w-28 cursor-pointer bg-white p-4 shadow-lg rounded-xl peer-disabled:bg-gray-200 peer-checked:bg-green-200 peer-hover:scale-105 duration-300 select-none"
                                     >
-                                        <Image src={student.avatar} alt="/" width={25} height={25} className="select-none"/>
-                                        <p className="select-none mt-1 text-lg">{student.name}</p>
-                                        <p>{student.tableName}</p>
+                                        <Image src={student.avatar} alt="/" width={30} height={30} className="select-none"/>
+                                        <span className="font-bold mt-1 text-lg">{student.name}</span>
+                                        <span>{student.tableData.tableName}</span>
                                     </label>
                                 </div>
                             ))}
                         </div>
                         <div className="flex justify-end gap-10">
-                            <button onClick={() => setIsAddTableModalOpen(false)} type="button" className="w-full sm:w-32 bg-buttonClr p-3 rounded-lg text-primaryTextClr hover:scale-105 duration-300" aria-label="Cancel">Cancel</button>
-                            <button type="submit" className="w-full sm:w-32 bg-buttonClr p-3 rounded-lg text-primaryTextClr hover:scale-105 duration-300" aria-label="Submit add student form">Add Table</button>
+                            <button 
+                                onClick={() => setIsAddTableModalOpen(false)} 
+                                type="button" 
+                                className="w-full sm:w-32 bg-buttonClr p-3 rounded-lg text-primaryTextClr hover:scale-105 duration-300" 
+                                aria-label="Cancel"
+                            >
+                                Cancel
+                            </button>
+                            <button 
+                                type="submit"
+                                className="w-full sm:w-32 bg-buttonClr p-3 rounded-lg text-primaryTextClr hover:scale-105 duration-300 disabled:bg-gray-400 disabled:hover:scale-100 disabled:duration-0" 
+                                aria-label="Submit add student form"
+                                disabled={!demoStudentData.some((student) => student.tableData.selected)}
+                            >
+                                Add Table
+                            </button>
                         </div>
                     </form>
                 </Dialog.Panel>
