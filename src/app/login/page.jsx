@@ -7,7 +7,7 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth, db } from "../../utils/firebase"
 import { setDoc, doc, getDoc} from "firebase/firestore"
-import Nav from "../../components/Nav"
+import Nav from "@/components/Nav"
 import Scribble from "../../components/Scribble"
 
 const Login = () => {

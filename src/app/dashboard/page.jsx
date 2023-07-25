@@ -7,7 +7,7 @@ import { auth, db } from '../../utils/firebase'
 import { updateDoc, doc, getDoc } from "firebase/firestore"
 import CreateClass from "../../components/CreateClass"
 import Link from "next/link"
-import Nav from "../../components/Nav"
+import Nav from "@/components/Nav"
 
 const Dashboard = () => {
   const [user, loading] = useAuthState(auth);

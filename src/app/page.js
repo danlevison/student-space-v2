@@ -1,4 +1,4 @@
-import Nav from "../components/Nav"
+import Nav from "@/components/Nav"
 import LandingPage from "@/components/LandingPage"
 import About from "@/components/about/About"
 import Footer from "@/components/Footer"
