@@ -7,17 +7,17 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth, db } from '../../utils/firebase'
 import { doc, getDoc, collection, setDoc } from 'firebase/firestore'
 import DemoStudentDataContext from "../../DemoStudentDataContext"
-import Options from "../../components/democlass/options/Options"
-import CurrentDate from "../../components/democlass/date"
-import StudentGrid from "../../components/democlass/StudentGrid/StudentGrid"
-import TableGrid from "../../components/democlass/TableGrid/TableGrid"
-import Toolbar from "../../components/democlass/Toolbar"
-import Weather from "../../components/democlass/Weather"
+import Options from "@/components/democlass/options/Options"
+import CurrentDate from "@/components/democlass/DateComponent"
+import StudentGrid from "@/components/democlass/studentGrid/StudentGrid"
+import TableGrid from "@/components/democlass/tableGrid/TableGrid"
+import Toolbar from "@/components/democlass/Toolbar"
+import Weather from "@/components/democlass/Weather"
+import Birthday from "@/components/democlass/Birthday"
 import { HiMenuAlt4 } from "react-icons/hi"
 import { FaHome } from "react-icons/fa"
 import paperBg from "../../../public/assets/paperbg.jpg"
 import Scribble from "../../components/Scribble"
-import Birthday from "@/components/democlass/Birthday"
 
 const Classroom = () => {
   const [user, loading] = useAuthState(auth)
