@@ -1,12 +1,14 @@
 import React, {useState, useContext} from 'react'
 import DemoStudentDataContext from "../../../DemoStudentDataContext"
+import { collection, updateDoc, doc } from 'firebase/firestore'
+import { db } from "../../../utils/firebase"
 import AddTable from "./AddTable"
 import { FaAward } from 'react-icons/fa'
 import { IoMdSettings } from 'react-icons/io'
 import { RiAddLine } from "react-icons/ri"
 
 const TableGrid = () => {
-    const { demoStudentData, setDemoStudentData } = useContext(DemoStudentDataContext)
+    const { demoStudentData, setDemoStudentData, userUid, classname } = useContext(DemoStudentDataContext)
     const [isAddTableModalOpen, setIsAddTableModalOpen] = useState(false)
 
     const handleAddTableModal = () => {
@@ -27,21 +29,36 @@ const TableGrid = () => {
       return groups
     }, {})
 
-    const handlePointClick = (tableName) => {
-      setDemoStudentData((prevDemoStudentData) => {
-        return prevDemoStudentData.map((student) => {
-          if (student.tableData?.tableName === tableName) {
+    const handlePointClick = async (tableName) => {
+      try {
+        // Update tablePoints in demoClass
+        const updatedStudentData = demoStudentData.map((student) => {
+          if(student.tableData?.tableName === tableName) {
             return {
               ...student,
-              tableData: {
-                ...student.tableData,
-                tablePoints: (student.tableData.tablePoints || 0) + 1,
-              },
+              tableData: {...student.tableData, tablePoints: (student.tableData.tablePoints || 0) + 1}
             }
           }
           return student
         })
-      })
+
+        // Set the updated student data to the state
+        setDemoStudentData(updatedStudentData)
+
+        if (userUid && classname) {
+          // User is in their own class context (Firebase)
+          const classCollectionRef = collection(db, 'users', userUid, classname)
+          const classDocumentRef = doc(classCollectionRef, userUid)
+    
+          // Update the Firestore document with the updated studentData (update tablePoints in users class)
+          await updateDoc(classDocumentRef, {
+            studentData: updatedStudentData,
+          })
+        }
+
+      } catch (error) {
+        console.error('Error updating student information:', error)
+      }
     }
     
     return (

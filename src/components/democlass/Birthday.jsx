@@ -19,7 +19,7 @@ const Birthday = () => {
     // if multiple students have the same bday, display all of their names
     if (studentsWithSameBday.length > 0) {
       const names = studentsWithSameBday.map((student) => student.name)
-      setBdayMessage(`Happy Birthday ${names.join(' and ')}! 🎂`)
+      setBdayMessage(`Happy Birthday, ${names.join(' and ')}! 🎂`)
     } else {
       setBdayMessage('')
     }
@@ -27,7 +27,7 @@ const Birthday = () => {
 
   return (
     <div>
-      <h3 className="font-bold text-3xl pt-4 text-center">{bdayMessage}</h3>
+      <h3 className="font-bold text-2xl sm:text-3xl text-center mt-4">{bdayMessage}</h3>
     </div>
   )
 }

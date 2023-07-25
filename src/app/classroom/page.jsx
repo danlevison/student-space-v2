@@ -48,7 +48,7 @@ const Classroom = () => {
           
             if (!docSnap.exists()) {
               // If the document doesn't exist, create it with the studentData and tableData array
-              await setDoc(classDocumentRef, { studentData: [], tableData: [] })
+              await setDoc(classDocumentRef, { studentData: [] })
             }
           }
         } else {
@@ -77,7 +77,7 @@ const Classroom = () => {
   if (!user) router.push('/login')
 
   const scribblesSvgs = [
-    { src: '/assets/Scribbles/58.svg', alt: 'Black and green triangle scribble', className: 'absolute top-52 md:top-36 left-10 w-[50px] md:w-[100px] 2xl:w-[150px]' },
+    { src: '/assets/Scribbles/58.svg', alt: 'Black and green triangle scribble', className: 'absolute top-64 md:top-36 left-10 w-[50px] md:w-[100px] 2xl:w-[150px]' },
     { src: '/assets/Scribbles/65.svg', alt: 'Blue scribble', className: 'absolute bottom-10 right-20 w-[75px] md:w-[150px] rotate-12' },
     { src: '/assets/Scribbles/66.svg', alt: 'Yellow flower scribble', className: 'absolute hidden lg:block top-60 right-16 md:right-80 w-[50px] md:w-[100px]' },
     { src: '/assets/Scribbles/26.svg', alt: 'Yellow pink and red cirlces scribble', className: "absolute bottom-16 left-2 w-[150px] md:w-[200px]" },
@@ -122,7 +122,7 @@ const Classroom = () => {
             </aside>
             
             <div className="flex flex-col mx-auto w-full py-20 z-0">
-              <div className="flex flex-col justify-center items-center pb-10 sm:pb-0">
+              <div className="flex flex-col justify-center items-center pb-10 sm:pb-0 px-8">
                 {/* //TODO: set greeting depending on time of day */}
                 <h1 className="text-3xl md:text-4xl lg:text-6xl text-center">{classname ? `Good Morning, ${classname}!` : 'Welcome'}</h1>  
                 <Birthday />

@@ -1,46 +1,83 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext} from 'react'
 import DemoStudentDataContext from "../../../DemoStudentDataContext"
+import { collection, updateDoc, doc } from 'firebase/firestore'
+import { db } from "../../../utils/firebase"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from "react-icons/ai"
 import Image from "next/image"
 
 const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
-    const { demoStudentData, setDemoStudentData } = useContext(DemoStudentDataContext) 
+    const { demoStudentData, setDemoStudentData, userUid, classname } = useContext(DemoStudentDataContext) 
     
-    const getSelectedStudent = (e) => {
-        const studentName = e.target.name
-
-        setDemoStudentData((prevDemoStudentData) => {
-            return prevDemoStudentData.map((student) => {
-                if (student.name === studentName) {
-                    return { ...student, tableData: { ...student.tableData, selected:!student.tableData?.selected || false } }
-                }
-                return student
+    const getSelectedStudent = async (e) => {
+        try {
+          const studentName = e.target.name
+          
+          // Update demoStudentData with the new selected status for the student in demoClass
+          const updatedStudentData = demoStudentData.map((student) => {
+            if (student.name === studentName) {
+              return {
+                ...student,
+                tableData: { ...student.tableData, selected: !student.tableData?.selected || false },
+              }
+            }
+            return student
+          })
+      
+          // Set the updated student data to the state
+          setDemoStudentData(updatedStudentData)
+      
+          if (userUid && classname) {
+            // User is in their own class context (Firebase)
+            const classCollectionRef = collection(db, 'users', userUid, classname)
+            const classDocumentRef = doc(classCollectionRef, userUid)
+      
+            // Update the Firestore document with the updated studentData (// Update studentData tableData property with the new selected status for the student in users class)
+            await updateDoc(classDocumentRef, {
+              studentData: updatedStudentData,
             })
-        })
-    }
+          }
+        } catch (error) {
+          console.error('Error updating student information:', error)
+        }
+      }
 
-    const handleAddTableSubmit = (e) => {
+      const handleAddTableSubmit = async (e) => {
         e.preventDefault()
         const tableName = e.target.tableName.value
-        const existingTable = demoStudentData.find(student => student.tableData.tableName === tableName)
-        
-        if(existingTable) {
+        const existingTable = demoStudentData.find((student) => student.tableData.tableName === tableName)
+      
+        if (existingTable) {
           alert("A table with this name already exists!")
           e.target.reset()
           return
         }
-
-        {/* Update demoStudentData tableData */}
-        setDemoStudentData((prevStudentData) => {
-            return prevStudentData.map((student) => {
-              if (student.tableData.selected) {
-                return { ...student, tableData: {tableName: tableName, isOnTable: true, selected: false} }
-              }
-              return student
+      
+        // Update demoStudentData tableData locally in demoClass context
+        const updatedStudentData = demoStudentData.map((student) => {
+          if (student.tableData.selected) {
+            return { ...student, tableData: { tableName: tableName, isOnTable: true, selected: false } }
+          }
+          return student
+        })
+      
+        setDemoStudentData(updatedStudentData)
+      
+        if (userUid && classname) {
+          try {
+            // User is in their own class context (Firebase)
+            const classCollectionRef = collection(db, "users", userUid, classname)
+            const classDocumentRef = doc(classCollectionRef, userUid)
+      
+            // Update the Firestore document with the updated studentData
+            await updateDoc(classDocumentRef, {
+              studentData: updatedStudentData,
             })
-          })
-
+          } catch (error) {
+            console.error("Error updating tableData in user class collection:", error)
+          }
+        }
+      
         e.target.reset() // Reset the form fields
         setIsAddTableModalOpen(false)
       }
