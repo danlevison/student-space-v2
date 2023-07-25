@@ -1,5 +1,3 @@
-"use client"
-
 import './globals.css'
 import { Nunito } from 'next/font/google'
 import { DemoStudentDataProvider } from "../DemoStudentDataContext"
