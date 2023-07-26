@@ -12,26 +12,26 @@ const RewardManagement = () => {
             </div>
             <div className="flex flex-col order-1">
                 <h2 className="text-2xl md:text-3xl lg:text-4xl 2xl:text-5xl font-bold underline capitalize">Reward management</h2>
-                <p className="text-tertiaryTextClr leading-7 py-4">I understand the powerful impact of positive reinforcement on student motivation and engagement. Through the points system, you can easily track and distribute rewards, ensuring that every achievement is acknowledged and celebrated.</p>
+                <p className="text-tertiaryTextClr leading-7 py-4">We understand the powerful impact of positive reinforcement on student motivation and engagement. Through the points system, you can easily track and distribute rewards, ensuring that every achievement is acknowledged and celebrated.</p>
 
-                <div className="pt-4 font-bold text-secondaryTextClr capitalize">
+                <div className="pt-4 font-bold text-secondaryTextClr">
                     <div className="flex items-center gap-2">
                         <div className="border-2 border-yellow-500 rounded-full">
                             <TiTickOutline size={20} className="text-yellow-500" />
                         </div>
-                        <p>Award points</p>
+                        <p>Award Points to Students and Table Groups</p>
                     </div>
                     <div className="flex items-center py-6 gap-2">
                         <div className="border-2 border-yellow-500 rounded-full">
                             <TiTickOutline size={20} className="text-yellow-500" />
                         </div>
-                        <p>Create a positive classroom atmosphere</p>
+                        <p>Create a Positive Classroom Atmosphere</p>
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="border-2 border-yellow-500 rounded-full">
                             <TiTickOutline size={20} className="text-yellow-500" />
                         </div>
-                        <p>Promote personal and academic growth</p>
+                        <p>Promote Personal and Academic Growth</p>
                     </div>
                 </div>
               </div>

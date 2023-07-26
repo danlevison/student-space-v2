@@ -9,7 +9,7 @@ const ClassroomManagement = () => {
         <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-12 lg:gap-32 px-10">
             <div className="flex flex-col">
                 <h2 className="text-2xl md:text-3xl lg:text-4xl 2xl:text-5xl font-bold underline capitalize">Classroom management</h2>
-                <p className="text-tertiaryTextClr leading-7 py-4">I believe that effective classroom management is key to nurturing a productive and inclusive learning environment. Student Space provides a comprehensive suite of tools that are designed to simplify your daily tasks, saving you valuable time and energy, allowing you to focus on what truly matters - your students' education.</p>
+                <p className="text-tertiaryTextClr leading-7 py-4">Effective classroom management is key to nurturing a productive and inclusive learning environment. Student Space provides a comprehensive suite of tools that are designed to simplify your daily tasks, saving you valuable time and energy, allowing you to focus on what truly matters - your students' education.</p>
 
                 <div className="pt-4 font-bold text-secondaryTextClr capitalize">
                     <div className="flex items-center gap-2">
