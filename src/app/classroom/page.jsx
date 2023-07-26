@@ -12,6 +12,7 @@ import CurrentDate from "@/components/democlass/DateComponent"
 import StudentGrid from "@/components/democlass/student/StudentGrid"
 import TableGrid from "@/components/democlass/table/TableGrid"
 import Toolbar from "@/components/democlass/Toolbar"
+import Greeting from "@/components/democlass/Greeting"
 import Weather from "@/components/democlass/Weather"
 import Birthday from "@/components/democlass/Birthday"
 import { HiMenuAlt4 } from "react-icons/hi"
@@ -124,7 +125,7 @@ const Classroom = () => {
             <div className="flex flex-col mx-auto w-full py-20 z-0">
               <div className="flex flex-col justify-center items-center pb-10 sm:pb-0 px-8">
                 {/* //TODO: set greeting depending on time of day */}
-                <h1 className="text-3xl md:text-4xl lg:text-6xl text-center">{classname ? `Good Morning, ${classname}!` : 'Welcome'}</h1>  
+                <Greeting /> 
                 <Birthday />
                 <CurrentDate />
                 <Weather />
