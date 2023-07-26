@@ -72,7 +72,6 @@ const Nav = () => {
                           auth.signOut()
                           setNav(false)
                         }}
-                        className="text-sm text-primaryTextClr"
                       >
                         Sign out
                       </button>
