@@ -2,7 +2,7 @@ import React, {useState, useContext} from 'react'
 import DemoStudentDataContext from "../../../DemoStudentDataContext"
 import { collection, updateDoc, doc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
-import AddTable from "./AddTable"
+import AddTable from "@/components/democlass/table/AddTable"
 import { FaAward } from 'react-icons/fa'
 import { IoMdSettings } from 'react-icons/io'
 import { RiAddLine } from "react-icons/ri"

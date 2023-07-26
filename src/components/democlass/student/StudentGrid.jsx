@@ -6,7 +6,7 @@ import { db } from "../../../utils/firebase"
 import { FaAward } from 'react-icons/fa'
 import { IoMdSettings } from 'react-icons/io'
 import { RiAddLine } from "react-icons/ri"
-import AddStudent from "./AddStudent"
+import AddStudent from "@/components/democlass/student/AddStudent"
 import bearAvatar from "../../../../public/assets/avatars/bear.png"
 import catAvatar from "../../../../public/assets/avatars/cat.png"
 import rabbitAvatar from "../../../../public/assets/avatars/rabbit.png"
