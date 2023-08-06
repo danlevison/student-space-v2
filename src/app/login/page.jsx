@@ -36,8 +36,6 @@ const Login = () => {
           isClassMade: false,
         })
 
-        if(loading) <h1>Loading...</h1> //TODO: Check if this works.
-        router.push("/dashboard") // Redirect user to the dashboard
         } catch (error) {
           console.error(error)
         }
@@ -51,6 +49,9 @@ const Login = () => {
             console.log("login")
         }
     }, [user])
+
+    if(loading) return <h1>...Loading</h1> //TODO: Check if this works.
+        // router.push("/dashboard") // Redirect user to the dashboard
 
     const scribblesSvgs = [
       { src: '/assets/Scribbles/67.svg', alt: 'Bolt scribble', className: 'absolute top-32 left-10 w-[75px] md:w-[150px]' },

@@ -175,7 +175,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                     <form onSubmit={handleTableInfoSubmit} className="flex flex-col py-4">
                         <label htmlFor="tableName">Table name</label>
                         <input
-                          className="w-full rounded-lg p-2"
+                          className="w-full rounded-lg p-2 outline-inputOutlineClr"
                           id="tableName"
                           name="tableName"
                           required

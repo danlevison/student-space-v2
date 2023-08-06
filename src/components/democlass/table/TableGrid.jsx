@@ -6,6 +6,7 @@ import AddTable from "@/components/democlass/table/AddTable"
 import { FaAward } from 'react-icons/fa'
 import { IoMdSettings } from 'react-icons/io'
 import { RiAddLine } from "react-icons/ri"
+import pointsSound from "../../../../public/audio/points.mp3"
 
 const TableGrid = () => {
     const { demoStudentData, setDemoStudentData, userUid, classname } = useContext(DemoStudentDataContext)
@@ -41,6 +42,9 @@ const TableGrid = () => {
           }
           return student
         })
+
+        const pointsAudio = new Audio(pointsSound)
+        pointsAudio.play()
 
         // Set the updated student data to the state
         setDemoStudentData(updatedStudentData)

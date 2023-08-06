@@ -76,7 +76,7 @@ const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen }) => {
                     </div>
                     <form onSubmit={handleAddStudentSubmit} className="flex flex-col py-4">
                         <label htmlFor="name">First name</label>
-                        <input className="w-full rounded-lg p-2" type="text" id="name" name="name" required />
+                        <input className="w-full rounded-lg p-2 outline-inputOutlineClr" type="text" id="name" name="name" required />
 
                         <div className="flex items-center gap-2 pt-4 relative">
                           <label htmlFor="dob">Date of birth</label>
@@ -85,7 +85,7 @@ const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen }) => {
                             We use DOB to display students birthdays
                           </span>
                         </div>
-                        <input className="w-full rounded-lg p-2" type="date" id="dob" name="dob" required />
+                        <input className="w-full rounded-lg p-2 outline-inputOutlineClr" type="date" id="dob" name="dob" required />
                     
                         <button className="bg-buttonClr p-3 mt-4 rounded-lg text-primaryTextClr w-full hover:scale-105 duration-300" type="submit" aria-label="Submit add student form">Add Student</button>
                     </form>
