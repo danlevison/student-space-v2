@@ -13,6 +13,7 @@ import rabbitAvatar from "../../../../public/assets/avatars/rabbit.png"
 import pandaAvatar from "../../../../public/assets/avatars/panda.png"
 import chickenAvatar from "../../../../public/assets/avatars/chicken.png"
 import dogAvatar from "../../../../public/assets/avatars/dog.png"
+import pointsSound from "../../../../public/audio/points.mp3"
 
 const StudentGrid = () => {
     const { demoStudentData, setDemoStudentData, userUid, classname } = useContext(DemoStudentDataContext)  
@@ -56,6 +57,9 @@ const StudentGrid = () => {
           }
           return student
         })
+
+        const pointsAudio = new Audio(pointsSound)
+        pointsAudio.play() 
     
         // Update the demoStudentData state to reflect the new points in the demoClass
         setDemoStudentData(updatedDemoStudentData)
@@ -135,7 +139,7 @@ const StudentGrid = () => {
                 className="bg-buttonClr p-3 md:p-4 rounded-lg text-primaryTextClr hover:scale-105 duration-300">Add students</button>
           </div>
         ) : (
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(210px,1fr))] gap-4 items-center px-10">
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-4 items-center px-10">
                 {demoStudentData.map((student) => (
                     <div key={student.uuid} className="relative flex flex-col justify-center items-center p-8 shadow-lg rounded-md bg-[#f5f5f5]">
                       <p className="font-bold tracking-wide">{student.name}</p>

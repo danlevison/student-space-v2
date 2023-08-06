@@ -1,11 +1,17 @@
+"use client"
+
 import React from 'react'
 import Link from "next/link"
 import Image from "next/image"
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { auth } from "@/utils/firebase"
 import footerBg from "../../public/assets/footer-bg.png"
 import Logo from "../components/Logo"
 
 const Footer = () => {
+    const [user, loading] = useAuthState(auth)
     const currentYear = new Date().getFullYear()
+
   return (
     <footer className="relative w-full h-[560px] bg-[#e3f7fc] pt-10">
       <div>
@@ -24,6 +30,7 @@ const Footer = () => {
             <ul className="flex flex-col gap-4">
               <Link href={"/"}>Home</Link>
               <Link href={"/#about"}>About</Link>
+              {user ? <Link href={"/dashboard"}>Dashboard</Link> : <Link href={"/login"}>Sign in</Link>}
             </ul>
           </div>
         </div>

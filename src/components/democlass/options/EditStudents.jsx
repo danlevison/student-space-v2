@@ -157,7 +157,7 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
                         <label htmlFor="name">First name</label>
                         {selectedStudent && (
                             <input
-                                className="w-full rounded-lg p-2"
+                                className="w-full rounded-lg p-2 outline-inputOutlineClr"
                                 id="name"
                                 name="name"
                                 required

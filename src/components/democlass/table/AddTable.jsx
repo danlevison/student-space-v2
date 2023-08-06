@@ -95,7 +95,7 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
             {/* Full-screen container to center the panel */}
             <div className="fixed inset-0 flex items-center justify-center p-4">
                 
-                <Dialog.Panel className="p-5 w-full sm:w-[80%] h-full sm:h-[80%] overflow-auto rounded-xl bg-blue-100">
+                <Dialog.Panel className="p-5 w-full sm:w-[80%] h-full 2xl:h-auto overflow-auto rounded-xl bg-blue-100">
                     <div className="flex justify-between items-center">
                         <Dialog.Title className="font-bold text-xl">Add Table</Dialog.Title>
                         <button onClick={() => setIsAddTableModalOpen(false)}>
@@ -105,9 +105,9 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
                     <form onSubmit={handleAddTableSubmit} className="flex flex-col py-4">
                         <div className="flex flex-col items-center">
                             <label htmlFor="tableName" className="font-bold text-xl">Table name</label>
-                            <input className="w-full sm:w-[400px] rounded-lg p-2" type="text" id="tableName" name="tableName" required />
+                            <input className="w-full sm:w-[400px] rounded-lg p-2 outline-inputOutlineClr" type="text" id="tableName" name="tableName" required />
                         </div>
-                        <div className="grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] gap-4 items-center py-4">
+                        <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-4 items-center py-4">
                             {demoStudentData.map((student) => (
                                 <div key={student.uuid} className="flex flex-col items-center gap-2">
                                     <input 
@@ -130,7 +130,7 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
                                 </div>
                             ))}
                         </div>
-                        <div className="flex justify-end gap-10">
+                        <div className="flex justify-end gap-10 mt-4">
                             <button 
                                 onClick={() => setIsAddTableModalOpen(false)} 
                                 type="button" 
