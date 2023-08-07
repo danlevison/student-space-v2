@@ -1,18 +1,18 @@
 import React, {useState, useEffect, useContext} from 'react'
-import DemoStudentDataContext from '../../DemoStudentDataContext'
+import StudentDataContext from "@/StudentDataContext"
 
 const Greeting = () => {
-    const { userUid, classname } = useContext(DemoStudentDataContext)
+    const { userUid, userClassName } = useContext(StudentDataContext)
     const [greeting, setGreeting] = useState("")
     const currentTime = new Date().getHours()
 
     useEffect(() => {
         if (currentTime < 12) {
             // if in users class include classname in greeting
-           userUid && classname ? setGreeting(`Good Morning, ${classname}!`) : setGreeting("Good Morning!")
+           userUid && userClassName ? setGreeting(`Good Morning, ${userClassName}!`) : setGreeting("Good Morning!")
         } else {
             // if in users class include classname in greeting
-            userUid && classname ? setGreeting(`Good Afternoon, ${classname}!`) : setGreeting("Good Afternoon!")
+            userUid && userClassName ? setGreeting(`Good Afternoon, ${userClassName}!`) : setGreeting("Good Afternoon!")
         }
     }, [])
     

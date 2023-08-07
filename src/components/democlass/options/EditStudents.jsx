@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react'
-import DemoStudentDataContext from "../../../DemoStudentDataContext"
+import StudentDataContext from "@/StudentDataContext"
 import { doc, collection, updateDoc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
 import { Dialog } from '@headlessui/react'
@@ -11,7 +11,7 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
         name: ''
       })
 
-    const { demoStudentData, setDemoStudentData, userUid, classname } = useContext(DemoStudentDataContext)  
+    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)  
 
     const handleStudentModal = (student) => {
         setSelectedStudent(student)
@@ -30,7 +30,7 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
             e.preventDefault()
             const updatedName = e.target.name.value
         
-            const existingStudent = demoStudentData.find((student) => student.name === updatedName)
+            const existingStudent = studentData.find((student) => student.name === updatedName)
         
             if (existingStudent) {
               alert("A student with this name already exists!")
@@ -39,18 +39,18 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
             }
         
             // Update the student name in the demoClass
-            const updatedStudentData = demoStudentData.map((student) => {
+            const updatedStudentData = studentData.map((student) => {
               if (student.uuid === selectedStudent.uuid) {
                 return { ...student, name: updatedName }
               }
               return student
             })
       
-            setDemoStudentData(updatedStudentData) // Update the local state with the updated student data
+            setStudentData(updatedStudentData) // Update the local state with the updated student data
         
-            if (userUid && classname) {
+            if (userUid && userClassName) {
               // User is in their own class context (Firebase)
-              const classCollectionRef = collection(db, 'users', userUid, classname)
+              const classCollectionRef = collection(db, 'users', userUid, userClassName)
               const classDocumentRef = doc(classCollectionRef, userUid)
         
               // Update the Firestore document with the updated studentData (Updates student name in users class)
@@ -68,13 +68,13 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
           const removeStudent = async () => {
             try {
               // Filter out the student with the same UUID as the selectedStudent
-              const updatedDemoStudentData = demoStudentData.filter((student) => student.uuid !== selectedStudent.uuid)
+              const updatedDemoStudentData = studentData.filter((student) => student.uuid !== selectedStudent.uuid)
               // Removes student from demoClass
-              setDemoStudentData(updatedDemoStudentData)
+              setStudentData(updatedDemoStudentData)
           
-              if (userUid && classname) {
+              if (userUid && userClassName) {
                 // User is in their own class context (Firebase)
-                const classCollectionRef = collection(db, 'users', userUid, classname)
+                const classCollectionRef = collection(db, 'users', userUid, userClassName)
                 const classDocumentRef = doc(classCollectionRef, userUid)
           
                 // Update the Firestore document with the updated studentData (Removes student from users class)
@@ -111,13 +111,13 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
                     />
                   </button>
                 </div>
-                {demoStudentData.length === 0 ? (
+                {studentData.length === 0 ? (
                   <div className="flex justify-center items-center h-full">
                     <p className="text-xl">No student data available</p>
                   </div>
                 ) : (
                   <div className="overflow-auto h-5/6 mt-4">
-                    {demoStudentData.map((student) => (
+                    {studentData.map((student) => (
                       <button
                         key={student.uuid}
                         onClick={() => handleStudentModal(student)}
@@ -180,7 +180,7 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
           </Dialog>
       
         </>
-      );
+      )
       
 }
 

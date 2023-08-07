@@ -1,25 +1,25 @@
 import React, {useContext} from 'react'
-import DemoStudentDataContext from "../../../DemoStudentDataContext"
+import StudentDataContext from "@/StudentDataContext"
 import { doc, collection, updateDoc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from "react-icons/ai"
 
 const ResetPoints = ({ openResetPointsModal, setOpenResetPointsModal }) => {
-    const { demoStudentData, setDemoStudentData, setDemoTableData, userUid, classname } = useContext(DemoStudentDataContext)  
+    const { studentData, setStudentData, setDemoTableData, userUid, userClassName } = useContext(StudentDataContext)  
 
     const resetStudentPoints = async () => {
         try {
             // Reset the students points in the demoClass
-            const updatedStudentData = demoStudentData.map((student) => {
+            const updatedStudentData = studentData.map((student) => {
                 return {...student, points: 0}
             })
 
-            setDemoStudentData(updatedStudentData) // Update the local state with the updated student data
+            setStudentData(updatedStudentData) // Update the local state with the updated student data
 
-            if(userUid && classname) {
+            if(userUid && userClassName) {
                 // User is in their own class context (Firebase)
-                const classCollectionRef = collection(db, "users", userUid, classname)
+                const classCollectionRef = collection(db, "users", userUid, userClassName)
                 const classDocumentRef = doc(classCollectionRef, userUid)
 
                 // Update the Firestore document with the updated studentData (Resets students points in users class)

@@ -5,7 +5,7 @@ import Link from "next/link"
 import { useRouter } from 'next/navigation'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../../utils/firebase'
-import { DemoStudentDataProvider } from "../../DemoStudentDataContext"
+import { StudentDataProvider } from "@/StudentDataContext"
 import Options from "@/components/democlass/options/Options"
 import CurrentDate from "@/components/democlass/DateComponent"
 import StudentGrid from "@/components/democlass/student/StudentGrid"
@@ -56,7 +56,7 @@ const DemoClass = () => {
   ]
 
   return (
-    <DemoStudentDataProvider>
+    <StudentDataProvider>
       <main className="relative min-h-screen w-full bg-blue-100" style={{ backgroundImage: `url(${paperBg.src})`, backgroundSize: "auto" }}>
         <Scribble scribblesSvgs={scribblesSvgs} />
         <nav className="bg-white fixed z-[20] top-0 h-12 w-full px-8">
@@ -116,7 +116,7 @@ const DemoClass = () => {
           </div>
         </div>
       </main>
-    </DemoStudentDataProvider>
+    </StudentDataProvider>
   )
 }
 

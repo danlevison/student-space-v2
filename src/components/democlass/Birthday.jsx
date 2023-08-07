@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react'
-import DemoStudentDataContext from '../../DemoStudentDataContext'
+import StudentDataContext from "@/StudentDataContext"
 
 const Birthday = () => {
-  const { demoStudentData } = useContext(DemoStudentDataContext)
+  const { studentData } = useContext(StudentDataContext)
   const [bdayMessage, setBdayMessage] = useState('')
 
   const todayDate = new Date()
@@ -10,7 +10,7 @@ const Birthday = () => {
   const date = todayDate.getDate()
 
   useEffect(() => {
-    const studentsWithSameBday = demoStudentData.filter((student) => {
+    const studentsWithSameBday = studentData.filter((student) => {
       const birthday = new Date(student.dob.split('.').reverse())
       const birthMonth = birthday.getMonth() + 1
       const birthDate = birthday.getDate()
@@ -23,7 +23,7 @@ const Birthday = () => {
     } else {
       setBdayMessage('')
     }
-  }, [demoStudentData, currentMonth, date])
+  }, [studentData, currentMonth, date])
 
   return (
     <div>

@@ -1,6 +1,6 @@
 import { Fragment, useState, useContext } from 'react'
 import { Menu, Transition } from '@headlessui/react'
-import DemoStudentDataContext from "../../../DemoStudentDataContext"
+import StudentDataContext from "@/StudentDataContext"
 import { doc, collection, updateDoc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
 import { AiFillCaretDown } from "react-icons/ai"
@@ -15,7 +15,7 @@ const Options = () => {
     const [isEditStudentsModalOpen, setIsEditStudentsModalOpen] = useState(false)
     const [openResetPointsModal, setOpenResetPointsModal] = useState(false)
     const [isEditTablesModalOpen, setIsEditTablesModalOpen] = useState(false)
-    const { demoStudentData, setDemoStudentData, userUid, classname } = useContext(DemoStudentDataContext) 
+    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext) 
     
     const handleEditStudentsModal = () => {
         setIsEditStudentsModalOpen(true)
@@ -35,9 +35,9 @@ const Options = () => {
     //       const sortedData = [...demoStudentData].sort((a, b) => a.name.localeCompare(b.name))
     //       setDemoStudentData(sortedData)
       
-    //       if (classname) {
+    //       if (userUid && userClassName) {
     //         // User is in their own class context (Firebase)
-    //         const classCollectionRef = collection(db, 'users', userUid, classname);
+    //         const classCollectionRef = collection(db, 'users', userUid, userClassName);
     //         const classDocumentRef = doc(classCollectionRef, userUid)
       
     //         await updateDoc(classDocumentRef, {
@@ -50,8 +50,8 @@ const Options = () => {
     //   }
 
     const sortStudentsAlphabetically = () => {
-        setDemoStudentData(prevDemoStudentData => {
-          const sortedData = [...prevDemoStudentData]
+        setStudentData(prevStudentData => {
+          const sortedData = [...prevStudentData]
           sortedData.sort((a, b) => a.name.localeCompare(b.name))
           return sortedData
         })
@@ -155,7 +155,7 @@ const Options = () => {
                 {({ active }) => (
                     <button
                     onClick={handleResetPointsModal}
-                    disabled={demoStudentData.length === 0}
+                    disabled={studentData.length === 0}
                     className={`${
                         active ? 'bg-buttonClr text-primaryTextClr' : 'text-secondaryTextClr'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}

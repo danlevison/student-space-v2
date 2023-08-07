@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react'
-import DemoStudentDataContext from "../../../DemoStudentDataContext"
+import StudentDataContext from "@/StudentDataContext"
 import { collection, updateDoc, doc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
 import AddTable from "@/components/democlass/table/AddTable"
@@ -9,7 +9,7 @@ import { RiAddLine } from "react-icons/ri"
 import pointsSound from "../../../../public/audio/points.mp3"
 
 const TableGrid = () => {
-    const { demoStudentData, setDemoStudentData, userUid, classname } = useContext(DemoStudentDataContext)
+    const { studentData, setStudentData, userUid, classname } = useContext(StudentDataContext)
     const [isAddTableModalOpen, setIsAddTableModalOpen] = useState(false)
 
     const handleAddTableModal = () => {
@@ -17,7 +17,7 @@ const TableGrid = () => {
     }
 
     // Filter out students whos tableName property is truthy (i.e they have a tableName) 
-    const filteredStudents = demoStudentData.filter(
+    const filteredStudents = studentData.filter(
       (student) => student.tableData?.tableName !== ""
     )
   
@@ -33,7 +33,7 @@ const TableGrid = () => {
     const handlePointClick = async (tableName) => {
       try {
         // Update tablePoints in demoClass
-        const updatedStudentData = demoStudentData.map((student) => {
+        const updatedStudentData = studentData.map((student) => {
           if(student.tableData?.tableName === tableName) {
             return {
               ...student,
@@ -44,10 +44,11 @@ const TableGrid = () => {
         })
 
         const pointsAudio = new Audio(pointsSound)
+        pointsAudio.volume = 0.2
         pointsAudio.play()
 
         // Set the updated student data to the state
-        setDemoStudentData(updatedStudentData)
+        setStudentData(updatedStudentData)
 
         if (userUid && classname) {
           // User is in their own class context (Firebase)
@@ -74,7 +75,7 @@ const TableGrid = () => {
               <button 
                 onClick={handleAddTableModal}
                 className="bg-buttonClr disabled:bg-slate-300 disabled:hover:scale-100 disabled:duration-0 p-3 md:p-4 rounded-lg text-primaryTextClr hover:scale-105 duration-300"
-                disabled={demoStudentData.length === 0}
+                disabled={studentData.length === 0}
               >
                 Add a table
               </button>

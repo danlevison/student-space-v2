@@ -10,7 +10,7 @@ import Link from "next/link"
 import Nav from "@/components/Nav"
 
 const Dashboard = () => {
-  const [user, loading] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth)
   const [className, setClassName] = useState(null)
   const [isClassMade, setIsClassMade] = useState(false)
   const router = useRouter()
@@ -49,7 +49,7 @@ const Dashboard = () => {
         } catch (error) {
           console.log(error)
         }
-      };
+      }
 
       updateClassName()
     }
