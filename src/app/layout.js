@@ -1,6 +1,6 @@
 import './globals.css'
 import { Nunito } from 'next/font/google'
-import { DemoStudentDataProvider } from "../DemoStudentDataContext"
+import { StudentDataProvider } from "@/StudentDataContext"
 
 const nunito = Nunito({ 
   subsets: ['latin'], 
@@ -15,11 +15,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <DemoStudentDataProvider>
+      <StudentDataProvider>
         <body className={`${nunito.variable} font-nunito`}>
           {children}
         </body>
-      </DemoStudentDataProvider>
+      </StudentDataProvider>
     </html>
   )
 }

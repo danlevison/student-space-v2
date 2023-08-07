@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react'
 import Image from 'next/image'
-import DemoStudentDataContext from "../../../DemoStudentDataContext"
+import StudentDataContext from "@/StudentDataContext"
 import { doc, collection, getDocs, updateDoc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
 import { FaAward } from 'react-icons/fa'
@@ -16,24 +16,24 @@ import dogAvatar from "../../../../public/assets/avatars/dog.png"
 import pointsSound from "../../../../public/audio/points.mp3"
 
 const StudentGrid = () => {
-    const { demoStudentData, setDemoStudentData, userUid, classname } = useContext(DemoStudentDataContext)  
+    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)  
     const [isAddStudentModalOpen, setIsAddStudentModalOpen] = useState(false)
 
     // Fetch the user's student data from the Firestore subcollection when userUid and className are available
     useEffect(() => {
-      if (userUid && classname) {
+      if (userUid && userClassName) {
         // Implement fetching of student data from Firestore using userUid and className
         fetchStudentDataFromFirestore()
       }
-    }, [userUid, classname])
+    }, [userUid, userClassName])
 
     const fetchStudentDataFromFirestore = async () => {
       try {
         // Implement fetching of student data from Firestore using userUid and className
-        const classCollectionRef = collection(db, 'users', userUid, classname)
+        const classCollectionRef = collection(db, 'users', userUid, userClassName)
         const classSnapshot = await getDocs(classCollectionRef)
         const studentsData = classSnapshot.docs.map((doc) => doc.data().studentData) // The studentsData array, obtained from map((doc) => doc.data().studentData), is an array of arrays
-        setDemoStudentData(studentsData.flat()) // The flat() method is used to merge these arrays into a single array 
+        setStudentData(studentsData.flat()) // The flat() method is used to merge these arrays into a single array 
         // setting demoStudentData to studentData from firebase allows users studentData to be rendered
       } catch (error) {
         console.log('Error fetching student data from Firestore:', error)
@@ -43,15 +43,15 @@ const StudentGrid = () => {
     const handlePointClick = async (uuid) => {
       try {
         // Find the student with the given UUID
-        const studentToUpdate = demoStudentData.find((student) => student.uuid === uuid)
+        const studentToUpdate = studentData.find((student) => student.uuid === uuid)
     
         if (!studentToUpdate) {
           console.error('Student not found')
           return
         }
     
-        // Increment the points in the demoStudentData state
-        const updatedDemoStudentData = demoStudentData.map((student) => {
+        // Increment the points in the studentData state
+        const updatedStudentData = studentData.map((student) => {
           if (student.uuid === uuid) {
             return { ...student, points: student.points + 1 }
           }
@@ -59,18 +59,19 @@ const StudentGrid = () => {
         })
 
         const pointsAudio = new Audio(pointsSound)
+        pointsAudio.volume = 0.2
         pointsAudio.play() 
     
         // Update the demoStudentData state to reflect the new points in the demoClass
-        setDemoStudentData(updatedDemoStudentData)
+        setStudentData(updatedStudentData)
     
         // Update the points in the users firebase studentData and display in the users class
-        if (userUid && classname) {
-          const classCollectionRef = collection(db, 'users', userUid, classname)
+        if (userUid && userClassName) {
+          const classCollectionRef = collection(db, 'users', userUid, userClassName)
           const classDocumentRef = doc(classCollectionRef, userUid)
       
           await updateDoc(classDocumentRef, {
-            studentData: updatedDemoStudentData,
+            studentData: updatedStudentData,
           })
         }
       } catch (error) {
@@ -83,7 +84,7 @@ const StudentGrid = () => {
         const images = [catAvatar, rabbitAvatar, pandaAvatar, bearAvatar, chickenAvatar, dogAvatar]
   
         // Find the student with the given UUID
-        const studentToUpdate = demoStudentData.find((student) => student.uuid === uuid)
+        const studentToUpdate = studentData.find((student) => student.uuid === uuid)
   
         if (!studentToUpdate) {
           console.error('Student not found')
@@ -100,7 +101,7 @@ const StudentGrid = () => {
         const newAvatar = images[nextIndex]
   
         // Update the avatar in the demoStudentData state
-        const updatedDemoStudentData = demoStudentData.map((student) => {
+        const updatedStudentData = studentData.map((student) => {
           if (student.uuid === uuid) {
             return { ...student, avatar: newAvatar }
           }
@@ -108,15 +109,15 @@ const StudentGrid = () => {
         })
   
         // Update the demoStudentData state to reflect the new avatar in the demoClass
-        setDemoStudentData(updatedDemoStudentData)
+        setStudentData(updatedStudentData)
   
         // Update the avatar in the users firebase studentData and display in the users class
-        if (userUid && classname) {
-          const classCollectionRef = collection(db, 'users', userUid, classname)
+        if (userUid && userClassName) {
+          const classCollectionRef = collection(db, 'users', userUid, userClassName)
           const classDocumentRef = doc(classCollectionRef, userUid)
   
           await updateDoc(classDocumentRef, {
-            studentData: updatedDemoStudentData,
+            studentData: updatedStudentData,
           })
         }
       } catch (error) {
@@ -130,7 +131,7 @@ const StudentGrid = () => {
 
       return (
         <>
-          {demoStudentData.length === 0 ? (
+          {studentData.length === 0 ? (
           <div className="flex flex-col justify-center items-center h-full w-3/4 lg:w-1/2 mx-auto rounded-lg shadow-lg p-4 sm:mt-10 bg-[#f5f5f5]">
               <h2 className="text-center font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">Add your students!</h2>
               <p className="text-center py-8 sm:text-lg">Engage your students by easily tracking and distributing rewards, ensuring that every achievement is acknowledged and celebrated!</p>
@@ -140,7 +141,7 @@ const StudentGrid = () => {
           </div>
         ) : (
             <div className="grid grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-4 items-center px-10">
-                {demoStudentData.map((student) => (
+                {studentData.map((student) => (
                     <div key={student.uuid} className="relative flex flex-col justify-center items-center p-8 shadow-lg rounded-md bg-[#f5f5f5]">
                       <p className="font-bold tracking-wide">{student.name}</p>
                       <p className="text-center text-primaryTextClr w-[50px] p-2 bg-iconClr rounded-lg mx-auto my-1">{student.points}</p>

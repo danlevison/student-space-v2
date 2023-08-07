@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import DemoStudentDataContext from "../../../DemoStudentDataContext"
+import StudentDataContext from "@/StudentDataContext"
 import { collection, updateDoc, doc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
 import { Dialog } from '@headlessui/react'
@@ -8,19 +8,19 @@ import defaultAvatar from "../../../../public/assets/avatars/user.svg"
 
 const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen }) => {
 
-    const { demoStudentData, setDemoStudentData, userUid, classname } = useContext(DemoStudentDataContext) 
+    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext) 
     
     const handleAddStudentSubmit = async (e) => {
-      e.preventDefault();
-      const name = e.target.name.value;
-      const dob = e.target.dob.value;
-      const uuid = crypto.randomUUID();
-      const existingStudent = demoStudentData.find((student) => student.name === name);
+      e.preventDefault()
+      const name = e.target.name.value
+      const dob = e.target.dob.value
+      const uuid = crypto.randomUUID()
+      const existingStudent = studentData.find((student) => student.name === name)
         
       if (existingStudent) {
-        alert("A student with this name already exists!");
-        e.target.reset();
-        return;
+        alert("A student with this name already exists!")
+        e.target.reset()
+        return
       }
     
       const newStudent = {
@@ -30,16 +30,16 @@ const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen }) => {
         avatar: defaultAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
         uuid: uuid,
-      };
+      }
     
       try {
         // Update demoStudentData and display added students in the demoClass
-        const updatedStudentData = [...demoStudentData, newStudent]
-        setDemoStudentData(updatedStudentData)
+        const updatedStudentData = [...studentData, newStudent]
+        setStudentData(updatedStudentData)
     
-        if (userUid && classname) {
+        if (userUid && userClassName) {
           // Get a reference to the document in the className subcollection
-          const classCollectionRef = collection(db, "users", userUid, classname)
+          const classCollectionRef = collection(db, "users", userUid, userClassName)
           const classDocumentRef = doc(classCollectionRef, userUid)
         
           // Update the Firestore document with the updated studentData (Add new student in the users class)

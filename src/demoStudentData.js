@@ -1,6 +1,6 @@
 import defaultAvatar from "../public/assets/avatars/user.svg"
 
-const studentData = [
+const demoStudentData = [
     {
         name: "Conrad",
         dob: "12.03.2014",
@@ -244,4 +244,4 @@ const studentData = [
     }
 ]
 
-export default studentData
+export default demoStudentData

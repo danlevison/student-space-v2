@@ -1,20 +1,20 @@
 import React, {useState, useContext} from 'react'
 import Image from "next/image"
-import DemoStudentDataContext from "../../../DemoStudentDataContext"
+import StudentDataContext from "@/StudentDataContext"
 import { collection, updateDoc, doc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from "react-icons/ai"
 
 const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
-    const { demoStudentData, setDemoStudentData, userUid, classname } = useContext(DemoStudentDataContext)
+    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)
     const [openTableInfo, setOpenTableInfo] = useState(false)
     const [selectedTableName, setSelectedTableName] = useState(null)
     const [updatedTableName, setUpdatedTableName] = useState("")
 
     // Collect unique table names using a Set
     const tableNamesSet = new Set()
-    demoStudentData.forEach((student) => {
+    studentData.forEach((student) => {
       if (student.tableData?.tableName) {
         tableNamesSet.add(student.tableData.tableName)
       }
@@ -37,18 +37,18 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
       e.preventDefault()
       try {
         // Update demoStudentData tableData to show updatedTableName in demoClass
-        const updatedStudentData = demoStudentData.map((student) => {
+        const updatedStudentData = studentData.map((student) => {
           if (student.tableData?.tableName === selectedTableName) {
             return {...student, tableData: {...student.tableData, tableName: updatedTableName} }
           }
           return student
         })
 
-        setDemoStudentData(updatedStudentData)
+        setStudentData(updatedStudentData)
 
-        if(userUid && classname) {
+        if(userUid && userClassName) {
            // User is in their own class context (Firebase)
-           const classCollectionRef = collection(db, 'users', userUid, classname)
+           const classCollectionRef = collection(db, 'users', userUid, userClassName)
            const classDocumentRef = doc(classCollectionRef, userUid)
      
            // Update the Firestore document with the updated studentData (// Update studentData tableData property to show updatedTableName in users class)
@@ -66,7 +66,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
     }
 
     const uncheckStudent = (selectedStudent) => {
-      setDemoStudentData((prevDemoStudentData) => {
+      setStudentData((prevDemoStudentData) => {
         return prevDemoStudentData.map((student) => {
           if (selectedStudent === student.name) {
             return {...student, tableData: {...student.tableData, isOnTable: !student.tableData.isOnTable}}
@@ -79,7 +79,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
     const deleteTable = async () => {
         try {
           // Reset demoStudentData tableData property back to default and deletes table from demoClass
-          const updatedStudentData = demoStudentData.map((student) => {
+          const updatedStudentData = studentData.map((student) => {
             if (student.tableData.tableName === selectedTableName) {
               return {...student, tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false}}
             }
@@ -87,11 +87,11 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
           })
 
           // Set the updated student data to the state
-          setDemoStudentData(updatedStudentData)
+          setStudentData(updatedStudentData)
 
-          if(userUid && classname) {
+          if(userUid && userClassName) {
             // User is in their own class context (Firebase)
-            const classCollectionRef = collection(db, 'users', userUid, classname)
+            const classCollectionRef = collection(db, 'users', userUid, userClassName)
             const classDocumentRef = doc(classCollectionRef, userUid)
       
             // Update the Firestore document with the updated studentData (resets studentData tableData property and deletes table from users class)
@@ -183,8 +183,8 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                           onChange={updateTableName}
                         />
                         
-                        <div className="grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] gap-4 items-center py-4">
-                          {demoStudentData.filter((student) => student.tableData?.tableName === selectedTableName).map((student) => (
+                        <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-4 items-center py-4">
+                          {studentData.filter((student) => student.tableData?.tableName === selectedTableName).map((student) => (
                               <div key={student.name} className="flex justify-center">
                                 <input
                                   onChange={() => uncheckStudent(student.name)}

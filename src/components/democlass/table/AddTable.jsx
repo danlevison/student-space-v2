@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import DemoStudentDataContext from "../../../DemoStudentDataContext"
+import StudentDataContext from "@/StudentDataContext"
 import { collection, updateDoc, doc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
 import { Dialog } from '@headlessui/react'
@@ -7,14 +7,14 @@ import { AiOutlineClose } from "react-icons/ai"
 import Image from "next/image"
 
 const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
-    const { demoStudentData, setDemoStudentData, userUid, classname } = useContext(DemoStudentDataContext) 
+    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext) 
     
     const getSelectedStudent = async (e) => {
         try {
           const studentName = e.target.name
           
           // Update demoStudentData with the new selected status for the student in demoClass
-          const updatedStudentData = demoStudentData.map((student) => {
+          const updatedStudentData = studentData.map((student) => {
             if (student.name === studentName) {
               return {
                 ...student,
@@ -25,11 +25,11 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
           })
       
           // Set the updated student data to the state
-          setDemoStudentData(updatedStudentData)
+          setStudentData(updatedStudentData)
       
-          if (userUid && classname) {
+          if (userUid && userClassName) {
             // User is in their own class context (Firebase)
-            const classCollectionRef = collection(db, 'users', userUid, classname)
+            const classCollectionRef = collection(db, 'users', userUid, userClassName)
             const classDocumentRef = doc(classCollectionRef, userUid)
       
             // Update the Firestore document with the updated studentData (// Update studentData tableData property with the new selected status for the student in users class)
@@ -45,7 +45,7 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
       const handleAddTableSubmit = async (e) => {
         e.preventDefault()
         const tableName = e.target.tableName.value
-        const existingTable = demoStudentData.find((student) => student.tableData.tableName === tableName)
+        const existingTable = studentData.find((student) => student.tableData.tableName === tableName)
       
         if (existingTable) {
           alert("A table with this name already exists!")
@@ -54,19 +54,19 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
         }
       
         // Update demoStudentData tableData locally in demoClass context
-        const updatedStudentData = demoStudentData.map((student) => {
+        const updatedStudentData = studentData.map((student) => {
           if (student.tableData.selected) {
             return { ...student, tableData: { tableName: tableName, isOnTable: true, selected: false } }
           }
           return student
         })
       
-        setDemoStudentData(updatedStudentData)
+        setStudentData(updatedStudentData)
       
-        if (userUid && classname) {
+        if (userUid && userClassName) {
           try {
             // User is in their own class context (Firebase)
-            const classCollectionRef = collection(db, "users", userUid, classname)
+            const classCollectionRef = collection(db, "users", userUid, userClassName)
             const classDocumentRef = doc(classCollectionRef, userUid)
       
             // Update the Firestore document with the updated studentData
@@ -108,7 +108,7 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
                             <input className="w-full sm:w-[400px] rounded-lg p-2 outline-inputOutlineClr" type="text" id="tableName" name="tableName" required />
                         </div>
                         <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-4 items-center py-4">
-                            {demoStudentData.map((student) => (
+                            {studentData.map((student) => (
                                 <div key={student.uuid} className="flex flex-col items-center gap-2">
                                     <input 
                                         onChange={getSelectedStudent} 
@@ -143,7 +143,7 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
                                 type="submit"
                                 className="w-full sm:w-32 bg-buttonClr p-3 rounded-lg text-primaryTextClr hover:scale-105 duration-300 disabled:bg-gray-400 disabled:hover:scale-100 disabled:duration-0" 
                                 aria-label="Submit add student form"
-                                disabled={!demoStudentData.some((student) => student.tableData.selected)}
+                                disabled={!studentData.some((student) => student.tableData.selected)}
                             >
                                 Add Table
                             </button>

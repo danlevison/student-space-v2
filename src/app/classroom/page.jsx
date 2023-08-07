@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth, db } from '../../utils/firebase'
 import { doc, getDoc, collection, setDoc } from 'firebase/firestore'
-import DemoStudentDataContext from "../../DemoStudentDataContext"
+import StudentDataContext from "@/StudentDataContext"
 import Options from "@/components/democlass/options/Options"
 import CurrentDate from "@/components/democlass/DateComponent"
 import StudentGrid from "@/components/democlass/student/StudentGrid"
@@ -25,7 +25,7 @@ const Classroom = () => {
   const router = useRouter()
   const [toolbarMenu, setToolbarMenu] = useState(false)
   const [showTableGrid, setShowTableGrid] = useState(false)
-  const { classname, setClassname, setUserUid } = useContext(DemoStudentDataContext)
+  const { setUserClassName, setUserUid } = useContext(StudentDataContext)
 
   // Fetches the classname data from the Firestore db
   useEffect(() => {
@@ -37,7 +37,7 @@ const Classroom = () => {
         const docSnap = await getDoc(docRef)
         if (docSnap.exists()) {
           const data = docSnap.data()
-          setClassname(data.className || '')
+          setUserClassName(data.className || '')
 
           // If the user has a className, create the class subcollection with the name the user chose for their class
           if (data.className) {
