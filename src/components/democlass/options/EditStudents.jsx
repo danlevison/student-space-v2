@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import StudentDataContext from "@/StudentDataContext"
 import { doc, collection, updateDoc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
@@ -10,8 +10,14 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
     const [selectedStudent, setSelectedStudent] = useState({
         name: ''
       })
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState("")
 
-    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)  
+    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)
+    
+    useEffect(() => {
+      setAlert(false)
+    }, [openStudentInfo])
 
     const handleStudentModal = (student) => {
         setSelectedStudent(student)
@@ -29,19 +35,21 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
           try {
             e.preventDefault()
             const updatedName = e.target.name.value
+            const updatedCapitalisedName = updatedName.charAt(0).toUpperCase() + updatedName.slice(1)
         
-            const existingStudent = studentData.find((student) => student.name === updatedName)
+            const existingStudent = studentData.find((student) => student.name === updatedCapitalisedName)
         
             if (existingStudent) {
-              alert("A student with this name already exists!")
-              e.target.name.value = updatedName
+              setAlert(true)
+              setAlertMessage("A student with this name already exists!")
+              e.target.name.value = updatedCapitalisedName
               return
             }
-        
+
             // Update the student name in the demoClass
             const updatedStudentData = studentData.map((student) => {
               if (student.uuid === selectedStudent.uuid) {
-                return { ...student, name: updatedName }
+                return { ...student, name: updatedCapitalisedName }
               }
               return student
             })
@@ -143,7 +151,7 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
         
                 {/* Full-screen container to center the panel */}
                 <div className="fixed inset-0 flex items-center justify-center p-4">
-                    <Dialog.Panel className="flex flex-col justify-between p-5 w-[80%] max-w-[500px] h-[260px] md:h-[200px] rounded-xl bg-modalBgClr">
+                    <Dialog.Panel className="flex flex-col justify-between p-5 w-[80%] max-w-[500px] h-[260px] md:h-[210px] rounded-xl bg-modalBgClr">
                     <div className="flex justify-between items-center">
                         <Dialog.Title className="font-bold text-xl">{selectedStudent.name}</Dialog.Title>
                         <button onClick={() => setOpenStudentInfo(false)}>
@@ -154,10 +162,11 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
                         </button>
                     </div>
                     <form onSubmit={handleStudentInfoSubmit} className="flex flex-col py-4">
-                        <label htmlFor="name">First name</label>
+                      {alert ? <p className="font-bold text-red-500 pb-1">{alertMessage}</p> : <label htmlFor="name" className="pb-1">First name</label> }
                         {selectedStudent && (
                             <input
-                                className="w-full rounded-lg p-2 outline-inputOutlineClr"
+                                className={alert ? "border-2 border-red-500 w-full rounded-lg p-2 outline-none" : "border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr"}
+                                type="text"
                                 id="name"
                                 name="name"
                                 required

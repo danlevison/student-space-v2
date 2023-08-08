@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import Image from "next/image"
 import StudentDataContext from "@/StudentDataContext"
 import { collection, updateDoc, doc } from 'firebase/firestore'
@@ -11,7 +11,14 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
     const [openTableInfo, setOpenTableInfo] = useState(false)
     const [selectedTableName, setSelectedTableName] = useState(null)
     const [updatedTableName, setUpdatedTableName] = useState("")
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState("")
 
+    useEffect(() => {
+      setAlert(false)
+      setAlertMessage("")
+    },[openTableInfo])
+    
     // Collect unique table names using a Set
     const tableNamesSet = new Set()
     studentData.forEach((student) => {
@@ -31,15 +38,31 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
     const updateTableName = (e) => {
       setUpdatedTableName(e.target.value)
     }
-    
 
     const handleTableInfoSubmit = async (e) => {
       e.preventDefault()
       try {
-        // Update demoStudentData tableData to show updatedTableName in demoClass
+        // If updatedTableName is empty, use the selectedTableName
+        const tableName = updatedTableName || selectedTableName
+
+        // Only check for an existing table name if updatedTableName is not empty
+        if (updatedTableName) {
+          const existingTableName = studentData.find(
+            (student) => student.tableData?.tableName === tableName
+          )
+
+          if (existingTableName) {
+            setAlert(true)
+            setAlertMessage("A table with this name already exists!")
+            setUpdatedTableName("")
+            return
+          }
+        }
+
+        // Update studentData tableData to show updatedTableName in demoClass
         const updatedStudentData = studentData.map((student) => {
           if (student.tableData?.tableName === selectedTableName) {
-            return {...student, tableData: {...student.tableData, tableName: updatedTableName} }
+            return {...student, tableData: {...student.tableData, tableName: tableName} }
           }
           return student
         })
@@ -62,7 +85,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
       }
 
       setOpenTableInfo(false)
-      setSelectedTableName(updatedTableName)
+      setSelectedTableName(updatedTableName || selectedTableName)
     }
 
     const uncheckStudent = (selectedStudent) => {
@@ -173,12 +196,11 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                         </button>
                     </div>
                     <form onSubmit={handleTableInfoSubmit} className="flex flex-col py-4">
-                        <label htmlFor="tableName">Table name</label>
+                        {alert ? <p className="font-bold text-red-500 pb-1">{alertMessage}</p> : <label htmlFor="tableName" className="pb-1">Table name</label>}
                         <input
-                          className="w-full rounded-lg p-2 outline-inputOutlineClr"
+                          className={alert ? "border-2 border-red-500 w-full rounded-lg p-2 outline-none" : "border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr"}
                           id="tableName"
                           name="tableName"
-                          required
                           placeholder={selectedTableName}
                           onChange={updateTableName}
                         />

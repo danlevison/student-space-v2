@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import StudentDataContext from "@/StudentDataContext"
 import { collection, updateDoc, doc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
@@ -8,23 +8,26 @@ import defaultAvatar from "../../../../public/assets/avatars/user.svg"
 
 const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen }) => {
 
-    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext) 
+    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState("") 
     
     const handleAddStudentSubmit = async (e) => {
       e.preventDefault()
       const name = e.target.name.value
+      const capitalisedName = name.charAt(0).toUpperCase() + name.slice(1)
       const dob = e.target.dob.value
       const uuid = crypto.randomUUID()
-      const existingStudent = studentData.find((student) => student.name === name)
+      const existingStudent = studentData.find((student) => student.name === capitalisedName)
         
       if (existingStudent) {
-        alert("A student with this name already exists!")
-        e.target.reset()
+        setAlert(true)
+        setAlertMessage("A student with this name already exists!")
         return
       }
     
       const newStudent = {
-        name: name,
+        name: capitalisedName,
         dob: dob,
         points: 0,
         avatar: defaultAvatar,
@@ -52,6 +55,7 @@ const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen }) => {
       }
     
       e.target.reset() // Reset the form fields
+      setAlert(false)
     }
 
   return (
@@ -75,8 +79,14 @@ const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen }) => {
                         </button>
                     </div>
                     <form onSubmit={handleAddStudentSubmit} className="flex flex-col py-4">
-                        <label htmlFor="name">First name</label>
-                        <input className="w-full rounded-lg p-2 outline-inputOutlineClr" type="text" id="name" name="name" required />
+                        {alert ? <p className="font-bold text-red-500 pb-1">{alertMessage}</p> : <label htmlFor="name" className="pb-1">First name</label> }
+                        <input 
+                          className={alert ? "border-2 border-red-500 w-full rounded-lg p-2 outline-none" : "border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr"}
+                          type="text" 
+                          id="name" 
+                          name="name" 
+                          required 
+                        />
 
                         <div className="flex items-center gap-2 pt-4 relative">
                           <label htmlFor="dob">Date of birth</label>

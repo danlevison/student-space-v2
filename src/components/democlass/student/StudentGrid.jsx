@@ -143,7 +143,7 @@ const StudentGrid = () => {
             <div className="grid grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-4 items-center px-10">
                 {studentData.map((student) => (
                     <div key={student.uuid} className="relative flex flex-col justify-center items-center p-8 shadow-lg rounded-md bg-[#f5f5f5]">
-                      <p className="font-bold tracking-wide">{student.name}</p>
+                      <p className="font-bold tracking-wide text-center">{student.name}</p>
                       <p className="text-center text-primaryTextClr w-[50px] p-2 bg-iconClr rounded-lg mx-auto my-1">{student.points}</p>
                       <button onClick={() => handlePointClick(student.uuid)}>
                           <FaAward size={30} className="absolute top-2 right-1 text-iconClr hover:text-yellow-500 hover:scale-110 duration-300 ease-in"/>
