@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import StudentDataContext from "@/StudentDataContext"
 import { collection, updateDoc, doc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
@@ -7,13 +7,15 @@ import { AiOutlineClose } from "react-icons/ai"
 import Image from "next/image"
 
 const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
-    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext) 
+    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState("")  
     
     const getSelectedStudent = async (e) => {
         try {
           const studentName = e.target.name
           
-          // Update demoStudentData with the new selected status for the student in demoClass
+          // Update studentData with the new selected status for the student in demoClass
           const updatedStudentData = studentData.map((student) => {
             if (student.name === studentName) {
               return {
@@ -48,8 +50,8 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
         const existingTable = studentData.find((student) => student.tableData.tableName === tableName)
       
         if (existingTable) {
-          alert("A table with this name already exists!")
-          e.target.reset()
+          setAlert(true)
+          setAlertMessage("A table with this name already exists!")
           return
         }
       
@@ -104,8 +106,14 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
                     </div>
                     <form onSubmit={handleAddTableSubmit} className="flex flex-col py-4">
                         <div className="flex flex-col items-center">
-                            <label htmlFor="tableName" className="font-bold text-xl">Table name</label>
-                            <input className="w-full sm:w-[400px] rounded-lg p-2 outline-inputOutlineClr" type="text" id="tableName" name="tableName" required />
+                            {alert ? <p className="font-bold text-xl text-red-500 pb-1">{alertMessage}</p> : <label htmlFor="tableName" className="font-bold text-xl pb-1">Table name</label>}
+                            <input 
+                              className={alert ? "w-full sm:w-[400px] border-2 border-red-500 rounded-lg p-2 outline-none" : "w-full sm:w-[400px] border-2 border-gray-400 rounded-lg p-2 outline-inputOutlineClr"} 
+                              type="text" 
+                              id="tableName" 
+                              name="tableName" 
+                              required 
+                            />
                         </div>
                         <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-4 items-center py-4">
                             {studentData.map((student) => (
@@ -121,7 +129,7 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
                                     />
                                     <label 
                                         htmlFor={student.name} 
-                                        className="flex flex-col items-center w-28 cursor-pointer bg-white p-4 shadow-lg rounded-xl peer-disabled:bg-gray-200 peer-checked:bg-green-200 peer-hover:scale-105 duration-300 select-none"
+                                        className="flex flex-col items-center w-28 cursor-pointer text-center bg-white p-4 shadow-lg rounded-xl peer-disabled:bg-gray-200 peer-checked:bg-green-200 peer-hover:scale-105 duration-300 select-none"
                                     >
                                         <Image src={student.avatar} alt="/" width={30} height={30} className="select-none"/>
                                         <span className="font-bold mt-1 text-lg">{student.name}</span>
