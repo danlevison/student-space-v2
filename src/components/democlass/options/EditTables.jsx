@@ -36,12 +36,15 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
     }
 
     const updateTableName = (e) => {
-      setUpdatedTableName(e.target.value)
+      const newTableName = e.target.value
+      const capitalisedNewTableName = newTableName.charAt(0).toUpperCase() + newTableName.slice(1)
+      setUpdatedTableName(capitalisedNewTableName)
     }
 
     const handleTableInfoSubmit = async (e) => {
       e.preventDefault()
       try {
+
         // If updatedTableName is empty, use the selectedTableName
         const tableName = updatedTableName || selectedTableName
 
@@ -84,7 +87,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
         console.error('Error updating student information:', error)
       }
 
-      setOpenTableInfo(false)
+      alert ? setOpenTableInfo(true) : setOpenTableInfo(false)
       setSelectedTableName(updatedTableName || selectedTableName)
     }
 
@@ -142,7 +145,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
       
             {/* Full-screen container to center the panel */}
             <div className="fixed inset-0 flex items-center justify-center p-4">
-              <Dialog.Panel className="p-5 w-[80%] max-w-[500px] h-[365px] rounded-xl bg-modalBgClr">
+              <Dialog.Panel className="p-5 w-full max-w-[500px] h-[365px] rounded-xl bg-modalBgClr">
                 <div className="flex justify-between items-center">
                   <Dialog.Title className="font-bold text-xl">Edit Tables</Dialog.Title>
                   <button onClick={() => setIsEditTablesModalOpen(false)}>
@@ -163,7 +166,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                       <button
                         key={tableName}
                         onClick={() => handleTableModal(tableName)}
-                        className="block w-full bg-gray-100 hover:bg-gray-400 border-b border-gray-400 py-2"
+                        className="block w-full bg-gray-100 hover:bg-gray-400 border border-gray-400 py-4"
                       >
                         {tableName}
                       </button>
@@ -185,8 +188,8 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
         
                 {/* Full-screen container to center the panel */}
                 <div className="fixed inset-0 flex items-center justify-center p-4">
-                    <Dialog.Panel className="flex flex-col p-5 w-full sm:w-[80%] sm:max-w-[800px] h-full sm:h-auto overflow-auto rounded-xl bg-modalBgClr">
-                    <div className="flex justify-between items-center">
+                    <Dialog.Panel className="flex flex-col p-5 w-full max-w-[1200px] h-full sm:h-auto overflow-auto rounded-xl bg-modalBgClr">
+                    <div className="flex justify-between items-center pb-2">
                         <Dialog.Title className="font-bold text-xl">{selectedTableName}</Dialog.Title>
                         <button onClick={() => setOpenTableInfo(false)}>
                         <AiOutlineClose
@@ -195,7 +198,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                         />
                         </button>
                     </div>
-                    <form onSubmit={handleTableInfoSubmit} className="flex flex-col py-4">
+                    <form onSubmit={handleTableInfoSubmit} className="flex flex-col">
                         {alert ? <p className="font-bold text-red-500 pb-1">{alertMessage}</p> : <label htmlFor="tableName" className="pb-1">Table name</label>}
                         <input
                           className={alert ? "border-2 border-red-500 w-full rounded-lg p-2 outline-none" : "border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr"}
@@ -203,6 +206,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                           name="tableName"
                           placeholder={selectedTableName}
                           onChange={updateTableName}
+                          type="text"
                         />
                         
                         <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-4 items-center py-4">
@@ -218,7 +222,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                                 />
                                 <label
                                   htmlFor={student.name}
-                                  className="select-none flex flex-col items-center w-28 cursor-pointer bg-white p-4 shadow-lg rounded-xl peer-checked:bg-green-200 peer-hover:scale-105 duration-300"
+                                  className="text-center select-none flex flex-col items-center w-28 cursor-pointer bg-white p-4 shadow-lg rounded-xl peer-checked:bg-green-200 peer-hover:scale-105 duration-300"
                                 >
                                   <Image src={student.avatar} alt="/" width={30} height={30} className="select-none"/>
                                   <span className="font-bold mt-1 text-lg">{student.name}</span>
@@ -227,10 +231,26 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                             ))}
                         </div>
                         <div className="flex flex-col md:flex-row items-center mt-5">
-                            <button onClick={deleteTable} type="button" className="md:mr-auto bg-red-500 hover:bg-red-700 rounded-2xl p-2 text-sm text-primaryTextClr font-bold">Delete table</button>
+                            <button 
+                              onClick={deleteTable} 
+                              type="button" 
+                              className="md:mr-auto bg-red-500 hover:bg-red-700 rounded-2xl py-2 px-3 text-primaryTextClr font-bold"
+                              >
+                                Delete table
+                              </button>
                             <div className="flex items-center justify-center gap-2 mt-3 md:mt-0">
-                                <button onClick={() => setOpenTableInfo(false)} type="button" className="bg-modalBgClr hover:bg-white rounded-2xl p-2 text-buttonClr font-bold text-sm">Cancel</button>
-                                <button className="text-sm font-bold bg-white hover:bg-green-200 rounded-2xl py-2 px-3">Save</button>
+                                <button 
+                                  onClick={() => setOpenTableInfo(false)} 
+                                  type="button" 
+                                  className="bg-modalBgClr hover:bg-white rounded-2xl py-2 px-3 text-buttonClr font-bold"
+                                >
+                                  Cancel
+                                </button>
+                                <button 
+                                  className="font-bold bg-white hover:bg-green-200 rounded-2xl py-2 px-3 disabled:bg-gray-400"
+                                >
+                                  Save
+                                </button>
                             </div>
                         </div>
                     </form>

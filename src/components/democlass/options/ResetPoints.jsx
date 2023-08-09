@@ -6,7 +6,7 @@ import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from "react-icons/ai"
 
 const ResetPoints = ({ openResetPointsModal, setOpenResetPointsModal }) => {
-    const { studentData, setStudentData, setDemoTableData, userUid, userClassName } = useContext(StudentDataContext)  
+    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)  
 
     const resetStudentPoints = async () => {
         try {
@@ -27,6 +27,7 @@ const ResetPoints = ({ openResetPointsModal, setOpenResetPointsModal }) => {
                     studentData: updatedStudentData
                 })
               }
+
             setOpenResetPointsModal(false)
 
             } catch (error) {
@@ -34,13 +35,31 @@ const ResetPoints = ({ openResetPointsModal, setOpenResetPointsModal }) => {
             }
     }
 
-    const resetTablePoints = () => {
-        setDemoTableData((prevTableData) => {
-            return prevTableData.map((table) => {
-                return {...table, points: 0}
+    const resetTablePoints = async () => {
+        try {
+            // Reset the table points in the demoClass
+            const updatedStudentData = studentData.map((student) => {
+                return {...student, tableData: {...student.tableData, tablePoints: 0}}
             })
-        })
-        setOpenResetPointsModal(false)
+
+            setStudentData(updatedStudentData)
+
+            if(userUid && userClassName) {
+                // User is in their own class context (Firebase)
+                const classCollectionRef = collection(db, "users", userUid, userClassName)
+                const classDocumentRef = doc(classCollectionRef, userUid)
+
+                // Update the Firestore document with the updated studentData (Resets table points in users class)
+                await updateDoc(classDocumentRef, {
+                    studentData: updatedStudentData
+                })
+              }
+
+              setOpenResetPointsModal(false) 
+
+        } catch (error) {
+            console.error('Error resetting table points:', error)
+        }
     }
 
   return (

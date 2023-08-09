@@ -9,7 +9,7 @@ import { RiAddLine } from "react-icons/ri"
 import pointsSound from "../../../../public/audio/points.mp3"
 
 const TableGrid = () => {
-    const { studentData, setStudentData, userUid, classname } = useContext(StudentDataContext)
+    const { studentData, setStudentData, userUid, userClassName} = useContext(StudentDataContext)
     const [isAddTableModalOpen, setIsAddTableModalOpen] = useState(false)
 
     const handleAddTableModal = () => {
@@ -50,9 +50,9 @@ const TableGrid = () => {
         // Set the updated student data to the state
         setStudentData(updatedStudentData)
 
-        if (userUid && classname) {
+        if (userUid && userClassName) {
           // User is in their own class context (Firebase)
-          const classCollectionRef = collection(db, 'users', userUid, classname)
+          const classCollectionRef = collection(db, 'users', userUid, userClassName)
           const classDocumentRef = doc(classCollectionRef, userUid)
     
           // Update the Firestore document with the updated studentData (update tablePoints in users class)
@@ -112,7 +112,7 @@ const TableGrid = () => {
 
               <button 
                 onClick={handleAddTableModal} 
-                className="flex flex-col justify-center items-center h-[250px] shadow-lg rounded-md bg-[#f5f5f5] hover:scale-105 duration-300">
+                className="flex flex-col justify-center items-center h-[252px] shadow-lg rounded-md bg-[#f5f5f5] hover:scale-[1.025] duration-300">
                   <p className="text-xl font-bold">Add Table</p>
                   <RiAddLine size={40} />
               </button>
