@@ -95,7 +95,7 @@ const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen }) => {
                             We use DOB to display students birthdays
                           </span>
                         </div>
-                        <input className="w-full rounded-lg p-2 outline-inputOutlineClr" type="date" id="dob" name="dob" required />
+                        <input className="border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr" type="date" id="dob" name="dob" required />
                     
                         <button className="bg-buttonClr p-3 mt-4 rounded-lg text-primaryTextClr w-full hover:scale-105 duration-300" type="submit" aria-label="Submit add student form">Add Student</button>
                     </form>

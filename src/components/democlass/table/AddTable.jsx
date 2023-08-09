@@ -47,7 +47,8 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
       const handleAddTableSubmit = async (e) => {
         e.preventDefault()
         const tableName = e.target.tableName.value
-        const existingTable = studentData.find((student) => student.tableData.tableName === tableName)
+        const capitalisedTableName = tableName.charAt(0).toUpperCase() + tableName.slice(1)
+        const existingTable = studentData.find((student) => student.tableData.tableName === capitalisedTableName)
       
         if (existingTable) {
           setAlert(true)
@@ -58,7 +59,7 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
         // Update demoStudentData tableData locally in demoClass context
         const updatedStudentData = studentData.map((student) => {
           if (student.tableData.selected) {
-            return { ...student, tableData: { tableName: tableName, isOnTable: true, selected: false } }
+            return { ...student, tableData: {...student.tableData, tableName: capitalisedTableName, isOnTable: true, selected: false } }
           }
           return student
         })
@@ -97,7 +98,7 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
             {/* Full-screen container to center the panel */}
             <div className="fixed inset-0 flex items-center justify-center p-4">
                 
-                <Dialog.Panel className="p-5 w-full sm:w-[80%] h-full 2xl:h-auto overflow-auto rounded-xl bg-blue-100">
+                <Dialog.Panel className="p-5 w-full max-w-[1200px] h-full 2xl:h-auto overflow-auto rounded-xl bg-blue-100">
                     <div className="flex justify-between items-center">
                         <Dialog.Title className="font-bold text-xl">Add Table</Dialog.Title>
                         <button onClick={() => setIsAddTableModalOpen(false)}>
@@ -142,14 +143,14 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
                             <button 
                                 onClick={() => setIsAddTableModalOpen(false)} 
                                 type="button" 
-                                className="w-full sm:w-32 bg-buttonClr p-3 rounded-lg text-primaryTextClr hover:scale-105 duration-300" 
+                                className="w-full text-sm sm:text-base sm:w-32 bg-buttonClr p-3 rounded-lg text-primaryTextClr hover:scale-105 duration-300" 
                                 aria-label="Cancel"
                             >
                                 Cancel
                             </button>
                             <button 
                                 type="submit"
-                                className="w-full sm:w-32 bg-buttonClr p-3 rounded-lg text-primaryTextClr hover:scale-105 duration-300 disabled:bg-gray-400 disabled:hover:scale-100 disabled:duration-0" 
+                                className="w-full text-sm sm:text-base sm:w-32 bg-buttonClr p-3 rounded-lg text-primaryTextClr hover:scale-105 duration-300 disabled:bg-gray-400 disabled:hover:scale-100 disabled:duration-0" 
                                 aria-label="Submit add student form"
                                 disabled={!studentData.some((student) => student.tableData.selected)}
                             >

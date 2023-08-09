@@ -167,7 +167,7 @@ const StudentGrid = () => {
                       </button>
                     </div>
                 ))}
-                <button onClick={handleAddStudentModal} className="flex flex-col justify-center items-center max-w-[210px] p-[2.40rem] shadow-lg rounded-md bg-[#f5f5f5] hover:scale-105 duration-300">
+                <button onClick={handleAddStudentModal} className="flex flex-col justify-center items-center max-w-[435px] p-[2.40rem] shadow-lg rounded-md bg-[#f5f5f5] hover:scale-105 duration-300">
                     <p className="text-lg font-bold">Add student</p>
                     <RiAddLine size={30} />
                 </button>

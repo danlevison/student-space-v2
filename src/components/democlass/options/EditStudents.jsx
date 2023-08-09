@@ -8,7 +8,8 @@ import { AiOutlineClose } from "react-icons/ai"
 const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) => {
     const [openStudentInfo, setOpenStudentInfo] = useState(false) 
     const [selectedStudent, setSelectedStudent] = useState({
-        name: ''
+        name: "",
+        dob: ""
       })
     const [alert, setAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
@@ -20,8 +21,18 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
     }, [openStudentInfo])
 
     const handleStudentModal = (student) => {
-        setSelectedStudent(student)
-        setOpenStudentInfo(true)
+      // Format the student's dob to "yyyy-MM-dd"
+      const formattedDob = (() => {
+        const dobDate = new Date(student.dob)
+        return `${dobDate.getFullYear()}-${(dobDate.getMonth() + 1).toString().padStart(2, '0')}-${dobDate.getDate().toString().padStart(2, '0')}`
+      })()
+    
+      setSelectedStudent({
+        ...student,
+        dob: formattedDob
+      })
+    
+      setOpenStudentInfo(true)
     }
 
     const updateStudentName = (e) => {
@@ -29,73 +40,81 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
             ...prevSelectedStudent,
             name: e.target.value
           }))
+    }
+
+    const updateStudentDob = (e) => {
+      setSelectedStudent((prevSelectedStudent) => ({
+        ...prevSelectedStudent,
+        dob: e.target.value
+      }))
+    }
+
+    const handleStudentInfoSubmit = async (e) => {
+      try {
+        e.preventDefault()
+        const updatedName = e.target.name.value
+        const updatedCapitalisedName = updatedName.charAt(0).toUpperCase() + updatedName.slice(1)
+        const updatedDob = e.target.dob.value 
+
+        const existingStudent = studentData.find((student) => student.name === updatedCapitalisedName)
+        
+        if (existingStudent && existingStudent.uuid !== selectedStudent.uuid) {
+          setAlert(true)
+          setAlertMessage("A student with this name already exists!")
+          e.target.name.value = updatedCapitalisedName
+          return
         }
 
-        const handleStudentInfoSubmit = async (e) => {
-          try {
-            e.preventDefault()
-            const updatedName = e.target.name.value
-            const updatedCapitalisedName = updatedName.charAt(0).toUpperCase() + updatedName.slice(1)
-        
-            const existingStudent = studentData.find((student) => student.name === updatedCapitalisedName)
-        
-            if (existingStudent) {
-              setAlert(true)
-              setAlertMessage("A student with this name already exists!")
-              e.target.name.value = updatedCapitalisedName
-              return
-            }
-
-            // Update the student name in the demoClass
-            const updatedStudentData = studentData.map((student) => {
-              if (student.uuid === selectedStudent.uuid) {
-                return { ...student, name: updatedCapitalisedName }
-              }
-              return student
-            })
+        // Update the student name and dob in the demoClass
+        const updatedStudentData = studentData.map((student) => {
+          if (student.uuid === selectedStudent.uuid) {
+            return { ...student, name: updatedCapitalisedName, dob: updatedDob }
+          }
+          return student
+        })
       
-            setStudentData(updatedStudentData) // Update the local state with the updated student data
+        setStudentData(updatedStudentData) // Update the local state with the updated student data
         
-            if (userUid && userClassName) {
-              // User is in their own class context (Firebase)
-              const classCollectionRef = collection(db, 'users', userUid, userClassName)
-              const classDocumentRef = doc(classCollectionRef, userUid)
+        if (userUid && userClassName) {
+          // User is in their own class context (Firebase)
+          const classCollectionRef = collection(db, 'users', userUid, userClassName)
+          const classDocumentRef = doc(classCollectionRef, userUid)
         
-              // Update the Firestore document with the updated studentData (Updates student name in users class)
-              await updateDoc(classDocumentRef, {
-                studentData: updatedStudentData,
-              })
-            }
-        
-            setOpenStudentInfo(false)
-          } catch (error) {
-            console.error('Error updating student information:', error)
-          }
+          // Update the Firestore document with the updated studentData (Updates student name in users class)
+          await updateDoc(classDocumentRef, {
+            studentData: updatedStudentData,
+          })
         }
+        
+        setOpenStudentInfo(false)
+        } catch (error) {
+            console.error('Error updating student information:', error)
+        }
+    }
 
-          const removeStudent = async () => {
-            try {
-              // Filter out the student with the same UUID as the selectedStudent
-              const updatedDemoStudentData = studentData.filter((student) => student.uuid !== selectedStudent.uuid)
-              // Removes student from demoClass
-              setStudentData(updatedDemoStudentData)
+    const removeStudent = async () => {
+      try {
+          // Filter out the student with the same UUID as the selectedStudent
+          const updatedDemoStudentData = studentData.filter((student) => student.uuid !== selectedStudent.uuid)
+          // Removes student from demoClass
+          setStudentData(updatedDemoStudentData)
           
-              if (userUid && userClassName) {
-                // User is in their own class context (Firebase)
-                const classCollectionRef = collection(db, 'users', userUid, userClassName)
-                const classDocumentRef = doc(classCollectionRef, userUid)
+          if (userUid && userClassName) {
+          // User is in their own class context (Firebase)
+            const classCollectionRef = collection(db, 'users', userUid, userClassName)
+            const classDocumentRef = doc(classCollectionRef, userUid)
           
-                // Update the Firestore document with the updated studentData (Removes student from users class)
-                await updateDoc(classDocumentRef, {
-                  studentData: updatedDemoStudentData,
-                })
-              }
-          
-              setOpenStudentInfo(false)
-            } catch (error) {
-              console.error('Error removing student:', error)
-            }
+            // Update the Firestore document with the updated studentData (Removes student from users class)
+            await updateDoc(classDocumentRef, {
+              studentData: updatedDemoStudentData,
+            })
           }
+          
+          setOpenStudentInfo(false)
+          } catch (error) {
+            console.error('Error removing student:', error)
+          }
+      }
 
     return (
         <>
@@ -109,7 +128,7 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
       
             {/* Full-screen container to center the panel */}
             <div className="fixed inset-0 flex items-center justify-center p-4">
-              <Dialog.Panel className="p-5 w-[80%] max-w-[500px] h-[365px] rounded-xl bg-modalBgClr">
+              <Dialog.Panel className="p-5 w-full max-w-[500px] h-[365px] rounded-xl bg-modalBgClr">
                 <div className="flex justify-between items-center">
                   <Dialog.Title className="font-bold text-xl">Edit Students</Dialog.Title>
                   <button onClick={() => setIsEditStudentsModalOpen(false)}>
@@ -151,8 +170,8 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
         
                 {/* Full-screen container to center the panel */}
                 <div className="fixed inset-0 flex items-center justify-center p-4">
-                    <Dialog.Panel className="flex flex-col justify-between p-5 w-[80%] max-w-[500px] h-[260px] md:h-[210px] rounded-xl bg-modalBgClr">
-                    <div className="flex justify-between items-center">
+                    <Dialog.Panel className="flex flex-col p-5 w-full max-w-[500px] h-auto rounded-xl bg-modalBgClr">
+                    <div className="flex justify-between items-center pb-2">
                         <Dialog.Title className="font-bold text-xl">{selectedStudent.name}</Dialog.Title>
                         <button onClick={() => setOpenStudentInfo(false)}>
                         <AiOutlineClose
@@ -161,19 +180,28 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
                         />
                         </button>
                     </div>
-                    <form onSubmit={handleStudentInfoSubmit} className="flex flex-col py-4">
+                    <form onSubmit={handleStudentInfoSubmit} className="flex flex-col">
                       {alert ? <p className="font-bold text-red-500 pb-1">{alertMessage}</p> : <label htmlFor="name" className="pb-1">First name</label> }
-                        {selectedStudent && (
-                            <input
-                                className={alert ? "border-2 border-red-500 w-full rounded-lg p-2 outline-none" : "border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr"}
-                                type="text"
-                                id="name"
-                                name="name"
-                                required
-                                value={selectedStudent.name}
-                                onChange={updateStudentName}
-                            />
-                            )}
+                        <input
+                          className={alert ? "border-2 border-red-500 w-full rounded-lg p-2 outline-none" : "border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr"}
+                          type="text"
+                          id="name"
+                          name="name"
+                          required
+                          value={selectedStudent.name}
+                          onChange={updateStudentName}
+                        />
+                        <label htmlFor="dob" className="pt-3">Date of birth</label>
+                        <input
+                          className="border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr" 
+                          type="date"
+                          id="dob"
+                          name="dob"
+                          required
+                          value={selectedStudent.dob}
+                          onChange={updateStudentDob}
+                        />
+                           
                         <div className="flex flex-col md:flex-row items-center mt-5">
                             <button onClick={removeStudent} type="button" className="md:mr-auto bg-red-500 hover:bg-red-700 rounded-2xl p-2 text-sm text-primaryTextClr font-bold">Remove student from class</button>
                             <div className="flex items-center justify-center gap-2 mt-3 md:mt-0">
