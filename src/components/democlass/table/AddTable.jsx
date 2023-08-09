@@ -46,8 +46,9 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
 
       const handleAddTableSubmit = async (e) => {
         e.preventDefault()
-        const tableName = e.target.tableName.value
+        const tableName = e.target.tableName.value.trim() // removes empty spaces 
         const capitalisedTableName = tableName.charAt(0).toUpperCase() + tableName.slice(1)
+        
         const existingTable = studentData.find((student) => student.tableData.tableName === capitalisedTableName)
       
         if (existingTable) {

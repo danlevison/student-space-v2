@@ -14,7 +14,7 @@ const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen }) => {
     
     const handleAddStudentSubmit = async (e) => {
       e.preventDefault()
-      const name = e.target.name.value
+      const name = e.target.name.value.trim() // removes empty spaces
       const capitalisedName = name.charAt(0).toUpperCase() + name.slice(1)
       const dob = e.target.dob.value
       const uuid = crypto.randomUUID()
