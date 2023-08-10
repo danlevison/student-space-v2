@@ -25,38 +25,40 @@ const Randomiser = ({ openRandomiser, setOpenRandomiser }) => {
 
   const handlePointClick = async () => {
     try {
-      // Increment the points in the studentData state
-      const updatedStudentData = studentData.map((student) => {
-        if (student.name === randomStudent.name) {
-          return { ...student, points: student.points + 1 }
-        }
-        return student
-      })
-
-      // Update the randomStudent state with the updated points
-      setRandomStudent((prevRandomStudent) => {
-        return { ...prevRandomStudent, points: prevRandomStudent.points + 1 }
-      })
-      
-      const pointsAudio = new Audio(pointsSound)
-      pointsAudio.volume = 0.2
-      pointsAudio.play()
-      
-      setStudentData(updatedStudentData)
-
-      // Update the points in the users firebase studentData and display in the users class
-      if (userUid && userClassName) {
-        const classCollectionRef = collection(db, 'users', userUid, userClassName)
-        const classDocumentRef = doc(classCollectionRef, userUid)
-    
-        await updateDoc(classDocumentRef, {
-          studentData: updatedStudentData,
+      if (randomStudent && randomStudent.name) {
+        // Increment the points in the studentData state
+        const updatedStudentData = studentData.map((student) => {
+          if (student.name === randomStudent.name) {
+            return { ...student, points: student.points + 1 }
+          }
+          return student
         })
+  
+        // Update the randomStudent state with the updated points
+        setRandomStudent((prevRandomStudent) => {
+          return { ...prevRandomStudent, points: prevRandomStudent.points + 1 }
+        })
+  
+        const pointsAudio = new Audio(pointsSound)
+        pointsAudio.volume = 0.2
+        pointsAudio.play()
+  
+        setStudentData(updatedStudentData);
+  
+        // Update the points in the users firebase studentData and display in the users class
+        if (userUid && userClassName) {
+          const classCollectionRef = collection(db, 'users', userUid, userClassName)
+          const classDocumentRef = doc(classCollectionRef, userUid)
+  
+          await updateDoc(classDocumentRef, {
+            studentData: updatedStudentData,
+          })
+        }
       }
     } catch (error) {
-        console.error('Error updating student points:', error)
+      console.error('Error updating student points:', error)
     }
-  } 
+  }
     
   return (
     <Dialog open={openRandomiser} onClose={() => setOpenRandomiser(false)} className="relative z-50">
@@ -77,25 +79,31 @@ const Randomiser = ({ openRandomiser, setOpenRandomiser }) => {
           </div>
 
           <div className="flex flex-col justify-center items-center gap-6 h-full">
-              <div key={randomStudent.uuid} className="relative flex flex-col justify-center items-center p-8 shadow-lg rounded-md bg-[#f5f5f5] w-[300px] lg:w-[400px] h-[250px]">
-                <p className="font-bold text-3xl tracking-wide">{randomStudent.name}</p>
-                <p className="text-center text-primaryTextClr text-2xl w-[60px] p-2 bg-iconClr rounded-lg mx-auto my-1">{randomStudent.points}</p>
-                <button 
-                  onClick={handlePointClick}
-                >
+            <div key={randomStudent?.uuid} className="relative flex flex-col justify-center items-center p-8 shadow-lg rounded-md bg-[#f5f5f5] w-[300px] lg:w-[400px] h-[250px]">
+              {randomStudent ? (
+                <>
+                  <p className="font-bold text-3xl tracking-wide">{randomStudent.name}</p>
+                  <p className="text-center text-primaryTextClr text-2xl w-[60px] p-2 bg-iconClr rounded-lg mx-auto my-1">{randomStudent.points}</p>
+                  <button 
+                    onClick={handlePointClick}
+                  >
                     <FaAward size={40} className="absolute top-2 right-1 text-iconClr hover:text-yellow-500 hover:scale-110 duration-300 ease-in"/>
-                </button>
-                <Image 
-                  src={randomStudent.avatar}
-                  alt="/"
-                  width={80}
-                  height={80}
-                  className="rounded-full absolute top-1 left-1"
-                  style={{
+                  </button>
+                  <Image 
+                    src={randomStudent.avatar}
+                    alt="/"
+                    width={80}
+                    height={80}
+                    className="rounded-full absolute top-1 left-1"
+                    style={{
                       objectFit: "cover"
-                  }}
+                    }}
                   />
-              </div>
+                </>
+              ) : (
+                <p>No random student available.</p>
+              )}
+            </div>
             <button onClick={getRandomStudent} className="pb-8">Choose again</button>
           </div>
         </Dialog.Panel>

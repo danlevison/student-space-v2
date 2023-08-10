@@ -52,7 +52,7 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
     const handleStudentInfoSubmit = async (e) => {
       try {
         e.preventDefault()
-        const updatedName = e.target.name.value
+        const updatedName = e.target.name.value.trim() // removes empty spaces
         const updatedCapitalisedName = updatedName.charAt(0).toUpperCase() + updatedName.slice(1)
         const updatedDob = e.target.dob.value 
 
@@ -205,8 +205,19 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
                         <div className="flex flex-col md:flex-row items-center mt-5">
                             <button onClick={removeStudent} type="button" className="md:mr-auto bg-red-500 hover:bg-red-700 rounded-2xl p-2 text-sm text-primaryTextClr font-bold">Remove student from class</button>
                             <div className="flex items-center justify-center gap-2 mt-3 md:mt-0">
-                                <button onClick={() => setOpenStudentInfo(false)} type="button" className="bg-modalBgClr hover:bg-white rounded-2xl p-2 text-buttonClr font-bold text-sm">Cancel</button>
-                                <button className="text-sm font-bold bg-white hover:bg-green-200 rounded-2xl py-2 px-3">Save</button>
+                                <button 
+                                  onClick={() => setOpenStudentInfo(false)} 
+                                  type="button" 
+                                  className="bg-modalBgClr hover:bg-white rounded-2xl p-2 text-buttonClr font-bold text-sm"
+                                >
+                                  Cancel
+                                </button>
+                                <button
+                                  disabled={!selectedStudent.name.trim()} 
+                                  className="text-sm font-bold bg-white hover:bg-green-200 rounded-2xl py-2 px-3 disabled:bg-gray-400 disabled:hover:bg-gray-400"
+                                >
+                                  Save
+                                </button>
                             </div>
                         </div>
                     </form>
