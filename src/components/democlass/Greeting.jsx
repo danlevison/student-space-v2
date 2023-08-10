@@ -14,7 +14,7 @@ const Greeting = () => {
             // if in users class include classname in greeting
             userUid && userClassName ? setGreeting(`Good Afternoon, ${userClassName}!`) : setGreeting("Good Afternoon!")
         }
-    }, [])
+    }, [userClassName])
     
   return (
     <h1 className="text-3xl md:text-4xl lg:text-6xl text-center">{greeting}</h1>

@@ -36,7 +36,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
     }
 
     const updateTableName = (e) => {
-      const newTableName = e.target.value
+      const newTableName = e.target.value.trim() // removes empty spaces
       const capitalisedNewTableName = newTableName.charAt(0).toUpperCase() + newTableName.slice(1)
       setUpdatedTableName(capitalisedNewTableName)
     }

@@ -9,8 +9,13 @@ import defaultAvatar from "../../../../public/assets/avatars/user.svg"
 const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen }) => {
 
     const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)
+    const [studentName, setStudentName] = useState("")
     const [alert, setAlert] = useState(false)
-    const [alertMessage, setAlertMessage] = useState("") 
+    const [alertMessage, setAlertMessage] = useState("")
+    
+    const handleInputChange = (e) => {
+      setStudentName(e.target.value.trim())
+    }
     
     const handleAddStudentSubmit = async (e) => {
       e.preventDefault()
@@ -80,7 +85,8 @@ const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen }) => {
                     </div>
                     <form onSubmit={handleAddStudentSubmit} className="flex flex-col py-4">
                         {alert ? <p className="font-bold text-red-500 pb-1">{alertMessage}</p> : <label htmlFor="name" className="pb-1">First name</label> }
-                        <input 
+                        <input
+                          onChange={handleInputChange}  
                           className={alert ? "border-2 border-red-500 w-full rounded-lg p-2 outline-none" : "border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr"}
                           type="text" 
                           id="name" 
@@ -95,9 +101,21 @@ const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen }) => {
                             We use DOB to display students birthdays
                           </span>
                         </div>
-                        <input className="border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr" type="date" id="dob" name="dob" required />
+                        <input
+                          className="border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr" 
+                          type="date" 
+                          id="dob" 
+                          name="dob" 
+                          required 
+                        />
                     
-                        <button className="bg-buttonClr p-3 mt-4 rounded-lg text-primaryTextClr w-full hover:scale-105 duration-300" type="submit" aria-label="Submit add student form">Add Student</button>
+                        <button 
+                          className="bg-buttonClr p-3 mt-4 rounded-lg text-primaryTextClr w-full hover:scale-105 duration-300 disabled:bg-gray-400 disabled:hover:scale-100 disabled:duration-0"
+                          disabled={!studentName} 
+                          aria-label="Submit add student form"
+                        >
+                          Add Student
+                        </button>
                     </form>
                 </Dialog.Panel>
             </div>
