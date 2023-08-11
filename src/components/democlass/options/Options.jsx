@@ -1,8 +1,6 @@
 import { Fragment, useState, useContext } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import StudentDataContext from "@/StudentDataContext"
-import { doc, collection, updateDoc } from 'firebase/firestore'
-import { db } from "../../../utils/firebase"
 import { AiFillCaretDown } from "react-icons/ai"
 import { CiEdit } from "react-icons/ci"
 import { RxReset } from "react-icons/rx"
@@ -184,8 +182,8 @@ const Options = () => {
         {isEditStudentsModalOpen && <EditStudents isEditStudentsModalOpen={isEditStudentsModalOpen} setIsEditStudentsModalOpen={setIsEditStudentsModalOpen} />}
         {/* Reset Points Modal */}
         {openResetPointsModal && <ResetPoints openResetPointsModal={openResetPointsModal} setOpenResetPointsModal={setOpenResetPointsModal} />}
-         {/* Edit Tables Modal */}
-         {isEditTablesModalOpen && <EditTables isEditTablesModalOpen={isEditTablesModalOpen} setIsEditTablesModalOpen={setIsEditTablesModalOpen} />}
+        {/* Edit Tables Modal */}
+        {isEditTablesModalOpen && <EditTables isEditTablesModalOpen={isEditTablesModalOpen} setIsEditTablesModalOpen={setIsEditTablesModalOpen} />}
     </div>
   )
 }

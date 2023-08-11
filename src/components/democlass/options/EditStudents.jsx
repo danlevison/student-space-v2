@@ -171,56 +171,56 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
                 {/* Full-screen container to center the panel */}
                 <div className="fixed inset-0 flex items-center justify-center p-4">
                     <Dialog.Panel className="flex flex-col p-5 w-full max-w-[500px] h-auto rounded-xl bg-modalBgClr">
-                    <div className="flex justify-between items-center pb-2">
-                        <Dialog.Title className="font-bold text-xl">{selectedStudent.name}</Dialog.Title>
-                        <button onClick={() => setOpenStudentInfo(false)}>
-                        <AiOutlineClose
-                            size={28}
-                            className="bg-white text-secondaryTextClr hover:bg-buttonClr rounded-full hover:text-primaryTextClr p-1"
-                        />
-                        </button>
-                    </div>
-                    <form onSubmit={handleStudentInfoSubmit} className="flex flex-col">
-                      {alert ? <p className="font-bold text-red-500 pb-1">{alertMessage}</p> : <label htmlFor="name" className="pb-1">First name</label> }
-                        <input
-                          className={alert ? "border-2 border-red-500 w-full rounded-lg p-2 outline-none" : "border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr"}
-                          type="text"
-                          id="name"
-                          name="name"
-                          required
-                          value={selectedStudent.name}
-                          onChange={updateStudentName}
-                        />
-                        <label htmlFor="dob" className="pt-3">Date of birth</label>
-                        <input
-                          className="border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr" 
-                          type="date"
-                          id="dob"
-                          name="dob"
-                          required
-                          value={selectedStudent.dob}
-                          onChange={updateStudentDob}
-                        />
-                           
-                        <div className="flex flex-col md:flex-row items-center mt-5">
-                            <button onClick={removeStudent} type="button" className="md:mr-auto bg-red-500 hover:bg-red-700 rounded-2xl p-2 text-sm text-primaryTextClr font-bold">Remove student from class</button>
-                            <div className="flex items-center justify-center gap-2 mt-3 md:mt-0">
-                                <button 
-                                  onClick={() => setOpenStudentInfo(false)} 
-                                  type="button" 
-                                  className="bg-modalBgClr hover:bg-white rounded-2xl p-2 text-buttonClr font-bold text-sm"
-                                >
-                                  Cancel
-                                </button>
-                                <button
-                                  disabled={!selectedStudent.name.trim()} 
-                                  className="text-sm font-bold bg-white hover:bg-green-200 rounded-2xl py-2 px-3 disabled:bg-gray-400 disabled:hover:bg-gray-400"
-                                >
-                                  Save
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                      <div className="flex justify-between items-center pb-2">
+                          <Dialog.Title className="font-bold text-xl">{selectedStudent.name}</Dialog.Title>
+                          <button onClick={() => setOpenStudentInfo(false)}>
+                          <AiOutlineClose
+                              size={28}
+                              className="bg-white text-secondaryTextClr hover:bg-buttonClr rounded-full hover:text-primaryTextClr p-1"
+                          />
+                          </button>
+                      </div>
+                      <form onSubmit={handleStudentInfoSubmit} className="flex flex-col">
+                        {alert ? <p className="font-bold text-red-500 pb-1">{alertMessage}</p> : <label htmlFor="name" className="pb-1">First name</label> }
+                          <input
+                            className={alert ? "border-2 border-red-500 w-full rounded-lg p-2 outline-none" : "border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr"}
+                            type="text"
+                            id="name"
+                            name="name"
+                            required
+                            value={selectedStudent.name}
+                            onChange={updateStudentName}
+                          />
+                          <label htmlFor="dob" className="pt-3">Date of birth</label>
+                          <input
+                            className="border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr" 
+                            type="date"
+                            id="dob"
+                            name="dob"
+                            required
+                            value={selectedStudent.dob}
+                            onChange={updateStudentDob}
+                          />
+                            
+                          <div className="flex flex-col md:flex-row items-center mt-5">
+                              <button onClick={removeStudent} type="button" className="md:mr-auto bg-red-500 hover:bg-red-700 rounded-2xl p-2 text-sm text-primaryTextClr font-bold">Remove student from class</button>
+                              <div className="flex items-center justify-center gap-2 mt-3 md:mt-0">
+                                  <button 
+                                    onClick={() => setOpenStudentInfo(false)} 
+                                    type="button" 
+                                    className="bg-modalBgClr hover:bg-white rounded-2xl p-2 text-buttonClr font-bold text-sm"
+                                  >
+                                    Cancel
+                                  </button>
+                                  <button
+                                    disabled={!selectedStudent.name.trim()} 
+                                    className="text-sm font-bold bg-white hover:bg-green-200 rounded-2xl py-2 px-3 disabled:bg-gray-400 disabled:hover:bg-gray-400"
+                                  >
+                                    Save
+                                  </button>
+                              </div>
+                          </div>
+                      </form>
                     </Dialog.Panel>
                 </div>
                 </Dialog>

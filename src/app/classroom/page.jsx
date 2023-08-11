@@ -37,12 +37,13 @@ const Classroom = () => {
         const docSnap = await getDoc(docRef)
         if (docSnap.exists()) {
           const data = docSnap.data()
-          setUserClassName(data.className || '')
+          // setUserClassName(data.className || '')
+          setUserClassName("users class" || "")
 
           // If the user has a className, create the class subcollection with the name the user chose for their class
           if (data.className) {
             // Set the document ID to the user's uid
-            const classDocumentRef = doc(collection(docRef, data.className), user.uid)
+            const classDocumentRef = doc(collection(docRef, "users class"), user.uid)
           
             // Check if the document already exists
             const docSnap = await getDoc(classDocumentRef)
