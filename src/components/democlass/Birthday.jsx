@@ -9,21 +9,33 @@ const Birthday = () => {
   const currentMonth = todayDate.getMonth() + 1
   const date = todayDate.getDate()
 
-  useEffect(() => {
-    const studentsWithSameBday = studentData.filter((student) => {
-      const birthday = new Date(student.dob.split('.').reverse())
-      const birthMonth = birthday.getMonth() + 1
-      const birthDate = birthday.getDate()
-      return currentMonth === birthMonth && date === birthDate
-    })
-    // if multiple students have the same bday, display all of their names
-    if (studentsWithSameBday.length > 0) {
-      const names = studentsWithSameBday.map((student) => student.name)
-      setBdayMessage(`Happy Birthday, ${names.join(' and ')}! 🎂`)
+  function formatNames(names) {
+    if (names.length === 0) {
+        return ''
+    } else if (names.length === 1) {
+        return names[0]
     } else {
-      setBdayMessage('')
+        const last = names.pop()
+        return names.join(', ') + ' and ' + last
     }
-  }, [studentData, currentMonth, date])
+}
+
+useEffect(() => {
+    const studentsWithSameBday = studentData.filter((student) => {
+        const birthday = new Date(student.dob.split('.').reverse())
+        const birthMonth = birthday.getMonth() + 1
+        const birthDate = birthday.getDate()
+        return currentMonth === birthMonth && date === birthDate
+    })
+
+    if (studentsWithSameBday.length > 0) {
+        const names = studentsWithSameBday.map((student) => student.name)
+        const formattedNames = formatNames(names)
+        setBdayMessage(`Happy Birthday, ${formattedNames}! 🎂`)
+    } else {
+        setBdayMessage('')
+    }
+}, [studentData, currentMonth, date])
 
   return (
     <div>
