@@ -7,7 +7,6 @@ import { AiOutlineClose } from 'react-icons/ai'
 
 const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassName, setDbUserClassName, setIsClassMade }) => {
     const { userUid, userClassName } = useContext(StudentDataContext)
-    const docRef = doc(db, "users", userUid)
     const [newClassName, setNewClassName] = useState(dbUserClassName)
     const [openDeleteClassModal, setOpenDeleteClassModal] = useState(false)
 
@@ -18,7 +17,7 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
     const handleClassInfoSubmit = async (e) => {
         try {
             e.preventDefault()
-
+            const docRef = doc(db, "users", userUid)
             await updateDoc(docRef, { className: newClassName.trim()})
 
             setDbUserClassName(newClassName)
@@ -37,7 +36,8 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
         try {
             const classCollectionRef = collection(db, 'users', userUid, userClassName)
             const classDocumentRef = doc(classCollectionRef, userUid)
-
+            const docRef = doc(db, "users", userUid)
+            
             await deleteDoc(classDocumentRef)
             await updateDoc(docRef, { className: "", isClassMade: false})
 

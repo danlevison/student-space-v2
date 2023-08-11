@@ -15,7 +15,6 @@ import pandaAvatar from "../../../public/assets/avatars/panda.png"
 
 const Dashboard = () => {
   const [user, loading] = useAuthState(auth)
-  const docRef = doc(db, "users", user.uid)
   const [userClassName, setUserClassName] = useState(null)
   const [isClassMade, setIsClassMade] = useState(false)
   const [isEditClassModalOpen, setIsEditClassModalOpen] = useState(false)
@@ -26,6 +25,7 @@ const Dashboard = () => {
     const fetchClassName = async () => {
       try {
         if (!user) return // Check if user object is null
+        const docRef = doc(db, "users", user.uid)
         const docSnap = await getDoc(docRef)
         if (docSnap.exists()) {
           const data = docSnap.data()
@@ -48,6 +48,7 @@ const Dashboard = () => {
     if (userClassName !== null) {
       const updateClassName = async () => {
         try {
+          const docRef = doc(db, "users", user.uid)
           await updateDoc(docRef, { className: userClassName, isClassMade: isClassMade})
           console.log("A new Document Field has been added to the user document")
         } catch (error) {
