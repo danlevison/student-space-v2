@@ -73,7 +73,7 @@ const ResetPoints = ({ openResetPointsModal, setOpenResetPointsModal }) => {
         
                 {/* Full-screen container to center the panel */}
                 <div className="fixed inset-0 flex items-center justify-center p-4">
-                    <Dialog.Panel className="flex flex-col justify-between p-5 w-[80%] max-w-[500px] h-[270px] sm:h-[200px] rounded-xl bg-modalBgClr">
+                    <Dialog.Panel className="flex flex-col justify-between p-5 w-[80%] max-w-[580px] h-[340px] sm:h-[200px] rounded-xl bg-modalBgClr">
                     <div className="flex justify-between items-center">
                         <Dialog.Title className="font-bold text-xl">Reset Points</Dialog.Title>
                         <button onClick={() => setOpenResetPointsModal(false)}>
@@ -83,8 +83,8 @@ const ResetPoints = ({ openResetPointsModal, setOpenResetPointsModal }) => {
                         />
                         </button>
                     </div>
-                    <Dialog.Description className="text-center text-lg">
-                            This will reset all points!
+                    <Dialog.Description className="text-center mt-2 font-bold text-red-400">
+                            Warning: Resetting points is a permanent action and cannot be reversed.
                     </Dialog.Description>
                     <div className="flex flex-col sm:flex-row justify-center items-center gap-4 py-2 sm:py-0">
                         <button onClick={resetStudentPoints} className="text-sm md:text-base bg-buttonClr text-primaryTextClr rounded-lg shadow-lg hover:scale-105 duration-300 p-3">Reset All Student Points</button>

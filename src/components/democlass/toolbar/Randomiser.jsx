@@ -79,7 +79,7 @@ const Randomiser = ({ openRandomiser, setOpenRandomiser }) => {
           </div>
 
           <div className="flex flex-col justify-center items-center gap-6 h-full">
-            <div key={randomStudent?.uuid} className="relative flex flex-col justify-center items-center p-8 shadow-lg rounded-md bg-[#f5f5f5] w-[300px] lg:w-[400px] h-[250px]">
+            <div key={randomStudent?.uuid} className="relative flex flex-col justify-center items-center p-8 shadow-lg rounded-md bg-[#f5f5f5] w-full max-w-[400px] h-[250px]">
               {randomStudent ? (
                 <>
                   <p className="font-bold text-3xl tracking-wide">{randomStudent.name}</p>
