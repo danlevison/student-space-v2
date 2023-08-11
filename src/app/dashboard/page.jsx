@@ -11,13 +11,15 @@ import Link from "next/link"
 import Image from "next/image"
 import Nav from "@/components/Nav"
 import EditClass from "@/components/democlass/options/EditClass"
-import pandaAvatar from "../../../public/assets/avatars/panda.png"
+import bagAvatar from "../../../public/assets/avatars/bag.svg"
+import origamiAvatar from "../../../public/assets/avatars/origami.svg"
 
 const Dashboard = () => {
   const [user, loading] = useAuthState(auth)
   const [userClassName, setUserClassName] = useState(null)
   const [isClassMade, setIsClassMade] = useState(false)
   const [isEditClassModalOpen, setIsEditClassModalOpen] = useState(false)
+  const [classAvatar, setClassAvatar] = useState(bagAvatar)
   const router = useRouter()
 
   // Fetches the classname and isClassMade data from the Firestore db
@@ -97,13 +99,14 @@ const Dashboard = () => {
               <div className="relative w-[230px] h-[230px] bg-white border border-[#5065A8] shadow-lg rounded-2xl hover:scale-105 duration-300 ease-out">
                 <Link href={"/democlass"}>
                   <div className="flex flex-col justify-center items-center h-full gap-4">
-                    <Image 
-                      src={pandaAvatar}
+                    <Image
+                      className="rounded-xl border-2 border-black bg-orange-100 p-2" 
+                      src={origamiAvatar}
                       alt="/"
-                      width={80}
-                      height={80}
+                      width={100}
+                      height={100}
                     />
-                    <h2 className="text-xl">Demo Class</h2>
+                    <h2 className="text-2xl">Demo Class</h2>
                   </div>
                 </Link>
               </div>
@@ -112,21 +115,24 @@ const Dashboard = () => {
               <div className="relative w-[230px] h-[230px] bg-white border border-[#5065A8] shadow-lg rounded-2xl hover:scale-105 duration-300 ease-out">
                 <Link href={"/classroom"}>
                   <div className="flex flex-col justify-center items-center h-full gap-4">
-                    <Image 
-                      src={pandaAvatar}
+                    <Image
+                      className="rounded-xl border-2 border-black bg-blue-100 p-2" 
+                      src={classAvatar}
                       alt="/"
-                      width={80}
-                      height={80}
+                      width={100}
+                      height={100}
                     />
-                    <h2 className="text-xl">{userClassName}</h2>
+                    <h2 className="text-2xl">{userClassName}</h2>
                   </div>
                 </Link>
                 <ClassSettingsButton  />
                 <EditClass 
                   isEditClassModalOpen={isEditClassModalOpen} 
                   setIsEditClassModalOpen={setIsEditClassModalOpen} 
-                  dbUserClassName={userClassName} 
+                  dbUserClassName={userClassName}
                   setDbUserClassName={setUserClassName}
+                  classAvatar={classAvatar}
+                  setClassAvatar={setClassAvatar} 
                   setIsClassMade={setIsClassMade} 
                 />
               </div>
