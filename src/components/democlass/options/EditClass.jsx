@@ -1,9 +1,10 @@
-import React, {Fragment, useContext, useState} from 'react'
+import React, {Fragment, useContext, useState, useEffect} from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import Image from "next/image"
 import StudentDataContext from "@/StudentDataContext"
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { doc, collection, updateDoc, deleteDoc } from 'firebase/firestore'
-import { db } from "../../../utils/firebase"
+import { db, auth } from "../../../utils/firebase"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from 'react-icons/ai'
 import { AiFillCaretDown } from "react-icons/ai"
@@ -22,23 +23,24 @@ import solarSystemAvatar from "../../../../public/assets/avatars/solar-system.sv
 
 const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassName, setDbUserClassName, setIsClassMade, classAvatar, setClassAvatar }) => {
     const { userUid, userClassName } = useContext(StudentDataContext)
+    const [user, loading] = useAuthState(auth)
     const [newClassName, setNewClassName] = useState(dbUserClassName)
     const [openDeleteClassModal, setOpenDeleteClassModal] = useState(false)
- 
+    const [newClassAvatar, setNewClassAvatar] = useState(classAvatar)
+
     const menuItemData = [
-        { imageSrc: origamiAvatar, onClick: () => setClassAvatar(origamiAvatar) },
-        { imageSrc: bagAvatar, onClick: () => setClassAvatar(bagAvatar) },
-        { imageSrc: glueAvatar, onClick: () => setClassAvatar(glueAvatar) },
-        { imageSrc: scissorsAvatar, onClick: () => setClassAvatar(scissorsAvatar) },
-        { imageSrc: rulerAvatar, onClick: () => setClassAvatar(rulerAvatar) },
-        { imageSrc: bookBagAvatar, onClick: () => setClassAvatar(bookBagAvatar) },
-        { imageSrc: sketchbookAvatar, onClick: () => setClassAvatar(sketchbookAvatar) },
-        { imageSrc: compassAvatar, onClick: () => setClassAvatar(compassAvatar) },
-        { imageSrc: footballAvatar, onClick: () => setClassAvatar(footballAvatar) },
-        { imageSrc: photosynthesisAvatar, onClick: () => setClassAvatar(photosynthesisAvatar) },
-        { imageSrc: hourglassAvatar, onClick: () => setClassAvatar(hourglassAvatar) },
-        { imageSrc: solarSystemAvatar, onClick: () => setClassAvatar(solarSystemAvatar) },
-        // Add more items as needed
+        { imageSrc: origamiAvatar, onClick: () => setNewClassAvatar(origamiAvatar) },
+        { imageSrc: bagAvatar, onClick: () => setNewClassAvatar(bagAvatar) },
+        { imageSrc: glueAvatar, onClick: () => setNewClassAvatar(glueAvatar) },
+        { imageSrc: scissorsAvatar, onClick: () => setNewClassAvatar(scissorsAvatar) },
+        { imageSrc: rulerAvatar, onClick: () => setNewClassAvatar(rulerAvatar) },
+        { imageSrc: bookBagAvatar, onClick: () => setNewClassAvatar(bookBagAvatar) },
+        { imageSrc: sketchbookAvatar, onClick: () => setNewClassAvatar(sketchbookAvatar) },
+        { imageSrc: compassAvatar, onClick: () => setNewClassAvatar(compassAvatar) },
+        { imageSrc: footballAvatar, onClick: () => setNewClassAvatar(footballAvatar) },
+        { imageSrc: photosynthesisAvatar, onClick: () => setNewClassAvatar(photosynthesisAvatar) },
+        { imageSrc: hourglassAvatar, onClick: () => setNewClassAvatar(hourglassAvatar) },
+        { imageSrc: solarSystemAvatar, onClick: () => setNewClassAvatar(solarSystemAvatar) },
       ]
 
     const updateClassName = (e) => {
@@ -46,12 +48,13 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
     }
 
     const handleClassInfoSubmit = async (e) => {
+        const docRef = doc(db, "users", user.uid)  
         try {
-            e.preventDefault()
-            const docRef = doc(db, "users", userUid)
-            await updateDoc(docRef, { className: newClassName.trim()})
+            e.preventDefault()          
+            await updateDoc(docRef, { className: newClassName.trim(), classAvatar: newClassAvatar})
 
             setDbUserClassName(newClassName)
+            setClassAvatar(newClassAvatar)
             setIsEditClassModalOpen(false)
             
         } catch (error) {
@@ -65,12 +68,15 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
 
     const deleteClass = async () => {
         try {
-            const classCollectionRef = collection(db, 'users', userUid, userClassName)
-            const classDocumentRef = doc(classCollectionRef, userUid)
-            const docRef = doc(db, "users", userUid)
-            
-            await deleteDoc(classDocumentRef)
-            await updateDoc(docRef, { className: "", isClassMade: false})
+            const docRef = doc(db, "users", user.uid)
+            if (userUid && userClassName) {
+                // User has created their own class (Firebase)
+                const classCollectionRef = collection(db, 'users', userUid, userClassName)
+                const classDocumentRef = doc(classCollectionRef, userUid)
+
+                await deleteDoc(classDocumentRef)
+                await updateDoc(docRef, { className: "", isClassMade: false}) 
+            }
 
             setDbUserClassName("")
             setIsClassMade(false)
@@ -89,7 +95,7 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
           {/* Full-screen container to center the panel */}
           <div className="fixed inset-0 flex items-center justify-center p-4">
             <Dialog.Panel className="p-5 w-full h-[500px] sm:w-[500px] rounded-xl bg-blue-100">
-              <div className="flex justify-between items-center pb-4">
+              <div className="flex justify-between items-center">
                 <Dialog.Title className="font-bold text-xl">Edit {dbUserClassName}</Dialog.Title>
                 <button onClick={() => setIsEditClassModalOpen(false)}>
                   <AiOutlineClose
@@ -99,18 +105,18 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
                 </button>
               </div>
 
-              <form onSubmit={handleClassInfoSubmit}>
+              <form onSubmit={handleClassInfoSubmit} className="flex flex-col justify-around h-full">
                 <div className="flex justify-center items-center">
 
                         {/* Class Avatar menu */}
-                        <Menu as="div" className="inline-block">
+                        <Menu as="div" className="inline-block mt-[-2em]">
                         <div>
                             <Menu.Button 
                                 type="button" 
                                 className="relative inline-flex w-full items-center justify-center rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
                             <Image
                                 className="rounded-xl border-2 border-black bg-white p-3" 
-                                src={classAvatar}
+                                src={newClassAvatar}
                                 alt={"Class avatar"}
                                 width={90}
                                 height={90}
@@ -132,7 +138,7 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
                             leaveTo="transform opacity-0 scale-95"
                         >
                             <Menu.Items 
-                                className="absolute w-full max-w-[400px] left-[50%] translate-x-[-50%] grid grid-cols-[repeat(auto-fill,minmax(80px,1fr))] gap-4 mt-2 p-4 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                className="absolute h-[320px] overflow-auto w-[80%] max-w-[420px] left-[50%] translate-x-[-50%] grid grid-cols-[repeat(auto-fill,minmax(80px,1fr))] gap-4 mt-2 p-4 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             >
                             {menuItemData.map((menuItem, index) => (
                                 <Menu.Item key={index} className="w-full">
@@ -141,37 +147,39 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
                                         type="button" 
                                         className="group flex justify-center items-center rounded-xl border-2 border-black p-2 hover:scale-105 duration-300"
                                     >
-                                        <Image
+                                    <Image
                                         src={menuItem.imageSrc}
                                         alt="/"
                                         width={60}
                                         height={60}
                                         aria-hidden="true"
-                                        />
-                                    </button>
-                                </Menu.Item>
-                            ))}
-                            </Menu.Items>
-                        </Transition>
-                        </Menu>
+                                    />
+                                </button>
+                            </Menu.Item>
+                        ))}
+                        </Menu.Items>
+                    </Transition>
+                    </Menu>
 
                 </div>
-                    <label htmlFor="classroomName" className="pb-1">Class name</label>
-                    <input
-                        className="border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr"
-                        type="text"
-                        id="classroomName"
-                        name="classroomName"
-                        required
-                        value={newClassName}
-                        onChange={updateClassName}
-                    />
+                    <div>
+                        <label htmlFor="classroomName" className="pb-1 text-xl">Class name</label>
+                        <input
+                            className="border-2 border-gray-400 w-full rounded-lg p-4 outline-inputOutlineClr text-xl"
+                            type="text"
+                            id="classroomName"
+                            name="classroomName"
+                            required
+                            value={newClassName}
+                            onChange={updateClassName}
+                        />
+                    </div>
 
                     <div className="flex justify-end items-center mt-5">
                         <button
                             onClick={handleDeleteClassModal} 
                             type="button" 
-                            className="mr-auto bg-red-500 hover:bg-red-700 rounded-2xl p-2 text-sm text-primaryTextClr font-bold"
+                            className="mr-auto bg-red-500 hover:bg-red-700 rounded-2xl p-2 text-sm sm:text-lg text-primaryTextClr font-bold"
                         >
                             Delete class
                         </button>
@@ -179,13 +187,13 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
                             <button 
                                 onClick={() => setIsEditClassModalOpen(false)} 
                                 type="button" 
-                                className="bg-modalBgClr hover:bg-white rounded-2xl p-2 text-buttonClr font-bold text-sm"
+                                className="bg-modalBgClr hover:bg-white rounded-2xl p-2 text-buttonClr font-bold text-sm sm:text-lg"
                             >
                                 Cancel
                             </button>
                             <button
                                 disabled={!newClassName.trim()}
-                                className="text-sm font-bold bg-white hover:bg-green-200 rounded-2xl py-2 px-3 disabled:bg-gray-400 disabled:hover:bg-gray-400"
+                                className="text-sm sm:text-lg font-bold bg-white hover:bg-green-200 rounded-2xl py-2 px-3 disabled:bg-gray-400 disabled:hover:bg-gray-400"
                             >
                                 Save
                             </button>
