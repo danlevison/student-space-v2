@@ -12,14 +12,13 @@ import Image from "next/image"
 import Nav from "@/components/Nav"
 import EditClass from "@/components/democlass/options/EditClass"
 import bagAvatar from "../../../public/assets/avatars/bag.svg"
-import origamiAvatar from "../../../public/assets/avatars/origami.svg"
 
 const Dashboard = () => {
   const [user, loading] = useAuthState(auth)
   const [userClassName, setUserClassName] = useState(null)
   const [isClassMade, setIsClassMade] = useState(false)
   const [isEditClassModalOpen, setIsEditClassModalOpen] = useState(false)
-  const [classAvatar, setClassAvatar] = useState(bagAvatar)
+  const [classAvatar, setClassAvatar] = useState("")
   const router = useRouter()
 
   // Fetches the classname and isClassMade data from the Firestore db
@@ -33,6 +32,7 @@ const Dashboard = () => {
           const data = docSnap.data()
           setUserClassName(data.className) // Fetch the existing classname value from Firestore
           setIsClassMade(data.isClassMade) // Fetches the existing isClassMade value from Firestore
+          setClassAvatar(data.classAvatar) //Fetches the existing classavatar image from Firestore
         } else {
           console.log("Document does not exist")
         }
@@ -52,7 +52,6 @@ const Dashboard = () => {
         try {
           const docRef = doc(db, "users", user.uid)
           await updateDoc(docRef, { className: userClassName, isClassMade: isClassMade})
-          console.log("A new Document Field has been added to the user document")
         } catch (error) {
           console.log(error)
         }
@@ -101,7 +100,7 @@ const Dashboard = () => {
                   <div className="flex flex-col justify-center items-center h-full gap-4">
                     <Image
                       className="rounded-xl border-2 border-black bg-orange-100 p-2" 
-                      src={origamiAvatar}
+                      src={bagAvatar}
                       alt="/"
                       width={100}
                       height={100}

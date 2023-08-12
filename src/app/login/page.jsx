@@ -9,6 +9,7 @@ import { auth, db } from "../../utils/firebase"
 import { setDoc, doc, getDoc} from "firebase/firestore"
 import Nav from "@/components/Nav"
 import Scribble from "../../components/Scribble"
+import bagAvatar from "../../../public/assets/avatars/bag.svg"
 
 const Login = () => {
     const [user, loading] = useAuthState(auth)
@@ -34,6 +35,7 @@ const Login = () => {
           name: result.user.displayName,
           className: "",
           isClassMade: false,
+          classAvatar: bagAvatar
         })
 
         } catch (error) {
