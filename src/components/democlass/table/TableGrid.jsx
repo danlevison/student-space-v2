@@ -1,4 +1,5 @@
 import React, {useState, useContext} from 'react'
+import Image from "next/image"
 import StudentDataContext from "@/StudentDataContext"
 import { collection, updateDoc, doc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
@@ -83,20 +84,34 @@ const TableGrid = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-center px-10">
               {Object.entries(groupedStudentsByTable).map(([tableName, students]) => (
-                <div key={tableName} className="relative flex flex-col justify-between items-center min-h-[250px] h-auto p-8 shadow-lg rounded-md bg-[#f5f5f5]">
+                <div key={tableName} className="relative flex flex-col justify-between items-center h-[270px] p-8 shadow-lg rounded-md bg-[#f5f5f5]">
                   <h2 className="font-bold tracking-wide text-2xl">{tableName}</h2>
                   <p className="text-center text-primaryTextClr text-xl w-[50px] p-2 bg-iconClr rounded-lg mx-auto my-1">
                     {/* assume that all students in the same table have the same number of points, so render points of the first student only */}
                     {students[0].tableData?.tablePoints || 0}
                   </p>
-                  <div className="flex flex-wrap justify-center items-center gap-2 font-bold tracking-wide py-2">
-                  {students.map((student) => {
-                    return student.tableData.isOnTable ? (
-                      <p key={student.name} className="bg-white shadow-lg rounded-lg p-2">
-                        {student.name}
-                      </p>
-                    ) : null
-                  })}
+                  <div className="flex flex-wrap justify-center items-center gap-2 font-bold tracking-wide py-2 h-full overflow-auto">
+                    {students.reduce((displayedStudents, student) => {
+                      if (displayedStudents.length < 4 && student.tableData.isOnTable) {
+                        displayedStudents.push(
+                          <div key={student.uuid} className="flex flex-col justify-center bg-white shadow-lg rounded-lg text-center w-[90px] h-[100px]">
+                            <Image 
+                              src={student.avatar}
+                              alt="/"
+                              width={60}
+                              height={60}
+                              className="mx-auto"
+                            />
+                            {/* <p key={student.name} className="mt-1">
+                            
+                              {student.name}
+                              
+                            </p> */}
+                          </div>
+                        )
+                      }
+                      return displayedStudents
+                    }, [])}
                   </div>
                   <button onClick={() => handlePointClick(tableName)}>
                     <FaAward
@@ -112,7 +127,7 @@ const TableGrid = () => {
 
               <button 
                 onClick={handleAddTableModal} 
-                className="flex flex-col justify-center items-center h-[252px] shadow-lg rounded-md bg-[#f5f5f5] hover:scale-[1.025] duration-300">
+                className="flex flex-col justify-center items-center h-[270px] shadow-lg rounded-md bg-[#f5f5f5] hover:scale-[1.025] duration-300">
                   <p className="text-xl font-bold">Add Table</p>
                   <RiAddLine size={40} />
               </button>

@@ -75,7 +75,7 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
                 const classDocumentRef = doc(classCollectionRef, userUid)
 
                 await deleteDoc(classDocumentRef)
-                await updateDoc(docRef, { className: "", isClassMade: false}) 
+                await updateDoc(docRef, { className: "", isClassMade: false, classAvatar: bagAvatar}) 
             }
 
             setDbUserClassName("")

@@ -7,17 +7,25 @@ import { FaAward } from 'react-icons/fa'
 import { IoMdSettings } from 'react-icons/io'
 import { RiAddLine } from "react-icons/ri"
 import AddStudent from "@/components/democlass/student/AddStudent"
-import bearAvatar from "../../../../public/assets/avatars/bear.png"
-import catAvatar from "../../../../public/assets/avatars/cat.png"
-import rabbitAvatar from "../../../../public/assets/avatars/rabbit.png"
-import pandaAvatar from "../../../../public/assets/avatars/panda.png"
-import chickenAvatar from "../../../../public/assets/avatars/chicken.png"
-import dogAvatar from "../../../../public/assets/avatars/dog.png"
 import pointsSound from "../../../../public/audio/points.mp3"
+import sheepAvatar from "../../../../public/assets/avatars/sheep.svg"
+import monkeyAvatar from "../../../../public/assets/avatars/monkey.svg"
+import rabbitAvatar from "../../../../public/assets/avatars/rabbit.svg"
+import frogAvatar from "../../../../public/assets/avatars/frog.svg"
+import snakeAvatar from "../../../../public/assets/avatars/snake.svg"
+import chickenAvatar from "../../../../public/assets/avatars/chicken.svg"
+import giraffeAvatar from "../../../../public/assets/avatars/giraffe.svg"
+import pandaAvatar from "../../../../public/assets/avatars/panda.svg"
+import penguinAvatar from "../../../../public/assets/avatars/penguin.svg"
+import dogAvatar from "../../../../public/assets/avatars/dog.svg"
+import cheetahAvatar from "../../../../public/assets/avatars/cheetah.svg"
+import lionAvatar from "../../../../public/assets/avatars/lion.svg"
+import otterAvatar from "../../../../public/assets/avatars/otter.svg"
 
 const StudentGrid = () => {
     const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)  
     const [isAddStudentModalOpen, setIsAddStudentModalOpen] = useState(false)
+    const [avatars, setAvatars] = useState([monkeyAvatar, rabbitAvatar, pandaAvatar, cheetahAvatar, sheepAvatar, chickenAvatar, penguinAvatar, dogAvatar, giraffeAvatar, snakeAvatar, otterAvatar, frogAvatar, lionAvatar])
 
     // Fetch the user's student data from the Firestore subcollection when userUid and className are available
     useEffect(() => {
@@ -81,7 +89,7 @@ const StudentGrid = () => {
 
     const handleAvatarClick = async (uuid) => {
       try {
-        const images = [catAvatar, rabbitAvatar, pandaAvatar, bearAvatar, chickenAvatar, dogAvatar]
+        // const avatars = [monkeyAvatar, rabbitAvatar, pandaAvatar, cheetahAvatar, sheepAvatar, chickenAvatar, penguinAvatar, dogAvatar, giraffeAvatar, snakeAvatar, otterAvatar, frogAvatar, lionAvatar]
   
         // Find the student with the given UUID
         const studentToUpdate = studentData.find((student) => student.uuid === uuid)
@@ -92,13 +100,13 @@ const StudentGrid = () => {
         }
   
         // Get the current avatar index for the student
-        const currentAvatarIndex = images.findIndex((image) => image.src === studentToUpdate.avatar.src)
+        const currentAvatarIndex = avatars.findIndex((image) => image.src === studentToUpdate.avatar.src)
   
         // Get the index of the next avatar in the images array
-        const nextIndex = (currentAvatarIndex + 1) % images.length
+        const nextIndex = (currentAvatarIndex + 1) % avatars.length
   
         // Get the new avatar image from the images array
-        const newAvatar = images[nextIndex]
+        const newAvatar = avatars[nextIndex]
   
         // Update the avatar in the demoStudentData state
         const updatedStudentData = studentData.map((student) => {
@@ -156,7 +164,6 @@ const StudentGrid = () => {
                           alt="/"
                           width={60}
                           height={60}
-                          className="rounded-full"
                           style={{
                               objectFit: "cover"
                           }}
@@ -176,7 +183,8 @@ const StudentGrid = () => {
         )}
             {/* Add Student Modal */}
             {isAddStudentModalOpen && 
-            <AddStudent 
+            <AddStudent
+              avatars={avatars}
               isAddStudentModalOpen={isAddStudentModalOpen} 
               setIsAddStudentModalOpen={setIsAddStudentModalOpen} />}
         </>
