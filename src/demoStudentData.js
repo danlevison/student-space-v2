@@ -18,7 +18,7 @@ const demoStudentData = [
         dob: "12.03.2014",
         points: 0,
         avatar: sheepAvatar,
-        tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
+        tableData: {tableName: "Apples", tablePoints: 5, isOnTable: true, selected: false},
         uuid: "d70891e5-78ba-4e3e-9aeb-436506637c26"   
     },
     {
@@ -26,7 +26,7 @@ const demoStudentData = [
         dob: "07.03.2014",
         points: 0,
         avatar: cheetahAvatar,
-        tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
+        tableData: {tableName: "Apples", tablePoints: 5, isOnTable: true, selected: false},
         uuid: "78090eda-0a51-4a08-9542-283b51ec32b0"   
     },
     {
@@ -34,7 +34,7 @@ const demoStudentData = [
         dob: "12.02.2013",
         points: 0,
         avatar: frogAvatar,
-        tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
+        tableData: {tableName: "Apples", tablePoints: 5, isOnTable: true, selected: false},
         uuid: "5b12cf2d-d5d3-44b2-bb37-54ae7ce09604"   
     },
     {
@@ -42,7 +42,7 @@ const demoStudentData = [
         dob: "11.02.2013",
         points: 0,
         avatar: rabbitAvatar,
-        tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
+        tableData: {tableName: "Apples", tablePoints: 5, isOnTable: true, selected: false},
         uuid: "86434f59-a73f-4014-9ac6-b435c7225162"   
     },
     {
@@ -50,7 +50,7 @@ const demoStudentData = [
         dob: "11.02.2013",
         points: 0,
         avatar: dogAvatar,
-        tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
+        tableData: {tableName: "Pears", tablePoints: 2, isOnTable: true, selected: false},
         uuid: "ad225aee-26e3-438e-a38e-e1afb9fe8189"   
     },
     {
@@ -58,7 +58,7 @@ const demoStudentData = [
         dob: "11.02.2013",
         points: 0,
         avatar: pandaAvatar,
-        tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
+        tableData: {tableName: "Pears", tablePoints: 2, isOnTable: true, selected: false},
         uuid: "162b43c5-f332-4538-88a7-15b606f287a6"   
     },
     {
@@ -97,7 +97,7 @@ const demoStudentData = [
         name: "Alfie",
         dob: "11.02.2013",
         points: 0,
-        avatar: cheetahAvatar,
+        avatar: chickenAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
         uuid: "8be73d43-39d4-4c6a-a4dd-8a1356de7c2b"   
     },

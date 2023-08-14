@@ -79,13 +79,13 @@ const Classroom = () => {
   if (!user) router.push('/login')
 
   const scribblesSvgs = [
-    { src: '/assets/Scribbles/58.svg', alt: 'Black and green triangle scribble', className: 'absolute top-64 md:top-36 left-10 w-[50px] md:w-[100px] 2xl:w-[150px]' },
-    { src: '/assets/Scribbles/65.svg', alt: 'Blue scribble', className: 'absolute bottom-10 right-20 w-[75px] md:w-[150px] rotate-12' },
-    { src: '/assets/Scribbles/66.svg', alt: 'Yellow flower scribble', className: 'absolute hidden lg:block top-60 right-16 md:right-80 w-[50px] md:w-[100px]' },
-    { src: '/assets/Scribbles/26.svg', alt: 'Yellow pink and red cirlces scribble', className: "absolute bottom-16 left-2 w-[150px] md:w-[200px]" },
-    { src: '/assets/Scribbles/43.svg', alt: 'Yellow and green circle scribble', className: "absolute hidden lg:block top-64 left-24 md:left-72 w-[30px] md:w-[75px] rotate-180" },
-    { src: '/assets/Scribbles/3.svg', alt: 'Pink dots scribble', className: "absolute top-10 right-5 w-[50px] md:w-[100px]" },
-    { src: '/assets/Scribbles/61.svg', alt: 'Pink and black scribble', className: "hidden md:block absolute top-2 left-96 w-[200px] rotate-45" },
+    { src: '/assets/Scribbles/58.svg', className: 'absolute top-64 md:top-36 left-10 w-[50px] md:w-[100px] 2xl:w-[150px]' },
+    { src: '/assets/Scribbles/65.svg', className: 'absolute bottom-10 right-20 w-[75px] md:w-[150px] rotate-12' },
+    { src: '/assets/Scribbles/66.svg', className: 'absolute hidden lg:block top-60 right-16 md:right-80 w-[50px] md:w-[100px]' },
+    { src: '/assets/Scribbles/26.svg', className: "absolute bottom-16 left-2 w-[150px] md:w-[200px]" },
+    { src: '/assets/Scribbles/43.svg', className: "absolute hidden lg:block top-64 left-24 md:left-72 w-[30px] md:w-[75px] rotate-180" },
+    { src: '/assets/Scribbles/3.svg', className: "absolute top-10 right-5 w-[50px] md:w-[100px]" },
+    { src: '/assets/Scribbles/61.svg', className: "hidden md:block absolute top-2 left-96 w-[200px] rotate-45" },
   ]
   
   return (

@@ -92,7 +92,7 @@ const Dashboard = () => {
       </header>
       <main className="py-40 min-h-screen">
         <div className="flex flex-col justify-center items-center">
-          <h1 className="text-2xl lg:text-5xl">Welcome!</h1>
+          <h1 className="text-4xl sm:text-5xl">Welcome!</h1>
           <div className="flex flex-col md:flex-row justify-center items-center gap-10 mt-12 w-full h-full">
             
               <div className="relative w-[230px] h-[230px] bg-white border border-[#5065A8] shadow-lg rounded-2xl hover:scale-105 duration-300 ease-out">

@@ -46,13 +46,13 @@ const DemoClass = () => {
   if (loading) return <h1>Loading...</h1>
 
   const scribblesSvgs = [
-    { src: '/assets/Scribbles/4.svg', alt: 'Red and white dot scribble', className: 'hidden md:block absolute top-36 left-10 w-[50px] md:w-[120px] rotate-45' },
-    { src: '/assets/Scribbles/51.svg', alt: 'Black triangles scribble', className: 'absolute bottom-10 right-20 w-[75px] md:w-[150px] rotate-12' },
-    { src: '/assets/Scribbles/37.svg', alt: 'Yellow, white and red circle scribble', className: 'absolute hidden lg:block top-60 right-16 md:right-80 w-[50px] md:w-[100px]' },
-    { src: '/assets/Scribbles/9.svg', alt: 'Yellow, pink and red arch scribble', className: "absolute bottom-16 left-2 w-[150px] md:w-[200px]" },
-    { src: '/assets/Scribbles/67.svg', alt: 'Bolt scribble', className: "absolute top-52 left-10 md:left-72 w-[50px] md:w-[75px]" },
-    { src: '/assets/Scribbles/25.svg', alt: 'Blue and black scribble', className: "absolute top-10 right-5 w-[50px] md:w-[100px]" },
-    { src: '/assets/Scribbles/2.svg', alt: 'Yellow and black scribble', className: "hidden md:block absolute top-0 left-96 w-[160px] rotate-45" },
+    { src: '/assets/Scribbles/4.svg', className: 'hidden md:block absolute top-36 left-10 w-[50px] md:w-[120px] rotate-45' },
+    { src: '/assets/Scribbles/51.svg', className: 'absolute bottom-10 right-20 w-[75px] md:w-[150px] rotate-12' },
+    { src: '/assets/Scribbles/37.svg', className: 'absolute hidden lg:block top-60 right-16 md:right-80 w-[50px] md:w-[100px]' },
+    { src: '/assets/Scribbles/9.svg', className: "absolute bottom-16 left-2 w-[150px] md:w-[200px]" },
+    { src: '/assets/Scribbles/67.svg', className: "absolute top-52 left-10 md:left-72 w-[50px] md:w-[75px]" },
+    { src: '/assets/Scribbles/25.svg', className: "absolute top-10 right-5 w-[50px] md:w-[100px]" },
+    { src: '/assets/Scribbles/2.svg', className: "hidden md:block absolute top-0 left-96 w-[160px] rotate-45" },
   ]
 
   return (

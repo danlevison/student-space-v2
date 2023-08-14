@@ -108,7 +108,7 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
                     </div>
                     <form onSubmit={handleAddTableSubmit} className="flex flex-col py-4">
                         <div className="flex flex-col items-center">
-                            {alert ? <p className="font-bold text-xl text-red-500 pb-1">{alertMessage}</p> : <label htmlFor="tableName" className="font-bold text-xl pb-1">Table name</label>}
+                            {alert ? <p className="font-bold text-xl text-red-500 pb-1">{alertMessage}</p> : <label htmlFor="tableName" className="text-xl pb-1">Table name</label>}
                             <input 
                               className={alert ? "w-full sm:w-[400px] border-2 border-red-500 rounded-lg p-2 outline-none" : "w-full sm:w-[400px] border-2 border-gray-400 rounded-lg p-2 outline-inputOutlineClr"} 
                               type="text" 
@@ -133,7 +133,13 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
                                         htmlFor={student.name} 
                                         className="flex flex-col items-center w-28 cursor-pointer text-center bg-white p-4 shadow-lg rounded-xl peer-disabled:bg-gray-200 peer-checked:bg-green-200 peer-hover:scale-105 duration-300 select-none"
                                     >
-                                        <Image src={student.avatar} alt="/" width={30} height={30} className="select-none"/>
+                                        <Image 
+                                          src={student.avatar} 
+                                          alt="/" 
+                                          width={40} 
+                                          height={40} 
+                                          className="select-none"
+                                        />
                                         <span className="font-bold mt-1 text-lg">{student.name}</span>
                                         <span>{student.tableData.tableName}</span>
                                     </label>

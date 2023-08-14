@@ -4,6 +4,7 @@ import { doc, collection, updateDoc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from "react-icons/ai"
+import Image from "next/image"
 
 const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) => {
     const [openStudentInfo, setOpenStudentInfo] = useState(false) 
@@ -128,7 +129,7 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
       
             {/* Full-screen container to center the panel */}
             <div className="fixed inset-0 flex items-center justify-center p-4">
-              <Dialog.Panel className="p-5 w-full max-w-[500px] h-[365px] rounded-xl bg-modalBgClr">
+              <Dialog.Panel className="p-5 w-full max-w-[800px] rounded-xl bg-modalBgClr">
                 <div className="flex justify-between items-center">
                   <Dialog.Title className="font-bold text-xl">Edit Students</Dialog.Title>
                   <button onClick={() => setIsEditStudentsModalOpen(false)}>
@@ -139,17 +140,17 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
                   </button>
                 </div>
                 {studentData.length === 0 ? (
-                  <div className="flex justify-center items-center h-full">
+                  <div className="flex justify-center items-center h-full min-h-[300px] text-center">
                     <p className="text-xl">No student data available</p>
                   </div>
                 ) : (
-                  <div className="overflow-auto h-5/6 mt-4">
+                  <div className="grid grid-cols-[repeat(auto-fill,minmax(110px,1fr))] gap-2 items-start h-auto max-h-[370px] overflow-auto mt-4 p-4">
                     {studentData.map((student) => (
                       <button
                         key={student.uuid}
                         onClick={() => handleStudentModal(student)}
-                        className="block w-full bg-gray-100 hover:bg-gray-400 border-b border-gray-400 py-2"
-                      >
+                        className="text-center text-lg bg-white p-4 shadow-lg rounded-xl hover:scale-105 duration-300"
+                      > 
                         {student.name}
                       </button>
                     ))}
@@ -181,6 +182,13 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
                           </button>
                       </div>
                       <form onSubmit={handleStudentInfoSubmit} className="flex flex-col">
+                        <Image 
+                          src={selectedStudent.avatar}
+                          alt="/"
+                          width={70}
+                          height={70}
+                          className="mx-auto"
+                        />
                         {alert ? <p className="font-bold text-red-500 pb-1">{alertMessage}</p> : <label htmlFor="name" className="pb-1">First name</label> }
                           <input
                             className={alert ? "border-2 border-red-500 w-full rounded-lg p-2 outline-none" : "border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr"}
