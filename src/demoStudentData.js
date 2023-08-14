@@ -97,7 +97,7 @@ const demoStudentData = [
         name: "Alfie",
         dob: "11.02.2013",
         points: 0,
-        avatar: cheetahAvatar,
+        avatar: chickenAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
         uuid: "8be73d43-39d4-4c6a-a4dd-8a1356de7c2b"   
     },

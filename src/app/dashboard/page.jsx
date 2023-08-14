@@ -51,7 +51,7 @@ const Dashboard = () => {
       const updateClassName = async () => {
         try {
           const docRef = doc(db, "users", user.uid)
-          await updateDoc(docRef, { className: userClassName, isClassMade: isClassMade})
+          await updateDoc(docRef, { className: userClassName, isClassMade: isClassMade, classAvatar: bagAvatar})
         } catch (error) {
           console.log(error)
         }
