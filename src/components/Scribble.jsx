@@ -8,7 +8,8 @@ const Scribble = ({ scribblesSvgs }) => {
         <Image
           key={index}
           src={scribble.src}
-          alt={scribble.alt}
+          alt={""}
+          role="presentation"
           className={scribble.className}
           width={40}
           height={40}

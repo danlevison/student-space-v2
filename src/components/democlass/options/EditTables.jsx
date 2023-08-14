@@ -145,7 +145,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
       
             {/* Full-screen container to center the panel */}
             <div className="fixed inset-0 flex items-center justify-center p-4">
-              <Dialog.Panel className="p-5 w-full max-w-[500px] h-[365px] rounded-xl bg-modalBgClr">
+              <Dialog.Panel className="p-5 w-full max-w-[800px] rounded-xl bg-modalBgClr">
                 <div className="flex justify-between items-center">
                   <Dialog.Title className="font-bold text-xl">Edit Tables</Dialog.Title>
                   <button onClick={() => setIsEditTablesModalOpen(false)}>
@@ -156,17 +156,17 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                   </button>
                 </div>
                 {tableNames.length === 0 ? (
-                  <div className="flex justify-center items-center h-full">
+                  <div className="flex justify-center items-center h-full min-h-[300px] text-center">
                         <p className="text-xl">No table data available</p>
                   </div>
                 ) : (
-                  <div className="overflow-auto h-5/6 mt-4">
+                  <div className="grid grid-cols-[repeat(auto-fill,minmax(110px,1fr))] gap-2 items-start h-auto max-h-[370px] overflow-auto mt-4 p-4">
                     {/* Render a button for each table name */}
                     {tableNames.map((tableName) => (
                       <button
                         key={tableName}
                         onClick={() => handleTableModal(tableName)}
-                        className="block w-full bg-gray-100 hover:bg-gray-400 border border-gray-400 py-4"
+                        className="text-center text-lg bg-white p-4 shadow-lg rounded-xl hover:scale-105 duration-300"
                       >
                         {tableName}
                       </button>
@@ -188,7 +188,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
         
                 {/* Full-screen container to center the panel */}
                 <div className="fixed inset-0 flex items-center justify-center p-4">
-                    <Dialog.Panel className="flex flex-col p-5 w-full max-w-[1200px] h-full sm:h-auto overflow-auto rounded-xl bg-modalBgClr">
+                    <Dialog.Panel className="flex flex-col p-5 w-full max-w-[800px] h-full sm:h-auto overflow-auto rounded-xl bg-modalBgClr">
                     <div className="flex justify-between items-center pb-2">
                         <Dialog.Title className="font-bold text-xl">{selectedTableName}</Dialog.Title>
                         <button onClick={() => setOpenTableInfo(false)}>
@@ -224,7 +224,13 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                                   htmlFor={student.name}
                                   className="text-center select-none flex flex-col items-center w-28 cursor-pointer bg-white p-4 shadow-lg rounded-xl peer-checked:bg-green-200 peer-hover:scale-105 duration-300"
                                 >
-                                  <Image src={student.avatar} alt="/" width={30} height={30} className="select-none"/>
+                                  <Image 
+                                    src={student.avatar} 
+                                    alt="/" 
+                                    width={40} 
+                                    height={40} 
+                                    className="select-none"
+                                  />
                                   <span className="font-bold mt-1 text-lg">{student.name}</span>
                                 </label>
                               </div>
