@@ -94,7 +94,7 @@ const Randomiser = ({ openRandomiser, setOpenRandomiser }) => {
                     alt="/"
                     width={80}
                     height={80}
-                    className="rounded-full absolute top-1 left-1"
+                    className="absolute top-1 left-1"
                     style={{
                       objectFit: "cover"
                     }}

@@ -4,9 +4,8 @@ import { collection, updateDoc, doc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose, AiOutlineInfoCircle } from "react-icons/ai"
-import defaultAvatar from "../../../../public/assets/avatars/user.svg"
 
-const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen }) => {
+const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen, avatars }) => {
 
     const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)
     const [studentName, setStudentName] = useState("")
@@ -19,6 +18,7 @@ const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen }) => {
     
     const handleAddStudentSubmit = async (e) => {
       e.preventDefault()
+      const randomIndex = Math.floor(Math.random() * avatars.length)
       const name = e.target.name.value.trim() // removes empty spaces
       const capitalisedName = name.charAt(0).toUpperCase() + name.slice(1)
       const dob = e.target.dob.value
@@ -35,7 +35,7 @@ const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen }) => {
         name: capitalisedName,
         dob: dob,
         points: 0,
-        avatar: defaultAvatar,
+        avatar: avatars[randomIndex],
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
         uuid: uuid,
       }
