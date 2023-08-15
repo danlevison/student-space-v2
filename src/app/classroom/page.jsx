@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useEffect, useState, useContext } from 'react'
+import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from 'next/navigation'
 import { useAuthState } from 'react-firebase-hooks/auth'
@@ -19,6 +20,7 @@ import { HiMenuAlt4 } from "react-icons/hi"
 import { FaHome } from "react-icons/fa"
 import paperBg from "../../../public/assets/paperbg.jpg"
 import Scribble from "../../components/Scribble"
+import preloader from "../../../public/assets/loadingring.svg"
 
 const Classroom = () => {
   const [user, loading] = useAuthState(auth)
@@ -75,7 +77,17 @@ const Classroom = () => {
     setShowTableGrid(false)
   }
 
-  if (loading) return <h1>Loading...</h1>
+  if(loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Image src={preloader} alt="/" width={150} height={150} />
+        <p className="sr-only">
+          Preloader by <a href="https://loading.io/" target="_blank" rel="noopener noreferrer">loading.io</a>
+        </p>
+      </div>
+    ) 
+  }
+
   if (!user) router.push('/login')
 
   const scribblesSvgs = [

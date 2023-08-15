@@ -11,7 +11,7 @@ const ClassroomManagement = () => {
                 <h2 className="text-2xl md:text-3xl lg:text-4xl 2xl:text-5xl font-bold underline capitalize">Classroom management</h2>
                 <p className="text-tertiaryTextClr leading-7 py-4">Effective classroom management is key to nurturing a productive and inclusive learning environment. Student Space provides a comprehensive suite of tools that are designed to simplify your daily tasks, saving you valuable time and energy, allowing you to focus on what truly matters - your students' education.</p>
 
-                <div className="pt-4 font-bold text-secondaryTextClr capitalize">
+                <div className="pt-4 font-bold text-secondaryTextClr capitalize text-sm sm:text-base">
                     <div className="flex items-center gap-2">
                         <div className="border-2 border-yellow-500 rounded-full">
                             <TiTickOutline size={20} className="text-yellow-500" />
