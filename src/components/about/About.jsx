@@ -16,7 +16,7 @@ const About = () => {
               <div className="text-secondaryTextClr">
                 <h2 className="text-2xl md:text-3xl lg:text-4xl 2xl:text-5xl font-bold underline">What is Student Space?</h2>
                 <p className="leading-7 text-tertiaryTextClr py-4">Welcome to Student Space, the ultimate platform designed specifically for primary school teachers by a passionate educator. As an ex-primary school teacher, I understand the importance of an organised and efficient classroom environment that fosters student growth and success. That's why I created <span className="font-bold text-yellow-400">Student Space</span> - your one-stop solution for seamless reward management and daily classroom management tools.</p>
-                <div className="font-bold text-secondaryTextClr capitalize pt-8">
+                <div className="font-bold text-secondaryTextClr capitalize pt-8 text-sm sm:text-base">
                   <div className="flex items-center gap-2">
                     <div className="border-2 border-yellow-500 rounded-full">
                       <TiTickOutline size={20} className="text-yellow-500" />

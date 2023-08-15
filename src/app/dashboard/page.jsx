@@ -12,6 +12,7 @@ import Image from "next/image"
 import Nav from "@/components/Nav"
 import EditClass from "@/components/democlass/options/EditClass"
 import bagAvatar from "../../../public/assets/avatars/bag.svg"
+import preloader from "../../../public/assets/loadingring.svg"
 
 const Dashboard = () => {
   const [user, loading] = useAuthState(auth)
@@ -83,7 +84,16 @@ const Dashboard = () => {
     }
   }, [user])
 
-  if (loading) return <h1>Loading...</h1>
+  if(loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Image src={preloader} alt="/" width={150} height={150} />
+        <p className="sr-only">
+          Preloader by <a href="https://loading.io/" target="_blank" rel="noopener noreferrer">loading.io</a>
+        </p>
+      </div>
+    ) 
+  } 
 
   return (
     <>

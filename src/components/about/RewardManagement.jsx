@@ -12,9 +12,9 @@ const RewardManagement = () => {
             </div>
             <div className="flex flex-col order-1">
                 <h2 className="text-2xl md:text-3xl lg:text-4xl 2xl:text-5xl font-bold underline capitalize">Reward management</h2>
-                <p className="text-tertiaryTextClr leading-7 py-4">We understand the powerful impact of positive reinforcement on student motivation and engagement. Through the points system, you can easily track and distribute rewards, ensuring that every achievement is acknowledged and celebrated.</p>
+                <p className="text-tertiaryTextClr leading-7 py-4">Positive reinforcement has a powerful impact on student motivation and engagement. Through the points system, you can easily track and distribute rewards, ensuring that every achievement is acknowledged and celebrated.</p>
 
-                <div className="pt-4 font-bold text-secondaryTextClr">
+                <div className="pt-4 font-bold text-secondaryTextClr text-left text-sm sm:text-base">
                     <div className="flex items-center gap-2">
                         <div className="border-2 border-yellow-500 rounded-full">
                             <TiTickOutline size={20} className="text-yellow-500" />

@@ -13,7 +13,7 @@ const Footer = () => {
     const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="relative w-full h-[560px] bg-[#e3f7fc] pt-10">
+    <footer className="relative w-full h-[560px] bg-[#e3f7fc] pt-10 z-0">
       <div>
         <Image src={footerBg} alt="/" fill={false} className="absolute bottom-0 object-cover bg-[#e3f7fc] w-full"/>
       </div>

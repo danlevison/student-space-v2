@@ -1,6 +1,7 @@
 "use client"
 
 import React, {useEffect} from 'react'
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { FcGoogle } from "react-icons/fc"
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
@@ -10,6 +11,7 @@ import { setDoc, doc, getDoc} from "firebase/firestore"
 import Nav from "@/components/Nav"
 import Scribble from "../../components/Scribble"
 import bagAvatar from "../../../public/assets/avatars/bag.svg"
+import preloader from "../../../public/assets/loadingring.svg"
 
 const Login = () => {
     const [user, loading] = useAuthState(auth)
@@ -24,8 +26,7 @@ const Login = () => {
         const docSnap = await getDoc(userDocRef)
 
         if (docSnap.exists()) {
-          // User data already exists, handle accordingly
-          console.log("User already exists")
+          // User data already exists
           router.push("/dashboard") // Redirect user to the dashboard
           return
         }
@@ -39,7 +40,7 @@ const Login = () => {
         })
 
         } catch (error) {
-          console.error(error)
+            console.error(error)
         }
     }
 
@@ -47,13 +48,19 @@ const Login = () => {
     useEffect(() => {
         if(user) {
             router.push("/dashboard")
-        } else {
-            console.log("login")
         }
     }, [user])
 
-    if(loading) return <h1>...Loading</h1> //TODO: Check if this works.
-        // router.push("/dashboard") // Redirect user to the dashboard
+    if(loading) {
+      return (
+        <div className="flex justify-center items-center h-screen">
+          <Image src={preloader} alt="/" width={150} height={150} />
+          <p className="sr-only">
+            Preloader by <a href="https://loading.io/" target="_blank" rel="noopener noreferrer">loading.io</a>
+          </p>
+        </div>
+      ) 
+    } 
 
     const scribblesSvgs = [
       { src: '/assets/Scribbles/67.svg', className: 'absolute top-32 left-10 w-[75px] md:w-[150px]' },
