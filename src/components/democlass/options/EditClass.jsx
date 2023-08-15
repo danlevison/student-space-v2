@@ -1,4 +1,4 @@
-import React, {Fragment, useContext, useState, useEffect} from 'react'
+import React, {Fragment, useContext, useState} from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import Image from "next/image"
 import StudentDataContext from "@/StudentDataContext"
@@ -6,8 +6,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { doc, collection, updateDoc, deleteDoc } from 'firebase/firestore'
 import { db, auth } from "../../../utils/firebase"
 import { Dialog } from '@headlessui/react'
-import { AiOutlineClose } from 'react-icons/ai'
-import { AiFillCaretDown } from "react-icons/ai"
+import { AiOutlineClose, AiFillCaretDown } from 'react-icons/ai'
 import bagAvatar from "../../../../public/assets/avatars/bag.svg"
 import origamiAvatar from "../../../../public/assets/avatars/origami.svg"
 import bookBagAvatar from "../../../../public/assets/avatars/bookbag.svg"
