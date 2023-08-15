@@ -1,18 +1,18 @@
 "use client"
 
 import React, { useState, useEffect } from 'react'
+import Link from "next/link"
+import Image from "next/image"
 import { useRouter } from 'next/navigation'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth, db } from '../../utils/firebase'
 import { updateDoc, doc, getDoc } from "firebase/firestore"
 import CreateClass from "../../components/CreateClass"
 import { IoMdSettings } from 'react-icons/io'
-import Link from "next/link"
-import Image from "next/image"
 import Nav from "@/components/Nav"
 import EditClass from "@/components/democlass/options/EditClass"
+import Preloader from "@/components/Preloader"
 import bagAvatar from "../../../public/assets/avatars/bag.svg"
-import preloader from "../../../public/assets/loadingring.svg"
 
 const Dashboard = () => {
   const [user, loading] = useAuthState(auth)
@@ -84,16 +84,7 @@ const Dashboard = () => {
     }
   }, [user])
 
-  if(loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <Image src={preloader} alt="/" width={150} height={150} />
-        <p className="sr-only">
-          Preloader by <a href="https://loading.io/" target="_blank" rel="noopener noreferrer">loading.io</a>
-        </p>
-      </div>
-    ) 
-  } 
+  if (loading) return <Preloader />
 
   return (
     <>

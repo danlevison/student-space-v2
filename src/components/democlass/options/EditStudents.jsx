@@ -1,12 +1,27 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect, Fragment} from 'react'
+import Image from "next/image"
+import { Menu, Transition } from '@headlessui/react'
 import StudentDataContext from "@/StudentDataContext"
 import { doc, collection, updateDoc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
 import { Dialog } from '@headlessui/react'
-import { AiOutlineClose } from "react-icons/ai"
-import Image from "next/image"
+import { AiOutlineClose, AiFillCaretDown } from 'react-icons/ai'
+import sheepAvatar from "../../../../public/assets/avatars/sheep.svg"
+import monkeyAvatar from "../../../../public/assets/avatars/monkey.svg"
+import rabbitAvatar from "../../../../public/assets/avatars/rabbit.svg"
+import frogAvatar from "../../../../public/assets/avatars/frog.svg"
+import snakeAvatar from "../../../../public/assets/avatars/snake.svg"
+import chickenAvatar from "../../../../public/assets/avatars/chicken.svg"
+import giraffeAvatar from "../../../../public/assets/avatars/giraffe.svg"
+import pandaAvatar from "../../../../public/assets/avatars/panda.svg"
+import penguinAvatar from "../../../../public/assets/avatars/penguin.svg"
+import dogAvatar from "../../../../public/assets/avatars/dog.svg"
+import cheetahAvatar from "../../../../public/assets/avatars/cheetah.svg"
+import lionAvatar from "../../../../public/assets/avatars/lion.svg"
+import otterAvatar from "../../../../public/assets/avatars/otter.svg"
 
 const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) => {
+    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)
     const [openStudentInfo, setOpenStudentInfo] = useState(false) 
     const [selectedStudent, setSelectedStudent] = useState({
         name: "",
@@ -14,8 +29,23 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
       })
     const [alert, setAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
+    const [newStudentAvatar, setNewStudentAvatar] = useState("")
 
-    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)
+    const menuItemData = [
+      { imageSrc: sheepAvatar, onClick: () => setNewStudentAvatar(sheepAvatar) },
+      { imageSrc: monkeyAvatar, onClick: () => setNewStudentAvatar(monkeyAvatar) },
+      { imageSrc: rabbitAvatar, onClick: () => setNewStudentAvatar(rabbitAvatar) },
+      { imageSrc: frogAvatar, onClick: () => setNewStudentAvatar(frogAvatar) },
+      { imageSrc: snakeAvatar, onClick: () => setNewStudentAvatar(snakeAvatar) },
+      { imageSrc: chickenAvatar, onClick: () => setNewStudentAvatar(chickenAvatar) },
+      { imageSrc: giraffeAvatar, onClick: () => setNewStudentAvatar(giraffeAvatar) },
+      { imageSrc: pandaAvatar, onClick: () => setNewStudentAvatar(pandaAvatar) },
+      { imageSrc: penguinAvatar, onClick: () => setNewStudentAvatar(penguinAvatar) },
+      { imageSrc: dogAvatar, onClick: () => setNewStudentAvatar(dogAvatar) },
+      { imageSrc: cheetahAvatar, onClick: () => setNewStudentAvatar(cheetahAvatar) },
+      { imageSrc: lionAvatar, onClick: () => setNewStudentAvatar(lionAvatar) },
+      { imageSrc: otterAvatar, onClick: () => setNewStudentAvatar(otterAvatar) },
+    ]
     
     useEffect(() => {
       setAlert(false)
@@ -32,6 +62,8 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
         ...student,
         dob: formattedDob
       })
+
+      setNewStudentAvatar(student.avatar)
     
       setOpenStudentInfo(true)
     }
@@ -66,10 +98,10 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
           return
         }
 
-        // Update the student name and dob in the demoClass
+        // Update the student name, dob and avatar in the demoClass
         const updatedStudentData = studentData.map((student) => {
           if (student.uuid === selectedStudent.uuid) {
-            return { ...student, name: updatedCapitalisedName, dob: updatedDob }
+            return { ...student, name: updatedCapitalisedName, dob: updatedDob, avatar:newStudentAvatar }
           }
           return student
         })
@@ -171,44 +203,94 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
         
                 {/* Full-screen container to center the panel */}
                 <div className="fixed inset-0 flex items-center justify-center p-4">
-                    <Dialog.Panel className="flex flex-col p-5 w-full max-w-[500px] h-auto rounded-xl bg-modalBgClr">
-                      <div className="flex justify-between items-center pb-2">
+                    <Dialog.Panel className="flex flex-col p-5 w-full max-w-[500px] h-[500px] rounded-xl bg-modalBgClr">
+                      <div className="flex justify-between items-center pb-2 z-10">
                           <Dialog.Title className="font-bold text-xl">{selectedStudent.name}</Dialog.Title>
                           <button onClick={() => setOpenStudentInfo(false)}>
-                          <AiOutlineClose
-                              size={28}
-                              className="bg-white text-secondaryTextClr hover:bg-buttonClr rounded-full hover:text-primaryTextClr p-1"
-                          />
+                            <AiOutlineClose
+                                size={28}
+                                className="bg-white text-secondaryTextClr hover:bg-buttonClr rounded-full hover:text-primaryTextClr p-1"
+                            />
                           </button>
                       </div>
-                      <form onSubmit={handleStudentInfoSubmit} className="flex flex-col">
-                        <Image 
-                          src={selectedStudent.avatar}
-                          alt="/"
-                          width={70}
-                          height={70}
-                          className="mx-auto"
-                        />
-                        {alert ? <p className="font-bold text-red-500 pb-1">{alertMessage}</p> : <label htmlFor="name" className="pb-1">First name</label> }
-                          <input
-                            className={alert ? "border-2 border-red-500 w-full rounded-lg p-2 outline-none" : "border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr"}
-                            type="text"
-                            id="name"
-                            name="name"
-                            required
-                            value={selectedStudent.name}
-                            onChange={updateStudentName}
-                          />
-                          <label htmlFor="dob" className="pt-3">Date of birth</label>
-                          <input
-                            className="border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr" 
-                            type="date"
-                            id="dob"
-                            name="dob"
-                            required
-                            value={selectedStudent.dob}
-                            onChange={updateStudentDob}
-                          />
+                      <form onSubmit={handleStudentInfoSubmit} className="flex flex-col justify-between h-full">
+                        {/* Student Avatar menu */}
+                        <Menu as="div" className="inline-block mt-[-2em]">
+                        <div>
+                            <Menu.Button 
+                                type="button" 
+                                className="relative mt-10 mx-auto flex justify-center rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+                                <Image 
+                                  src={newStudentAvatar}
+                                  alt="/"
+                                  width={80}
+                                  height={80}
+                                />
+                                <AiFillCaretDown
+                                    className="absolute bottom-[-1em] text-iconClr"
+                                    size={15}
+                                    aria-hidden="true"
+                                /> 
+                            </Menu.Button>
+                        </div>
+                        <Transition
+                            as={Fragment}
+                            enter="transition ease-out duration-100"
+                            enterFrom="transform opacity-0 scale-95"
+                            enterTo="transform opacity-100 scale-100"
+                            leave="transition ease-in duration-75"
+                            leaveFrom="transform opacity-100 scale-100"
+                            leaveTo="transform opacity-0 scale-95"
+                        >
+                            <Menu.Items 
+                                className="absolute h-[320px] overflow-auto w-[80%] max-w-[420px] left-[50%] translate-x-[-50%] grid grid-cols-[repeat(auto-fill,minmax(80px,1fr))] gap-4 mt-2 p-4 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            >
+                            {menuItemData.map((menuItem, index) => (
+                                <Menu.Item key={index} className="w-full">
+                                    <button 
+                                        onClick={menuItem.onClick} 
+                                        type="button" 
+                                        className="group flex justify-center items-center rounded-xl border-2 border-black p-2 hover:scale-105 duration-300"
+                                    >
+                                    <Image
+                                        src={menuItem.imageSrc}
+                                        alt="/"
+                                        width={60}
+                                        height={60}
+                                        aria-hidden="true"
+                                    />
+                                </button>
+                            </Menu.Item>
+                        ))}
+                        </Menu.Items>
+                    </Transition>
+                    </Menu>
+
+                        <div>
+                          {alert ?
+                            <p className="font-bold text-red-500 pb-1 text-lg">{alertMessage}</p> : <label htmlFor="name" className="pb-1 text-lg">First name</label> }
+                            <input
+                              className={alert ? "border-2 border-red-500 w-full rounded-lg p-3 outline-none" : "border-2 border-gray-400 w-full rounded-lg p-3 outline-inputOutlineClr"}
+                              type="text"
+                              id="name"
+                              name="name"
+                              required
+                              value={selectedStudent.name}
+                              onChange={updateStudentName}
+                            />
+                            <div className="mt-5">
+                              <label htmlFor="dob" className="pt-3 text-lg">Date of birth</label>
+                              <input
+                                className="border-2 border-gray-400 w-full rounded-lg p-3 outline-inputOutlineClr" 
+                                type="date"
+                                id="dob"
+                                name="dob"
+                                required
+                                value={selectedStudent.dob}
+                                onChange={updateStudentDob}
+                              />
+                            </div>
+                        </div> 
                             
                           <div className="flex flex-col md:flex-row items-center mt-5">
                               <button onClick={removeStudent} type="button" className="md:mr-auto bg-red-500 hover:bg-red-700 rounded-2xl p-2 text-sm text-primaryTextClr font-bold">Remove student from class</button>
@@ -237,7 +319,6 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
       
         </>
       )
-      
 }
 
 export default EditStudents
