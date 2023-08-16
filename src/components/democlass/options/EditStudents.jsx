@@ -176,7 +176,7 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
                     <p className="text-xl">No student data available</p>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-[repeat(auto-fill,minmax(110px,1fr))] gap-2 items-start h-auto max-h-[370px] overflow-auto mt-4 p-4">
+                  <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-2 items-start h-auto max-h-[370px] overflow-auto mt-4 p-4">
                     {studentData.map((student) => (
                       <button
                         key={student.uuid}
@@ -267,18 +267,20 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
                     </Menu>
 
                         <div>
-                          {alert ?
-                            <p className="font-bold text-red-500 pb-1 text-lg">{alertMessage}</p> : <label htmlFor="name" className="pb-1 text-lg">First name</label> }
-                            <input
-                              className={alert ? "border-2 border-red-500 w-full rounded-lg p-3 outline-none" : "border-2 border-gray-400 w-full rounded-lg p-3 outline-inputOutlineClr"}
-                              type="text"
-                              id="name"
-                              name="name"
-                              required
-                              value={selectedStudent.name}
-                              onChange={updateStudentName}
-                            />
-                            <div className="mt-5">
+                          <div className="flex flex-col">
+                            {alert ?
+                              <p className="font-bold text-red-500 pb-1 text-lg">{alertMessage}</p> : <label htmlFor="name" className="pb-1 text-lg">First name</label> }
+                              <input
+                                className={alert ? "border-2 border-red-500 w-full rounded-lg p-3 outline-none" : "border-2 border-gray-400 w-full rounded-lg p-3 outline-inputOutlineClr"}
+                                type="text"
+                                id="name"
+                                name="name"
+                                required
+                                value={selectedStudent.name}
+                                onChange={updateStudentName}
+                              />
+                          </div>
+                            <div className="flex flex-col mt-4">
                               <label htmlFor="dob" className="pt-3 text-lg">Date of birth</label>
                               <input
                                 className="border-2 border-gray-400 w-full rounded-lg p-3 outline-inputOutlineClr" 
