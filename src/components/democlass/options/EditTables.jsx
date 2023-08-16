@@ -13,6 +13,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
     const [updatedTableName, setUpdatedTableName] = useState("")
     const [alert, setAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
+    const [tempStudentData, setTempStudentData] = useState(studentData)
 
     useEffect(() => {
       setAlert(false)
@@ -43,10 +44,16 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
 
     const handleTableInfoSubmit = async (e) => {
       e.preventDefault()
-      try {
 
+      // Check if alert is true and prevent form submission
+      if (alert) {
+        return
+      }
+
+      try {
         // If updatedTableName is empty, use the selectedTableName
         const tableName = updatedTableName || selectedTableName
+        
 
         // Only check for an existing table name if updatedTableName is not empty
         if (updatedTableName) {
@@ -63,13 +70,14 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
         }
 
         // Update studentData tableData to show updatedTableName in demoClass
-        const updatedStudentData = studentData.map((student) => {
+        const updatedStudentData = tempStudentData.map((student) => {
           if (student.tableData?.tableName === selectedTableName) {
             return {...student, tableData: {...student.tableData, tableName: tableName} }
           }
           return student
         })
 
+        // setStudentData(updatedStudentData)
         setStudentData(updatedStudentData)
 
         if(userUid && userClassName) {
@@ -92,8 +100,8 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
     }
 
     const uncheckStudent = (selectedStudent) => {
-      setStudentData((prevDemoStudentData) => {
-        return prevDemoStudentData.map((student) => {
+      setTempStudentData((prevTempStudentData) => {
+        return prevTempStudentData.map((student) => {
           if (selectedStudent === student.name) {
             return {...student, tableData: {...student.tableData, isOnTable: !student.tableData.isOnTable}}
           }
@@ -160,7 +168,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                         <p className="text-xl">No table data available</p>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-[repeat(auto-fill,minmax(110px,1fr))] gap-2 items-start h-auto max-h-[370px] overflow-auto mt-4 p-4">
+                  <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-2 items-start h-auto max-h-[370px] overflow-auto mt-4 p-4">
                     {/* Render a button for each table name */}
                     {tableNames.map((tableName) => (
                       <button
@@ -210,7 +218,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                         />
                         
                         <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-4 items-center py-4">
-                          {studentData.filter((student) => student.tableData?.tableName === selectedTableName).map((student) => (
+                          {tempStudentData.filter((student) => student.tableData?.tableName === selectedTableName).map((student) => (
                               <div key={student.name} className="flex justify-center">
                                 <input
                                   onChange={() => uncheckStudent(student.name)}
