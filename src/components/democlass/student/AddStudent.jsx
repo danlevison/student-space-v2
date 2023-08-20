@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useState, useRef} from 'react'
 import StudentDataContext from "@/StudentDataContext"
 import { collection, updateDoc, doc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
@@ -11,6 +11,7 @@ const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen, avatars }
     const [studentName, setStudentName] = useState("")
     const [alert, setAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
+    const nameInputRef = useRef(null) 
     
     const handleInputChange = (e) => {
       setStudentName(e.target.value.trim())
@@ -60,6 +61,7 @@ const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen, avatars }
       }
     
       e.target.reset() // Reset the form fields
+      nameInputRef.current.focus()
       setAlert(false)
     }
 
@@ -90,7 +92,8 @@ const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen, avatars }
                           className={alert ? "border-2 border-red-500 w-full rounded-lg p-2 outline-none" : "border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr"}
                           type="text" 
                           id="name" 
-                          name="name" 
+                          name="name"
+                          ref={nameInputRef} 
                           required 
                         />
 

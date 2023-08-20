@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import Randomiser from "./toolbar/Randomiser"
-import Instructions from "./toolbar/Instructions"
+import Instructions from "./toolbar/instructions/Instructions"
 import { RiTimerFill } from 'react-icons/ri'
 import { GiCardRandom } from 'react-icons/gi'
 import { GoTasklist } from 'react-icons/go'
