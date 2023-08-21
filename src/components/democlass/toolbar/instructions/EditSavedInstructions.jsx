@@ -1,12 +1,17 @@
-import React, {useState} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
+import { db, auth } from '../../../../utils/firebase'
+import { doc, updateDoc, collection } from 'firebase/firestore'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import StudentDataContext from "@/StudentDataContext"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose, AiOutlineArrowLeft } from 'react-icons/ai'
 import AddInstructions from "./AddInstructions"
 
 const EditSavedInstructions = ({ showAddInstructionModalEdit, setShowAddInstructionModalEdit, showEditSavedInstructionsModal, setShowEditSavedInstructionsModal, setOpenInstructions, savedInstruction, savedInstructionIndex, handleAddInstructionModal, instruction, savedInstructions, setSavedInstructions, setInstruction, setIsEditInstructionActive, activeSavedInstruction }) => {
-
-    const [tempSavedInstructions, setTempSavedInstructions] = useState(savedInstructions)
-
+    const { userUid, userClassName } = useContext(StudentDataContext)
+    const [user, loading] = useAuthState(auth)  
+    const [tempSavedInstructions, setTempSavedInstructions] = useState(savedInstructions || [])
+ 
     const resetTempInstructions = () => {
         setTempSavedInstructions(savedInstructions)
     }
@@ -49,16 +54,46 @@ const EditSavedInstructions = ({ showAddInstructionModalEdit, setShowAddInstruct
         setTempSavedInstructions(updatedSavedInstructions)
     }
 
-    const handleEditInstructionSubmit = (e) => {
+    const handleEditInstructionSubmit = async (e) => {
         e.preventDefault()
+        try {
+            setSavedInstructions(tempSavedInstructions)
+            
+            if (userUid && userClassName) {
+                const docRef = doc(db, 'users', user.uid)
+                const classDocumentRef = doc(collection(docRef, "users class"), user.uid)
+    
+                await updateDoc(classDocumentRef, {
+                    instructionsData: tempSavedInstructions
+                })
+            }
 
-        setSavedInstructions(tempSavedInstructions)
+        } catch (error) {
+            console.error("Error saving changes", error)
+        }
+
         setShowEditSavedInstructionsModal(!showEditSavedInstructionsModal)
     }
     
-    const deleteSavedInstruction = (savedInstructionIndex) => {
-        const updatedInstructions = savedInstructions.filter((_, i) => i !== savedInstructionIndex)
-        setSavedInstructions(updatedInstructions)
+    const deleteSavedInstruction = async (savedInstructionIndex) => {
+        try {
+            const updatedInstructions = savedInstructions.filter((_, i) => i !== savedInstructionIndex)
+            setSavedInstructions(updatedInstructions)
+            setTempSavedInstructions(updatedInstructions)
+
+            if (userUid && userClassName) {
+                const docRef = doc(db, 'users', user.uid)
+                const classDocumentRef = doc(collection(docRef, "users class"), user.uid)
+    
+                await updateDoc(classDocumentRef, {
+                    instructionsData: updatedInstructions
+                })
+            }
+        } catch (error) {
+            console.error("Error deleting instruction", error)
+        }
+        
+        
         setShowEditSavedInstructionsModal(!showEditSavedInstructionsModal)
         setIsEditInstructionActive(false)
     }
