@@ -1,4 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
+import { auth, db } from '../../../../utils/firebase'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { doc, updateDoc, getDocs, collection, arrayUnion } from 'firebase/firestore'
+import StudentDataContext from "@/StudentDataContext"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose, AiOutlineArrowLeft } from 'react-icons/ai'
 import { CiEdit } from "react-icons/ci"
@@ -10,7 +14,7 @@ import EditSavedInstructions from "./EditSavedInstructions"
 const Instructions = ({ openInstructions, setOpenInstructions }) => {
     // State variables for various modals and data
     const [showCreateInstructionsModal, setShowCreateInstructionsModal] = useState(false)
-    const [showAddInstructionModalCreate, setShowAddInstructionModalCreate] = useState(false)
+    const [showAddInstructionModalCreate, setShowAddInstructionModalCreate] = useState(false) // TODO: check if we need both states for add instruction
     const [showAddInstructionModalEdit, setShowAddInstructionModalEdit] = useState(false)
     const [showEditSavedInstructionsModal, setShowEditSavedInstructionsModal] = useState(false)
     const [displayInstructionsModal, setDisplayInstructionsModal] = useState(false)
@@ -21,6 +25,16 @@ const Instructions = ({ openInstructions, setOpenInstructions }) => {
     const [savedInstructions, setSavedInstructions] = useState([])
     const [activeSavedInstruction, setActiveSavedInstruction] = useState(null)
     const [isEditInstructionActive, setIsEditInstructionActive] = useState(false)
+    
+    const [user, loading] = useAuthState(auth)
+    const { userUid, userClassName } = useContext(StudentDataContext)
+
+    // Fetch the user's instructions data from the Firestore subcollection when userUid and className are available
+    useEffect(() => {
+        if (userUid && userClassName) {
+          fetchInstructionData()
+        }
+      }, [userUid, userClassName])
 
     // Handlers for opening and closing modals
     const handleCreateInstructionsModal = () => {
@@ -32,11 +46,20 @@ const Instructions = ({ openInstructions, setOpenInstructions }) => {
     }
 
     const handleAddInstructionModal = () => {
-        if (isEditInstructionActive) {
-            setShowAddInstructionModalEdit(true)
-        } else {
-            setShowAddInstructionModalCreate(true)
-        }
+        isEditInstructionActive ? setShowAddInstructionModalEdit(true) : setShowAddInstructionModalCreate(true)
+        setInstruction("")
+    }
+
+    const handleEditSavedInstruction = (savedInstruction, savedInstructionIndex) => {
+        setIsEditInstructionActive(true)
+        setShowEditSavedInstructionsModal(!showEditSavedInstructionsModal)
+        setActiveSavedInstruction(savedInstructionIndex)
+    }
+
+    // Handling displaying saved instructions modal
+    const displaySavedInstructions = (savedInstructionIndex) => {
+        setDisplaySavedInstructionsModal(!displaySavedInstructionsModal)
+        setActiveSavedInstruction(savedInstructionIndex)
     }
 
     // Adding an instruction to the list
@@ -55,45 +78,61 @@ const Instructions = ({ openInstructions, setOpenInstructions }) => {
         setInstructionsList(updatedInstructionsList)
     }
 
+    const saveCurrentInstructions = async () => {
+        try {
+            let newInstructionSet = null
+            if (!isEditInstructionActive && instructionsList.length > 0 || instructionTitle) {
+                newInstructionSet = {
+                    title: instructionTitle === "" ? instructionsList[0] : instructionTitle,
+                    instructions: [...instructionsList]
+                }
+
+                setSavedInstructions([...savedInstructions, newInstructionSet])
+            }
+
+            if (userUid && userClassName) {
+                const docRef = doc(db, 'users', user.uid)
+                const classDocumentRef = doc(collection(docRef, "users class"), user.uid)
+
+                // Add a new field to the class collection
+                await updateDoc(classDocumentRef, {
+                    instructionsData: arrayUnion(newInstructionSet)
+                })
+            } 
+            
+        } catch (error) {
+            console.error("Error adding instruction data:", error)
+        }
+    }
+
+    const fetchInstructionData = async () => {
+        try {
+            const classCollectionRef = collection(db, 'users', userUid, userClassName)
+            const classSnapshot = await getDocs(classCollectionRef)
+            const fbInstructionsData = classSnapshot.docs.map((doc) => doc.data().instructionsData)
+
+            setSavedInstructions(fbInstructionsData.flat()) // The flat() method is used to merge these arrays into a single array 
+            
+        } catch (error) {
+            console.log('Error fetching instructions data from Firestore:', error)
+        }
+    }
+
     // Displaying instructions + saving them
     const displayInstructions = () => {
-        if (instructionsList.length > 0 || instructionTitle) {
-            const newInstructionSet = {
-                title: instructionTitle === "" ? instructionsList[0] : instructionTitle,
-                instructions: [...instructionsList]
-            }
-            setSavedInstructions([...savedInstructions, newInstructionSet])
-        }
+        saveCurrentInstructions()
         setDisplayInstructionsModal(!displayInstructionsModal)
     }
 
     // Saving instructions for later
     const saveInstructions = () => {
-        if (!isEditInstructionActive && instructionsList.length > 0 || instructionTitle) {
-            const newInstructionSet = {
-                title: instructionTitle === "" ? instructionsList[0] : instructionTitle,
-                instructions: [...instructionsList]
-            }
-            setSavedInstructions([...savedInstructions, newInstructionSet])
-        }
-
+        saveCurrentInstructions()
+    
         setShowCreateInstructionsModal(false)
         setIsEditInstructionActive(false)
         setInstructionTitle("")
         setInstruction("")
         setInstructionsList([])
-    }
-
-    // Handling saved instructions display
-    const displaySavedInstructions = (savedInstructionIndex) => {
-        setDisplaySavedInstructionsModal(!displaySavedInstructionsModal)
-        setActiveSavedInstruction(savedInstructionIndex)
-    }
-
-    const editSavedInstruction = (savedInstruction, savedInstructionIndex) => {
-        setIsEditInstructionActive(true)
-        setShowEditSavedInstructionsModal(!showEditSavedInstructionsModal)
-        setActiveSavedInstruction(savedInstructionIndex)
     }
 
     // Reset modal and data states on openInstructions change
@@ -205,7 +244,7 @@ const Instructions = ({ openInstructions, setOpenInstructions }) => {
                 instructionTitle={instructionTitle}
                 instructionsList={instructionsList}
             />
-        </Dialog> 
+        </Dialog>
 
         :
 
@@ -247,7 +286,7 @@ const Instructions = ({ openInstructions, setOpenInstructions }) => {
                                         {savedInstruction.title}
                                     </button>
 
-                                    <button onClick={() => editSavedInstruction(savedInstruction, index)}
+                                    <button onClick={() => handleEditSavedInstruction(savedInstruction, index)}
                                         className="mt-4">
                                         <CiEdit size={30} />
                                     </button>
