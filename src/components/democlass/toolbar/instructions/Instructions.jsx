@@ -275,54 +275,56 @@ const Instructions = ({ openInstructions, setOpenInstructions }) => {
                         </button>
 
                         {/* Saved instructions list */}
-                        <div className="flex flex-col justify-center items-center h-full w-full">
-                        {savedInstructions.map((savedInstruction, index) => (
-                            <div key={index} className="w-full">
-                                <div className="flex justify-between items-center gap-2">
-                                    <button 
-                                        onClick={() => displaySavedInstructions(index)}
-                                        className="p-4 border-2 border-gray-400 bg-white w-full text-lg rounded-lg mt-4"
-                                    >
-                                        {savedInstruction.title}
-                                    </button>
+                        {savedInstructions && (
+                            <div className="flex flex-col justify-center items-center h-full w-full">
+                            {savedInstructions.map((savedInstruction, index) => (
+                                <div key={index} className="w-full">
+                                    <div className="flex justify-between items-center gap-2">
+                                        <button 
+                                            onClick={() => displaySavedInstructions(index)}
+                                            className="p-4 border-2 border-gray-400 bg-white w-full text-lg rounded-lg mt-4"
+                                        >
+                                            {savedInstruction.title}
+                                        </button>
 
-                                    <button onClick={() => handleEditSavedInstruction(savedInstruction, index)}
-                                        className="mt-4">
-                                        <CiEdit size={30} />
-                                    </button>
+                                        <button onClick={() => handleEditSavedInstruction(savedInstruction, index)}
+                                            className="mt-4">
+                                            <CiEdit size={30} />
+                                        </button>
+                                    </div>
+                                
+                                {/* Edit saved instruction */}
+                                {activeSavedInstruction === index && (
+                                    <EditSavedInstructions
+                                        showAddInstructionModalEdit={showAddInstructionModalEdit}
+                                        setShowAddInstructionModalEdit={setShowAddInstructionModalEdit} 
+                                        showEditSavedInstructionsModal={showEditSavedInstructionsModal}
+                                        setShowEditSavedInstructionsModal={setShowEditSavedInstructionsModal}
+                                        setOpenInstructions={setOpenInstructions}
+                                        savedInstruction={savedInstruction}
+                                        savedInstructionIndex={index}
+                                        handleAddInstructionModal={handleAddInstructionModal}
+                                        instruction={instruction}
+                                        setInstruction={setInstruction}
+                                        savedInstructions={savedInstructions}
+                                        setSavedInstructions={setSavedInstructions}
+                                        setIsEditInstructionActive={setIsEditInstructionActive}
+                                        activeSavedInstruction={activeSavedInstruction}
+                                    />
+                                )}
+
+                                {/* Display saved instructions modal */}
+                                {activeSavedInstruction === index && (
+                                    <DisplaySavedInstructions 
+                                        displaySavedInstructionsModal={displaySavedInstructionsModal}
+                                        setOpenInstructions={setOpenInstructions}
+                                        savedInstruction={savedInstruction}
+                                    />
+                                )}
                                 </div>
-                            
-                            {/* Edit saved instruction */}
-                            {activeSavedInstruction === index && (
-                                <EditSavedInstructions
-                                    showAddInstructionModalEdit={showAddInstructionModalEdit}
-                                    setShowAddInstructionModalEdit={setShowAddInstructionModalEdit} 
-                                    showEditSavedInstructionsModal={showEditSavedInstructionsModal}
-                                    setShowEditSavedInstructionsModal={setShowEditSavedInstructionsModal}
-                                    setOpenInstructions={setOpenInstructions}
-                                    savedInstruction={savedInstruction}
-                                    savedInstructionIndex={index}
-                                    handleAddInstructionModal={handleAddInstructionModal}
-                                    instruction={instruction}
-                                    setInstruction={setInstruction}
-                                    savedInstructions={savedInstructions}
-                                    setSavedInstructions={setSavedInstructions}
-                                    setIsEditInstructionActive={setIsEditInstructionActive}
-                                    activeSavedInstruction={activeSavedInstruction}
-                                />
-                            )}
-
-                            {/* Display saved instructions modal */}
-                            {activeSavedInstruction === index && (
-                                <DisplaySavedInstructions 
-                                    displaySavedInstructionsModal={displaySavedInstructionsModal}
-                                    setOpenInstructions={setOpenInstructions}
-                                    savedInstruction={savedInstruction}
-                                />
-                            )}
+                            ))}
                             </div>
-                        ))}
-                        </div>
+                        )}
                     </div>
                 </Dialog.Panel>
             </div>
