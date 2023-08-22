@@ -87,7 +87,7 @@ const Instructions = ({ openInstructions, setOpenInstructions }) => {
                     instructions: [...instructionsList]
                 }
 
-                setSavedInstructions([...savedInstructions, newInstructionSet])
+                setSavedInstructions(prevInstructions => [...prevInstructions, newInstructionSet])
             }
 
             if (userUid && userClassName) {
@@ -109,8 +109,7 @@ const Instructions = ({ openInstructions, setOpenInstructions }) => {
         try {
             const classCollectionRef = collection(db, 'users', userUid, userClassName)
             const classSnapshot = await getDocs(classCollectionRef)
-            const fbInstructionsData = classSnapshot.docs.map((doc) => doc.data().instructionsData)
-
+            const fbInstructionsData = classSnapshot.docs.map((doc) => doc.data().instructionsData).filter((data) => data !== null && data !== undefined) // Filter out null or undefined instructionsData
             setSavedInstructions(fbInstructionsData.flat()) // The flat() method is used to merge these arrays into a single array 
             
         } catch (error) {
@@ -120,8 +119,8 @@ const Instructions = ({ openInstructions, setOpenInstructions }) => {
 
     // Displaying instructions + saving them
     const displayInstructions = () => {
-        saveCurrentInstructions()
         setDisplayInstructionsModal(!displayInstructionsModal)
+        saveCurrentInstructions()
     }
 
     // Saving instructions for later
@@ -275,7 +274,7 @@ const Instructions = ({ openInstructions, setOpenInstructions }) => {
                         </button>
 
                         {/* Saved instructions list */}
-                        {savedInstructions && (
+                        {savedInstructions.length > 0 && (
                             <div className="flex flex-col justify-center items-center h-full w-full">
                             {savedInstructions.map((savedInstruction, index) => (
                                 <div key={index} className="w-full">
