@@ -19,7 +19,7 @@ const Greeting = () => {
             const data = docSnap.data()
             setDbClassName(data.className) // Fetch the existing classname value from Firestore
         }
-    };
+    }
 
     useEffect(() => {
         const fetchData = async () => {

@@ -81,6 +81,8 @@ const Dashboard = () => {
   useEffect(() => {
     if (!user) {
       router.push("/login")
+    } else {
+      router.push("/dashboard")
     }
   }, [user])
 
