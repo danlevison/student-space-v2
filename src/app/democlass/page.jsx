@@ -29,6 +29,8 @@ const DemoClass = () => {
   useEffect(() => {
     if (!user) {
       router.push("/login")
+    } else {
+      router.push("/democlass")
     }
   }, [user])
 
