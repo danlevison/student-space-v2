@@ -71,20 +71,23 @@ const Dashboard = () => {
       setIsEditClassModalOpen(!isEditClassModalOpen)
     }
 
-  return (
-    <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-600" onClick={handleButtonClick}>
-      <IoMdSettings size={30} />
-    </button>
-  )
-}
+    return (
+      <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-600" onClick={handleButtonClick}>
+        <IoMdSettings size={30} />
+      </button>
+    )
+  }
 
   useEffect(() => {
+    if (loading) {
+      // Handle loading state
+      return // Don't proceed until loading is complete
+    }
+
     if (!user) {
       router.push("/login")
-    } else {
-      router.push("/dashboard")
     }
-  }, [user])
+  }, [user, loading])
 
   if (loading) return <Preloader />
 
@@ -105,6 +108,7 @@ const Dashboard = () => {
                       className="rounded-xl border-2 border-black bg-orange-100 p-2" 
                       src={bagAvatar}
                       alt="/"
+                      priority
                       width={100}
                       height={100}
                     />
@@ -121,6 +125,7 @@ const Dashboard = () => {
                       className="rounded-xl border-2 border-black bg-blue-100 p-2" 
                       src={classAvatar}
                       alt="/"
+                      priority
                       width={100}
                       height={100}
                     />
