@@ -26,14 +26,6 @@ const DemoClass = () => {
   const [toolbarMenu, setToolbarMenu] = useState(false)
   const [showTableGrid, setShowTableGrid] = useState(false)
 
-  useEffect(() => {
-    if (!user) {
-      router.push("/login")
-    } else {
-      router.push("/democlass")
-    }
-  }, [user])
-
   const handleToolbar = () => {
     setToolbarMenu(!toolbarMenu)
   }
@@ -46,7 +38,20 @@ const DemoClass = () => {
     setShowTableGrid(false)
   }
 
-  if(loading) return <Preloader />
+  useEffect(() => {
+    if (loading) {
+      // Handle loading state
+      return // Don't proceed until loading is complete
+    }
+
+    if (!user) {
+      router.push("/login")
+    }
+  }, [user, loading])
+
+  if (loading) return <Preloader />
+
+  
 
   const scribblesSvgs = [
     { src: '/assets/Scribbles/4.svg', className: 'hidden md:block absolute top-36 left-10 w-[50px] md:w-[120px] rotate-45' },
