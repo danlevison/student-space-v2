@@ -38,7 +38,6 @@ const Classroom = () => {
         const docSnap = await getDoc(docRef)
         if (docSnap.exists()) {
           const data = docSnap.data()
-          // setUserClassName(data.className || '')
           setUserClassName("users class" || "")
 
           // If the user has a className, create the class subcollection with the name the user chose for their class
@@ -76,9 +75,18 @@ const Classroom = () => {
     setShowTableGrid(false)
   }
 
-  if(loading) return <Preloader />
+  useEffect(() => {
+    if (loading) {
+      // Handle loading state
+      return // Don't proceed until loading is complete
+    }
 
-  if (!user) router.push('/login')
+    if (!user) {
+      router.push("/login")
+    }
+  }, [user, loading])
+
+  if (loading) return <Preloader />
 
   const scribblesSvgs = [
     { src: '/assets/Scribbles/58.svg', className: 'absolute top-64 md:top-36 left-10 w-[50px] md:w-[100px] 2xl:w-[150px]' },
@@ -93,6 +101,7 @@ const Classroom = () => {
   return (
       <main className="relative min-h-screen w-full bg-[#fbe8de]" style={{ backgroundImage: `url(${paperBg.src})`, backgroundSize: "auto" }}>
         <Scribble scribblesSvgs={scribblesSvgs} />
+          //TODO: Make nav into separate component to use in democlass & classroom
           <nav className="bg-white fixed z-[20] top-0 h-12 w-full px-8">
             <ul className="flex items-center gap-8">
               <li className="relative group">
@@ -127,7 +136,6 @@ const Classroom = () => {
             
             <div className="flex flex-col mx-auto w-full py-20 z-0">
               <div className="flex flex-col justify-center items-center pb-10 sm:pb-0 px-8">
-                {/* //TODO: set greeting depending on time of day */}
                 <Greeting /> 
                 <Birthday />
                 <CurrentDate />

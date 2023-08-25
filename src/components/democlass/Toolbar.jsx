@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import Randomiser from "./toolbar/Randomiser"
 import Instructions from "./toolbar/instructions/Instructions"
+import Timer from "./toolbar/Timer"
 import { RiTimerFill } from 'react-icons/ri'
 import { GiCardRandom } from 'react-icons/gi'
 import { GoTasklist } from 'react-icons/go'
@@ -20,10 +21,11 @@ const ToolbarIcon = ({ icon, text, onClick }) => (
 const Toolbar = ({ toolbarMenu }) => {
   const [openRandomiser, setOpenRandomiser] = useState(false)
   const [openInstructions, setOpenInstructions] = useState(false)
+  const [openTimer, setOpenTimer] = useState(false)
 
   const handleTimerClick = () => {
     // Handle Timer button click logic here
-    console.log('Timer button clicked')
+    setOpenTimer(!openTimer)
   }
 
   const handleRandomStudentClick = () => {
@@ -67,7 +69,8 @@ const Toolbar = ({ toolbarMenu }) => {
           />
         </ul>
       </div>
-
+      
+      <Timer openTimer={openTimer} setOpenTimer={setOpenTimer} />
       <Randomiser openRandomiser={openRandomiser} setOpenRandomiser={setOpenRandomiser} />
       <Instructions openInstructions={openInstructions} setOpenInstructions={setOpenInstructions} />
     </>

@@ -23,7 +23,7 @@ import lionAvatar from "../../../../public/assets/avatars/lion.svg"
 import otterAvatar from "../../../../public/assets/avatars/otter.svg"
 
 const StudentGrid = () => {
-    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)  
+    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)
     const [isAddStudentModalOpen, setIsAddStudentModalOpen] = useState(false)
     const [avatars, setAvatars] = useState([monkeyAvatar, rabbitAvatar, pandaAvatar, cheetahAvatar, sheepAvatar, chickenAvatar, penguinAvatar, dogAvatar, giraffeAvatar, snakeAvatar, otterAvatar, frogAvatar, lionAvatar])
 
@@ -42,7 +42,7 @@ const StudentGrid = () => {
         const classSnapshot = await getDocs(classCollectionRef)
         const studentsData = classSnapshot.docs.map((doc) => doc.data().studentData) // The studentsData array, obtained from map((doc) => doc.data().studentData), is an array of arrays
         setStudentData(studentsData.flat()) // The flat() method is used to merge these arrays into a single array 
-        // setting demoStudentData to studentData from firebase allows users studentData to be rendered
+        // setting studentData to the studentData from firebase allows users studentData to be rendered
       } catch (error) {
         console.log('Error fetching student data from Firestore:', error)
       }
