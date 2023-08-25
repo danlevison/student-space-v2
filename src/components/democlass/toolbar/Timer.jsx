@@ -77,12 +77,12 @@ const Timer = ( {openTimer, setOpenTimer} ) => {
 
   return openTimer && (
     <div className="fixed inset-0 z-[-100]">
-        <Draggable bounds="parent">
-            <div className="absolute top-[30%] mx-4 sm:top-[60%] sm:right-[3%] p-5 w-auto sm:w-[450px] h-auto sm:h-[250px] rounded-xl bg-slate-600 z-[-10] cursor-move text-white">
+        <Draggable bounds="parent" cancel=".clickable">
+            <div className="absolute top-[30%] mx-4 sm:mx-0 sm:top-[60%] sm:right-[3%] p-5 w-auto sm:w-[450px] h-auto sm:h-[250px] rounded-xl bg-slate-600 z-[-10] cursor-move text-white">
                 <div className="flex justify-between items-center pb-4 sm:pb-0">
                     <h2 className="font-bold text-xl">Countdown timer</h2>
                     <button onClick={() => setOpenTimer(false)}>
-                        <AiOutlineClose size={28} className="bg-white text-secondaryTextClr rounded-full p-1 hover:bg-slate-800 hover:text-white"/>
+                        <AiOutlineClose size={28} className="clickable bg-white text-secondaryTextClr rounded-full p-1 hover:bg-slate-800 hover:text-white"/>
                     </button>
                 </div>
                 <div className="flex flex-col justify-center items-center h-full">
@@ -95,7 +95,7 @@ const Timer = ( {openTimer, setOpenTimer} ) => {
                                 type="number"
                                 value={minutes}
                                 onChange={handleMinutes}
-                                className="text-center w-full max-w-[130px] h-20 rounded-xl text-6xl border-2 border-black [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                className="clickable text-center w-full max-w-[130px] h-20 rounded-xl text-6xl border-2 border-black [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                             />
                             <span className="text-7xl text-white">:</span>
                             <input
@@ -105,7 +105,7 @@ const Timer = ( {openTimer, setOpenTimer} ) => {
                                 type="number"
                                 value={seconds.toString().padStart(2, '0')}
                                 onChange={handleSeconds}
-                                className="text-center w-auto max-w-[130px] h-20 rounded-xl text-6xl border-2 border-black [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                className="clickable text-center w-auto max-w-[130px] h-20 rounded-xl text-6xl border-2 border-black [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                             />
                         </div>   
                     )}
@@ -120,19 +120,19 @@ const Timer = ( {openTimer, setOpenTimer} ) => {
                         {(minutes > 0 || seconds > 0) && (
                             <div className="flex justify-center items-center gap-10">
                                 {!start ? 
-                                    <button onClick={() => setStart(true)} className="flex items-center gap-2 px-10 py-2 border-2 border-white rounded-full hover:bg-slate-500">
+                                    <button onClick={() => setStart(true)} className="clickable flex items-center gap-2 px-10 py-2 border-2 border-white rounded-full hover:bg-slate-500">
                                         <BsPlayFill size={25} />
                                         <span className="font-bold">Start</span> 
                                     </button>
                                     :
-                                    <button onClick={() => setStart(false)} className="flex items-center gap-2 px-10 py-2 border-2 border-white rounded-full hover:bg-slate-500">
+                                    <button onClick={() => setStart(false)} className="clickable flex items-center gap-2 px-10 py-2 border-2 border-white rounded-full hover:bg-slate-500">
                                         <BsFillPauseFill size={25} />
                                         <span className="font-bold">Pause</span>
                                     </button>
                                 }
                             </div>
                         )}
-                        <button onClick={resetTime} className="flex items-center gap-2 px-10 py-2 border-2 border-white rounded-full hover:bg-slate-500">
+                        <button onClick={resetTime} className="clickable flex items-center gap-2 px-10 py-2 border-2 border-white rounded-full hover:bg-slate-500">
                             <LuTimerReset size={20} />
                             <span className="font-bold">Reset</span>
                         </button>
