@@ -4,8 +4,8 @@ import Instructions from "./toolbar/instructions/Instructions"
 import Timer from "./toolbar/Timer"
 import { RiTimerFill } from 'react-icons/ri'
 import { GiCardRandom } from 'react-icons/gi'
-import { GoTasklist } from 'react-icons/go'
-import { AiOutlineUnorderedList } from 'react-icons/ai'
+import { LuListChecks } from "react-icons/lu"
+import { ImListNumbered } from "react-icons/im"
 
 const ToolbarIcon = ({ icon, text, onClick }) => (
   <li className="z-[1000] relative flex items-center justify-center h-12 w-12 shadow-lg bg-gray-300 hover:bg-slate-400 rounded-3xl hover:rounded-xl transition-all duration-300 ease-linear group">
@@ -55,15 +55,22 @@ const Toolbar = ({ toolbarMenu }) => {
           <RiArrowLeftSLine size={30} className="text-buttonClr"/>
         </button> */}
         <ul className="flex flex-col justify-evenly md:justify-normal items-center md:mt-48 md:gap-32 h-full text-iconClr z-10">
-          <ToolbarIcon icon={<RiTimerFill size={26} />} text="Timer" onClick={handleTimerClick} />
+          <ToolbarIcon 
+            icon={<RiTimerFill 
+            size={26} />} 
+            text="Countdown Timer" 
+            onClick={handleTimerClick} />
           <ToolbarIcon
             icon={<GiCardRandom size={26} />}
             text="Random Student"
             onClick={handleRandomStudentClick}
           />
-          <ToolbarIcon icon={<GoTasklist size={26} />} text="Task-List" onClick={handleTaskListClick} />
+          <ToolbarIcon 
+            icon={<LuListChecks size={35} />} 
+            text="Task-List" 
+            onClick={handleTaskListClick} />
           <ToolbarIcon
-            icon={<AiOutlineUnorderedList size={26} />}
+            icon={<ImListNumbered size={26} />}
             text="Instructions"
             onClick={handleInstructionsClick}
           />

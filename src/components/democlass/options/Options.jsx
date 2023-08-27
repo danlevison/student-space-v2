@@ -5,6 +5,7 @@ import { AiFillCaretDown } from "react-icons/ai"
 import { CiEdit } from "react-icons/ci"
 import { RxReset } from "react-icons/rx"
 import { TiSortAlphabetically } from "react-icons/ti"
+import { MdPerson, MdGroups } from "react-icons/md"
 import EditStudents from "./EditStudents"
 import ResetPoints from "./ResetPoints"
 import EditTables from "./EditTables"
@@ -87,12 +88,12 @@ const Options = () => {
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                     >
                     {active ? (
-                        <CiEdit
+                        <MdPerson
                         className="mr-2 h-5 w-5 text-primaryTextClr"
                         aria-hidden="true"
                         />
                     ) : (
-                        <CiEdit
+                        <MdPerson
                         className="mr-2 h-5 w-5 text-iconClr"
                         aria-hidden="true"
                         />
@@ -110,12 +111,12 @@ const Options = () => {
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                     >
                     {active ? (
-                        <CiEdit
+                        <MdGroups
                         className="mr-2 h-5 w-5 text-primaryTextClr"
                         aria-hidden="true"
                         />
                     ) : (
-                        <CiEdit
+                        <MdGroups
                         className="mr-2 h-5 w-5 text-iconClr"
                         aria-hidden="true"
                         />
@@ -130,8 +131,9 @@ const Options = () => {
                 {({ active }) => (
                     <button
                     onClick={sortStudentsAlphabetically}
+                    disabled={studentData.length === 0}
                     className={`${
-                        active ? 'bg-buttonClr text-primaryTextClr' : 'text-secondaryTextClr'
+                        active ? 'bg-buttonClr text-primaryTextClr' : 'text-secondaryTextClr disabled:text-gray-400'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                     >
                     {active ? (
@@ -155,7 +157,7 @@ const Options = () => {
                     onClick={handleResetPointsModal}
                     disabled={studentData.length === 0}
                     className={`${
-                        active ? 'bg-buttonClr text-primaryTextClr' : 'text-secondaryTextClr'
+                        active ? 'bg-buttonClr text-primaryTextClr' : 'text-secondaryTextClr disabled:text-gray-400'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                     >
                     {active ? (

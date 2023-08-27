@@ -98,10 +98,11 @@ const Classroom = () => {
     { src: '/assets/Scribbles/61.svg', className: "hidden md:block absolute top-2 left-96 w-[200px] rotate-45" },
   ]
   
+  //TODO: Make nav into separate component to use in democlass & classroom
+  
   return (
       <main className="relative min-h-screen w-full bg-[#fbe8de]" style={{ backgroundImage: `url(${paperBg.src})`, backgroundSize: "auto" }}>
         <Scribble scribblesSvgs={scribblesSvgs} />
-          //TODO: Make nav into separate component to use in democlass & classroom
           <nav className="bg-white fixed z-[20] top-0 h-12 w-full px-8">
             <ul className="flex items-center gap-8">
               <li className="relative group">

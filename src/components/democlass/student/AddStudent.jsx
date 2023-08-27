@@ -71,6 +71,7 @@ const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen, avatars }
             open={isAddStudentModalOpen}
             onClose={() => setIsAddStudentModalOpen(false)}
             className="relative z-50"
+            initialFocus={nameInputRef}
         >
             {/* Backdrop */}
             <div className="fixed inset-0 bg-modalBackdropClr" aria-hidden="true" />
@@ -80,7 +81,7 @@ const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen, avatars }
                 
                 <Dialog.Panel className="p-5 w-[400px] h-[300px] rounded-xl bg-blue-100">
                     <div className="flex justify-between items-center">
-                        <Dialog.Title className="font-bold text-xl">Add student</Dialog.Title>
+                        <Dialog.Title className="font-bold text-xl capitalize">Add student</Dialog.Title>
                         <button onClick={() => setIsAddStudentModalOpen(false)}>
                             <AiOutlineClose size={28} className="bg-white text-secondaryTextClr hover:bg-buttonClr rounded-full hover:text-primaryTextClr p-1"/>
                         </button>

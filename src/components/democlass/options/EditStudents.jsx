@@ -161,8 +161,8 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
       
             {/* Full-screen container to center the panel */}
             <div className="fixed inset-0 flex items-center justify-center p-4">
-              <Dialog.Panel className="p-5 w-full max-w-[800px] rounded-xl bg-modalBgClr">
-                <div className="flex justify-between items-center">
+              <Dialog.Panel className="p-5 w-auto sm:min-w-[400px] max-w-[800px] rounded-xl bg-modalBgClr">
+                <div className="flex justify-between items-center gap-6">
                   <Dialog.Title className="font-bold text-xl">Edit Students</Dialog.Title>
                   <button onClick={() => setIsEditStudentsModalOpen(false)}>
                     <AiOutlineClose
@@ -181,7 +181,7 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
                       <button
                         key={student.uuid}
                         onClick={() => handleStudentModal(student)}
-                        className="text-center text-lg bg-white p-4 shadow-lg rounded-xl hover:scale-105 duration-300"
+                        className="text-center text-lg bg-white p-4 shadow-lg rounded-xl hover:scale-105 duration-300 break-words"
                       > 
                         {student.name}
                       </button>
@@ -294,23 +294,29 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
                             </div>
                         </div> 
                             
-                          <div className="flex flex-col md:flex-row items-center mt-5">
-                              <button onClick={removeStudent} type="button" className="md:mr-auto bg-red-500 hover:bg-red-700 rounded-2xl p-2 text-sm text-primaryTextClr font-bold">Remove student from class</button>
-                              <div className="flex items-center justify-center gap-2 mt-3 md:mt-0">
+                          <div className="flex flex-col sm:flex-row-reverse items-center">
+                              <div className="flex items-center justify-center gap-2">
                                   <button 
                                     onClick={() => setOpenStudentInfo(false)} 
                                     type="button" 
-                                    className="bg-modalBgClr hover:bg-white rounded-2xl p-2 text-buttonClr font-bold text-sm"
+                                    className="bg-modalBgClr hover:bg-white rounded-2xl py-2 px-3 text-buttonClr font-bold text-sm"
                                   >
                                     Cancel
                                   </button>
                                   <button
                                     disabled={!selectedStudent.name.trim()} 
-                                    className="text-sm font-bold bg-white hover:bg-green-200 rounded-2xl py-2 px-3 disabled:bg-gray-400 disabled:hover:bg-gray-400"
+                                    className="text-sm font-bold bg-white hover:bg-green-200 rounded-2xl py-2 px-5 disabled:bg-gray-400 disabled:hover:bg-gray-400"
                                   >
                                     Save
                                   </button>
                               </div>
+                              <button 
+                                onClick={removeStudent} 
+                                type="button" 
+                                className="w-full sm:w-[230px] sm:mr-auto bg-red-500 hover:bg-red-700 rounded-2xl py-2 px-3 text-sm text-primaryTextClr font-bold mt-3 sm:mt-0"
+                              >
+                                Remove student from class
+                              </button>
                           </div>
                       </form>
                     </Dialog.Panel>
