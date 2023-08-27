@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useState, useRef} from 'react'
 import StudentDataContext from "@/StudentDataContext"
 import { collection, updateDoc, doc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
@@ -9,7 +9,8 @@ import Image from "next/image"
 const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
     const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)
     const [alert, setAlert] = useState(false)
-    const [alertMessage, setAlertMessage] = useState("")  
+    const [alertMessage, setAlertMessage] = useState("")
+    const tableInputRef = useRef(null)  
     
     const getSelectedStudent = async (e) => {
         try {
@@ -92,6 +93,7 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
             open={isAddTableModalOpen}
             onClose={() => setIsAddTableModalOpen(false)}
             className="relative z-50"
+            initialFocus={tableInputRef}
         >
             {/* Backdrop */}
             <div className="fixed inset-0 bg-modalBackdropClr" aria-hidden="true" />
@@ -101,7 +103,7 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
                 
                 <Dialog.Panel className="p-5 w-full max-w-[1200px] h-full 2xl:h-auto overflow-auto rounded-xl bg-blue-100">
                     <div className="flex justify-between items-center">
-                        <Dialog.Title className="font-bold text-xl">Add Table</Dialog.Title>
+                        <Dialog.Title className="font-bold text-xl capitalize">Add table</Dialog.Title>
                         <button onClick={() => setIsAddTableModalOpen(false)}>
                             <AiOutlineClose size={28} className="bg-white text-secondaryTextClr hover:bg-buttonClr rounded-full hover:text-primaryTextClr p-1"/>
                         </button>
@@ -114,7 +116,9 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
                               type="text" 
                               id="tableName" 
                               name="tableName" 
-                              required 
+                              required
+                              maxLength={20}
+                              ref={tableInputRef} 
                             />
                         </div>
                         <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-4 items-center py-4">

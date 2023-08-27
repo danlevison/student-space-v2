@@ -87,8 +87,8 @@ const ResetPoints = ({ openResetPointsModal, setOpenResetPointsModal }) => {
                             Warning: Resetting points is a permanent action and cannot be reversed.
                     </Dialog.Description>
                     <div className="flex flex-col sm:flex-row justify-center items-center gap-4 py-2 sm:py-0">
-                        <button onClick={resetStudentPoints} className="text-sm md:text-base bg-buttonClr text-primaryTextClr rounded-lg shadow-lg hover:scale-105 duration-300 p-3">Reset All Student Points</button>
-                        <button onClick={resetTablePoints} className="text-sm md:text-base bg-buttonClr text-primaryTextClr rounded-lg shadow-lg hover:scale-105 duration-300 p-3">Reset All Table Points</button>
+                        <button onClick={resetStudentPoints} className="w-full sm:w-[200px] md:w-[220px] sm text-sm md:text-base bg-buttonClr text-primaryTextClr rounded-lg shadow-lg hover:scale-105 duration-300 p-3">Reset All Student Points</button>
+                        <button onClick={resetTablePoints} className="w-full sm:w-[200px] md:w-[220px] text-sm md:text-base bg-buttonClr text-primaryTextClr rounded-lg shadow-lg hover:scale-105 duration-300 p-3">Reset All Table Points</button>
                     </div>
                     </Dialog.Panel>
                 </div>

@@ -27,6 +27,11 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
     const [openDeleteClassModal, setOpenDeleteClassModal] = useState(false)
     const [newClassAvatar, setNewClassAvatar] = useState(classAvatar)
 
+    const resetForm = () => {
+        setNewClassName(dbUserClassName)
+        setNewClassAvatar(classAvatar)
+    }
+    
     const menuItemData = [
         { imageSrc: origamiAvatar, onClick: () => setNewClassAvatar(origamiAvatar) },
         { imageSrc: bagAvatar, onClick: () => setNewClassAvatar(bagAvatar) },
@@ -87,7 +92,13 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
     }
 
     return (
-        <Dialog open={isEditClassModalOpen} onClose={() => setIsEditClassModalOpen(false)} className="relative z-50">
+        <Dialog 
+            open={isEditClassModalOpen} 
+            onClose={() => {
+                setIsEditClassModalOpen(false)
+                resetForm()
+            }}  
+            className="relative z-50">
           {/* Backdrop */}
           <div className="fixed inset-0 bg-modalBackdropClr" aria-hidden="true" />
     
@@ -96,7 +107,12 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
             <Dialog.Panel className="p-5 w-full h-[500px] sm:w-[500px] rounded-xl bg-blue-100">
               <div className="flex justify-between items-center">
                 <Dialog.Title className="font-bold text-xl">Edit {dbUserClassName}</Dialog.Title>
-                <button onClick={() => setIsEditClassModalOpen(false)}>
+                <button 
+                    onClick={() => {
+                        setIsEditClassModalOpen(false)
+                        resetForm()
+                    }}
+                >
                   <AiOutlineClose
                     size={28}
                     className="bg-white text-secondaryTextClr hover:bg-buttonClr rounded-full hover:text-primaryTextClr p-1"
@@ -174,35 +190,38 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
                         />
                     </div>
 
-                    <div className="flex justify-end items-center mt-5">
-                        <button
-                            onClick={handleDeleteClassModal} 
-                            type="button" 
-                            className="mr-auto bg-red-500 hover:bg-red-700 rounded-2xl p-2 text-sm sm:text-lg text-primaryTextClr font-bold"
-                        >
-                            Delete class
-                        </button>
+                    <div className="flex flex-col sm:flex-row-reverse justify-end items-center mt-5">
                         <div className="flex items-center justify-center gap-2">
                             <button 
-                                onClick={() => setIsEditClassModalOpen(false)} 
+                                onClick={() => {
+                                    setIsEditClassModalOpen(false)
+                                    resetForm()
+                                }}
                                 type="button" 
-                                className="bg-modalBgClr hover:bg-white rounded-2xl p-2 text-buttonClr font-bold text-sm sm:text-lg"
+                                className="bg-modalBgClr hover:bg-white rounded-2xl py-2 px-3 text-buttonClr font-bold text-sm sm:text-lg"
                             >
                                 Cancel
                             </button>
                             <button
                                 disabled={!newClassName.trim()}
-                                className="text-sm sm:text-lg font-bold bg-white hover:bg-green-200 rounded-2xl py-2 px-3 disabled:bg-gray-400 disabled:hover:bg-gray-400"
+                                className="text-sm sm:text-lg font-bold bg-white hover:bg-green-200 rounded-2xl py-2 px-5 disabled:bg-gray-400 disabled:hover:bg-gray-400"
                             >
                                 Save
                             </button>
                         </div>
+                        <button
+                            onClick={handleDeleteClassModal} 
+                            type="button" 
+                            className="w-full sm:w-[180px] sm:mr-auto mt-3 sm:mt-0 bg-red-500 hover:bg-red-700 rounded-2xl p-2 text-sm sm:text-lg text-primaryTextClr font-bold"
+                        >
+                            Delete class
+                        </button>
                     </div>
               </form>
             </Dialog.Panel>
           </div>
 
-          {/* Reset class Modal */}
+          {/* Delete class Modal */}
           {openDeleteClassModal && (
                 <Dialog
                 open={openDeleteClassModal}
@@ -227,16 +246,16 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
                       
                       <div>
                         <p className="text-lg font-bold text-red-400 mt-4 text-center">Warning: Deleting your class will permanently remove all class data! This action cannot be reversed.</p>
-                        <div className="flex justify-end items-center gap-4 mt-6">
+                        <div className="flex justify-evenly items-center mt-6">
                             <button 
                                 onClick={() => setOpenDeleteClassModal(false)}
-                                className="bg-modalBgClr hover:bg-white rounded-2xl p-2 text-buttonClr font-bold text-sm"
+                                className="bg-modalBgClr hover:bg-white rounded-2xl py-2 px-3 text-buttonClr font-bold text-sm"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={deleteClass}
-                                className="bg-red-500 hover:bg-red-700 rounded-2xl p-2 text-sm text-primaryTextClr font-bold"
+                                className="bg-red-500 hover:bg-red-700 rounded-2xl py-2 px-3 text-sm text-primaryTextClr font-bold"
                             >
                                 Delete your class
                             </button>

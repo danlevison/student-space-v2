@@ -9,11 +9,13 @@ import { AiOutlineClose } from "react-icons/ai"
 const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
     const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)
     const [openTableInfo, setOpenTableInfo] = useState(false)
+    const [checkDeleteTableModal, setCheckDeleteTableModal] = useState(false)
     const [selectedTableName, setSelectedTableName] = useState(null)
     const [updatedTableName, setUpdatedTableName] = useState("")
     const [alert, setAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
     const [tempStudentData, setTempStudentData] = useState(studentData)
+    const [tempSelectedTableName, setTempSelectedTableName] = useState(selectedTableName)
 
     useEffect(() => {
       setAlert(false)
@@ -33,13 +35,16 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
 
     const handleTableModal = (tableName) => {
         setSelectedTableName(tableName)
+        setTempSelectedTableName(tableName)
         setOpenTableInfo(true)
     }
 
     const updateTableName = (e) => {
-      const newTableName = e.target.value.trim() // removes empty spaces
+      const newTableName = e.target.value // removes empty spaces
       const capitalisedNewTableName = newTableName.charAt(0).toUpperCase() + newTableName.slice(1)
       setUpdatedTableName(capitalisedNewTableName)
+      setTempSelectedTableName(newTableName)
+      setAlert(false)
     }
 
     const handleTableInfoSubmit = async (e) => {
@@ -51,28 +56,21 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
       }
 
       try {
-        // If updatedTableName is empty, use the selectedTableName
-        const tableName = updatedTableName || selectedTableName
-        
+        const tableName = updatedTableName ? updatedTableName : selectedTableName
+        const existingTableName = studentData.find((student) => student.tableData?.tableName === tableName)
 
-        // Only check for an existing table name if updatedTableName is not empty
-        if (updatedTableName) {
-          const existingTableName = studentData.find(
-            (student) => student.tableData?.tableName === tableName
-          )
-
-          if (existingTableName) {
+          if (existingTableName && existingTableName.tableData?.tableName !== selectedTableName) {
             setAlert(true)
             setAlertMessage("A table with this name already exists!")
             setUpdatedTableName("")
             return
           }
-        }
+        
 
         // Update studentData tableData to show updatedTableName in demoClass
         const updatedStudentData = tempStudentData.map((student) => {
           if (student.tableData?.tableName === selectedTableName) {
-            return {...student, tableData: {...student.tableData, tableName: tableName} }
+            return {...student, tableData: {...student.tableData, tableName: tableName.trim()} }
           }
           return student
         })
@@ -90,12 +88,13 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
              studentData: updatedStudentData,
            })
          }
-      
+
       } catch (error) {
         console.error('Error updating student information:', error)
       }
 
       alert ? setOpenTableInfo(true) : setOpenTableInfo(false)
+      setIsEditTablesModalOpen(false)
       setSelectedTableName(updatedTableName || selectedTableName)
     }
 
@@ -108,6 +107,10 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
           return student
         })
       })
+    }
+
+    const checkDeleteTable = () => {
+      setCheckDeleteTableModal(!checkDeleteTableModal)
     }
 
     const deleteTable = async () => {
@@ -138,6 +141,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
           console.error('Error updating student information:', error)
         }
 
+        setCheckDeleteTableModal(false)
         setOpenTableInfo(false)
     }
 
@@ -153,7 +157,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
       
             {/* Full-screen container to center the panel */}
             <div className="fixed inset-0 flex items-center justify-center p-4">
-              <Dialog.Panel className="p-5 w-full max-w-[800px] rounded-xl bg-modalBgClr">
+              <Dialog.Panel className="p-5 w-auto sm:min-w-[400px] max-w-[800px] rounded-xl bg-modalBgClr">
                 <div className="flex justify-between items-center">
                   <Dialog.Title className="font-bold text-xl">Edit Tables</Dialog.Title>
                   <button onClick={() => setIsEditTablesModalOpen(false)}>
@@ -168,13 +172,13 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                         <p className="text-xl">No table data available</p>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-2 items-start h-auto max-h-[370px] overflow-auto mt-4 p-4">
+                  <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-2 h-auto max-h-[370px] overflow-auto mt-4 p-4">
                     {/* Render a button for each table name */}
                     {tableNames.map((tableName) => (
                       <button
                         key={tableName}
                         onClick={() => handleTableModal(tableName)}
-                        className="text-center text-lg bg-white p-4 shadow-lg rounded-xl hover:scale-105 duration-300"
+                        className="text-center text-lg bg-white p-4 shadow-lg rounded-xl hover:scale-105 duration-300 break-words"
                       >
                         {tableName}
                       </button>
@@ -212,9 +216,10 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                           className={alert ? "border-2 border-red-500 w-full rounded-lg p-2 outline-none" : "border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr"}
                           id="tableName"
                           name="tableName"
-                          placeholder={selectedTableName}
+                          value={tempSelectedTableName}
                           onChange={updateTableName}
                           type="text"
+                          maxLength={20}
                         />
                         
                         <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-4 items-center py-4">
@@ -244,15 +249,8 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                               </div>
                             ))}
                         </div>
-                        <div className="flex flex-col md:flex-row items-center mt-5">
-                            <button 
-                              onClick={deleteTable} 
-                              type="button" 
-                              className="md:mr-auto bg-red-500 hover:bg-red-700 rounded-2xl py-2 px-3 text-primaryTextClr font-bold"
-                              >
-                                Delete table
-                              </button>
-                            <div className="flex items-center justify-center gap-2 mt-3 md:mt-0">
+                        <div className="flex flex-col justify-end sm:flex-row-reverse items-center mt-1"> 
+                            <div className="flex items-center justify-center gap-2">
                                 <button 
                                   onClick={() => setOpenTableInfo(false)} 
                                   type="button" 
@@ -261,17 +259,55 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                                   Cancel
                                 </button>
                                 <button 
-                                  className="font-bold bg-white hover:bg-green-200 rounded-2xl py-2 px-3 disabled:bg-gray-400"
+                                  className="font-bold bg-white hover:bg-green-200 rounded-2xl py-2 px-5 disabled:bg-gray-400"
                                 >
                                   Save
                                 </button>
                             </div>
+                            <button 
+                              onClick={checkDeleteTable} 
+                              type="button" 
+                              className="w-full sm:w-[180px] sm:mr-auto bg-red-500 hover:bg-red-700 rounded-2xl py-2 px-3 text-primaryTextClr font-bold mt-3 sm:mt-0"
+                            >
+                                Delete table
+                            </button>
                         </div>
                     </form>
                     </Dialog.Panel>
                 </div>
+                    <Dialog
+                      open={checkDeleteTableModal}
+                      onClose={() => setCheckDeleteTableModal(false)}
+                      className="relative z-[100]"
+                      >
+                      {/* Backdrop */}
+                      <div className="fixed inset-0 bg-modalBackdropClr" aria-hidden="true" />
+              
+                      {/* Full-screen container to center the panel */}
+                      <div className="fixed inset-0 flex items-center justify-center p-4">
+                          <Dialog.Panel className="flex flex-col p-5 w-full max-w-[450px] h-auto overflow-auto rounded-xl bg-modalBgClr">
+                            <div className="flex flex-col justify-center items-center">
+                              <p className="font-bold text-red-500 text-center">Are you sure you want to delete this table group?</p>
+                              <div className="flex justify-evenly items-center w-full">
+                                <button 
+                                  onClick={() => setCheckDeleteTableModal(false)}
+                                  className="bg-modalBgClr hover:bg-white rounded-xl py-2 px-3 text-buttonClr font-bold mt-4"
+                                  >
+                                  Cancel
+                                </button>
+                                <button 
+                                onClick={deleteTable}
+                                className="bg-red-500 hover:bg-red-700 rounded-xl py-2 px-5 text-primaryTextClr font-bold mt-4"
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            </div>
+                          </Dialog.Panel>
+                      </div>
+                  </Dialog>
                 </Dialog>
-            )}
+              )}
           </Dialog>
     </>
   )

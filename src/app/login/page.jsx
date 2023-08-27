@@ -25,7 +25,6 @@ const Login = () => {
         const docSnap = await getDoc(userDocRef)
 
         if (docSnap.exists()) {
-          // User data already exists
           router.push("/dashboard") // Redirect user to the dashboard
           return
         }
