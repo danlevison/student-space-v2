@@ -157,7 +157,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
       
             {/* Full-screen container to center the panel */}
             <div className="fixed inset-0 flex items-center justify-center p-4">
-              <Dialog.Panel className="p-5 w-auto sm:min-w-[400px] max-w-[800px] rounded-xl bg-modalBgClr">
+              <Dialog.Panel className="p-5 w-full max-w-[800px] rounded-xl bg-modalBgClr">
                 <div className="flex justify-between items-center">
                   <Dialog.Title className="font-bold text-xl">Edit Tables</Dialog.Title>
                   <button onClick={() => setIsEditTablesModalOpen(false)}>
@@ -210,7 +210,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                         />
                         </button>
                     </div>
-                    <form onSubmit={handleTableInfoSubmit} className="flex flex-col">
+                    <form onSubmit={handleTableInfoSubmit} className="flex flex-col h-full">
                         {alert ? <p className="font-bold text-red-500 pb-1">{alertMessage}</p> : <label htmlFor="tableName" className="pb-1">Table name</label>}
                         <input
                           className={alert ? "border-2 border-red-500 w-full rounded-lg p-2 outline-none" : "border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr"}
@@ -249,7 +249,9 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                               </div>
                             ))}
                         </div>
-                        <div className="flex flex-col justify-end sm:flex-row-reverse items-center mt-1"> 
+
+                        <div className="flex-grow" />
+                        <div className="flex flex-col justify-end sm:flex-row-reverse items-center sm:mt-6"> 
                             <div className="flex items-center justify-center gap-2">
                                 <button 
                                   onClick={() => setOpenTableInfo(false)} 

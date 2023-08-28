@@ -101,7 +101,7 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
             {/* Full-screen container to center the panel */}
             <div className="fixed inset-0 flex items-center justify-center p-4">
                 
-                <Dialog.Panel className="p-5 w-full max-w-[1200px] h-full 2xl:h-auto overflow-auto rounded-xl bg-blue-100">
+                <Dialog.Panel className="p-5 w-full max-w-[1200px] h-full overflow-auto rounded-xl bg-blue-100">
                     <div className="flex justify-between items-center">
                         <Dialog.Title className="font-bold text-xl capitalize">Add table</Dialog.Title>
                         <button onClick={() => setIsAddTableModalOpen(false)}>
@@ -150,7 +150,7 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
                                 </div>
                             ))}
                         </div>
-                        <div className="flex justify-end gap-10 mt-4">
+                        <div className="flex justify-end gap-10 mt-[9.7rem]">
                             <button 
                                 onClick={() => setIsAddTableModalOpen(false)} 
                                 type="button" 
