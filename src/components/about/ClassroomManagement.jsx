@@ -1,11 +1,11 @@
 import React from 'react'
 import { TiTickOutline } from "react-icons/ti"
 import Image from "next/image"
-import square from "../../../public/assets/grey-square.png"
+import teacher from "../../../public/assets/teacher-students.svg"
 
 const ClassroomManagement = () => {
   return (
-    <section className="bg-white py-24 w-full">
+    <section className="bg-[#fcf9f4] py-24 w-full">
         <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-12 lg:gap-32 px-10">
             <div className="flex flex-col">
                 <h2 className="text-2xl md:text-3xl lg:text-4xl 2xl:text-5xl font-bold underline capitalize">Classroom management</h2>
@@ -33,7 +33,9 @@ const ClassroomManagement = () => {
                 </div>
               </div>
               <div>
-                <Image src={square} alt="/" width={500} height={400} />
+                <div className="flex justify-center items-center">
+                    <Image src={teacher} alt="/" className="w-full max-w-[600px] hover:scale-105 duration-300" />
+                </div>
             </div> 
         </div>
     </section>

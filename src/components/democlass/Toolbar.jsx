@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import Randomiser from "./toolbar/Randomiser"
 import Instructions from "./toolbar/instructions/Instructions"
 import Timer from "./toolbar/Timer"
+import TaskList from "./toolbar/TaskList"
 import { RiTimerFill } from 'react-icons/ri'
 import { GiCardRandom } from 'react-icons/gi'
 import { LuListChecks } from "react-icons/lu"
@@ -22,6 +23,7 @@ const Toolbar = ({ toolbarMenu }) => {
   const [openRandomiser, setOpenRandomiser] = useState(false)
   const [openInstructions, setOpenInstructions] = useState(false)
   const [openTimer, setOpenTimer] = useState(false)
+  const [openTaskList, setOpenTaskList] = useState(false)
 
   const handleTimerClick = () => {
     // Handle Timer button click logic here
@@ -34,7 +36,7 @@ const Toolbar = ({ toolbarMenu }) => {
 
   const handleTaskListClick = () => {
     // Handle Task List button click logic here
-    console.log('Task List button clicked')
+    setOpenTaskList(!openTaskList)
   }
 
   const handleInstructionsClick = () => {
@@ -56,19 +58,20 @@ const Toolbar = ({ toolbarMenu }) => {
         </button> */}
         <ul className="flex flex-col justify-evenly md:justify-normal items-center md:mt-48 md:gap-32 h-full text-iconClr z-10">
           <ToolbarIcon 
-            icon={<RiTimerFill 
-            size={26} />} 
+            icon={<RiTimerFill size={26} />} 
             text="Countdown Timer" 
-            onClick={handleTimerClick} />
+            onClick={handleTimerClick} 
+          />
+          <ToolbarIcon 
+            icon={<LuListChecks size={35} />} 
+            text="Task-List" 
+            onClick={handleTaskListClick} 
+          />
           <ToolbarIcon
             icon={<GiCardRandom size={26} />}
             text="Random Student"
             onClick={handleRandomStudentClick}
           />
-          <ToolbarIcon 
-            icon={<LuListChecks size={35} />} 
-            text="Task-List" 
-            onClick={handleTaskListClick} />
           <ToolbarIcon
             icon={<ImListNumbered size={26} />}
             text="Instructions"
@@ -79,6 +82,7 @@ const Toolbar = ({ toolbarMenu }) => {
       
       <Timer openTimer={openTimer} setOpenTimer={setOpenTimer} />
       <Randomiser openRandomiser={openRandomiser} setOpenRandomiser={setOpenRandomiser} />
+      <TaskList openTaskList={openTaskList} setOpenTaskList={setOpenTaskList} />
       <Instructions openInstructions={openInstructions} setOpenInstructions={setOpenInstructions} />
     </>
   )

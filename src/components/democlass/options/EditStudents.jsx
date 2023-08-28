@@ -161,7 +161,7 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
       
             {/* Full-screen container to center the panel */}
             <div className="fixed inset-0 flex items-center justify-center p-4">
-              <Dialog.Panel className="p-5 w-auto sm:min-w-[400px] max-w-[800px] rounded-xl bg-modalBgClr">
+              <Dialog.Panel className="p-5 w-full max-w-[800px] rounded-xl bg-modalBgClr">
                 <div className="flex justify-between items-center gap-6">
                   <Dialog.Title className="font-bold text-xl">Edit Students</Dialog.Title>
                   <button onClick={() => setIsEditStudentsModalOpen(false)}>

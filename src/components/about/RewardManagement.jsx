@@ -1,14 +1,14 @@
 import React from 'react'
 import { TiTickOutline } from "react-icons/ti"
 import Image from "next/image"
-import square from "../../../public/assets/grey-square.png"
+import children from "../../../public/assets/happy-children.svg"
 
 const RewardManagement = () => {
   return (
-    <section className="bg-[#f6f7fa] py-24 w-full">
+    <section className="bg-white py-24 w-full">
         <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-12 lg:gap-32 px-10">
-            <div className="order-2 lg:order-1">
-                <Image src={square} alt="/" width={500} height={400} />
+            <div className="order-2 lg:order-1 flex justify-center items-center hover:scale-105 duration-300">
+                <Image src={children} alt="Illustration of happy children" className="rounded-3xl w-full max-w-[600px] lg:mt-[-5em]" />
             </div>
             <div className="flex flex-col order-1">
                 <h2 className="text-2xl md:text-3xl lg:text-4xl 2xl:text-5xl font-bold underline capitalize">Reward management</h2>

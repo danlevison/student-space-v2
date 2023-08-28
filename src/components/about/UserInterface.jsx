@@ -4,7 +4,7 @@ import square from "../../../public/assets/grey-square.png"
 
 const UserInterface = () => {
   return (
-    <section className="bg-[#f6f7fa] py-16 lg:py-52 w-full">
+    <section className="bg-white py-16 lg:py-52 w-full">
         <div className="max-w-[1440px] mx-auto px-10">
             <div className="flex flex-col justify-center items-center">
               <div className="md:text-center">
