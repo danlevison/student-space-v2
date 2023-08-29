@@ -25,7 +25,7 @@ const Nav = () => {
   }
 
   return (
-      <nav className="bg-white shadow-xl fixed w-full h-[6rem] z-[10] px-8">
+      <nav className="bg-white shadow-xl fixed top-0 w-full h-[6rem] z-[10] px-8">
         <div className="flex justify-between items-center gap-4 w-full h-full px-2 2xl:px-16">
           <Logo />
           {/* Desktop */}

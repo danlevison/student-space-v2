@@ -9,7 +9,7 @@ const nunito = Nunito({
 
 export const metadata = {
   title: 'Student Space',
-  description: 'An app for primary school teachers',
+  description: 'A class management app for primary school teachers',
 }
 
 export default function RootLayout({ children }) {

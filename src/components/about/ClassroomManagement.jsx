@@ -5,20 +5,22 @@ import teacher from "../../../public/assets/teacher-students.svg"
 
 const ClassroomManagement = () => {
   return (
-    <section className="bg-[#fcf9f4] py-24 w-full">
-        <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-12 lg:gap-32 px-10">
+    <section className="bg-white w-full py-16 lg:py-40">
+        <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-16 lg:gap-32 px-8">
             <div className="flex flex-col">
-                <h2 className="text-2xl md:text-3xl lg:text-4xl 2xl:text-5xl font-bold underline capitalize">Classroom management</h2>
-                <p className="text-tertiaryTextClr leading-7 py-4">Effective classroom management is key to nurturing a productive and inclusive learning environment. Student Space provides a comprehensive suite of tools that are designed to simplify your daily tasks, saving you valuable time and energy, allowing you to focus on what truly matters - your students' education.</p>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-black capitalize py-4">
+                    <span className="bg-[linear-gradient(#FFF3A0,#FFEB79)] bg-[0_70%] bg-[size:100%_35%] bg-no-repeat">Classroom management</span>
+                </h2>
+                <p className="text-tertiaryTextClr font-medium leading-7 py-4">Effective classroom management is key to nurturing a productive and inclusive learning environment. Student Space provides a comprehensive suite of tools that are designed to simplify your daily tasks, saving you valuable time and energy, allowing you to focus on what truly matters - your students' education.</p>
 
-                <div className="pt-4 font-bold text-secondaryTextClr capitalize text-sm sm:text-base">
+                <div className="flex flex-col gap-6 pt-4 font-bold text-secondaryTextClr capitalize text-sm sm:text-base">
                     <div className="flex items-center gap-2">
                         <div className="border-2 border-yellow-500 rounded-full">
                             <TiTickOutline size={20} className="text-yellow-500" />
                         </div>
                         <p>Student randomiser</p>
                     </div>
-                    <div className="flex items-center py-6 gap-2">
+                    <div className="flex items-center gap-2">
                         <div className="border-2 border-yellow-500 rounded-full">
                             <TiTickOutline size={20} className="text-yellow-500" />
                         </div>
@@ -28,7 +30,13 @@ const ClassroomManagement = () => {
                         <div className="border-2 border-yellow-500 rounded-full">
                             <TiTickOutline size={20} className="text-yellow-500" />
                         </div>
-                        <p>Countdown timer</p>
+                        <p>Create Instructions</p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <div className="border-2 border-yellow-500 rounded-full">
+                            <TiTickOutline size={20} className="text-yellow-500" />
+                        </div>
+                        <p>And more!</p>
                     </div>
                 </div>
               </div>

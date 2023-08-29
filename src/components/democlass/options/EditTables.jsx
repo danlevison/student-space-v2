@@ -109,10 +109,6 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
       })
     }
 
-    const checkDeleteTable = () => {
-      setCheckDeleteTableModal(!checkDeleteTableModal)
-    }
-
     const deleteTable = async () => {
         try {
           // Reset demoStudentData tableData property back to default and deletes table from demoClass
@@ -267,7 +263,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                                 </button>
                             </div>
                             <button 
-                              onClick={checkDeleteTable} 
+                              onClick={() => setCheckDeleteTableModal(!checkDeleteTableModal)} 
                               type="button" 
                               className="w-full sm:w-[180px] sm:mr-auto bg-red-500 hover:bg-red-700 rounded-2xl py-2 px-3 text-primaryTextClr font-bold mt-3 sm:mt-0"
                             >
@@ -277,6 +273,8 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                     </form>
                     </Dialog.Panel>
                 </div>
+
+                    {/* Delete table modal */}
                     <Dialog
                       open={checkDeleteTableModal}
                       onClose={() => setCheckDeleteTableModal(false)}
@@ -287,10 +285,20 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
               
                       {/* Full-screen container to center the panel */}
                       <div className="fixed inset-0 flex items-center justify-center p-4">
-                          <Dialog.Panel className="flex flex-col p-5 w-full max-w-[450px] h-auto overflow-auto rounded-xl bg-modalBgClr">
-                            <div className="flex flex-col justify-center items-center">
-                              <p className="font-bold text-red-500 text-center">Are you sure you want to delete this table group?</p>
-                              <div className="flex justify-evenly items-center w-full">
+                          <Dialog.Panel className="flex flex-col p-5 w-full max-w-[550px] h-auto overflow-auto rounded-xl bg-modalBgClr">
+                            <div className="flex justify-between items-center border-b border-gray-400 pb-4">
+                              <Dialog.Title className="font-bold text-lg">Delete this table group?</Dialog.Title>
+                              <button onClick={() => setCheckDeleteTableModal(false)}>
+                                <AiOutlineClose
+                                    size={28}
+                                    className="bg-white text-secondaryTextClr hover:bg-buttonClr rounded-full hover:text-primaryTextClr p-1"
+                                />
+                              </button>
+                            </div>
+
+                            <div className="flex flex-col items-center">
+                              <p className="text-sm font-bold text-red-500 text-center py-6">Are you sure you want to delete this table group? This can't be undone.</p>
+                              <div className="flex justify-evenly items-center w-full border-t border-gray-400">
                                 <button 
                                   onClick={() => setCheckDeleteTableModal(false)}
                                   className="bg-modalBgClr hover:bg-white rounded-xl py-2 px-3 text-buttonClr font-bold mt-4"
@@ -301,13 +309,14 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                                 onClick={deleteTable}
                                 className="bg-red-500 hover:bg-red-700 rounded-xl py-2 px-5 text-primaryTextClr font-bold mt-4"
                                 >
-                                  Delete
+                                  Delete table
                                 </button>
                               </div>
                             </div>
                           </Dialog.Panel>
                       </div>
                   </Dialog>
+                  
                 </Dialog>
               )}
           </Dialog>

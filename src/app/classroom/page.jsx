@@ -1,13 +1,12 @@
 "use client"
 
 import React, { useEffect, useState, useContext } from 'react'
-import Link from "next/link"
 import { useRouter } from 'next/navigation'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth, db } from '../../utils/firebase'
 import { doc, getDoc, collection, setDoc } from 'firebase/firestore'
 import StudentDataContext from "@/StudentDataContext"
-import Options from "@/components/democlass/options/Options"
+import ClassNav from "@/components/democlass/ClassNav"
 import CurrentDate from "@/components/democlass/DateComponent"
 import StudentGrid from "@/components/democlass/student/StudentGrid"
 import TableGrid from "@/components/democlass/table/TableGrid"
@@ -17,8 +16,6 @@ import Weather from "@/components/democlass/Weather"
 import Birthday from "@/components/democlass/Birthday"
 import Scribble from "@/components/Scribble"
 import Preloader from "@/components/Preloader"
-import { HiMenuAlt4 } from "react-icons/hi"
-import { FaHome } from "react-icons/fa"
 import paperBg from "../../../public/assets/paperbg.jpg"
 
 const Classroom = () => {
@@ -89,7 +86,7 @@ const Classroom = () => {
   if (loading) return <Preloader />
 
   const scribblesSvgs = [
-    { src: '/assets/Scribbles/58.svg', className: 'absolute top-64 md:top-36 left-10 w-[50px] md:w-[100px] 2xl:w-[150px]' },
+    { src: '/assets/Scribbles/58.svg', className: 'absolute top-48 sm:top-64 md:top-36 left-10 w-[50px] md:w-[100px] 2xl:w-[150px]' },
     { src: '/assets/Scribbles/65.svg', className: 'absolute bottom-10 right-20 w-[75px] md:w-[150px] rotate-12' },
     { src: '/assets/Scribbles/66.svg', className: 'absolute hidden lg:block top-60 right-16 md:right-80 w-[50px] md:w-[100px]' },
     { src: '/assets/Scribbles/26.svg', className: "absolute bottom-16 left-2 w-[150px] md:w-[200px]" },
@@ -98,38 +95,13 @@ const Classroom = () => {
     { src: '/assets/Scribbles/61.svg', className: "hidden md:block absolute top-2 left-96 w-[200px] rotate-45" },
   ]
   
-  //TODO: Make nav into separate component to use in democlass & classroom
-  
   return (
+    <>
+      <header>
+        <ClassNav handleToolbar={handleToolbar} />
+      </header>
       <main className="relative min-h-screen w-full bg-[#fbe8de]" style={{ backgroundImage: `url(${paperBg.src})`, backgroundSize: "auto" }}>
         <Scribble scribblesSvgs={scribblesSvgs} />
-          <nav className="bg-white fixed z-[20] top-0 h-12 w-full px-8">
-            <ul className="flex items-center gap-8">
-              <li className="relative group">
-                <button onClick={handleToolbar}>
-                  <HiMenuAlt4 size={30} className="text-buttonClr mt-3" />
-                </button>
-                <span className="absolute w-auto p-2 mt-4 min-w-max left-0 top-10 rounded-md shadow-sm text-white bg-gray-600 text-xs font-bold transition-all duration-100 scale-0 group-hover:scale-100">
-                  Toolbar
-                </span>
-              </li>
-              <li className="relative group">
-                <Link href={"/dashboard"}>
-                  <FaHome size={30} className="text-buttonClr"/>
-                </Link>
-                <span className="absolute w-auto p-2 mt-2 min-w-max left-0 top-10 rounded-md shadow-sm text-white bg-gray-600 text-xs font-bold transition-all duration-100 scale-0 group-hover:scale-100">
-                  Dashboard
-                </span>
-              </li>
-              <li className="hidden sm:block">
-                <CurrentDate />
-              </li>
-              <li className="ml-auto">
-                <Options />
-              </li>
-            </ul>
-          </nav>
-
           <div className="flex">
             <aside className="z-[10]">
               <Toolbar toolbarMenu={toolbarMenu} setToolbarMenu={setToolbarMenu} />
@@ -160,6 +132,7 @@ const Classroom = () => {
             </div>
           </div>
       </main>
+    </>
   )
 }
 

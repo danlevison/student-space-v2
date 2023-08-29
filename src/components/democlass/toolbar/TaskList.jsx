@@ -138,7 +138,7 @@ const TaskList = ( {openTaskList, setOpenTaskList} ) => {
                     </form>
                     <h2 className="text-2xl py-4">Your tasks</h2>
                     <ul className="flex flex-col gap-4">
-                        {tasks.length === 0 && "No Tasks"}
+                        {tasks.length === 0 && <p className="text-center">All done! No tasks left for now.</p>}
                         {tasks.map(task => {
                             return (
                                 <li key={task.id} className="flex justify-between items-center">
