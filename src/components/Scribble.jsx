@@ -13,6 +13,7 @@ const Scribble = ({ scribblesSvgs }) => {
           className={scribble.className}
           width={40}
           height={40}
+          priority
         />
       ))}
     </>

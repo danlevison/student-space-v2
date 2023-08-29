@@ -36,18 +36,17 @@ const Weather = () => {
 
   if (!weatherData) {
     return <Image
-    className="py-2" 
-    src={WeatherPlaceholder} 
-    alt="Weather icon" 
-    width={64} 
-    height={64} 
-    priority 
+      className="py-2" 
+      src={WeatherPlaceholder} 
+      alt="Weather icon" 
+      width={64} 
+      height={64} 
+      priority 
     />
   }
 
   const { name: location, main: { temp: temperature }, weather } = weatherData
   const weatherIcon = weather[0].icon
-
 
   return (
     <div className="flex flex-col text-center pb-4">

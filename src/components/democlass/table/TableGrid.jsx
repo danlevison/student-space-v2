@@ -71,7 +71,7 @@ const TableGrid = () => {
       <>
         {Object.keys(groupedStudentsByTable).length === 0 ? (
           <div className="flex flex-col justify-center items-center h-full w-3/4 lg:w-1/2 mx-auto rounded-lg shadow-lg p-4 sm:mt-10 bg-[#f5f5f5]">
-            <h2 className="text-center font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">Add your classroom tables!</h2>
+            <h2 className="text-center font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">Add your classroom table groups!</h2>
             <p className="text-center py-8 sm:text-lg">Reward tables for showing collaboration and teamwork!</p>
               <button 
                 onClick={handleAddTableModal}
