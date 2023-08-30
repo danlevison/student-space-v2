@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import Draggable from 'react-draggable'
+import alarmAudio from "@/../../public/audio/alarm.mp3"
 import { AiOutlineClose } from "react-icons/ai"
 import { BsPlayFill, BsFillPauseFill } from "react-icons/bs"
 import { LuTimerReset } from "react-icons/lu"
+import { RiVolumeUpFill, RiVolumeMuteFill } from "react-icons/ri"
 
 const Timer = ( {openTimer, setOpenTimer} ) => {
     const [minutes, setMinutes] = useState(2)
@@ -10,6 +12,9 @@ const Timer = ( {openTimer, setOpenTimer} ) => {
     const [start, setStart] = useState(false)
     const [inputtedMinutes, setInputtedMinutes] = useState(2)
     const [inputtedSeconds, setInputtedSeconds] = useState(50)
+    const [mute, setMute] = useState(false)
+    const alarmSound = new Audio(alarmAudio)
+    alarmSound.volume = 0.2
 
     const handleMinutes = (e) => {
         const inputMinutes = parseInt(e.target.value)
@@ -62,7 +67,7 @@ const Timer = ( {openTimer, setOpenTimer} ) => {
               if (seconds === 0) {
                 if (minutes === 0) {
                     setStart(false)  
-                    clearInterval(countdownInterval)
+                    clearInterval(countdownInterval) 
                 } else {
                   setMinutes(prevMinutes => prevMinutes - 1)
                   setSeconds(59)
@@ -75,12 +80,22 @@ const Timer = ( {openTimer, setOpenTimer} ) => {
         return () => clearInterval(countdownInterval)
     }, [start ,minutes, seconds])
 
+    if (start && !mute && (seconds === 0 || !inputtedSeconds === 0) && (minutes === 0 || inputtedMinutes === 0) ) {
+        alarmSound.play()
+        setStart(false)
+    }
+
   return openTimer && (
     <div className="fixed inset-0 z-[-100]">
         <Draggable bounds="parent" cancel=".clickable">
             <div className="absolute top-[30%] mx-4 sm:mx-0 sm:top-[60%] sm:right-[3%] p-5 w-auto sm:w-[450px] h-auto sm:h-[250px] rounded-xl bg-[#32416c] z-[-10] cursor-move text-white">
                 <div className="flex justify-between items-center gap-4 pb-4 sm:pb-0">
-                    <h2 className="font-bold text-xl capitalize">Countdown timer</h2>
+                    <div className="flex gap-6">
+                        <h2 className="font-bold text-xl capitalize">Countdown timer</h2>
+                        <button onClick={() => setMute(!mute)} className="clickable">
+                            {mute ? <RiVolumeMuteFill size={28} /> : <RiVolumeUpFill size={28} />}    
+                        </button>
+                    </div>
                     <button onClick={() => setOpenTimer(false)}>
                         <AiOutlineClose size={28} className="clickable bg-white text-secondaryTextClr rounded-full p-1 hover:bg-slate-500 hover:text-white"/>
                     </button>
