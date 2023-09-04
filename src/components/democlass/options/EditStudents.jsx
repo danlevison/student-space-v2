@@ -28,6 +28,7 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
         name: "",
         dob: ""
       })
+    const [inputType, setInputType] = useState('text')
     const [alert, setAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
     const [newStudentAvatar, setNewStudentAvatar] = useState("")
@@ -81,6 +82,14 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
         ...prevSelectedStudent,
         dob: e.target.value
       }))
+    }
+
+    const handleFocus = () => {
+      setInputType('date')
+    }
+  
+    const handleBlur = () => {
+      setInputType('text')
     }
 
     const handleStudentInfoSubmit = async (e) => {
@@ -286,9 +295,11 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
                               <label htmlFor="dob" className="pt-3 text-lg">Date of birth</label>
                               <input
                                 className="border-2 border-gray-400 w-full rounded-lg p-3 outline-inputOutlineClr" 
-                                type="date"
+                                type={inputType}
                                 id="dob"
                                 name="dob"
+                                onFocus={handleFocus}
+                                onBlur={handleBlur}
                                 required
                                 value={selectedStudent.dob}
                                 onChange={updateStudentDob}

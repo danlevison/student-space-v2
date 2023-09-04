@@ -20,6 +20,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
     useEffect(() => {
       setAlert(false)
       setAlertMessage("")
+      setUpdatedTableName("")
     },[openTableInfo])
     
     // Collect unique table names using a Set
