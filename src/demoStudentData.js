@@ -15,7 +15,7 @@ import otterAvatar from "../public/assets/avatars/otter.svg"
 const demoStudentData = [
     {
         name: "Conrad",
-        dob: "12.03.2014",
+        dob: "2023-01-01",
         points: 0,
         avatar: sheepAvatar,
         tableData: {tableName: "Apples", tablePoints: 5, isOnTable: true, selected: false},
@@ -23,7 +23,7 @@ const demoStudentData = [
     },
     {
         name: "Ayah",
-        dob: "07.03.2014",
+        dob: "2023-01-01",
         points: 0,
         avatar: cheetahAvatar,
         tableData: {tableName: "Apples", tablePoints: 5, isOnTable: true, selected: false},
@@ -31,7 +31,7 @@ const demoStudentData = [
     },
     {
         name: "Nikita",
-        dob: "12.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: frogAvatar,
         tableData: {tableName: "Apples", tablePoints: 5, isOnTable: true, selected: false},
@@ -39,7 +39,7 @@ const demoStudentData = [
     },
     {
         name: "Ryan",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: rabbitAvatar,
         tableData: {tableName: "Apples", tablePoints: 5, isOnTable: true, selected: false},
@@ -47,7 +47,7 @@ const demoStudentData = [
     },
     {
         name: "Eva",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: dogAvatar,
         tableData: {tableName: "Pears", tablePoints: 2, isOnTable: true, selected: false},
@@ -55,7 +55,7 @@ const demoStudentData = [
     },
     {
         name: "Reece",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: pandaAvatar,
         tableData: {tableName: "Pears", tablePoints: 2, isOnTable: true, selected: false},
@@ -63,7 +63,7 @@ const demoStudentData = [
     },
     {
         name: "Bernice",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: snakeAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
@@ -71,7 +71,7 @@ const demoStudentData = [
     },
     {
         name: "Alana",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: lionAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
@@ -79,7 +79,7 @@ const demoStudentData = [
     },
     {
         name: "Olivia",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: penguinAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
@@ -87,7 +87,7 @@ const demoStudentData = [
     },
     {
         name: "Violet",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: otterAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
@@ -95,7 +95,7 @@ const demoStudentData = [
     },
     {
         name: "Alfie",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: chickenAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
@@ -103,7 +103,7 @@ const demoStudentData = [
     },
     {
         name: "Archie",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: giraffeAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
@@ -111,7 +111,7 @@ const demoStudentData = [
     },
     {
         name: "Bruno",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: frogAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
@@ -119,7 +119,7 @@ const demoStudentData = [
     },
     {
         name: "John",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: dogAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
@@ -127,7 +127,7 @@ const demoStudentData = [
     },
     {
         name: "Martina",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: cheetahAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
@@ -135,7 +135,7 @@ const demoStudentData = [
     },
     {
         name: "Serah",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: pandaAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
@@ -143,7 +143,7 @@ const demoStudentData = [
     },
     {
         name: "Amy",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: monkeyAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
@@ -151,7 +151,7 @@ const demoStudentData = [
     },
     {
         name: "Conor",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: sheepAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
@@ -159,7 +159,7 @@ const demoStudentData = [
     },
     {
         name: "Samira",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: rabbitAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
@@ -167,7 +167,7 @@ const demoStudentData = [
     },
     {
         name: "Elsie",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: snakeAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
@@ -175,7 +175,7 @@ const demoStudentData = [
     },
     {
         name: "Daniel",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: penguinAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
@@ -183,7 +183,7 @@ const demoStudentData = [
     },
     {
         name: "Kylie",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: chickenAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
@@ -191,7 +191,7 @@ const demoStudentData = [
     },
     {
         name: "Farrah",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         className: "6J",
         points: 0,
         avatar: lionAvatar,
@@ -200,7 +200,7 @@ const demoStudentData = [
     },
     {
         name: "Tamara",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: otterAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
@@ -208,7 +208,7 @@ const demoStudentData = [
     },
     {
         name: "Max",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: frogAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
@@ -216,7 +216,7 @@ const demoStudentData = [
     },
     {
         name: "Niamh",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: pandaAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
@@ -224,7 +224,7 @@ const demoStudentData = [
     },
     {
         name: "David",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: monkeyAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
@@ -232,7 +232,7 @@ const demoStudentData = [
     },
     {
         name: "Michael",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: rabbitAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
@@ -240,7 +240,7 @@ const demoStudentData = [
     },
     {
         name: "Elizabeth",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: snakeAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
@@ -248,7 +248,7 @@ const demoStudentData = [
     },
     {
         name: "Abby",
-        dob: "11.02.2013",
+        dob: "2023-01-01",
         points: 0,
         avatar: cheetahAvatar,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},

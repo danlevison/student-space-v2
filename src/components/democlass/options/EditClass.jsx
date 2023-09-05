@@ -190,7 +190,7 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
                         />
                     </div>
 
-                    <div className="flex flex-col sm:flex-row-reverse justify-end items-center mt-14">
+                    <div className="flex flex-row-reverse justify-between items-center mt-14">
                         <div className="flex items-center justify-center gap-2">
                             <button 
                                 onClick={() => {
@@ -198,13 +198,13 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
                                     resetForm()
                                 }}
                                 type="button" 
-                                className="bg-modalBgClr hover:bg-white rounded-2xl py-2 px-3 text-buttonClr font-bold"
+                                className="bg-modalBgClr hover:bg-white rounded-2xl py-2 px-3 text-buttonClr font-bold text-sm"
                             >
                                 Cancel
                             </button>
                             <button
                                 disabled={!newClassName.trim()}
-                                className="font-bold bg-white hover:bg-green-200 rounded-2xl py-2 px-5 disabled:bg-gray-400 disabled:hover:bg-gray-400"
+                                className="font-bold text-sm bg-white hover:bg-green-200 rounded-2xl py-2 px-5 disabled:bg-gray-400 disabled:hover:bg-gray-400"
                             >
                                 Save
                             </button>
@@ -212,7 +212,7 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
                         <button
                             onClick={handleDeleteClassModal} 
                             type="button" 
-                            className="w-full sm:w-[180px] sm:mr-auto mt-3 sm:mt-0 bg-red-500 hover:bg-red-700 rounded-2xl py-2 px-3 text-primaryTextClr font-bold"
+                            className="w-[110px] bg-red-500 hover:bg-red-700 rounded-2xl py-2 px-3 text-primaryTextClr text-sm font-bold"
                         >
                             Delete class
                         </button>
