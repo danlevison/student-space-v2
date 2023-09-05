@@ -58,10 +58,10 @@ function CreateClass({ handleInputChange, setIsClassMade, userClassName }) {
                         />
                     </div>
                     <div className="flex justify-center gap-8">
-                        <button onClick={() => setIsOpen(false)} type="button" className="w-full text-sm sm:text-xl text-white bg-buttonClr py-3 rounded-2xl shadow-md hover:scale-105 duration-300">Cancel</button>
+                        <button onClick={() => setIsOpen(false)} type="button" className="w-full text-sm sm:text-xl text-white bg-buttonClr py-3 rounded-xl shadow-md hover:scale-105 duration-300">Cancel</button>
                         <button
                           disabled={!userClassName} 
-                          className="w-full text-sm sm:text-xl text-white bg-buttonClr py-3 rounded-2xl shadow-md hover:scale-105 duration-300 disabled:bg-gray-400 disabled:hover:scale-100 disabled:duration-0"
+                          className="w-full text-sm sm:text-xl text-white bg-buttonClr py-3 rounded-xl shadow-md hover:scale-105 duration-300 disabled:bg-gray-400 disabled:hover:scale-100 disabled:duration-0"
                         >
                             Create Class
                         </button>

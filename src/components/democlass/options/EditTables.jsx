@@ -248,17 +248,17 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                         </div>
 
                         <div className="flex-grow" />
-                        <div className="flex flex-col justify-end sm:flex-row-reverse items-center sm:mt-6"> 
+                        <div className="flex flex-row-reverse justify-between items-center sm:mt-6"> 
                             <div className="flex items-center justify-center gap-2">
                                 <button 
                                   onClick={() => setOpenTableInfo(false)} 
                                   type="button" 
-                                  className="bg-modalBgClr hover:bg-white rounded-2xl py-2 px-3 text-buttonClr font-bold"
+                                  className="bg-modalBgClr hover:bg-white rounded-2xl py-2 px-3 text-buttonClr text-sm font-bold"
                                 >
                                   Cancel
                                 </button>
                                 <button 
-                                  className="font-bold bg-white hover:bg-green-200 rounded-2xl py-2 px-5 disabled:bg-gray-400"
+                                  className="font-bold text-sm bg-white hover:bg-green-200 rounded-2xl py-2 px-5 disabled:bg-gray-400"
                                 >
                                   Save
                                 </button>
@@ -266,7 +266,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                             <button 
                               onClick={() => setCheckDeleteTableModal(!checkDeleteTableModal)} 
                               type="button" 
-                              className="w-full sm:w-[180px] sm:mr-auto bg-red-500 hover:bg-red-700 rounded-2xl py-2 px-3 text-primaryTextClr font-bold mt-3 sm:mt-0"
+                              className="w-[110px] bg-red-500 hover:bg-red-700 rounded-2xl py-2 px-3 text-primaryTextClr text-sm font-bold"
                             >
                                 Delete table
                             </button>

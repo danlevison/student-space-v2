@@ -2,11 +2,10 @@ import { Fragment, useState, useContext } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import StudentDataContext from "@/StudentDataContext"
 import { AiFillCaretDown } from "react-icons/ai"
-import { CiEdit } from "react-icons/ci"
 import { RxReset } from "react-icons/rx"
 import { TiSortAlphabetically } from "react-icons/ti"
 import { MdPerson, MdGroups } from "react-icons/md"
-import EditStudents from "./EditStudents"
+import EditStudents from "./editStudents/EditStudents"
 import ResetPoints from "./ResetPoints"
 import EditTables from "./EditTables"
 
