@@ -53,8 +53,9 @@ function CreateClass({ handleInputChange, setIsClassMade, userClassName }) {
                           type="text" 
                           id="classname"
                           name="classname" 
-                          className="py-3 px-2 border border-gray-400 rounded-lg outline-inputOutlineClr" 
                           required
+                          maxLength={25}
+                          className="py-3 px-2 border border-gray-400 rounded-lg outline-inputOutlineClr" 
                         />
                     </div>
                     <div className="flex justify-center gap-8">

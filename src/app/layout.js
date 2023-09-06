@@ -1,10 +1,18 @@
 import './globals.css'
-import { Nunito } from 'next/font/google'
+import { Nunito, Cabin_Sketch } from 'next/font/google'
 import { StudentDataProvider } from "@/StudentDataContext"
 
 const nunito = Nunito({ 
-  subsets: ['latin'], 
+  subsets: ["latin"], 
   variable: "--font-nunito"
+})
+
+const cabinSketch = Cabin_Sketch({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+  variable: "--font-cabin",
+  fallback: ["nunito"]
 })
 
 export const metadata = {
@@ -16,7 +24,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <StudentDataProvider>
-        <body className={`${nunito.variable} font-nunito`}>
+        <body className={`${nunito.variable} ${cabinSketch.variable} font-nunito`}>
           {children}
         </body>
       </StudentDataProvider>
