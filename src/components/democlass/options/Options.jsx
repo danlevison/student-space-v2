@@ -7,7 +7,7 @@ import { TiSortAlphabetically } from "react-icons/ti"
 import { MdPerson, MdGroups } from "react-icons/md"
 import EditStudents from "./editStudents/EditStudents"
 import ResetPoints from "./ResetPoints"
-import EditTables from "./EditTables"
+import EditTables from "./editTables/EditTables"
 
 const Options = () => {
     const [isEditStudentsModalOpen, setIsEditStudentsModalOpen] = useState(false)

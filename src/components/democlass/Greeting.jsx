@@ -36,7 +36,7 @@ const Greeting = () => {
     }, [dbClassName])
 
     return (
-        <h1 className="text-3xl md:text-4xl lg:text-6xl text-center">{greeting}</h1>
+        <h1 className="text-5xl sm:text-6xl md:text-7xl text-center font-cabinSketch font-[700]">{greeting}</h1>
     )
 }
 

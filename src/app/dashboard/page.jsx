@@ -10,9 +10,11 @@ import { updateDoc, doc, getDoc } from "firebase/firestore"
 import CreateClass from "../../components/CreateClass"
 import { IoMdSettings } from 'react-icons/io'
 import Nav from "@/components/Nav"
-import EditClass from "@/components/democlass/options/EditClass"
+import EditClass from "@/components/democlass/options/editClass/EditClass"
+import WordOfTheDay from "@/components/WordOfTheDay"
 import Preloader from "@/components/Preloader"
 import bagAvatar from "../../../public/assets/avatars/bag.svg"
+import arrowScribble from "@/../../public/assets/Scribbles/70.svg"
 
 const Dashboard = () => {
   const [user, loading] = useAuthState(auth)
@@ -21,6 +23,8 @@ const Dashboard = () => {
   const [isEditClassModalOpen, setIsEditClassModalOpen] = useState(false)
   const [classAvatar, setClassAvatar] = useState("")
   const router = useRouter()
+  const creationTime = user?.metadata.creationTime
+  const lastSignInTime = user?.metadata.lastSignInTime
 
   // Fetches the classname and isClassMade data from the Firestore db
   useEffect(() => {
@@ -96,25 +100,36 @@ const Dashboard = () => {
       <header>
         <Nav />
       </header>
-      <main className="py-40 min-h-screen">
-        <div className="flex flex-col justify-center items-center">
-          <h1 className="text-4xl sm:text-5xl">Welcome!</h1>
-          <div className="flex flex-col md:flex-row justify-center items-center gap-10 mt-12 w-full h-full">
-            
-              <div className="relative w-[230px] h-[230px] bg-white border border-[#5065A8] shadow-lg rounded-2xl hover:scale-105 duration-300 ease-out">
-                <Link href={"/democlass"}>
-                  <div className="flex flex-col justify-center items-center h-full gap-4">
-                    <Image
-                      className="rounded-xl border-2 border-black bg-orange-100 p-2" 
-                      src={bagAvatar}
-                      alt="/"
-                      priority
-                      width={100}
-                      height={100}
-                    />
-                    <h2 className="text-2xl">Demo Class</h2>
+      <main className="py-40 px-8 min-h-screen">
+        <div className="flex flex-col justify-center items-center text-center">
+          <h1 className="text-5xl sm:text-7xl font-cabinSketch font-[700] mb-12">
+            {creationTime === lastSignInTime ? "Welcome!" : "Welcome Back!"}
+          </h1>
+          <WordOfTheDay />
+          <div className="relative flex flex-col md:flex-row justify-center items-center gap-10 mt-12 w-full h-full">
+
+              <div className="relative">
+                <div className="relative w-[230px] h-[230px] bg-white border border-[#5065A8] shadow-lg rounded-2xl hover:scale-105 duration-300 ease-out">
+                  <Link href={"/democlass"}>
+                    <div className="flex flex-col justify-center items-center h-full gap-4">
+                      <Image
+                        className="rounded-xl border-2 border-black bg-orange-100 p-2" 
+                        src={bagAvatar}
+                        alt="/"
+                        priority
+                        width={100}
+                        height={100}
+                      />
+                      <h2 className="text-4xl font-cabinSketch font-[400]">Demo Class</h2>
+                    </div>
+                  </Link>
+                </div>
+                {creationTime === lastSignInTime && (
+                  <div className="hidden md:flex flex-col gap-5 absolute bottom-[-65%] md:left-[-55%] select-none">
+                    <Image src={arrowScribble} alt="" role="presentation" className="scale-y-[-1] -rotate-45" />
+                    <p className="-rotate-[15deg] md:text-3xl lg:text-4xl font-cabinSketch text-green-900">Try the Demo Class!</p>
                   </div>
-                </Link>
+                )}
               </div>
 
             {isClassMade && 
@@ -129,7 +144,11 @@ const Dashboard = () => {
                       width={100}
                       height={100}
                     />
-                    <h2 className="text-2xl">{userClassName}</h2>
+                    <h2 className="text-4xl font-cabinSketch font-[400]">
+                      {userClassName.length > 12
+                        ? `${userClassName.slice(0, 12)}...`
+                        : userClassName}
+                    </h2>
                   </div>
                 </Link>
                 <ClassSettingsButton  />

@@ -8,7 +8,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        nunito: ["var(--font-nunito)"]
+        "nunito": ["var(--font-nunito)"],
+        "cabinSketch": ["var(--font-cabin)"]
       },
       colors: {
           primaryTextClr: "#fff", 
