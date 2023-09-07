@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from "next/image"
-import democlass from "../../../public/assets/democlass.svg"
+import mobileView from "../../../public/assets/mobile-view.jpg"
+import desktopView from "../../../public/assets/desktop-view.jpg"
 
 const UserInterface = () => {
   return (
@@ -13,9 +14,24 @@ const UserInterface = () => {
                   </h2>
                   <p className="text-tertiaryTextClr font-medium leading-7 py-4">Take advantage of intuitive features that make your teaching experience more enjoyable and efficient. The user-friendly interface ensures that you can effortlessly navigate through the app, finding the tools you need with ease. Student Space has been thoughtfully designed to be accessible on various devices, giving you the freedom to manage your classroom anytime, anywhere.</p>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-                <Image src={democlass} quality={100} alt="/" />
-                <Image src={democlass} quality={100} alt="/" />
+              <div className="flex flex-col md:flex-row justify-center items-center gap-10 mt-5">
+                <div>
+                  <Image src={mobileView} 
+                    quality={100} 
+                    alt="/" 
+                    className="rounded-xl w-full max-w-[300px]"
+                    style={{objectFit: "cover"}} 
+                  />
+                </div>
+                <div>
+                  <Image 
+                    src={desktopView} 
+                    quality={100} 
+                    alt="/" 
+                    className="w-full max-w-[1000px]"
+                    style={{objectFit: "cover"}}  
+                  />
+                </div>
               </div>
             </div>
         </div>

@@ -1,7 +1,10 @@
 import React from 'react'
 import useSWR from "swr"
 
-const fetcher = async (apiKey, url) => {
+const fetcher = async () => {
+  const apiKey = process.env.NEXT_PUBLIC_WORD_API_KEY
+  const url = "https://word-of-the-day2.p.rapidapi.com/word/today"
+
   const options = {
     method: 'GET',
     headers: {
@@ -20,9 +23,7 @@ const fetcher = async (apiKey, url) => {
 }
 
 const WordOfTheDay = () => {
-    const apiKey = process.env.NEXT_PUBLIC_WORD_API_KEY
-    const url = "https://word-of-the-day2.p.rapidapi.com/word/today"
-    const { data, error } = useSWR(url, fetcher(apiKey, url))
+    const { data, error } = useSWR("word-of-the-day", fetcher)
 
     if (error) {
         return <p>Error: {error.message}</p>
