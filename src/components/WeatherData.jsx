@@ -3,7 +3,8 @@ import useSWR from 'swr'
 import Image from 'next/image'
 import WeatherPlaceholder from "@/../../public/assets/weather-placeholder.png"
 
-const fetcher= async (apiKey) => {
+const fetcher = async () => {
+    const apiKey = process.env.NEXT_PUBLIC_WEATHER_API_KEY
     const position = await new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resolve, reject)
     })
@@ -20,10 +21,8 @@ const fetcher= async (apiKey) => {
 }
 
 const Weather = () => {
-  const apiKey = process.env.NEXT_PUBLIC_WEATHER_API_KEY
-
   // useSWR hook to fetch and cache weather data
-  const { data: weatherData, error } = useSWR('weather', fetcher(apiKey))
+  const { data: weatherData, error } = useSWR('weather', fetcher)
 
   if (error) {
     console.error(error)

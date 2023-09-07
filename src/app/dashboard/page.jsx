@@ -105,7 +105,7 @@ const Dashboard = () => {
           <h1 className="text-5xl sm:text-7xl font-cabinSketch font-[700] mb-12">
             {creationTime === lastSignInTime ? "Welcome!" : "Welcome Back!"}
           </h1>
-          <WordOfTheDay />
+          {/* <WordOfTheDay /> */}
           <div className="relative flex flex-col md:flex-row justify-center items-center gap-10 mt-12 w-full h-full">
 
               <div className="relative">
