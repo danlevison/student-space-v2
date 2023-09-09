@@ -21,19 +21,19 @@ const About = () => {
                   <div className="font-bold text-secondaryTextClr capitalize pt-3 text-sm sm:text-base">
                     <div className="flex items-center gap-2">
                       <div className="border-2 border-yellow-500 rounded-full">
-                        <TiTickOutline size={20} className="text-yellow-500" />
+                        <TiTickOutline size={20} className="text-yellow-500" role="presentation" />
                       </div>
                           <p>Manage rewards</p>
                       </div>
                         <div className="flex items-center py-6 gap-2">
                             <div className="border-2 border-yellow-500 rounded-full">
-                                <TiTickOutline size={20} className="text-yellow-500" />
+                                <TiTickOutline size={20} className="text-yellow-500" role="presentation" />
                             </div>
                             <p>Daily management tools</p>
                           </div>
                           <div className="flex items-center gap-2">
                             <div className="border-2 border-yellow-500 rounded-full">
-                                <TiTickOutline size={20} className="text-yellow-500" />
+                                <TiTickOutline size={20} className="text-yellow-500" role="presentation" />
                               </div>
                               <p>User-friendly interface</p>
                           </div>
@@ -41,7 +41,12 @@ const About = () => {
                 </div>
 
                 <div className="flex justify-center items-center">
-                  <Image src={studentRewardImg} alt="Illustration of student" className="w-[200px] md:w-[300px] hover:scale-105 duration-300" />
+                  <Image 
+                    src={studentRewardImg} 
+                    alt="Illustration of student holding a trophy " 
+                    className="w-[200px] md:w-[300px] hover:scale-105 duration-300"
+                    style={{objectFit: "cover"}} 
+                  />
                 </div>
 
               </div>

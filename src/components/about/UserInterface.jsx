@@ -12,13 +12,13 @@ const UserInterface = () => {
                   <h2 className="text-3xl md:text-4xl lg:text-5xl font-black capitalize">
                   <span className="bg-[linear-gradient(#FFF3A0,#FFEB79)] bg-[0_70%] bg-[size:100%_35%] bg-no-repeat">User-friendly interface</span>
                   </h2>
-                  <p className="text-tertiaryTextClr font-medium leading-7 py-4">Take advantage of intuitive features that make your teaching experience more enjoyable and efficient. The user-friendly interface ensures that you can effortlessly navigate through the app, finding the tools you need with ease. Student Space has been thoughtfully designed to be accessible on various devices, giving you the freedom to manage your classroom anytime, anywhere.</p>
+                  <p className="text-tertiaryTextClr font-medium leading-7 py-4 w-full md:w-[550px] mx-auto">The user-friendly interface ensures that you can effortlessly navigate through the app, finding the tools you need with ease.</p>
               </div>
               <div className="flex flex-col md:flex-row justify-center items-center gap-10 mt-5">
                 <div>
                   <Image src={mobileView} 
                     quality={100} 
-                    alt="/" 
+                    alt="Mobile view of Student Space class" 
                     className="rounded-xl w-full max-w-[300px]"
                     style={{objectFit: "cover"}} 
                   />
@@ -27,7 +27,7 @@ const UserInterface = () => {
                   <Image 
                     src={desktopView} 
                     quality={100} 
-                    alt="/" 
+                    alt="Desktop view of Student Space class" 
                     className="w-full max-w-[1000px]"
                     style={{objectFit: "cover"}}  
                   />

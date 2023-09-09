@@ -9,7 +9,7 @@ import footerBg from "../../public/assets/footer-bg.png"
 import Logo from "../components/Logo"
 
 const Footer = () => {
-    const [user, loading] = useAuthState(auth)
+    const [user] = useAuthState(auth)
     const currentYear = new Date().getFullYear()
 
   return (
@@ -26,11 +26,17 @@ const Footer = () => {
           </div>
 
           <div className="mb-16 z-[10]">
-            <h2 className="font-bold capitalize text-lg md:text-2xl mb-4">Useful links</h2>
-            <ul className="flex flex-col gap-4">
-              <Link href={"/"}>Home</Link>
-              <Link href={"/#about"}>About</Link>
-              {user ? <Link href={"/dashboard"}>Dashboard</Link> : <Link href={"/login"}>Sign in</Link>}
+            <h2 className="font-bold capitalize text-lg md:text-2xl mb-4 text-[#5f5f7f]">Useful links</h2>
+            <ul className="flex flex-col gap-4 text-[#5f5f7f]">
+              <li>
+                <Link href={"/"}>Home</Link>
+              </li>
+              <li>
+                <Link href={"/#about"}>About</Link>
+              </li>
+              <li>
+                {user ? <Link href={"/dashboard"}>Dashboard</Link> : <Link href={"/login"}>Sign in</Link>}
+              </li>
             </ul>
           </div>
         </div>

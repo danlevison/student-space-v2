@@ -10,7 +10,12 @@ const RewardManagement = () => {
     <section className="bg-[#f6f7fa] w-full py-16 lg:py-24 xl:py-40">
         <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-16 lg:gap-32 px-8">
             <div className="order-2 lg:order-1 flex justify-center items-center hover:scale-105 duration-300">
-                <Image src={children} alt="Illustration of happy children" className="rounded-3xl w-full max-w-[800px]" />
+                <Image 
+                    src={children} 
+                    alt="Illustration of happy children" 
+                    className="rounded-3xl w-full max-w-[800px]"
+                    style={{objectFit: "cover"}} 
+                />
             </div>
             <div className="flex flex-col order-1">
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-black capitalize py-4">
@@ -21,34 +26,34 @@ const RewardManagement = () => {
                 <div className="flex flex-col gap-6 pt-4 font-bold text-secondaryTextClr text-left text-sm sm:text-base">
                     <div className="flex items-center gap-2">
                         <div className="border-2 border-yellow-500 rounded-full">
-                            <TiTickOutline size={20} className="text-yellow-500" />
+                            <TiTickOutline size={20} className="text-yellow-500" role="presentation" />
                         </div>
                         <p>Award Points to Students</p>
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="border-2 border-yellow-500 rounded-full">
-                            <TiTickOutline size={20} className="text-yellow-500" />
+                            <TiTickOutline size={20} className="text-yellow-500" role="presentation" />
                         </div>
                         <p>Award Points to Table Groups</p>
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="border-2 border-yellow-500 rounded-full">
-                            <TiTickOutline size={20} className="text-yellow-500" />
+                            <TiTickOutline size={20} className="text-yellow-500" role="presentation" />
                         </div>
                         <p>Create a Positive Classroom Atmosphere</p>
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="border-2 border-yellow-500 rounded-full">
-                            <TiTickOutline size={20} className="text-yellow-500" />
+                            <TiTickOutline size={20} className="text-yellow-500" role="presentation" />
                         </div>
                         <p>Promote Personal and Academic Growth</p>
                     </div>
                     <Link 
                         href={"/login"}
-                        className="flex items-center gap-2 text-yellow-500"
+                        className="group flex items-center gap-2 text-yellow-500 w-fit"
                     >
                         Get Started Now! 
-                        <FiArrowRight size={20} />
+                        <FiArrowRight size={20} className="group-hover:translate-x-1 duration-300" role="presentation" />
                     </Link>
                 </div>
               </div>

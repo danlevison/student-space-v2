@@ -10,7 +10,7 @@ const Scribble = ({ scribblesSvgs }) => {
           src={scribble.src}
           alt={""}
           role="presentation"
-          className={scribble.className}
+          className={`${scribble.className} select-none`}
           width={40}
           height={40}
           priority
