@@ -30,16 +30,21 @@ const Nav = () => {
           <Logo />
           {/* Desktop */}
           <ul className="hidden md:flex items-center gap-16 font-bold text-[#5f5f7f]">
-            <NavLink href={"/"} title={"Home"} />
-            <NavLink href={"/#about"} title={"About"} />
-            {!user && (
-              <NavLink href={"/login"} title={"Sign in"} />
-            )}
-            {user && (
-              <div className="flex items-center gap-16">
+            <li>
+              <NavLink href={"/"} title={"Home"} />
+            </li>
+            <li>
+              <NavLink href={"/#about"} title={"About"} />
+            </li>
+            <li>
+              {!user ?
+                <NavLink href={"/login"} title={"Sign in"} />
+                :
                 <NavLink href={"/dashboard"} title={"Dashboard"} />
-                <button onClick={() => auth.signOut()}>Sign out</button>
-              </div>
+              }
+            </li>
+            {user && (
+              <button onClick={() => auth.signOut()}>Sign out</button>
             )}
           </ul>
           <div onClick={handleNav} className="md:hidden cursor-pointer">
@@ -62,11 +67,22 @@ const Nav = () => {
                 </div>
               
                 <ul className="flex flex-col items-center gap-32 font-bold text-[#5f5f7f]">
-                  <NavLink href={"/"} title={"Home"} />
-                  <NavLink href={"/#about"} title={"About"} />
-                  {user ? (
-                    <div className="flex flex-col gap-32">
+                  <li>
+                    <NavLink href={"/"} title={"Home"} />
+                  </li>
+                  <li>
+                    <NavLink href={"/#about"} title={"About"} />
+                  </li>
+                  {user ?
+                    <li>
                       <NavLink href={"/dashboard"} title={"Dashboard"} />
+                    </li>
+                    :
+                    <li>
+                      <NavLink href={"/login"} title={"Sign in"} />
+                    </li>
+                    }
+                    {user && (
                       <button
                         onClick={() => {
                           auth.signOut()
@@ -75,12 +91,8 @@ const Nav = () => {
                       >
                         Sign out
                       </button>
-                    </div>
-                  ) : (
-                    <NavLink href={"/login"} title={"Sign in"} />
-                  )}
+                    )}
                 </ul>
-
               </div>
           </div>
         </div>

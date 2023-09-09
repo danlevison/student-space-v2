@@ -16,25 +16,25 @@ const ClassroomManagement = () => {
                 <div className="flex flex-col gap-6 pt-4 font-bold text-secondaryTextClr capitalize text-sm sm:text-base">
                     <div className="flex items-center gap-2">
                         <div className="border-2 border-yellow-500 rounded-full">
-                            <TiTickOutline size={20} className="text-yellow-500" />
+                            <TiTickOutline size={20} className="text-yellow-500" role="presentation" />
                         </div>
                         <p>Student randomiser</p>
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="border-2 border-yellow-500 rounded-full">
-                            <TiTickOutline size={20} className="text-yellow-500" />
+                            <TiTickOutline size={20} className="text-yellow-500" role="presentation" />
                         </div>
                         <p>Task-list</p>
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="border-2 border-yellow-500 rounded-full">
-                            <TiTickOutline size={20} className="text-yellow-500" />
+                            <TiTickOutline size={20} className="text-yellow-500" role="presentation" />
                         </div>
                         <p>Create Instructions</p>
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="border-2 border-yellow-500 rounded-full">
-                            <TiTickOutline size={20} className="text-yellow-500" />
+                            <TiTickOutline size={20} className="text-yellow-500" role="presentation" />
                         </div>
                         <p>And more!</p>
                     </div>
@@ -42,7 +42,12 @@ const ClassroomManagement = () => {
               </div>
               <div>
                 <div className="flex justify-center items-center">
-                    <Image src={teacher} alt="/" className="w-full max-w-[600px] hover:scale-105 duration-300" />
+                    <Image 
+                        src={teacher} 
+                        alt="Illustration of teacher with her students" 
+                        className="w-full max-w-[600px] hover:scale-105 duration-300"
+                        style={{objectFit: "cover"}} 
+                    />
                 </div>
             </div> 
         </div>
