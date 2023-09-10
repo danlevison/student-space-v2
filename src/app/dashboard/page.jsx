@@ -159,7 +159,7 @@ const Dashboard = () => {
                   setDbUserClassName={setUserClassName}
                   classAvatar={classAvatar}
                   setClassAvatar={setClassAvatar} 
-                  setIsClassMade={setIsClassMade} 
+                  setIsClassMade={setIsClassMade}
                 />
               </div>
             }

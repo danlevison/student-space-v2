@@ -1,8 +1,38 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from 'react-icons/ai'
+import StudentDataContext from "@/StudentDataContext"
+import { doc, collection, updateDoc } from 'firebase/firestore'
+import { db } from "../../../../utils/firebase"
 
-const DeleteStudentModal = ( { checkDeleteStudentModal, setCheckDeleteStudentModal, selectedStudent, removeStudent } ) => {
+const DeleteStudentModal = ( { checkDeleteStudentModal, setCheckDeleteStudentModal, selectedStudent, setOpenStudentInfo } ) => {
+    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)
+
+    const removeStudent = async () => {
+        try {
+            // Filter out the student with the same UUID as the selectedStudent
+            const updatedDemoStudentData = studentData.filter((student) => student.uuid !== selectedStudent.uuid)
+            // Removes student from demoClass
+            setStudentData(updatedDemoStudentData)
+            
+            if (userUid && userClassName) {
+            // User is in their own class context (Firebase)
+              const classCollectionRef = collection(db, 'users', userUid, userClassName)
+              const classDocumentRef = doc(classCollectionRef, userUid)
+            
+              // Update the Firestore document with the updated studentData (Removes student from users class)
+              await updateDoc(classDocumentRef, {
+                studentData: updatedDemoStudentData,
+              })
+            }
+            
+          } catch (error) {
+            console.error('Error removing student:', error)
+          }
+          setOpenStudentInfo(false)
+          setCheckDeleteStudentModal(false)
+        }
+
   return (
     <Dialog
         open={checkDeleteStudentModal}

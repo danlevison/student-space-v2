@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from 'react-icons/ai'
 import StudentAvatarMenu from "./StudentAvatarMenu"
@@ -14,12 +14,11 @@ const StudentInfoModal = (
         setNewStudentAvatar, 
         updateStudentName,
         updateStudentDob,
-        checkDeleteStudentModal,
-        setCheckDeleteStudentModal,
-        removeStudent,
         alertMessage,
         alert,
     } ) => {
+    const [checkDeleteStudentModal, setCheckDeleteStudentModal] = useState(false)
+
   return (
     <Dialog
         open={openStudentInfo}
@@ -102,7 +101,7 @@ const StudentInfoModal = (
             checkDeleteStudentModal={checkDeleteStudentModal} 
             setCheckDeleteStudentModal={setCheckDeleteStudentModal} 
             selectedStudent={selectedStudent} 
-            removeStudent={removeStudent} 
+            setOpenStudentInfo={setOpenStudentInfo}
         />          
     </Dialog>
   )

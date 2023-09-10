@@ -5,11 +5,11 @@ import { db } from "../../../../utils/firebase"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from "react-icons/ai"
 import TableInfoModal from "./TableInfoModal"
+import { toast } from "react-toastify"
 
 const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
     const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)
     const [openTableInfo, setOpenTableInfo] = useState(false)
-    const [checkDeleteTableModal, setCheckDeleteTableModal] = useState(false)
     const [selectedTableName, setSelectedTableName] = useState(null)
     const [updatedTableName, setUpdatedTableName] = useState("")
     const [alert, setAlert] = useState(false)
@@ -67,7 +67,6 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
             return
           }
         
-
         // Update studentData tableData to show updatedTableName in demoClass
         const updatedStudentData = tempStudentData.map((student) => {
           if (student.tableData?.tableName === selectedTableName) {
@@ -97,6 +96,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
       alert ? setOpenTableInfo(true) : setOpenTableInfo(false)
       setIsEditTablesModalOpen(false)
       setSelectedTableName(updatedTableName || selectedTableName)
+      toast.success("Table group edited successfully!")
     }
 
     const uncheckStudent = (selectedStudent) => {
@@ -108,38 +108,6 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
           return student
         })
       })
-    }
-
-    const deleteTable = async () => {
-        try {
-          // Reset demoStudentData tableData property back to default and deletes table from demoClass
-          const updatedStudentData = studentData.map((student) => {
-            if (student.tableData.tableName === selectedTableName) {
-              return {...student, tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false}}
-            }
-            return student
-          })
-
-          // Set the updated student data to the state
-          setStudentData(updatedStudentData)
-
-          if(userUid && userClassName) {
-            // User is in their own class context (Firebase)
-            const classCollectionRef = collection(db, 'users', userUid, userClassName)
-            const classDocumentRef = doc(classCollectionRef, userUid)
-      
-            // Update the Firestore document with the updated studentData (resets studentData tableData property and deletes table from users class)
-            await updateDoc(classDocumentRef, {
-              studentData: updatedStudentData,
-            })
-          }
-
-        } catch (error) {
-          console.error('Error updating student information:', error)
-        }
-
-        setCheckDeleteTableModal(false)
-        setOpenTableInfo(false)
     }
 
   return (
@@ -195,9 +163,6 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
         updateTableName={updateTableName}
         tempStudentData={tempStudentData}
         uncheckStudent={uncheckStudent}
-        checkDeleteTableModal={checkDeleteTableModal}
-        setCheckDeleteTableModal={setCheckDeleteTableModal}
-        deleteTable={deleteTable}
       />
     </Dialog>
   )

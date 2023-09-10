@@ -1,8 +1,39 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from 'react-icons/ai'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { doc, collection, updateDoc, deleteDoc } from 'firebase/firestore'
+import { db, auth } from "../../../../utils/firebase"
+import StudentDataContext from "@/StudentDataContext"
+import bagAvatar from "@/../../public/assets/avatars/bag.svg"
+import { toast } from "react-toastify"
 
-const DeleteClassModal = ( {openDeleteClassModal, setOpenDeleteClassModal, deleteClass} ) => {
+const DeleteClassModal = ( {openDeleteClassModal, setOpenDeleteClassModal, setIsClassMade, setDbUserClassName, setIsEditClassModalOpen} ) => {
+    const { userUid, userClassName } = useContext(StudentDataContext)
+    const [user] = useAuthState(auth)
+    
+    const deleteClass = async () => {
+        try {
+            const docRef = doc(db, "users", user.uid)
+            if (userUid && userClassName) {
+                // User has created their own class (Firebase)
+                const classCollectionRef = collection(db, 'users', userUid, userClassName)
+                const classDocumentRef = doc(classCollectionRef, userUid)
+
+                await deleteDoc(classDocumentRef)
+                await updateDoc(docRef, { className: "", isClassMade: false, classAvatar: bagAvatar}) 
+            }
+
+        } catch (error) {
+            console.log("Error deleting class", error)
+        }
+
+        setDbUserClassName("")
+        setIsClassMade(false)
+        setOpenDeleteClassModal(false)
+        setIsEditClassModalOpen(false)
+        toast.success("Class successfully deleted!")
+    }
   return (
     <Dialog
         open={openDeleteClassModal}

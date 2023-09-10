@@ -9,7 +9,6 @@ import StudentInfoModal from "./StudentInfoModal"
 const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) => {
     const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)
     const [openStudentInfo, setOpenStudentInfo] = useState(false)
-    const [checkDeleteStudentModal, setCheckDeleteStudentModal] = useState(false) 
     const [selectedStudent, setSelectedStudent] = useState({
         name: "",
         dob: ""
@@ -22,7 +21,7 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
       setAlert(false)
     }, [openStudentInfo])
 
-    const handleStudentModal = (student) => {
+    const handleStudentInfoModal = (student) => {
       // Format the student's dob to "yyyy-MM-dd"
       const studentDob = new Date(student.dob)
       const year = studentDob.toLocaleString("default", {year: "numeric" })
@@ -96,31 +95,6 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
         }
     }
 
-    const removeStudent = async () => {
-      try {
-          // Filter out the student with the same UUID as the selectedStudent
-          const updatedDemoStudentData = studentData.filter((student) => student.uuid !== selectedStudent.uuid)
-          // Removes student from demoClass
-          setStudentData(updatedDemoStudentData)
-          
-          if (userUid && userClassName) {
-          // User is in their own class context (Firebase)
-            const classCollectionRef = collection(db, 'users', userUid, userClassName)
-            const classDocumentRef = doc(classCollectionRef, userUid)
-          
-            // Update the Firestore document with the updated studentData (Removes student from users class)
-            await updateDoc(classDocumentRef, {
-              studentData: updatedDemoStudentData,
-            })
-          }
-          
-        } catch (error) {
-          console.error('Error removing student:', error)
-        }
-        setOpenStudentInfo(false)
-        setCheckDeleteStudentModal(false)
-      }
-
     return (
       <Dialog
         open={isEditStudentsModalOpen}
@@ -151,7 +125,7 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
                 {studentData.map((student) => (
                   <button
                     key={student.uuid}
-                    onClick={() => handleStudentModal(student)}
+                    onClick={() => handleStudentInfoModal(student)}
                     className="text-center text-lg bg-white p-4 shadow-lg rounded-xl hover:scale-105 duration-300 break-words"
                   > 
                     {student.name}
@@ -171,9 +145,6 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
           setNewStudentAvatar={setNewStudentAvatar}
           updateStudentName={updateStudentName}
           updateStudentDob={updateStudentDob}
-          checkDeleteStudentModal={checkDeleteStudentModal}
-          setCheckDeleteStudentModal={setCheckDeleteStudentModal}
-          removeStudent={removeStudent}
           alertMessage={alertMessage}
           alert={alert}
         />

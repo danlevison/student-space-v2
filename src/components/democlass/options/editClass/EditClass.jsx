@@ -1,16 +1,14 @@
-import React, {useContext, useState} from 'react'
-import StudentDataContext from "@/StudentDataContext"
+import React, {useState} from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { doc, collection, updateDoc, deleteDoc } from 'firebase/firestore'
+import { doc, updateDoc } from 'firebase/firestore'
 import { db, auth } from "../../../../utils/firebase"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from 'react-icons/ai'
-import bagAvatar from "@/../../public/assets/avatars/bag.svg"
 import ClassAvatarMenu from "./ClassAvatarMenu"
 import DeleteClassModal from "./DeleteClassModal"
+import { toast } from "react-toastify"
 
 const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassName, setDbUserClassName, setIsClassMade, classAvatar, setClassAvatar }) => {
-    const { userUid, userClassName } = useContext(StudentDataContext)
     const [user, loading] = useAuthState(auth)
     const [newClassName, setNewClassName] = useState(dbUserClassName)
     const [openDeleteClassModal, setOpenDeleteClassModal] = useState(false)
@@ -38,31 +36,11 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
         } catch (error) {
             console.error("Class name could not be updated", error)
         }
+        toast.success("Class edited successfully!")
     }
 
     const handleDeleteClassModal = () => {
         setOpenDeleteClassModal(!openDeleteClassModal)
-    }
-
-    const deleteClass = async () => {
-        try {
-            const docRef = doc(db, "users", user.uid)
-            if (userUid && userClassName) {
-                // User has created their own class (Firebase)
-                const classCollectionRef = collection(db, 'users', userUid, userClassName)
-                const classDocumentRef = doc(classCollectionRef, userUid)
-
-                await deleteDoc(classDocumentRef)
-                await updateDoc(docRef, { className: "", isClassMade: false, classAvatar: bagAvatar}) 
-            }
-
-            setDbUserClassName("")
-            setIsClassMade(false)
-            setOpenDeleteClassModal(false)
-            setIsEditClassModalOpen(false)
-        } catch (error) {
-            console.log("Error deleting class", error)
-        }
     }
 
     return (
@@ -144,7 +122,9 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
         <DeleteClassModal 
             openDeleteClassModal={openDeleteClassModal} 
             setOpenDeleteClassModal={setOpenDeleteClassModal} 
-            deleteClass={deleteClass}
+            setDbUserClassName={setDbUserClassName}
+            setIsClassMade={setIsClassMade}
+            setIsEditClassModalOpen={setIsEditClassModalOpen}
         />
     </Dialog>
 )

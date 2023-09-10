@@ -5,6 +5,7 @@ import { db } from "../../../utils/firebase"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from "react-icons/ai"
 import Image from "next/image"
+import { toast } from "react-toastify"
 
 const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
     const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)
@@ -85,6 +86,7 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
       
         e.target.reset() // Reset the form fields
         setIsAddTableModalOpen(false)
+        toast.success("Table group created successfully!")
       }
 
   return (
