@@ -4,6 +4,7 @@ import { doc, collection, updateDoc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from "react-icons/ai"
+import { toast } from "react-toastify"
 
 const ResetPoints = ({ openResetPointsModal, setOpenResetPointsModal }) => {
     const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)  
@@ -28,11 +29,12 @@ const ResetPoints = ({ openResetPointsModal, setOpenResetPointsModal }) => {
                 })
               }
 
-            setOpenResetPointsModal(false)
-
             } catch (error) {
                 console.error('Error resetting students points:', error)
             }
+
+            setOpenResetPointsModal(false)
+            toast.success("Student points reset successfully!")
     }
 
     const resetTablePoints = async () => {
@@ -55,11 +57,12 @@ const ResetPoints = ({ openResetPointsModal, setOpenResetPointsModal }) => {
                 })
               }
 
-              setOpenResetPointsModal(false) 
+            } catch (error) {
+                console.error('Error resetting table points:', error)
+            }
 
-        } catch (error) {
-            console.error('Error resetting table points:', error)
-        }
+            setOpenResetPointsModal(false)
+            toast.success("Table points reset successfully!") 
     }
 
   return (

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Dialog } from '@headlessui/react'
 import { RiAddLine } from "react-icons/ri"
+import { toast } from "react-toastify"
 
 function CreateClass({ handleInputChange, setIsClassMade, userClassName }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -21,6 +22,7 @@ function CreateClass({ handleInputChange, setIsClassMade, userClassName }) {
 
     setIsOpen(false)
     setIsClassMade(true)
+    toast.success("Class successfully created!")
     router.push("/classroom")
   }
 

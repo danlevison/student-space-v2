@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Image from "next/image"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from "react-icons/ai"
@@ -16,11 +16,9 @@ const TableInfoModal = (
     updateTableName,
     tempStudentData,
     uncheckStudent,
-    checkDeleteTableModal,
-    setCheckDeleteTableModal,
-    deleteTable
     } 
     ) => {
+        const [openCheckDeleteTableModal, setOpenCheckDeleteTableModal] = useState(false)
 
   return (
     <Dialog
@@ -100,7 +98,7 @@ const TableInfoModal = (
                         </button>
                     </div>
                     <button 
-                        onClick={() => setCheckDeleteTableModal(!checkDeleteTableModal)} 
+                        onClick={() => setOpenCheckDeleteTableModal(!openCheckDeleteTableModal)} 
                         type="button" 
                         className="w-[110px] bg-red-500 hover:bg-red-700 rounded-2xl py-2 px-3 text-primaryTextClr text-sm font-bold"
                     >
@@ -112,9 +110,10 @@ const TableInfoModal = (
         </div>
         
         <DeleteTableModal 
-            checkDeleteTableModal={checkDeleteTableModal} 
-            setCheckDeleteTableModal={setCheckDeleteTableModal} 
-            deleteTable={deleteTable}  
+            openCheckDeleteTableModal={openCheckDeleteTableModal} 
+            setOpenCheckDeleteTableModal={setOpenCheckDeleteTableModal}
+            selectedTableName={selectedTableName}
+            setOpenTableInfo={setOpenTableInfo} 
         />
     </Dialog>
   )
