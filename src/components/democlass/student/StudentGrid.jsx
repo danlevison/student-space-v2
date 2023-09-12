@@ -136,7 +136,7 @@ const StudentGrid = () => {
     const handleAddStudentModal = () => {
       setIsAddStudentModalOpen(true)
     }
-
+    
       return (
         <>
           {studentData.length === 0 ? (
@@ -161,16 +161,13 @@ const StudentGrid = () => {
                         className="absolute top-1 left-1">
                           <Image 
                           src={student.avatar}
-                          alt="/"
+                          alt="Student Avatar: Sketched Animal"
                           width={60}
                           height={60}
                           style={{
                               objectFit: "cover"
                           }}
                           />
-                      </button>
-                      <button className="absolute bottom-2 right-2">
-                          <IoMdSettings size={20} className="text-gray-400"/>
                       </button>
                     </div>
                 ))}

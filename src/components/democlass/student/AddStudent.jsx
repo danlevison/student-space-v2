@@ -37,6 +37,7 @@ const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen, avatars }
         dob: dob,
         points: 0,
         avatar: avatars[randomIndex],
+        selected: false,
         tableData: {tableName: "", tablePoints: 0, isOnTable: false, selected: false},
         uuid: uuid,
       }

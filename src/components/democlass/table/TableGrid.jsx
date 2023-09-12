@@ -97,7 +97,7 @@ const TableGrid = () => {
                           <div key={student.uuid} className="flex flex-col justify-center bg-white shadow-lg rounded-lg text-center w-[90px] h-[100px]">
                             <Image 
                               src={student.avatar}
-                              alt="/"
+                              alt="Student Avatar: Sketched Animal"
                               width={60}
                               height={60}
                               className="mx-auto"

@@ -56,7 +56,7 @@ const Toolbar = ({ toolbarMenu }) => {
         {/* <button onClick={() => setToolbarMenu(false)} className="pt-3">
           <RiArrowLeftSLine size={30} className="text-buttonClr"/>
         </button> */}
-        <ul className="flex flex-col justify-evenly md:justify-normal items-center md:mt-48 md:gap-32 h-full text-iconClr z-10">
+        <ul className="flex flex-col justify-evenly md:justify-normal items-center md:mt-48 md:gap-32 h-full text-iconClr z-10 pb-6">
           <ToolbarIcon 
             icon={<RiTimerFill size={26} />} 
             text="Countdown Timer" 

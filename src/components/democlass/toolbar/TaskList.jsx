@@ -104,7 +104,7 @@ const TaskList = ( {openTaskList, setOpenTaskList} ) => {
 
             {/* Full-screen container to center the panel */}
             <div className="fixed inset-0 flex items-center justify-center p-4">
-                <Dialog.Panel className="p-5 w-full h-full lg:w-[650px] lg:h-[450px] rounded-xl bg-blue-100 overflow-auto">
+                <Dialog.Panel className="p-5 w-full max-w-[800px] h-full max-h-[1000px] rounded-xl bg-blue-100 overflow-auto">
                     <div className="flex justify-between items-center pb-4">
                         <Dialog.Title className="font-bold text-xl">Task List</Dialog.Title>
                         <button onClick={() => setOpenTaskList(false)}>

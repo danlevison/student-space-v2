@@ -56,7 +56,7 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
     
           {/* Full-screen container to center the panel */}
           <div className="fixed inset-0 flex items-center justify-center p-4">
-            <Dialog.Panel className="p-5 w-full h-[500px] sm:w-[500px] rounded-xl bg-blue-100">
+            <Dialog.Panel className="p-5 w-full max-w-[500px] h-full max-h-[450px] min-h-[30vh] rounded-xl bg-blue-100 overflow-auto">
               <div className="flex justify-between items-center">
                 <Dialog.Title className="font-bold text-xl">Edit {dbUserClassName}</Dialog.Title>
                 <button 
@@ -72,24 +72,21 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
                 </button>
               </div>
 
-              <form onSubmit={handleClassInfoSubmit} className="flex flex-col justify-around h-full mt-2">
+              <form onSubmit={handleClassInfoSubmit} className="flex flex-col mt-16 ">
                 <div className="flex justify-center items-center">
                     <ClassAvatarMenu newClassAvatar={newClassAvatar} setNewClassAvatar={setNewClassAvatar} />
                 </div>
-                    <div>
-                        <label htmlFor="classroomName" className="pb-1 text-xl">Class name</label>
-                        <input
-                            className="border-2 border-gray-400 w-full rounded-lg p-3 outline-inputOutlineClr text-xl"
-                            type="text"
-                            id="classroomName"
-                            name="classroomName"
-                            required
-                            value={newClassName}
-                            onChange={updateClassName}
-                        />
-                    </div>
-
-                    <div className="flex flex-row-reverse justify-between items-center mt-14">
+                    <label htmlFor="classroomName" className="pb-1 text-xl">Class name</label>
+                    <input
+                        className="border-2 border-gray-400 w-full rounded-lg p-3 outline-inputOutlineClr text-xl"
+                        type="text"
+                        id="classroomName"
+                        name="classroomName"
+                        required
+                        value={newClassName}
+                        onChange={updateClassName}
+                    />
+                    <div className="flex flex-row-reverse justify-between items-center pt-32">
                         <div className="flex items-center justify-center gap-2">
                             <button 
                                 onClick={() => {

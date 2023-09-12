@@ -19,19 +19,71 @@ import otterAvatar from "@/../../public/assets/avatars/otter.svg"
 const StudentAvatarMenu = ( {newStudentAvatar, setNewStudentAvatar} ) => {
 
     const menuItemData = [
-        { imageSrc: sheepAvatar, onClick: () => setNewStudentAvatar(sheepAvatar) },
-        { imageSrc: monkeyAvatar, onClick: () => setNewStudentAvatar(monkeyAvatar) },
-        { imageSrc: rabbitAvatar, onClick: () => setNewStudentAvatar(rabbitAvatar) },
-        { imageSrc: frogAvatar, onClick: () => setNewStudentAvatar(frogAvatar) },
-        { imageSrc: snakeAvatar, onClick: () => setNewStudentAvatar(snakeAvatar) },
-        { imageSrc: chickenAvatar, onClick: () => setNewStudentAvatar(chickenAvatar) },
-        { imageSrc: giraffeAvatar, onClick: () => setNewStudentAvatar(giraffeAvatar) },
-        { imageSrc: pandaAvatar, onClick: () => setNewStudentAvatar(pandaAvatar) },
-        { imageSrc: penguinAvatar, onClick: () => setNewStudentAvatar(penguinAvatar) },
-        { imageSrc: dogAvatar, onClick: () => setNewStudentAvatar(dogAvatar) },
-        { imageSrc: cheetahAvatar, onClick: () => setNewStudentAvatar(cheetahAvatar) },
-        { imageSrc: lionAvatar, onClick: () => setNewStudentAvatar(lionAvatar) },
-        { imageSrc: otterAvatar, onClick: () => setNewStudentAvatar(otterAvatar) },
+        { 
+            imageSrc: sheepAvatar, 
+            alt: "Sheep Avatar", 
+            onClick: () => setNewStudentAvatar(sheepAvatar) 
+          },
+          { 
+            imageSrc: monkeyAvatar, 
+            alt: "Monkey Avatar", 
+            onClick: () => setNewStudentAvatar(monkeyAvatar) 
+          },
+          { 
+            imageSrc: rabbitAvatar, 
+            alt: "Rabbit Avatar", 
+            onClick: () => setNewStudentAvatar(rabbitAvatar) 
+          },
+          { 
+            imageSrc: frogAvatar, 
+            alt: "Frog Avatar", 
+            onClick: () => setNewStudentAvatar(frogAvatar) 
+          },
+          { 
+            imageSrc: snakeAvatar, 
+            alt: "Snake Avatar", 
+            onClick: () => setNewStudentAvatar(snakeAvatar) 
+          },
+          { 
+            imageSrc: chickenAvatar, 
+            alt: "Chicken Avatar", 
+            onClick: () => setNewStudentAvatar(chickenAvatar) 
+          },
+          { 
+            imageSrc: giraffeAvatar, 
+            alt: "Giraffe Avatar", 
+            onClick: () => setNewStudentAvatar(giraffeAvatar) 
+          },
+          { 
+            imageSrc: pandaAvatar, 
+            alt: "Panda Avatar", 
+            onClick: () => setNewStudentAvatar(pandaAvatar) 
+          },
+          { 
+            imageSrc: penguinAvatar, 
+            alt: "Penguin Avatar", 
+            onClick: () => setNewStudentAvatar(penguinAvatar) 
+          },
+          { 
+            imageSrc: dogAvatar, 
+            alt: "Dog Avatar", 
+            onClick: () => setNewStudentAvatar(dogAvatar) 
+          },
+          { 
+            imageSrc: cheetahAvatar, 
+            alt: "Cheetah Avatar", 
+            onClick: () => setNewStudentAvatar(cheetahAvatar) 
+          },
+          { 
+            imageSrc: lionAvatar, 
+            alt: "Lion Avatar", 
+            onClick: () => setNewStudentAvatar(lionAvatar) 
+          },
+          { 
+            imageSrc: otterAvatar, 
+            alt: "Otter Avatar", 
+            onClick: () => setNewStudentAvatar(otterAvatar) 
+          }
       ]
 
   return (
@@ -42,7 +94,7 @@ const StudentAvatarMenu = ( {newStudentAvatar, setNewStudentAvatar} ) => {
                 className="relative mt-10 mx-auto flex justify-center rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
                 <Image 
                     src={newStudentAvatar}
-                    alt="/"
+                    alt="Student Avatar: Sketched Animal"
                     width={80}
                     height={80}
                 />
@@ -63,7 +115,7 @@ const StudentAvatarMenu = ( {newStudentAvatar, setNewStudentAvatar} ) => {
             leaveTo="transform opacity-0 scale-95"
         >
             <Menu.Items 
-                className="absolute h-[320px] overflow-auto w-[80%] max-w-[420px] left-[50%] translate-x-[-50%] grid grid-cols-[repeat(auto-fill,minmax(80px,1fr))] gap-4 mt-2 p-4 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                className="absolute h-full max-h-[280px] min-h-[30vh] overflow-auto w-[80%] max-w-[420px] left-[50%] translate-x-[-50%] grid grid-cols-[repeat(auto-fill,minmax(80px,1fr))] gap-4 mt-2 p-4 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
             >
             {menuItemData.map((menuItem, index) => (
                 <Menu.Item key={index} className="w-full">
@@ -74,7 +126,7 @@ const StudentAvatarMenu = ( {newStudentAvatar, setNewStudentAvatar} ) => {
                     >
                     <Image
                         src={menuItem.imageSrc}
-                        alt="/"
+                        alt={menuItem.alt}
                         width={60}
                         height={60}
                         aria-hidden="true"

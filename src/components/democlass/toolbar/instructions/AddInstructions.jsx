@@ -10,7 +10,7 @@ const AddInstructions = ( {showAddInstructionModal, setShowAddInstructionModal, 
 
         {/* Full-screen container to center the panel */}
         <div className="fixed inset-0 flex items-center justify-center p-4">
-        <Dialog.Panel className="p-5 w-full max-w-[550px] h-[250px] rounded-xl bg-blue-100">
+        <Dialog.Panel className="p-5 w-full max-w-[550px] h-full max-h-[250px] rounded-xl bg-blue-100 overflow-auto">
             <div className="flex flex-col justify-between h-full">
                 <div className="flex flex-col">
                     <label
@@ -29,7 +29,7 @@ const AddInstructions = ( {showAddInstructionModal, setShowAddInstructionModal, 
                         onChange={(e) => setInstruction(e.target.value)}
                     />
                 </div>
-                <div className="flex justify-end items-center gap-10">
+                <div className="flex justify-end items-center gap-10 pt-4">
                     <button onClick={() => setShowAddInstructionModal(false)}>Cancel</button>
                     <button onClick={addInstruction}>Add</button>
                 </div>

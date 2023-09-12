@@ -67,7 +67,7 @@ const Randomiser = ({ openRandomiser, setOpenRandomiser }) => {
 
       {/* Full-screen container to center the panel */}
       <div className="fixed inset-0 flex items-center justify-center p-4">
-        <Dialog.Panel className="p-5 w-full h-full lg:w-[600px] lg:h-[400px] rounded-xl bg-blue-100">
+        <Dialog.Panel className="p-5 w-full max-w-[600px] h-full max-h-[400px] rounded-xl bg-blue-100">
           <div className="flex justify-between items-center pb-4">
             <Dialog.Title className="font-bold text-xl">Random Student</Dialog.Title>
             <button onClick={() => setOpenRandomiser(false)}>
