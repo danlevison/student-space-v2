@@ -31,7 +31,7 @@ const TableInfoModal = (
 
         {/* Full-screen container to center the panel */}
         <div className="fixed inset-0 flex items-center justify-center p-4">
-            <Dialog.Panel className="flex flex-col p-5 w-full max-w-[800px] h-full sm:h-auto overflow-auto rounded-xl bg-modalBgClr">
+            <Dialog.Panel className="flex flex-col p-5 w-full max-w-[600px] h-full max-h-[500px] rounded-xl bg-modalBgClr overflow-auto">
             <div className="flex justify-between items-center pb-2">
                 <Dialog.Title className="font-bold text-xl">{selectedTableName}</Dialog.Title>
                 <button onClick={() => setOpenTableInfo(false)}>
@@ -70,7 +70,7 @@ const TableInfoModal = (
                         >
                             <Image 
                             src={student.avatar} 
-                            alt="/" 
+                            alt="Student Avatar: Sketched Animal" 
                             width={40} 
                             height={40} 
                             className="select-none"
@@ -82,7 +82,7 @@ const TableInfoModal = (
                 </div>
 
                 <div className="flex-grow" />
-                <div className="flex flex-row-reverse justify-between items-center sm:mt-6"> 
+                <div className="flex flex-row-reverse justify-between items-center pb-2"> 
                     <div className="flex items-center justify-center gap-2">
                         <button 
                             onClick={() => setOpenTableInfo(false)} 

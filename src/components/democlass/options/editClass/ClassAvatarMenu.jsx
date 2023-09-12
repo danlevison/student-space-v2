@@ -17,18 +17,66 @@ import solarSystemAvatar from "@/../..//public/assets/avatars/solar-system.svg"
 
 const ClassAvatarMenu = ( {newClassAvatar, setNewClassAvatar} ) => {
     const menuItemData = [
-        { imageSrc: origamiAvatar, onClick: () => setNewClassAvatar(origamiAvatar) },
-        { imageSrc: bagAvatar, onClick: () => setNewClassAvatar(bagAvatar) },
-        { imageSrc: glueAvatar, onClick: () => setNewClassAvatar(glueAvatar) },
-        { imageSrc: scissorsAvatar, onClick: () => setNewClassAvatar(scissorsAvatar) },
-        { imageSrc: rulerAvatar, onClick: () => setNewClassAvatar(rulerAvatar) },
-        { imageSrc: bookBagAvatar, onClick: () => setNewClassAvatar(bookBagAvatar) },
-        { imageSrc: sketchbookAvatar, onClick: () => setNewClassAvatar(sketchbookAvatar) },
-        { imageSrc: compassAvatar, onClick: () => setNewClassAvatar(compassAvatar) },
-        { imageSrc: footballAvatar, onClick: () => setNewClassAvatar(footballAvatar) },
-        { imageSrc: photosynthesisAvatar, onClick: () => setNewClassAvatar(photosynthesisAvatar) },
-        { imageSrc: hourglassAvatar, onClick: () => setNewClassAvatar(hourglassAvatar) },
-        { imageSrc: solarSystemAvatar, onClick: () => setNewClassAvatar(solarSystemAvatar) },
+        { 
+            imageSrc: origamiAvatar, 
+            alt: "Origami Avatar", 
+            onClick: () => setNewClassAvatar(origamiAvatar) 
+          },
+          { 
+            imageSrc: bagAvatar, 
+            alt: "Bag Avatar", 
+            onClick: () => setNewClassAvatar(bagAvatar) 
+          },
+          { 
+            imageSrc: glueAvatar, 
+            alt: "Glue Avatar", 
+            onClick: () => setNewClassAvatar(glueAvatar) 
+          },
+          { 
+            imageSrc: scissorsAvatar, 
+            alt: "Scissors Avatar", 
+            onClick: () => setNewClassAvatar(scissorsAvatar) 
+          },
+          { 
+            imageSrc: rulerAvatar, 
+            alt: "Ruler Avatar", 
+            onClick: () => setNewClassAvatar(rulerAvatar) 
+          },
+          { 
+            imageSrc: bookBagAvatar, 
+            alt: "Book Bag Avatar", 
+            onClick: () => setNewClassAvatar(bookBagAvatar) 
+          },
+          { 
+            imageSrc: sketchbookAvatar, 
+            alt: "Sketchbook Avatar", 
+            onClick: () => setNewClassAvatar(sketchbookAvatar) 
+          },
+          { 
+            imageSrc: compassAvatar, 
+            alt: "Compass Avatar", 
+            onClick: () => setNewClassAvatar(compassAvatar) 
+          },
+          { 
+            imageSrc: footballAvatar, 
+            alt: "Football Avatar", 
+            onClick: () => setNewClassAvatar(footballAvatar) 
+          },
+          { 
+            imageSrc: photosynthesisAvatar, 
+            alt: "Photosynthesis Avatar", 
+            onClick: () => setNewClassAvatar(photosynthesisAvatar) 
+          },
+          { 
+            imageSrc: hourglassAvatar, 
+            alt: "Hourglass Avatar", 
+            onClick: () => setNewClassAvatar(hourglassAvatar) 
+          },
+          { 
+            imageSrc: solarSystemAvatar, 
+            alt: "Solar System Avatar", 
+            onClick: () => setNewClassAvatar(solarSystemAvatar) 
+          }          
     ]
 
     return (
@@ -61,7 +109,7 @@ const ClassAvatarMenu = ( {newClassAvatar, setNewClassAvatar} ) => {
                     leaveTo="transform opacity-0 scale-95"
                 >
                     <Menu.Items 
-                        className="absolute h-[320px] overflow-auto w-[80%] max-w-[420px] left-[50%] translate-x-[-50%] grid grid-cols-[repeat(auto-fill,minmax(80px,1fr))] gap-4 mt-2 p-4 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                        className="absolute overflow-auto h-full max-h-[310px] min-h-[30vh] w-[80%] max-w-[420px] left-[50%] translate-x-[-50%] grid grid-cols-[repeat(auto-fill,minmax(80px,1fr))] gap-4 mt-2 p-4 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                     >
                     {menuItemData.map((menuItem, index) => (
                         <Menu.Item key={index} className="w-full">
@@ -72,7 +120,7 @@ const ClassAvatarMenu = ( {newClassAvatar, setNewClassAvatar} ) => {
                             >
                             <Image
                                 src={menuItem.imageSrc}
-                                alt="/"
+                                alt={menuItem.alt}
                                 width={60}
                                 height={60}
                                 aria-hidden="true"

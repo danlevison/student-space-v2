@@ -6,12 +6,12 @@ import { RxReset } from "react-icons/rx"
 import { TiSortAlphabetically } from "react-icons/ti"
 import { MdPerson, MdGroups } from "react-icons/md"
 import EditStudents from "./editStudents/EditStudents"
-import ResetPoints from "./ResetPoints"
+import ResetStudentPoints from "./ResetStudentPoints"
 import EditTables from "./editTables/EditTables"
 
 const Options = () => {
     const [isEditStudentsModalOpen, setIsEditStudentsModalOpen] = useState(false)
-    const [openResetPointsModal, setOpenResetPointsModal] = useState(false)
+    const [openResetStudentPointsModal, setOpenResetStudentPointsModal] = useState(false)
     const [isEditTablesModalOpen, setIsEditTablesModalOpen] = useState(false)
     const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext) 
     
@@ -20,7 +20,7 @@ const Options = () => {
     }
 
     const handleResetPointsModal = () => {
-        setOpenResetPointsModal(true)
+        setOpenResetStudentPointsModal(true)
     }
 
     const handleEditTablesModal = () => {
@@ -182,7 +182,7 @@ const Options = () => {
         {/* Edit Students Modal */}
         {isEditStudentsModalOpen && <EditStudents isEditStudentsModalOpen={isEditStudentsModalOpen} setIsEditStudentsModalOpen={setIsEditStudentsModalOpen} />}
         {/* Reset Points Modal */}
-        {openResetPointsModal && <ResetPoints openResetPointsModal={openResetPointsModal} setOpenResetPointsModal={setOpenResetPointsModal} />}
+        {openResetStudentPointsModal && <ResetStudentPoints openResetStudentPointsModal={openResetStudentPointsModal} setOpenResetStudentPointsModal={setOpenResetStudentPointsModal} />}
         {/* Edit Tables Modal */}
         {isEditTablesModalOpen && <EditTables isEditTablesModalOpen={isEditTablesModalOpen} setIsEditTablesModalOpen={setIsEditTablesModalOpen} />}
     </div>

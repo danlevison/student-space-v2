@@ -5,6 +5,7 @@ import { db } from "../../../../utils/firebase"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from 'react-icons/ai'
 import StudentInfoModal from "./StudentInfoModal"
+import Image from "next/image"
 
 const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) => {
     const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)
@@ -106,7 +107,7 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
   
         {/* Full-screen container to center the panel */}
         <div className="fixed inset-0 flex items-center justify-center p-4">
-          <Dialog.Panel className="p-5 w-full max-w-[800px] rounded-xl bg-modalBgClr">
+          <Dialog.Panel className="p-5 w-full max-w-[800px] h-full max-h-[1000px] rounded-xl bg-modalBgClr overflow-auto">
             <div className="flex justify-between items-center gap-6">
               <Dialog.Title className="font-bold text-xl">Edit Students</Dialog.Title>
               <button onClick={() => setIsEditStudentsModalOpen(false)}>
@@ -121,13 +122,20 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
                 <p className="text-xl">No student data available</p>
               </div>
             ) : (
-              <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-2 items-start h-auto max-h-[370px] overflow-auto mt-4 p-4">
+              <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-2 mt-4 p-2">
                 {studentData.map((student) => (
                   <button
                     key={student.uuid}
                     onClick={() => handleStudentInfoModal(student)}
-                    className="text-center text-lg bg-white p-4 shadow-lg rounded-xl hover:scale-105 duration-300 break-words"
-                  > 
+                    className="flex flex-col justify-center items-center text-center text-lg font-bold bg-white p-3 shadow-lg rounded-xl hover:scale-105 duration-300 break-words"
+                  >
+                    <Image 
+                      src={student.avatar} 
+                      alt="Student Avatar: Sketched Animal"  
+                      width={40}
+                      height={40}
+                      className="select-none" 
+                    /> 
                     {student.name}
                   </button>
                 ))}

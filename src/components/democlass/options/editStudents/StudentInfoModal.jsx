@@ -30,7 +30,7 @@ const StudentInfoModal = (
 
         {/* Full-screen container to center the panel */}
         <div className="fixed inset-0 flex items-center justify-center p-4">
-            <Dialog.Panel className="flex flex-col p-5 w-full max-w-[500px] h-[500px] rounded-xl bg-modalBgClr">
+            <Dialog.Panel className="flex flex-col p-5 w-full max-w-[500px] h-full max-h-[450px] rounded-xl bg-modalBgClr overflow-auto">
                 <div className="flex justify-between items-center pb-2 z-10">
                     <Dialog.Title className="font-bold text-xl">{selectedStudent.name}</Dialog.Title>
                     <button onClick={() => setOpenStudentInfo(false)}>
@@ -40,12 +40,13 @@ const StudentInfoModal = (
                     />
                     </button>
                 </div>
-                <form onSubmit={handleStudentInfoSubmit} className="flex flex-col justify-between h-full">
-                <StudentAvatarMenu newStudentAvatar={newStudentAvatar} setNewStudentAvatar={setNewStudentAvatar} />
-                <div>
+                <form onSubmit={handleStudentInfoSubmit} className="flex flex-col">
+                    <StudentAvatarMenu newStudentAvatar={newStudentAvatar} setNewStudentAvatar={setNewStudentAvatar} />
+                    
                     <div className="flex flex-col">
-                    {alert ?
-                        <p className="font-bold text-red-500 pb-1 text-lg">{alertMessage}</p> : <label htmlFor="name" className="pb-1 text-lg">First name</label> }
+                        {alert ?
+                            <p className="font-bold text-red-500 pb-1 text-lg">{alertMessage}</p> : <label htmlFor="name" className="pb-1 text-lg">First name</label> 
+                        }
                         <input
                         className={alert ? "border-2 border-red-500 w-full rounded-lg p-3 outline-none" : "border-2 border-gray-400 w-full rounded-lg p-3 outline-inputOutlineClr"}
                         type="text"
@@ -56,7 +57,7 @@ const StudentInfoModal = (
                         onChange={updateStudentName}
                         />
                     </div>
-                    <div className="flex flex-col mt-4">
+                    <div className="flex flex-col">
                         <label htmlFor="dob" className="pt-3 text-lg">Date of birth</label>
                         <input
                         className="border-2 border-gray-400 bg-white rounded-lg p-3 outline-inputOutlineClr" 
@@ -68,9 +69,8 @@ const StudentInfoModal = (
                         onChange={updateStudentDob}
                         />
                     </div>
-                </div> 
-                    
-                    <div className="flex justify-between flex-row-reverse items-center">
+
+                    <div className="flex justify-between flex-row-reverse items-center pt-[4.5rem]">
                         <div className="flex items-center justify-center gap-2">
                             <button 
                             onClick={() => setOpenStudentInfo(false)} 

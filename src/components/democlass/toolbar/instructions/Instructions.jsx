@@ -157,7 +157,7 @@ const Instructions = ({ openInstructions, setOpenInstructions }) => {
 
             {/* Full-screen container to center the panel */}
             <div className="fixed inset-0 flex items-center justify-center p-4">
-                <Dialog.Panel className="p-5 w-full max-w-[600px] h-[500px] overflow-auto rounded-xl bg-blue-100">
+                <Dialog.Panel className="p-5 w-full max-w-[600px] h-full max-h-[500px] rounded-xl bg-blue-100 overflow-auto">
                 <div className="flex justify-between items-center pb-4">
                     <button onClick={() => setShowCreateInstructionsModal(false)}>
                         <AiOutlineArrowLeft size={25} />
@@ -255,7 +255,7 @@ const Instructions = ({ openInstructions, setOpenInstructions }) => {
 
             {/* Full-screen container to center the panel */}
             <div className="fixed inset-0 flex items-center justify-center p-4">
-                <Dialog.Panel className="p-5 w-full max-w-[600px] h-[500px] overflow-auto rounded-xl bg-blue-100">
+                <Dialog.Panel className="p-5 w-full max-w-[600px] h-full max-h-[500px] rounded-xl bg-blue-100 overflow-auto">
                     <div className="flex justify-between items-center pb-4">
                         <Dialog.Title className="font-bold text-xl">Instructions</Dialog.Title>
                         <button onClick={() => setOpenInstructions(false)}>

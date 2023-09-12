@@ -89,11 +89,22 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
         toast.success("Table group created successfully!")
       }
 
+      const reset = () => {
+        setStudentData((prevStudentData) => {
+          return prevStudentData.map((student) => {
+            return {...student, tableData: {...student.tableData, selected: false}}
+          })
+        })
+      }
+
   return (
     <>
         <Dialog
             open={isAddTableModalOpen}
-            onClose={() => setIsAddTableModalOpen(false)}
+            onClose={() => {
+              setIsAddTableModalOpen(false)
+              reset()
+            }}
             className="relative z-50"
             initialFocus={tableInputRef}
         >
@@ -103,14 +114,19 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
             {/* Full-screen container to center the panel */}
             <div className="fixed inset-0 flex items-center justify-center p-4">
                 
-                <Dialog.Panel className="p-5 w-full max-w-[1200px] h-full overflow-auto rounded-xl bg-blue-100">
+                <Dialog.Panel className="flex flex-col p-5 w-full max-w-[800px] h-full max-h-[1000px] rounded-xl bg-blue-100">
                     <div className="flex justify-between items-center">
                         <Dialog.Title className="font-bold text-xl capitalize">Add table</Dialog.Title>
-                        <button onClick={() => setIsAddTableModalOpen(false)}>
+                        <button 
+                          onClick={() => {
+                            setIsAddTableModalOpen(false)
+                            reset()
+                          }}
+                        >
                             <AiOutlineClose size={28} className="bg-white text-secondaryTextClr hover:bg-buttonClr rounded-full hover:text-primaryTextClr p-1"/>
                         </button>
                     </div>
-                    <form onSubmit={handleAddTableSubmit} className="flex flex-col py-4">
+                    <form onSubmit={handleAddTableSubmit} className="flex flex-col py-4 overflow-auto">
                         <div className="flex flex-col items-center">
                             {alert ? <p className="font-bold text-xl text-red-500 pb-1">{alertMessage}</p> : <label htmlFor="tableName" className="text-xl pb-1">Table name</label>}
                             <input 
@@ -123,9 +139,9 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
                               ref={tableInputRef} 
                             />
                         </div>
-                        <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-4 items-center py-4">
+                        <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] overflow-auto mt-5">
                             {studentData.map((student) => (
-                                <div key={student.uuid} className="flex flex-col items-center gap-2">
+                                <div key={student.uuid} className="mx-auto py-2 h-fit">
                                     <input 
                                         onChange={getSelectedStudent} 
                                         type="checkbox" 
@@ -141,7 +157,7 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
                                     >
                                         <Image 
                                           src={student.avatar} 
-                                          alt="/" 
+                                          alt="Student Avatar: Sketched Animal"
                                           width={40} 
                                           height={40} 
                                           className="select-none"
@@ -152,9 +168,13 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
                                 </div>
                             ))}
                         </div>
-                        <div className="flex justify-end gap-10 mt-[9.7rem]">
+
+                        <div className="flex justify-end gap-10 mt-5 mx-2">
                             <button 
-                                onClick={() => setIsAddTableModalOpen(false)} 
+                                onClick={() => {
+                                  setIsAddTableModalOpen(false)
+                                  reset()
+                                }} 
                                 type="button" 
                                 className="w-full text-sm sm:text-base sm:w-32 bg-buttonClr p-3 rounded-lg text-primaryTextClr hover:scale-105 duration-300" 
                                 aria-label="Cancel"

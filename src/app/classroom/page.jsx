@@ -116,7 +116,7 @@ const Classroom = () => {
                 <div className="flex items-center gap-10 pb-4">
                   <button 
                   onClick={handleShowStudentGrid}
-                  className={showTableGrid === false ? "text-lg text-buttonClr font-bold underline" : "text-lg font-bold hover:scale-105 duration-300"}
+                  className={!showTableGrid ? "text-lg text-buttonClr font-bold underline" : "text-lg font-bold hover:scale-105 duration-300"}
                   >
                     Students
                   </button>

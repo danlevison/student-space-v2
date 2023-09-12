@@ -25,6 +25,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
     
     // Collect unique table names using a Set
     const tableNamesSet = new Set()
+    
     studentData.forEach((student) => {
       if (student.tableData?.tableName) {
         tableNamesSet.add(student.tableData.tableName)
@@ -121,7 +122,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
 
       {/* Full-screen container to center the panel */}
       <div className="fixed inset-0 flex items-center justify-center p-4">
-        <Dialog.Panel className="p-5 w-full max-w-[800px] rounded-xl bg-modalBgClr">
+        <Dialog.Panel className="p-5 w-full max-w-[800px] h-full max-h-[1000px] rounded-xl bg-modalBgClr overflow-auto">
           <div className="flex justify-between items-center">
             <Dialog.Title className="font-bold text-xl">Edit Tables</Dialog.Title>
             <button onClick={() => setIsEditTablesModalOpen(false)}>
@@ -136,7 +137,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                   <p className="text-xl">No table data available</p>
             </div>
           ) : (
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-2 h-auto max-h-[370px] overflow-auto mt-4 p-4">
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-2 h-fit overflow-auto mt-4 p-4">
               {/* Render a button for each table name */}
               {tableNames.map((tableName) => (
                 <button
