@@ -134,7 +134,7 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
           </div>
           {tableNames.length === 0 ? (
             <div className="flex justify-center items-center h-full min-h-[300px] text-center">
-                  <p className="text-xl">No table data available</p>
+                  <p className="text-2xl">No table data available</p>
             </div>
           ) : (
             <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-2 h-fit overflow-auto mt-4 p-4">

@@ -4,10 +4,12 @@ import StudentDataContext from "@/StudentDataContext"
 import { doc, collection, getDocs, updateDoc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
 import { FaAward } from 'react-icons/fa'
-import { IoMdSettings } from 'react-icons/io'
 import { RiAddLine } from "react-icons/ri"
 import AddStudent from "@/components/democlass/student/AddStudent"
 import pointsSound from "../../../../public/audio/points.mp3"
+import Confetti from 'react-confetti'
+import { useWindowSize } from "@reactuses/core"
+// Avatars
 import sheepAvatar from "../../../../public/assets/avatars/sheep.svg"
 import monkeyAvatar from "../../../../public/assets/avatars/monkey.svg"
 import rabbitAvatar from "../../../../public/assets/avatars/rabbit.svg"
@@ -23,8 +25,9 @@ import lionAvatar from "../../../../public/assets/avatars/lion.svg"
 import otterAvatar from "../../../../public/assets/avatars/otter.svg"
 
 const StudentGrid = () => {
-    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)
+    const { studentData, setStudentData, userUid, userClassName, showConfetti, setShowConfetti } = useContext(StudentDataContext)
     const [isAddStudentModalOpen, setIsAddStudentModalOpen] = useState(false)
+    const { width, height } = useWindowSize()
     const [avatars, setAvatars] = useState([monkeyAvatar, rabbitAvatar, pandaAvatar, cheetahAvatar, sheepAvatar, chickenAvatar, penguinAvatar, dogAvatar, giraffeAvatar, snakeAvatar, otterAvatar, frogAvatar, lionAvatar])
 
     // Fetch the user's student data from the Firestore subcollection when userUid and className are available
@@ -34,6 +37,8 @@ const StudentGrid = () => {
         fetchStudentDataFromFirestore()
       }
     }, [userUid, userClassName])
+
+    console.log(width, height)
 
     const fetchStudentDataFromFirestore = async () => {
       try {
@@ -72,6 +77,16 @@ const StudentGrid = () => {
     
         // Update the demoStudentData state to reflect the new points in the demoClass
         setStudentData(updatedStudentData)
+
+        // Check if the student now has 50 points
+        if (studentToUpdate.points + 1 === 50) {
+          setShowConfetti(true)
+
+          // After 5 seconds, hide the confetti
+          setTimeout(() => {
+            setShowConfetti(false)
+          }, 6000)
+        }
     
         // Update the points in the users firebase studentData and display in the users class
         if (userUid && userClassName) {
@@ -89,8 +104,6 @@ const StudentGrid = () => {
 
     const handleAvatarClick = async (uuid) => {
       try {
-        // const avatars = [monkeyAvatar, rabbitAvatar, pandaAvatar, cheetahAvatar, sheepAvatar, chickenAvatar, penguinAvatar, dogAvatar, giraffeAvatar, snakeAvatar, otterAvatar, frogAvatar, lionAvatar]
-  
         // Find the student with the given UUID
         const studentToUpdate = studentData.find((student) => student.uuid === uuid)
   
@@ -136,7 +149,7 @@ const StudentGrid = () => {
     const handleAddStudentModal = () => {
       setIsAddStudentModalOpen(true)
     }
-    
+
       return (
         <>
           {studentData.length === 0 ? (
@@ -175,7 +188,7 @@ const StudentGrid = () => {
                     <p className="text-lg font-bold">Add student</p>
                     <RiAddLine size={30} />
                 </button>
-                
+                { showConfetti && <Confetti width={width} height={height} gravity={0.05} numberOfPieces={300} className="w-full" /> }
             </div>
         )}
             {/* Add Student Modal */}
