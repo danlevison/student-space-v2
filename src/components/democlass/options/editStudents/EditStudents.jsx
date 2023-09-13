@@ -118,8 +118,8 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
               </button>
             </div>
             {studentData.length === 0 ? (
-              <div className="flex justify-center items-center h-full min-h-[300px] text-center">
-                <p className="text-xl">No student data available</p>
+              <div className="flex justify-center items-center text-center h-full">
+                <p className="text-2xl">No student data available</p>
               </div>
             ) : (
               <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-2 mt-4 p-2">
