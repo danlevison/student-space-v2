@@ -6,7 +6,7 @@ import { doc, updateDoc, getDocs, collection, arrayUnion } from 'firebase/firest
 import StudentDataContext from "@/StudentDataContext"
 import { AiOutlineClose } from 'react-icons/ai'
 
-const TaskList = ( {openTaskList, setOpenTaskList} ) => {
+const TaskList = ( {openTaskList, setOpenTaskList, setRemainingTasks} ) => {
     const [user, loading] = useAuthState(auth)
     const { userUid, userClassName } = useContext(StudentDataContext)
     const [newItem, setNewItem] = useState("")
@@ -96,6 +96,9 @@ const TaskList = ( {openTaskList, setOpenTaskList} ) => {
             })
         }
     }
+
+    // for remaining tasks number on toolbar
+    setRemainingTasks(tasks.length)
 
     return (
         <Dialog initialFocus={inputRef} open={openTaskList} onClose={() => setOpenTaskList(false)} className="relative z-50">

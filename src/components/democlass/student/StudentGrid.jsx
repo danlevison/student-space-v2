@@ -38,8 +38,6 @@ const StudentGrid = () => {
       }
     }, [userUid, userClassName])
 
-    console.log(width, height)
-
     const fetchStudentDataFromFirestore = async () => {
       try {
         // Implement fetching of student data from Firestore using userUid and className
