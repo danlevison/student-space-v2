@@ -8,7 +8,7 @@ import { GiCardRandom } from 'react-icons/gi'
 import { LuListChecks } from "react-icons/lu"
 import { ImListNumbered } from "react-icons/im"
 
-const ToolbarIcon = ({ icon, text, onClick }) => (
+const ToolbarIcon = ({ icon, text, tasks, onClick }) => (
   <li className="z-[1000] relative flex items-center justify-center h-12 w-12 shadow-lg bg-gray-300 hover:bg-slate-400 rounded-3xl hover:rounded-xl transition-all duration-300 ease-linear group">
     <button className="w-full h-full flex items-center justify-center" onClick={onClick}>
       {icon}
@@ -16,6 +16,9 @@ const ToolbarIcon = ({ icon, text, onClick }) => (
     <span className="absolute w-auto p-2 m-2 min-w-max left-16 rounded-md shadow-sm text-white bg-gray-600 text-xs font-bold transition-all duration-100 scale-0 origin-left group-hover:scale-100">
       {text}
     </span>
+    {tasks > 0 && <span className="flex justify-center items-center absolute top-[-1.5rem] left-7 w-6 h-6 bg-red-500 text-white text-sm rounded-full">
+      {tasks}
+    </span>}
   </li>
 )
 
@@ -24,6 +27,7 @@ const Toolbar = ({ toolbarMenu }) => {
   const [openInstructions, setOpenInstructions] = useState(false)
   const [openTimer, setOpenTimer] = useState(false)
   const [openTaskList, setOpenTaskList] = useState(false)
+  const [remainingTasks, setRemainingTasks] = useState(0)
 
   const handleTimerClick = () => {
     // Handle Timer button click logic here
@@ -65,6 +69,7 @@ const Toolbar = ({ toolbarMenu }) => {
           <ToolbarIcon 
             icon={<LuListChecks size={35} />} 
             text="Task-List" 
+            tasks={remainingTasks}
             onClick={handleTaskListClick} 
           />
           <ToolbarIcon
@@ -82,7 +87,7 @@ const Toolbar = ({ toolbarMenu }) => {
       
       <Timer openTimer={openTimer} setOpenTimer={setOpenTimer} />
       <Randomiser openRandomiser={openRandomiser} setOpenRandomiser={setOpenRandomiser} />
-      <TaskList openTaskList={openTaskList} setOpenTaskList={setOpenTaskList} />
+      <TaskList openTaskList={openTaskList} setOpenTaskList={setOpenTaskList} setRemainingTasks={setRemainingTasks} />
       <Instructions openInstructions={openInstructions} setOpenInstructions={setOpenInstructions} />
     </>
   )
