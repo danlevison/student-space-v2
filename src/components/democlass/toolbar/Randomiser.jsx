@@ -49,7 +49,7 @@ const Randomiser = ({ openRandomiser, setOpenRandomiser }) => {
         setStudentData(updatedStudentData)
 
         // Check if the student now has 50 points
-        if (randomStudent.points + 1 === 5) {
+        if (randomStudent.points + 1 === 50) {
           setShowConfetti(true)
 
           // After 5 seconds, hide the confetti
