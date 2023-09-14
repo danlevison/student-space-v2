@@ -119,7 +119,7 @@ const ResetStudentPoints = ({ openResetStudentPointsModal, setOpenResetStudentPo
                             />
                             </button>
                         </div>
-                        <div className="flex justify-center items-center gap-4">
+                        <div className="flex justify-center items-center gap-4 mt-5">
                             <button 
                                 onClick={() => setStudentView(true)}
                                 className={studentView ? "text-lg text-buttonClr font-bold underline" : "text-lg font-bold hover:scale-105 duration-300"}
@@ -128,13 +128,14 @@ const ResetStudentPoints = ({ openResetStudentPointsModal, setOpenResetStudentPo
                             </button>
                             <button 
                                 onClick={() => setStudentView(false)}
-                                className={!studentView ? "text-lg text-buttonClr font-bold underline" : "text-lg font-bold hover:scale-105 duration-300"}
+                                disabled={studentData.every((student) => !student.tableData.isOnTable)}
+                                className={!studentView ? "text-lg text-buttonClr font-bold underline" : "text-lg font-bold hover:scale-105 duration-300 disabled:text-gray-400 disabled:hover:scale-100 disabled:duration-0"}
                             >
                                 Tables
                             </button>
                         </div>
-                        <Dialog.Description className="text-center mt-2 font-bold text-red-400">
-                                Warning: Resetting points is a permanent action and cannot be reversed.
+                        <Dialog.Description className="text-center mt-2 font-bold text-red-400 py-5">
+                                Warning: Resetting points is a permanent action and can't be undone.
                         </Dialog.Description>
                         {studentView ? 
                         <>
