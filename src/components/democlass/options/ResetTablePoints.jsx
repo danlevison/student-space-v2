@@ -5,7 +5,7 @@ import { db } from "../../../utils/firebase"
 import { toast } from "react-toastify"
 
 const ResetTablePoints = ( {setOpenResetStudentPointsModal, areAllTablesSelected, setAreAllTablesSelected, resetStudents, resetTables} ) => {
-    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)
+    const { studentData, setStudentData, userUid, params } = useContext(StudentDataContext)
 
     const tableNamesMap = {} // An object to keep track of unique tableName values and their objects
 
@@ -48,16 +48,13 @@ const ResetTablePoints = ( {setOpenResetStudentPointsModal, areAllTablesSelected
 
             setStudentData(updatedStudentData)
 
-            if(userUid && userClassName) {
-                // User is in their own class context (Firebase)
-                const classCollectionRef = collection(db, "users", userUid, userClassName)
-                const classDocumentRef = doc(classCollectionRef, userUid)
-
-                // Update the Firestore document with the updated studentData (Reset table points in the users class)
+            if (userUid && params.id) {
+                const classDocumentRef = doc(db, "users", userUid, "classes", params.id)
+            
                 await updateDoc(classDocumentRef, {
-                    studentData: updatedStudentData
+                  studentData: updatedStudentData,
                 })
-            }
+              }
 
         } catch (error) {
             console.error("Error resetting table points", error)

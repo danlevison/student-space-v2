@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import Image from "next/image"
 import { Dialog } from '@headlessui/react'
 import StudentDataContext from "@/StudentDataContext"
-import { doc, collection, updateDoc } from 'firebase/firestore'
+import { doc, updateDoc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
 import { AiOutlineClose } from 'react-icons/ai'
 import { FaAward } from 'react-icons/fa'
@@ -11,7 +11,7 @@ import Confetti from 'react-confetti'
 import { useWindowSize } from "@reactuses/core"
 
 const Randomiser = ({ openRandomiser, setOpenRandomiser }) => {
-  const { studentData, setStudentData, userUid, userClassName, showConfetti, setShowConfetti } = useContext(StudentDataContext)
+  const { studentData, setStudentData, userUid, params, showConfetti, setShowConfetti } = useContext(StudentDataContext)
   const [randomStudent, setRandomStudent] = useState("")
   const { width, height } = useWindowSize()
 
@@ -55,19 +55,19 @@ const Randomiser = ({ openRandomiser, setOpenRandomiser }) => {
           // After 5 seconds, hide the confetti
           setTimeout(() => {
             setShowConfetti(false)
-          }, 6000)
+          }, 5000)
         }
   
         // Update the points in the users firebase studentData and display in the users class
-        if (userUid && userClassName) {
-          const classCollectionRef = collection(db, 'users', userUid, userClassName)
-          const classDocumentRef = doc(classCollectionRef, userUid)
-  
+        if (userUid && params.id) {
+          const classDocumentRef = doc(db, "users", userUid, "classes", params.id)
+      
           await updateDoc(classDocumentRef, {
             studentData: updatedStudentData,
           })
         }
       }
+
     } catch (error) {
       console.error('Error updating student points:', error)
     }

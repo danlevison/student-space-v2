@@ -9,7 +9,7 @@ import { toast } from "react-toastify"
 import ResetTablePoints from "./ResetTablePoints"
 
 const ResetStudentPoints = ({ openResetStudentPointsModal, setOpenResetStudentPointsModal }) => {
-    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)
+    const { studentData, setStudentData, userUid, params } = useContext(StudentDataContext)
     const [areAllStudentsSelected, setAreAllStudentSelected] = useState(false)
     const [areAllTablesSelected, setAreAllTablesSelected] = useState(false)
     const [studentView, setStudentView] = useState(true)
@@ -36,16 +36,13 @@ const ResetStudentPoints = ({ openResetStudentPointsModal, setOpenResetStudentPo
             })
             setStudentData(updatedStudentData)
 
-            if(userUid && userClassName) {
-                // User is in their own class context (Firebase)
-                const classCollectionRef = collection(db, "users", userUid, userClassName)
-                const classDocumentRef = doc(classCollectionRef, userUid)
-
-                // Update the Firestore document with the updated studentData (Reset students points in the users class)
+            if (userUid && params.id) {
+                const classDocumentRef = doc(db, "users", userUid, "classes", params.id)
+            
                 await updateDoc(classDocumentRef, {
-                    studentData: updatedStudentData
+                  studentData: updatedStudentData,
                 })
-            }
+              }
 
         } catch (error) {
             console.error("Error resetting student points", error)

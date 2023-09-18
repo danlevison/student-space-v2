@@ -1,15 +1,13 @@
-import React, {useState, useContext, useEffect} from 'react'
-import { db, auth } from '../../../../utils/firebase'
-import { doc, updateDoc, collection } from 'firebase/firestore'
-import { useAuthState } from 'react-firebase-hooks/auth'
+import React, {useState, useContext} from 'react'
+import { db } from '../../../../utils/firebase'
+import { doc, updateDoc } from 'firebase/firestore'
 import StudentDataContext from "@/StudentDataContext"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose, AiOutlineArrowLeft } from 'react-icons/ai'
 import AddInstructions from "./AddInstructions"
 
 const EditSavedInstructions = ({ showAddInstructionModalEdit, setShowAddInstructionModalEdit, showEditSavedInstructionsModal, setShowEditSavedInstructionsModal, setOpenInstructions, savedInstruction, savedInstructionIndex, handleAddInstructionModal, instruction, savedInstructions, setSavedInstructions, setInstruction, setIsEditInstructionActive, activeSavedInstruction }) => {
-    const { userUid, userClassName } = useContext(StudentDataContext)
-    const [user, loading] = useAuthState(auth)  
+    const { userUid, params } = useContext(StudentDataContext)
     const [tempSavedInstructions, setTempSavedInstructions] = useState(savedInstructions || [])
  
     const resetTempInstructions = () => {
@@ -59,9 +57,8 @@ const EditSavedInstructions = ({ showAddInstructionModalEdit, setShowAddInstruct
         try {
             setSavedInstructions(tempSavedInstructions)
             
-            if (userUid && userClassName) {
-                const docRef = doc(db, 'users', user.uid)
-                const classDocumentRef = doc(collection(docRef, "users class"), user.uid)
+            if (userUid && params.id) {
+                const classDocumentRef = doc(db, "users", userUid, "classes", params.id)
     
                 await updateDoc(classDocumentRef, {
                     instructionsData: tempSavedInstructions
@@ -81,14 +78,14 @@ const EditSavedInstructions = ({ showAddInstructionModalEdit, setShowAddInstruct
             setSavedInstructions(updatedInstructions)
             setTempSavedInstructions(updatedInstructions)
 
-            if (userUid && userClassName) {
-                const docRef = doc(db, 'users', user.uid)
-                const classDocumentRef = doc(collection(docRef, "users class"), user.uid)
+            if (userUid && params.id) {
+                const classDocumentRef = doc(db, "users", userUid, "classes", params.id)
     
                 await updateDoc(classDocumentRef, {
                     instructionsData: updatedInstructions
                 })
             }
+
         } catch (error) {
             console.error("Error deleting instruction", error)
         }

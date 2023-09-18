@@ -1,33 +1,82 @@
-import { useState } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import StudentDataContext from "@/StudentDataContext"
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { auth, db } from "@/utils/firebase"
+import { doc, getDoc, collection, setDoc } from 'firebase/firestore'
 import { Dialog } from '@headlessui/react'
 import { RiAddLine } from "react-icons/ri"
 import { toast } from "react-toastify"
+import bagAvatar from "@/../../public/assets/avatars/bag.svg"
 
-function CreateClass({ handleInputChange, setIsClassMade, userClassName }) {
+function CreateClass( {setShouldFetchClassData} ) {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
+  const { userClassName, setUserClassName, userUid, params } = useContext(StudentDataContext)
+  const classId = crypto.randomUUID()
+  const [user, loading] = useAuthState(auth)
+  const [classAvatar, setClassAvatar] = useState(bagAvatar) 
 
   const handleClickOpen = () => {
     setIsOpen(true)
   }
 
-  const handleCreateClass = (e) => {
-    e.preventDefault()
-
-      if (userClassName === "") {
-        console.log("invalid class name")
-        return
-      }
-
-    setIsOpen(false)
-    setIsClassMade(true)
-    toast.success("Class successfully created!")
-    router.push("/classroom")
+  const handleInputChange = (e) => {
+    setUserClassName(e.target.value.trim())
   }
 
+  const handleCreateClass = async (e) => {
+    e.preventDefault()
+  
+    try {
+      if (!user) {
+        console.log("User not authenticated.")
+        return
+      }
+  
+      const docRef = doc(db, 'users', userUid)
+      const docSnap = await getDoc(docRef)
+  
+      if (docSnap.exists()) {
+        const data = docSnap.data()
+        
+        // Ensure userClassName is not empty
+        if (userClassName === "") {
+          console.log("Invalid class name")
+          return
+        }
+  
+        const classDocumentRef = doc(collection(docRef, "classes"), classId)
+  
+        // Check if the document already exists
+        const classDocSnap = await getDoc(classDocumentRef)
+  
+        if (!classDocSnap.exists()) {
+          // If the document doesn't exist, create it with studentData, className and classAvatar
+          await setDoc(classDocumentRef, {
+            studentData: [],
+            className: userClassName,
+            classAvatar: classAvatar 
+          })
+          
+          // Class successfully created
+          setShouldFetchClassData(true)
+          setIsOpen(false)
+          toast.success("Class successfully created!")
+          // router.push("")
+        } else {
+          console.log("Class already exists.")
+        }
+      } else {
+        console.log('User document does not exist')
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  
   return (
-    <div>
+    <>
         <button onClick={handleClickOpen} className="w-[230px] h-[230px] border border-[#5065A8] shadow-lg bg-white rounded-2xl hover:scale-105 duration-300 ease-out">
             <div className="flex flex-col justify-center items-center">
                 <p className="text-lg">Create class</p>
@@ -73,7 +122,7 @@ function CreateClass({ handleInputChange, setIsClassMade, userClassName }) {
             </Dialog.Panel>
         </div>
         </Dialog>
-    </div>
+    </>
   )
 }
 

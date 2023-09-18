@@ -1,13 +1,13 @@
 import React, {useContext, useState, useRef} from 'react'
 import StudentDataContext from "@/StudentDataContext"
-import { collection, updateDoc, doc } from 'firebase/firestore'
+import { updateDoc, doc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose, AiOutlineInfoCircle } from "react-icons/ai"
 
 const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen, avatars }) => {
 
-    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)
+    const { studentData, setStudentData, userUid, params } = useContext(StudentDataContext)
     const [studentName, setStudentName] = useState("")
     const [alert, setAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
@@ -47,12 +47,9 @@ const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen, avatars }
         const updatedStudentData = [...studentData, newStudent]
         setStudentData(updatedStudentData)
     
-        if (userUid && userClassName) {
-          // Get a reference to the document in the className subcollection
-          const classCollectionRef = collection(db, "users", userUid, userClassName)
-          const classDocumentRef = doc(classCollectionRef, userUid)
-        
-          // Update the Firestore document with the updated studentData (Add new student in the users class)
+        if (userUid && params.id) {
+          const classDocumentRef = doc(db, "users", userUid, "classes", params.id)
+      
           await updateDoc(classDocumentRef, {
             studentData: updatedStudentData,
           })

@@ -1,7 +1,7 @@
 import React, {useState, useContext} from 'react'
 import Image from "next/image"
 import StudentDataContext from "@/StudentDataContext"
-import { collection, updateDoc, doc } from 'firebase/firestore'
+import { updateDoc, doc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
 import AddTable from "@/components/democlass/table/AddTable"
 import { FaAward } from 'react-icons/fa'
@@ -10,7 +10,7 @@ import { RiAddLine } from "react-icons/ri"
 import pointsSound from "../../../../public/audio/points.mp3"
 
 const TableGrid = () => {
-    const { studentData, setStudentData, userUid, userClassName} = useContext(StudentDataContext)
+    const { studentData, setStudentData, userUid, params} = useContext(StudentDataContext)
     const [isAddTableModalOpen, setIsAddTableModalOpen] = useState(false)
 
     const handleAddTableModal = () => {
@@ -51,12 +51,9 @@ const TableGrid = () => {
         // Set the updated student data to the state
         setStudentData(updatedStudentData)
 
-        if (userUid && userClassName) {
-          // User is in their own class context (Firebase)
-          const classCollectionRef = collection(db, 'users', userUid, userClassName)
-          const classDocumentRef = doc(classCollectionRef, userUid)
-    
-          // Update the Firestore document with the updated studentData (update tablePoints in users class)
+        if (userUid && params.id) {
+          const classDocumentRef = doc(db, "users", userUid, "classes", params.id)
+      
           await updateDoc(classDocumentRef, {
             studentData: updatedStudentData,
           })

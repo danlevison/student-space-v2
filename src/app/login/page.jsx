@@ -10,7 +10,6 @@ import { setDoc, doc, getDoc} from "firebase/firestore"
 import Nav from "@/components/Nav"
 import Preloader from "@/components/Preloader"
 import Scribble from "@/components/Scribble"
-import bagAvatar from "../../../public/assets/avatars/bag.svg"
 
 const Login = () => {
     const [user, loading] = useAuthState(auth)
@@ -32,9 +31,7 @@ const Login = () => {
         // User data does not exist, create new user document
         await setDoc(userDocRef, {
           name: result.user.displayName,
-          className: "",
           isClassMade: false,
-          classAvatar: bagAvatar
         })
 
         } catch (error) {

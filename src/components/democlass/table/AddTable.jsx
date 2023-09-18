@@ -1,6 +1,6 @@
 import React, {useContext, useState, useRef} from 'react'
 import StudentDataContext from "@/StudentDataContext"
-import { collection, updateDoc, doc } from 'firebase/firestore'
+import { updateDoc, doc } from 'firebase/firestore'
 import { db } from "../../../utils/firebase"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from "react-icons/ai"
@@ -8,7 +8,7 @@ import Image from "next/image"
 import { toast } from "react-toastify"
 
 const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
-    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)
+    const { studentData, setStudentData, userUid, params } = useContext(StudentDataContext)
     const [alert, setAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
     const tableInputRef = useRef(null)  
@@ -31,16 +31,14 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
           // Set the updated student data to the state
           setStudentData(updatedStudentData)
       
-          if (userUid && userClassName) {
-            // User is in their own class context (Firebase)
-            const classCollectionRef = collection(db, 'users', userUid, userClassName)
-            const classDocumentRef = doc(classCollectionRef, userUid)
-      
-            // Update the Firestore document with the updated studentData (// Update studentData tableData property with the new selected status for the student in users class)
+          if (userUid && params.id) {
+            const classDocumentRef = doc(db, "users", userUid, "classes", params.id)
+        
             await updateDoc(classDocumentRef, {
               studentData: updatedStudentData,
             })
           }
+
         } catch (error) {
           console.error('Error updating student information:', error)
         }
@@ -48,45 +46,44 @@ const AddTable = ({ isAddTableModalOpen, setIsAddTableModalOpen }) => {
 
       const handleAddTableSubmit = async (e) => {
         e.preventDefault()
-        const tableName = e.target.tableName.value.trim() // removes empty spaces 
-        const capitalisedTableName = tableName.charAt(0).toUpperCase() + tableName.slice(1)
+
+        try {
+          const tableName = e.target.tableName.value.trim() // removes empty spaces 
+          const capitalisedTableName = tableName.charAt(0).toUpperCase() + tableName.slice(1)
+          
+          const existingTable = studentData.find((student) => student.tableData.tableName === capitalisedTableName)
         
-        const existingTable = studentData.find((student) => student.tableData.tableName === capitalisedTableName)
-      
-        if (existingTable) {
-          setAlert(true)
-          setAlertMessage("A table with this name already exists!")
-          return
-        }
-      
-        // Update demoStudentData tableData locally in demoClass context
-        const updatedStudentData = studentData.map((student) => {
-          if (student.tableData.selected) {
-            return { ...student, tableData: {...student.tableData, tableName: capitalisedTableName, isOnTable: true, selected: false } }
+          if (existingTable) {
+            setAlert(true)
+            setAlertMessage("A table with this name already exists!")
+            return
           }
-          return student
-        })
-      
-        setStudentData(updatedStudentData)
-      
-        if (userUid && userClassName) {
-          try {
-            // User is in their own class context (Firebase)
-            const classCollectionRef = collection(db, "users", userUid, userClassName)
-            const classDocumentRef = doc(classCollectionRef, userUid)
-      
-            // Update the Firestore document with the updated studentData
+        
+          // Update demoStudentData tableData locally in demoClass context
+          const updatedStudentData = studentData.map((student) => {
+            if (student.tableData.selected) {
+              return { ...student, tableData: {...student.tableData, tableName: capitalisedTableName, isOnTable: true, selected: false } }
+            }
+            return student
+          })
+        
+          setStudentData(updatedStudentData)
+
+          if (userUid && params.id) {
+            const classDocumentRef = doc(db, "users", userUid, "classes", params.id)
+        
             await updateDoc(classDocumentRef, {
               studentData: updatedStudentData,
             })
-          } catch (error) {
-            console.error("Error updating tableData in user class collection:", error)
           }
+
+        } catch (error) {
+          console.error("Error updating tableData in user class collection:", error)
         }
-      
-        e.target.reset() // Reset the form fields
-        setIsAddTableModalOpen(false)
-        toast.success("Table group created successfully!")
+
+          e.target.reset() // Reset the form fields
+          setIsAddTableModalOpen(false)
+          toast.success("Table group created successfully!")
       }
 
       const reset = () => {
