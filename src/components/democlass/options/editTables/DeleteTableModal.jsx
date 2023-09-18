@@ -2,11 +2,11 @@ import React, {useContext} from 'react'
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from "react-icons/ai"
 import StudentDataContext from "@/StudentDataContext"
-import { collection, updateDoc, doc } from 'firebase/firestore'
+import { updateDoc, doc } from 'firebase/firestore'
 import { db } from "../../../../utils/firebase"
 
 const DeleteTableModal = ( {selectedTableName, openCheckDeleteTableModal, setOpenCheckDeleteTableModal, setOpenTableInfo} ) => {
-    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)
+    const { studentData, setStudentData, userUid, params } = useContext(StudentDataContext)
 
     const deleteTable = async () => {
         try {
@@ -21,12 +21,9 @@ const DeleteTableModal = ( {selectedTableName, openCheckDeleteTableModal, setOpe
           // Set the updated student data to the state
           setStudentData(updatedStudentData)
 
-          if(userUid && userClassName) {
-            // User is in their own class context (Firebase)
-            const classCollectionRef = collection(db, 'users', userUid, userClassName)
-            const classDocumentRef = doc(classCollectionRef, userUid)
-      
-            // Update the Firestore document with the updated studentData (resets studentData tableData property and deletes table from users class)
+          if (userUid && params.id) {
+            const classDocumentRef = doc(db, "users", userUid, "classes", params.id)
+        
             await updateDoc(classDocumentRef, {
               studentData: updatedStudentData,
             })

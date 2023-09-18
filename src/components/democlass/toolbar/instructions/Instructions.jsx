@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { auth, db } from '../../../../utils/firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { doc, updateDoc, getDocs, collection, arrayUnion } from 'firebase/firestore'
+import { doc, updateDoc, getDoc, arrayUnion } from 'firebase/firestore'
 import StudentDataContext from "@/StudentDataContext"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose, AiOutlineArrowLeft } from 'react-icons/ai'
@@ -27,14 +27,14 @@ const Instructions = ({ openInstructions, setOpenInstructions }) => {
     const [isEditInstructionActive, setIsEditInstructionActive] = useState(false)
     
     const [user, loading] = useAuthState(auth)
-    const { userUid, userClassName } = useContext(StudentDataContext)
+    const { userUid, params } = useContext(StudentDataContext)
 
     // Fetch the user's instructions data from the Firestore subcollection when userUid and className are available
     useEffect(() => {
-        if (userUid && userClassName) {
+        if (userUid && params.id) {
           fetchInstructionData()
         }
-      }, [userUid, userClassName])
+      }, [userUid, params.id])
 
     // Handlers for opening and closing modals
     const handleCreateInstructionsModal = () => {
@@ -90,9 +90,8 @@ const Instructions = ({ openInstructions, setOpenInstructions }) => {
                 setSavedInstructions(prevInstructions => [...prevInstructions, newInstructionSet])
             }
 
-            if (userUid && userClassName) {
-                const docRef = doc(db, 'users', user.uid)
-                const classDocumentRef = doc(collection(docRef, "users class"), user.uid)
+            if (userUid && params.id) {
+                const classDocumentRef = doc(db, "users", userUid, "classes", params.id)
 
                 // Add a new field to the class collection
                 await updateDoc(classDocumentRef, {
@@ -107,11 +106,16 @@ const Instructions = ({ openInstructions, setOpenInstructions }) => {
 
     const fetchInstructionData = async () => {
         try {
-            const classCollectionRef = collection(db, 'users', userUid, userClassName)
-            const classSnapshot = await getDocs(classCollectionRef)
-            const fbInstructionsData = classSnapshot.docs.map((doc) => doc.data().instructionsData).filter((data) => data !== null && data !== undefined) // Filter out null or undefined instructionsData
-            setSavedInstructions(fbInstructionsData.flat()) // The flat() method is used to merge these arrays into a single array 
-            
+            const classDocumentRef = doc(db, "users", user.uid, "classes", params.id)
+            const classSnapshot = await getDoc(classDocumentRef)
+            const instructionsData = classSnapshot.data()?.instructionsData || [] // Access instructionsData - empty array as a default if it's not present or null
+    
+            // Verify that instructionsData is an array
+            if (Array.isArray(instructionsData)) {
+                setSavedInstructions(instructionsData)
+            } else {
+                console.error("instructionsData is not an array or is undefined.")
+            }
         } catch (error) {
             console.log('Error fetching instructions data from Firestore:', error)
         }

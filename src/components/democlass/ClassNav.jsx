@@ -5,7 +5,7 @@ import Options from "./options/Options"
 import { HiMenuAlt4 } from "react-icons/hi"
 import { FaHome } from "react-icons/fa"
 
-const ClassNav = ( {handleToolbar } ) => {
+const ClassNav = ( {handleToolbar, paramId } ) => {
   return (
     <nav className="bg-white fixed z-[20] top-0 h-12 w-full px-8">
         <ul className="flex items-center gap-8">
@@ -29,7 +29,7 @@ const ClassNav = ( {handleToolbar } ) => {
                 <CurrentDate />
             </li>
             <li className="ml-auto">
-                <Options />
+                <Options paramId={paramId} />
             </li>
         </ul>
     </nav>

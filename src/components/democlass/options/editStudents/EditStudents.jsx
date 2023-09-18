@@ -1,6 +1,6 @@
 import React, {useState, useContext, useEffect} from 'react'
 import StudentDataContext from "@/StudentDataContext"
-import { doc, collection, updateDoc } from 'firebase/firestore'
+import { doc, updateDoc } from 'firebase/firestore'
 import { db } from "../../../../utils/firebase"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from 'react-icons/ai'
@@ -8,7 +8,7 @@ import StudentInfoModal from "./StudentInfoModal"
 import Image from "next/image"
 
 const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) => {
-    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)
+    const { studentData, setStudentData, userUid, params } = useContext(StudentDataContext)
     const [openStudentInfo, setOpenStudentInfo] = useState(false)
     const [selectedStudent, setSelectedStudent] = useState({
         name: "",
@@ -79,12 +79,10 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
       
         setStudentData(updatedStudentData) // Update the local state with the updated student data
         
-        if (userUid && userClassName) {
+        if (userUid && params.id) {
           // User is in their own class context (Firebase)
-          const classCollectionRef = collection(db, 'users', userUid, userClassName)
-          const classDocumentRef = doc(classCollectionRef, userUid)
-        
-          // Update the Firestore document with the updated studentData (Updates student name in users class)
+          const classDocumentRef = doc(db, "users", userUid, "classes", params.id)
+      
           await updateDoc(classDocumentRef, {
             studentData: updatedStudentData,
           })

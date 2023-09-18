@@ -1,8 +1,9 @@
 import React, {useState, useEffect, useContext} from 'react'
 import Image from 'next/image'
 import StudentDataContext from "@/StudentDataContext"
-import { doc, collection, getDocs, updateDoc } from 'firebase/firestore'
-import { db } from "../../../utils/firebase"
+import { doc, getDoc, updateDoc } from 'firebase/firestore'
+import { auth, db } from "../../../utils/firebase"
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { FaAward } from 'react-icons/fa'
 import { RiAddLine } from "react-icons/ri"
 import AddStudent from "@/components/democlass/student/AddStudent"
@@ -25,27 +26,34 @@ import lionAvatar from "../../../../public/assets/avatars/lion.svg"
 import otterAvatar from "../../../../public/assets/avatars/otter.svg"
 
 const StudentGrid = () => {
-    const { studentData, setStudentData, userUid, userClassName, showConfetti, setShowConfetti } = useContext(StudentDataContext)
+    const { studentData, setStudentData, userUid, params, showConfetti, setShowConfetti } = useContext(StudentDataContext)
+    const [user, loading] = useAuthState(auth)
     const [isAddStudentModalOpen, setIsAddStudentModalOpen] = useState(false)
     const { width, height } = useWindowSize()
     const [avatars, setAvatars] = useState([monkeyAvatar, rabbitAvatar, pandaAvatar, cheetahAvatar, sheepAvatar, chickenAvatar, penguinAvatar, dogAvatar, giraffeAvatar, snakeAvatar, otterAvatar, frogAvatar, lionAvatar])
 
-    // Fetch the user's student data from the Firestore subcollection when userUid and className are available
+    // Fetch the user's student data from the Firestore subcollection when user.uid and className are available
     useEffect(() => {
-      if (userUid && userClassName) {
-        // Implement fetching of student data from Firestore using userUid and className
+      if (params.id) {
+        // Implement fetching of student data from Firestore using user.uid
         fetchStudentDataFromFirestore()
       }
-    }, [userUid, userClassName])
+    }, [params.id])
 
     const fetchStudentDataFromFirestore = async () => {
       try {
-        // Implement fetching of student data from Firestore using userUid and className
-        const classCollectionRef = collection(db, 'users', userUid, userClassName)
-        const classSnapshot = await getDocs(classCollectionRef)
-        const studentsData = classSnapshot.docs.map((doc) => doc.data().studentData) // The studentsData array, obtained from map((doc) => doc.data().studentData), is an array of arrays
-        setStudentData(studentsData.flat()) // The flat() method is used to merge these arrays into a single array 
-        // setting studentData to the studentData from firebase allows users studentData to be rendered
+        // Implement fetching of student data from Firestore using userUid, className, and classId (paramId)
+        const classDocumentRef = doc(db, "users", user.uid, "classes", params.id)
+        const classDocSnapshot = await getDoc(classDocumentRef)
+    
+        if (classDocSnapshot.exists()) {
+          const classData = classDocSnapshot.data()
+          if (classData) {
+            const studentData = classData.studentData || []
+            setStudentData(studentData)
+            // Now studentData contains the data from the specific classId (paramId)
+          }
+        }
       } catch (error) {
         console.log('Error fetching student data from Firestore:', error)
       }
@@ -83,13 +91,12 @@ const StudentGrid = () => {
           // After 5 seconds, hide the confetti
           setTimeout(() => {
             setShowConfetti(false)
-          }, 6000)
+          }, 5000)
         }
     
         // Update the points in the users firebase studentData and display in the users class
-        if (userUid && userClassName) {
-          const classCollectionRef = collection(db, 'users', userUid, userClassName)
-          const classDocumentRef = doc(classCollectionRef, userUid)
+        if (userUid && params.id) {
+          const classDocumentRef = doc(db, "users", userUid, "classes", params.id)
       
           await updateDoc(classDocumentRef, {
             studentData: updatedStudentData,
@@ -131,14 +138,14 @@ const StudentGrid = () => {
         setStudentData(updatedStudentData)
   
         // Update the avatar in the users firebase studentData and display in the users class
-        if (userUid && userClassName) {
-          const classCollectionRef = collection(db, 'users', userUid, userClassName)
-          const classDocumentRef = doc(classCollectionRef, userUid)
-  
+        if (userUid && params.id) {
+          const classDocumentRef = doc(db, "users", userUid, "classes", params.id)
+      
           await updateDoc(classDocumentRef, {
             studentData: updatedStudentData,
           })
         }
+        
       } catch (error) {
         console.error('Error updating student avatar:', error)
       }
@@ -147,7 +154,6 @@ const StudentGrid = () => {
     const handleAddStudentModal = () => {
       setIsAddStudentModalOpen(true)
     }
-
       return (
         <>
           {studentData.length === 0 ? (
@@ -194,7 +200,9 @@ const StudentGrid = () => {
             <AddStudent
               avatars={avatars}
               isAddStudentModalOpen={isAddStudentModalOpen} 
-              setIsAddStudentModalOpen={setIsAddStudentModalOpen} />}
+              setIsAddStudentModalOpen={setIsAddStudentModalOpen}
+            />
+            }
         </>
       )
   }

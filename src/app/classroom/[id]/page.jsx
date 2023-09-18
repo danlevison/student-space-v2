@@ -1,11 +1,9 @@
 "use client"
 
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { auth, db } from '../../utils/firebase'
-import { doc, getDoc, collection, setDoc } from 'firebase/firestore'
-import StudentDataContext from "@/StudentDataContext"
+import { auth } from "@/utils/firebase"
 import ClassNav from "@/components/democlass/ClassNav"
 import CurrentDate from "@/components/democlass/DateComponent"
 import StudentGrid from "@/components/democlass/student/StudentGrid"
@@ -16,51 +14,14 @@ import Weather from "@/components/WeatherData"
 import Birthday from "@/components/democlass/Birthday"
 import Scribble from "@/components/Scribble"
 import Preloader from "@/components/Preloader"
-import paperBg from "../../../public/assets/paperbg.jpg"
+import paperBg from "@/../../public/assets/paperbg.jpg"
 
 const Classroom = () => {
   const [user, loading] = useAuthState(auth)
   const router = useRouter()
   const [toolbarMenu, setToolbarMenu] = useState(false)
   const [showTableGrid, setShowTableGrid] = useState(false)
-  const { setUserClassName, setUserUid } = useContext(StudentDataContext)
-
-  // Fetches the classname data from the Firestore db
-  useEffect(() => {
-    const fetchClassName = async () => {
-      try {
-        if (!user) return // Check if user object is null
-        setUserUid(user.uid)
-        const docRef = doc(db, 'users', user.uid)
-        const docSnap = await getDoc(docRef)
-        
-        if (docSnap.exists()) {
-          const data = docSnap.data()
-          setUserClassName("users class" || "")
-
-          // If the user has a className, create the class subcollection with the name "users class"
-          if (data.className) {
-            // Set the document ID to the user's uid
-            const classDocumentRef = doc(collection(docRef, "users class"), user.uid)
-          
-            // Check if the document already exists
-            const docSnap = await getDoc(classDocumentRef)
-          
-            if (!docSnap.exists()) {
-              // If the document doesn't exist, create it with the studentData and tableData array
-              await setDoc(classDocumentRef, { studentData: [] })
-            }
-          }
-        } else {
-          console.log('Document does not exist')
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchClassName()
-  }, [user])
-
+  
   const handleToolbar = () => {
     setToolbarMenu(!toolbarMenu)
   }
@@ -95,7 +56,7 @@ const Classroom = () => {
     { src: '/assets/Scribbles/3.svg', className: "absolute top-10 right-5 w-[50px] md:w-[100px]" },
     { src: '/assets/Scribbles/61.svg', className: "hidden md:block absolute top-2 left-96 w-[200px] rotate-45" },
   ]
-  
+
   return (
     <>
       <header>

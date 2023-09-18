@@ -2,29 +2,36 @@ import React, {useState, useRef, useContext, useEffect} from 'react'
 import { Dialog } from '@headlessui/react'
 import { auth, db } from "@/utils/firebase"
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { doc, updateDoc, getDocs, collection, arrayUnion } from 'firebase/firestore'
+import { doc, updateDoc, getDoc, arrayUnion } from 'firebase/firestore'
 import StudentDataContext from "@/StudentDataContext"
 import { AiOutlineClose } from 'react-icons/ai'
 
 const TaskList = ( {openTaskList, setOpenTaskList, setRemainingTasks} ) => {
     const [user, loading] = useAuthState(auth)
-    const { userUid, userClassName } = useContext(StudentDataContext)
+    const { userUid, params } = useContext(StudentDataContext)
     const [newItem, setNewItem] = useState("")
     const [tasks, setTasks] = useState([])
     const inputRef = useRef(null)
 
     useEffect(() => {
-        if (userUid && userClassName) {
+        if (userUid && params.id) {
           fetchTaskListData()
         }
-      }, [userUid, userClassName])
+      }, [userUid, params.id])
 
     const fetchTaskListData = async () => {
         try {
-            const classCollectionRef = collection(db, 'users', userUid, userClassName)
-            const classSnapshot = await getDocs(classCollectionRef)
-            const fbTaskListData = classSnapshot.docs.map((doc) => doc.data().taskListData).filter((data) => data !== null && data !== undefined) // Filter out null or undefined TaskListData
-            setTasks(fbTaskListData.flat()) // The flat() method is used to merge these arrays into a single array 
+            const classDocumentRef = doc(db, "users", user.uid, "classes", params.id)
+            const classDocSnapshot = await getDoc(classDocumentRef)
+            const taskListData = classDocSnapshot.data()?.taskListData || []
+            
+            // Verify that taskListData is an array
+            if (Array.isArray(taskListData)) {
+                setTasks(taskListData)
+            } else {
+                console.error("taskListData is not an array or is undefined.")
+            }
+            setTasks(taskListData.flat()) // merge arrays into a single array 
             
         } catch (error) {
             console.log('Error fetching task list data from Firestore:', error)
@@ -45,15 +52,14 @@ const TaskList = ( {openTaskList, setOpenTaskList, setRemainingTasks} ) => {
                 return [...currentTasks, newTask] 
             })
 
-            if (userUid && userClassName) {
-                const docRef = doc(db, 'users', user.uid)
-                const classDocumentRef = doc(collection(docRef, "users class"), user.uid)
-
+            if (userUid && params.id) {
+                const classDocumentRef = doc(db, "users", userUid, "classes", params.id)
+            
                 // Add a new field to the class collection
                 await updateDoc(classDocumentRef, {
                     taskListData: arrayUnion(newTask)
                 })
-            }
+              }
 
         } catch (error) {
             console.error("Error adding new task", error)
@@ -73,9 +79,8 @@ const TaskList = ( {openTaskList, setOpenTaskList, setRemainingTasks} ) => {
 
         setTasks(updatedTasks)
 
-        if (userUid && userClassName) {
-            const docRef = doc(db, 'users', user.uid)
-            const classDocumentRef = doc(collection(docRef, "users class"), user.uid)
+        if (userUid && params.id) {
+            const classDocumentRef = doc(db, "users", userUid, "classes", params.id)
 
             await updateDoc(classDocumentRef, {
                 taskListData: updatedTasks
@@ -87,9 +92,8 @@ const TaskList = ( {openTaskList, setOpenTaskList, setRemainingTasks} ) => {
         const updatedTasks = tasks.filter(task => task.id !== id)
         setTasks(updatedTasks)
   
-        if (userUid && userClassName) {
-            const docRef = doc(db, 'users', user.uid)
-            const classDocumentRef = doc(collection(docRef, "users class"), user.uid)
+        if (userUid && params.id) {
+            const classDocumentRef = doc(db, "users", userUid, "classes", params.id)
 
             await updateDoc(classDocumentRef, {
                 taskListData: updatedTasks
@@ -98,7 +102,9 @@ const TaskList = ( {openTaskList, setOpenTaskList, setRemainingTasks} ) => {
     }
 
     // for remaining tasks number on toolbar
-    setRemainingTasks(tasks.length)
+    useEffect(() => {
+        setRemainingTasks(tasks.length)
+    },[tasks])
 
     return (
         <Dialog initialFocus={inputRef} open={openTaskList} onClose={() => setOpenTaskList(false)} className="relative z-50">

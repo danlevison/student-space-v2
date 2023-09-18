@@ -2,6 +2,7 @@ import React, {Fragment} from 'react'
 import Image from "next/image"
 import { Menu, Transition } from '@headlessui/react'
 import { AiFillCaretDown } from 'react-icons/ai'
+// Avatars
 import bagAvatar from "@/../../public/assets/avatars/bag.svg"
 import origamiAvatar from "@/../../public/assets/avatars/origami.svg"
 import bookBagAvatar from "@/../../public/assets/avatars/bookbag.svg"
@@ -15,67 +16,67 @@ import photosynthesisAvatar from "@/../../public/assets/avatars/photosynthesis.s
 import hourglassAvatar from "@/../../public/assets/avatars/hourglass.svg"
 import solarSystemAvatar from "@/../..//public/assets/avatars/solar-system.svg"
 
-const ClassAvatarMenu = ( {newClassAvatar, setNewClassAvatar} ) => {
+const ClassAvatarMenu = ( {userClassAvatar, setUserClassAvatar} ) => {
     const menuItemData = [
         { 
             imageSrc: origamiAvatar, 
             alt: "Origami Avatar", 
-            onClick: () => setNewClassAvatar(origamiAvatar) 
+            onClick: () => setUserClassAvatar(origamiAvatar) 
           },
           { 
             imageSrc: bagAvatar, 
             alt: "Bag Avatar", 
-            onClick: () => setNewClassAvatar(bagAvatar) 
+            onClick: () => setUserClassAvatar(bagAvatar) 
           },
           { 
             imageSrc: glueAvatar, 
             alt: "Glue Avatar", 
-            onClick: () => setNewClassAvatar(glueAvatar) 
+            onClick: () => setUserClassAvatar(glueAvatar) 
           },
           { 
             imageSrc: scissorsAvatar, 
             alt: "Scissors Avatar", 
-            onClick: () => setNewClassAvatar(scissorsAvatar) 
+            onClick: () => setUserClassAvatar(scissorsAvatar) 
           },
           { 
             imageSrc: rulerAvatar, 
             alt: "Ruler Avatar", 
-            onClick: () => setNewClassAvatar(rulerAvatar) 
+            onClick: () => setUserClassAvatar(rulerAvatar) 
           },
           { 
             imageSrc: bookBagAvatar, 
             alt: "Book Bag Avatar", 
-            onClick: () => setNewClassAvatar(bookBagAvatar) 
+            onClick: () => setUserClassAvatar(bookBagAvatar) 
           },
           { 
             imageSrc: sketchbookAvatar, 
             alt: "Sketchbook Avatar", 
-            onClick: () => setNewClassAvatar(sketchbookAvatar) 
+            onClick: () => setUserClassAvatar(sketchbookAvatar) 
           },
           { 
             imageSrc: compassAvatar, 
             alt: "Compass Avatar", 
-            onClick: () => setNewClassAvatar(compassAvatar) 
+            onClick: () => setUserClassAvatar(compassAvatar) 
           },
           { 
             imageSrc: footballAvatar, 
             alt: "Football Avatar", 
-            onClick: () => setNewClassAvatar(footballAvatar) 
+            onClick: () => setUserClassAvatar(footballAvatar) 
           },
           { 
             imageSrc: photosynthesisAvatar, 
             alt: "Photosynthesis Avatar", 
-            onClick: () => setNewClassAvatar(photosynthesisAvatar) 
+            onClick: () => setUserClassAvatar(photosynthesisAvatar) 
           },
           { 
             imageSrc: hourglassAvatar, 
             alt: "Hourglass Avatar", 
-            onClick: () => setNewClassAvatar(hourglassAvatar) 
+            onClick: () => setUserClassAvatar(hourglassAvatar) 
           },
           { 
             imageSrc: solarSystemAvatar, 
             alt: "Solar System Avatar", 
-            onClick: () => setNewClassAvatar(solarSystemAvatar) 
+            onClick: () => setUserClassAvatar(solarSystemAvatar) 
           }          
     ]
 
@@ -85,13 +86,15 @@ const ClassAvatarMenu = ( {newClassAvatar, setNewClassAvatar} ) => {
                 <Menu.Button 
                     type="button" 
                     className="relative inline-flex w-full items-center justify-center rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-                <Image
-                    className="rounded-xl border-2 border-black bg-white p-3" 
-                    src={newClassAvatar}
-                    alt={"Class avatar"}
-                    width={90}
-                    height={90}
-                />
+                {userClassAvatar && (
+                  <Image
+                      className="rounded-xl border-2 border-black bg-white p-3" 
+                      src={userClassAvatar}
+                      alt={"Class avatar"}
+                      width={90}
+                      height={90}
+                  />
+                )}
                 <AiFillCaretDown
                     className="absolute bottom-0 text-iconClr"
                     size={15}

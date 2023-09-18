@@ -1,42 +1,50 @@
-import React, {useState} from 'react'
-import { useAuthState } from 'react-firebase-hooks/auth'
+import React, {useState, useEffect, useContext} from 'react'
+import StudentDataContext from "@/StudentDataContext"
 import { doc, updateDoc } from 'firebase/firestore'
-import { db, auth } from "../../../../utils/firebase"
+import { db } from "@/utils/firebase"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from 'react-icons/ai'
 import ClassAvatarMenu from "./ClassAvatarMenu"
 import DeleteClassModal from "./DeleteClassModal"
 import { toast } from "react-toastify"
 
-const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassName, setDbUserClassName, setIsClassMade, classAvatar, setClassAvatar }) => {
-    const [user, loading] = useAuthState(auth)
-    const [newClassName, setNewClassName] = useState(dbUserClassName)
+const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, classData }) => {
+    const { userUid } = useContext(StudentDataContext)
+    const [userClassName, setUserClassName] = useState(classData?.className)
+    const [userClassAvatar, setUserClassAvatar] = useState(classData?.classAvatar)
     const [openDeleteClassModal, setOpenDeleteClassModal] = useState(false)
-    const [newClassAvatar, setNewClassAvatar] = useState(classAvatar)
 
-    const resetForm = () => {
-        setNewClassName(dbUserClassName)
-        setNewClassAvatar(classAvatar)
-    }
+    // update state when classData prop changes
+  useEffect(() => {
+    setUserClassName(classData?.className)
+    setUserClassAvatar(classData?.classAvatar)
+  }, [classData])
 
     const updateClassName = (e) => {
-        setNewClassName(e.target.value)
+        setUserClassName(e.target.value)
     }
 
     const handleClassInfoSubmit = async (e) => {
-        const docRef = doc(db, "users", user.uid)  
+        e.preventDefault()
         try {
-            e.preventDefault()          
-            await updateDoc(docRef, { className: newClassName.trim(), classAvatar: newClassAvatar})
+            if(classData.classId) {
+                const docRef = doc(db, "users", userUid, "classes", classData.classId)          
+                await updateDoc(docRef, { className: userClassName.trim(), classAvatar: userClassAvatar})
+            }
+            setUserClassName(userClassName)
+            setUserClassAvatar(userClassAvatar)
 
-            setDbUserClassName(newClassName)
-            setClassAvatar(newClassAvatar)
-            setIsEditClassModalOpen(false)
-            
         } catch (error) {
             console.error("Class name could not be updated", error)
         }
+
+        setIsEditClassModalOpen(false)
         toast.success("Class edited successfully!")
+    }
+
+    const resetForm = () => {
+        setUserClassName(classData.className)
+        setUserClassAvatar(classData.classAvatar)
     }
 
     const handleDeleteClassModal = () => {
@@ -44,7 +52,7 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
     }
 
     return (
-        <Dialog 
+        <Dialog
             open={isEditClassModalOpen} 
             onClose={() => {
                 setIsEditClassModalOpen(false)
@@ -56,9 +64,10 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
     
           {/* Full-screen container to center the panel */}
           <div className="fixed inset-0 flex items-center justify-center p-4">
+
             <Dialog.Panel className="p-5 w-full max-w-[500px] h-full max-h-[450px] min-h-[30vh] rounded-xl bg-blue-100 overflow-auto">
               <div className="flex justify-between items-center">
-                <Dialog.Title className="font-bold text-xl">Edit {dbUserClassName}</Dialog.Title>
+                <Dialog.Title className="font-bold text-xl">Edit {userClassName}</Dialog.Title>
                 <button 
                     onClick={() => {
                         setIsEditClassModalOpen(false)
@@ -72,9 +81,9 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
                 </button>
               </div>
 
-              <form onSubmit={handleClassInfoSubmit} className="flex flex-col mt-16 ">
+              <form onSubmit={handleClassInfoSubmit} className="flex flex-col mt-16">
                 <div className="flex justify-center items-center">
-                    <ClassAvatarMenu newClassAvatar={newClassAvatar} setNewClassAvatar={setNewClassAvatar} />
+                    <ClassAvatarMenu userClassAvatar={userClassAvatar} setUserClassAvatar={setUserClassAvatar} />
                 </div>
                     <label htmlFor="classroomName" className="pb-1 text-xl">Class name</label>
                     <input
@@ -82,9 +91,9 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
                         type="text"
                         id="classroomName"
                         name="classroomName"
-                        required
-                        value={newClassName}
+                        value={userClassName}
                         onChange={updateClassName}
+                        required
                     />
                     <div className="flex flex-row-reverse justify-between items-center pt-32">
                         <div className="flex items-center justify-center gap-2">
@@ -99,7 +108,7 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
                                 Cancel
                             </button>
                             <button
-                                disabled={!newClassName.trim()}
+                                // disabled={!userClassName.trim()}
                                 className="font-bold text-sm bg-white hover:bg-green-200 rounded-2xl py-2 px-5 disabled:bg-gray-400 disabled:hover:bg-gray-400"
                             >
                                 Save
@@ -119,9 +128,8 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, dbUserClassN
         <DeleteClassModal 
             openDeleteClassModal={openDeleteClassModal} 
             setOpenDeleteClassModal={setOpenDeleteClassModal} 
-            setDbUserClassName={setDbUserClassName}
-            setIsClassMade={setIsClassMade}
             setIsEditClassModalOpen={setIsEditClassModalOpen}
+            classData={classData}
         />
     </Dialog>
 )

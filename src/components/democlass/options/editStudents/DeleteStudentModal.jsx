@@ -2,28 +2,26 @@ import React, {useContext} from 'react'
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from 'react-icons/ai'
 import StudentDataContext from "@/StudentDataContext"
-import { doc, collection, updateDoc } from 'firebase/firestore'
+import { doc, updateDoc } from 'firebase/firestore'
 import { db } from "../../../../utils/firebase"
 
 const DeleteStudentModal = ( { checkDeleteStudentModal, setCheckDeleteStudentModal, selectedStudent, setOpenStudentInfo } ) => {
-    const { studentData, setStudentData, userUid, userClassName } = useContext(StudentDataContext)
+    const { studentData, setStudentData, userUid, params} = useContext(StudentDataContext)
 
     const removeStudent = async () => {
         try {
             // Filter out the student with the same UUID as the selectedStudent
-            const updatedDemoStudentData = studentData.filter((student) => student.uuid !== selectedStudent.uuid)
+            const updatedStudentData = studentData.filter((student) => student.uuid !== selectedStudent.uuid)
             // Removes student from demoClass
-            setStudentData(updatedDemoStudentData)
+            setStudentData(updatedStudentData)
             
-            if (userUid && userClassName) {
+            if (userUid && params.id) {
             // User is in their own class context (Firebase)
-              const classCollectionRef = collection(db, 'users', userUid, userClassName)
-              const classDocumentRef = doc(classCollectionRef, userUid)
-            
-              // Update the Firestore document with the updated studentData (Removes student from users class)
-              await updateDoc(classDocumentRef, {
-                studentData: updatedDemoStudentData,
-              })
+            const classDocumentRef = doc(db, "users", userUid, "classes", params.id)
+      
+            await updateDoc(classDocumentRef, {
+              studentData: updatedStudentData,
+            })
             }
             
           } catch (error) {
