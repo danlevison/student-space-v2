@@ -44,7 +44,7 @@ const TableInfoModal = (
             <form onSubmit={handleTableInfoSubmit} className="flex flex-col h-full">
                 {alert ? <p className="font-bold text-red-500 pb-1">{alertMessage}</p> : <label htmlFor="tableName" className="pb-1">Table name</label>}
                 <input
-                    className={alert ? "border-2 border-red-500 w-full rounded-lg p-2 outline-none" : "border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr"}
+                    className={alert ? "border-2 border-red-500 w-full rounded-lg p-3 outline-none" : "border-2 border-gray-400 w-full rounded-lg p-3 outline-inputOutlineClr"}
                     id="tableName"
                     name="tableName"
                     value={tempSelectedTableName}
@@ -66,7 +66,7 @@ const TableInfoModal = (
                         />
                         <label
                             htmlFor={student.name}
-                            className="text-center select-none flex flex-col items-center w-28 cursor-pointer bg-white p-4 shadow-lg rounded-xl peer-checked:bg-green-200 peer-hover:scale-105 duration-300"
+                            className="border border-buttonClr text-center select-none flex flex-col items-center w-28 cursor-pointer bg-white p-4 rounded-xl peer-checked:bg-green-200 peer-hover:scale-105 duration-300"
                         >
                             <Image 
                             src={student.avatar} 

@@ -1,3 +1,5 @@
+"use client"
+
 import React, {useState} from 'react'
 import Randomiser from "./toolbar/Randomiser"
 import Instructions from "./toolbar/instructions/Instructions"

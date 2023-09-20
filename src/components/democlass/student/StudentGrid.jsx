@@ -1,3 +1,5 @@
+"use client"
+
 import React, {useState, useEffect, useContext} from 'react'
 import Image from 'next/image'
 import StudentDataContext from "@/StudentDataContext"
@@ -6,7 +8,7 @@ import { auth, db } from "../../../utils/firebase"
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { FaAward } from 'react-icons/fa'
 import { RiAddLine } from "react-icons/ri"
-import AddStudent from "@/components/democlass/student/AddStudent"
+import AddStudent from "./AddStudent"
 import pointsSound from "../../../../public/audio/points.mp3"
 import Confetti from 'react-confetti'
 import { useWindowSize } from "@reactuses/core"
@@ -32,10 +34,9 @@ const StudentGrid = () => {
     const { width, height } = useWindowSize()
     const [avatars, setAvatars] = useState([monkeyAvatar, rabbitAvatar, pandaAvatar, cheetahAvatar, sheepAvatar, chickenAvatar, penguinAvatar, dogAvatar, giraffeAvatar, snakeAvatar, otterAvatar, frogAvatar, lionAvatar])
 
-    // Fetch the user's student data from the Firestore subcollection when user.uid and className are available
+    // Fetch the user's student data from the Firestore subcollection
     useEffect(() => {
       if (params.id) {
-        // Implement fetching of student data from Firestore using user.uid
         fetchStudentDataFromFirestore()
       }
     }, [params.id])
@@ -54,6 +55,7 @@ const StudentGrid = () => {
             // Now studentData contains the data from the specific classId (paramId)
           }
         }
+
       } catch (error) {
         console.log('Error fetching student data from Firestore:', error)
       }
@@ -154,6 +156,7 @@ const StudentGrid = () => {
     const handleAddStudentModal = () => {
       setIsAddStudentModalOpen(true)
     }
+
       return (
         <>
           {studentData.length === 0 ? (

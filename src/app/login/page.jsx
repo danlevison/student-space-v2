@@ -6,7 +6,7 @@ import { FcGoogle } from "react-icons/fc"
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth, db } from "../../utils/firebase"
-import { setDoc, doc, getDoc} from "firebase/firestore"
+import { setDoc, doc, getDoc, serverTimestamp} from "firebase/firestore"
 import Nav from "@/components/Nav"
 import Preloader from "@/components/Preloader"
 import Scribble from "@/components/Scribble"
@@ -31,7 +31,7 @@ const Login = () => {
         // User data does not exist, create new user document
         await setDoc(userDocRef, {
           name: result.user.displayName,
-          isClassMade: false,
+          createdAt: serverTimestamp(),
         })
 
         } catch (error) {

@@ -48,7 +48,7 @@ const Classroom = () => {
   if (loading) return <Preloader />
 
   const scribblesSvgs = [
-    { src: '/assets/Scribbles/58.svg', className: 'absolute top-48 sm:top-64 md:top-36 left-10 w-[50px] md:w-[100px] 2xl:w-[150px]' },
+    { src: '/assets/Scribbles/58.svg', className: 'absolute hidden sm:block sm:top-64 md:top-44 left-10 w-[50px] md:w-[100px] 2xl:w-[150px]' },
     { src: '/assets/Scribbles/65.svg', className: 'absolute bottom-10 right-20 w-[75px] md:w-[150px] rotate-12' },
     { src: '/assets/Scribbles/66.svg', className: 'absolute hidden lg:block top-60 right-16 md:right-80 w-[50px] md:w-[100px]' },
     { src: '/assets/Scribbles/26.svg', className: "absolute bottom-16 left-2 w-[150px] md:w-[200px]" },
@@ -62,7 +62,7 @@ const Classroom = () => {
       <header>
         <ClassNav handleToolbar={handleToolbar} />
       </header>
-      <main className="relative min-h-screen w-full bg-[#fbe8de]" style={{ backgroundImage: `url(${paperBg.src})`, backgroundSize: "auto" }}>
+      <main className="relative min-h-screen w-full bg-[#fbe8de] top" style={{ backgroundImage: `url(${paperBg.src})`, backgroundSize: "auto" }}>
         <Scribble scribblesSvgs={scribblesSvgs} />
           <div className="flex">
             <aside className="z-[10]">

@@ -1,3 +1,5 @@
+"use client"
+
 import React, {useState, useContext} from 'react'
 import Image from "next/image"
 import StudentDataContext from "@/StudentDataContext"

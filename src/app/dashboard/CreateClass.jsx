@@ -1,18 +1,16 @@
-import { useState, useContext, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useContext} from 'react'
 import StudentDataContext from "@/StudentDataContext"
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth, db } from "@/utils/firebase"
-import { doc, getDoc, collection, setDoc } from 'firebase/firestore'
+import { doc, getDoc, collection, setDoc, serverTimestamp } from 'firebase/firestore'
 import { Dialog } from '@headlessui/react'
 import { RiAddLine } from "react-icons/ri"
 import { toast } from "react-toastify"
 import bagAvatar from "@/../../public/assets/avatars/bag.svg"
 
-function CreateClass( {setShouldFetchClassData} ) {
+function CreateClass( { setShouldFetchClassData } ) {
   const [isOpen, setIsOpen] = useState(false)
-  const router = useRouter()
-  const { userClassName, setUserClassName, userUid, params } = useContext(StudentDataContext)
+  const { userClassName, setUserClassName, userUid } = useContext(StudentDataContext)
   const classId = crypto.randomUUID()
   const [user, loading] = useAuthState(auth)
   const [classAvatar, setClassAvatar] = useState(bagAvatar) 
@@ -56,14 +54,14 @@ function CreateClass( {setShouldFetchClassData} ) {
           await setDoc(classDocumentRef, {
             studentData: [],
             className: userClassName,
-            classAvatar: classAvatar 
+            classAvatar: classAvatar,
+            createdAt: serverTimestamp() 
           })
           
           // Class successfully created
           setShouldFetchClassData(true)
           setIsOpen(false)
           toast.success("Class successfully created!")
-          // router.push("")
         } else {
           console.log("Class already exists.")
         }

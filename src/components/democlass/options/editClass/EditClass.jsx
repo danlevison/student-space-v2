@@ -10,14 +10,14 @@ import { toast } from "react-toastify"
 
 const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, classData }) => {
     const { userUid } = useContext(StudentDataContext)
-    const [userClassName, setUserClassName] = useState(classData?.className)
-    const [userClassAvatar, setUserClassAvatar] = useState(classData?.classAvatar)
+    const [userClassName, setUserClassName] = useState(classData?.className || "")
+    const [userClassAvatar, setUserClassAvatar] = useState(classData?.classAvatar || "")
     const [openDeleteClassModal, setOpenDeleteClassModal] = useState(false)
 
     // update state when classData prop changes
   useEffect(() => {
-    setUserClassName(classData?.className)
-    setUserClassAvatar(classData?.classAvatar)
+    setUserClassName(classData?.className || "")
+    setUserClassAvatar(classData?.classAvatar || "") 
   }, [classData])
 
     const updateClassName = (e) => {
@@ -43,8 +43,8 @@ const EditClass = ({ isEditClassModalOpen, setIsEditClassModalOpen, classData })
     }
 
     const resetForm = () => {
-        setUserClassName(classData.className)
-        setUserClassAvatar(classData.classAvatar)
+        setUserClassName(classData.className || "")
+        setUserClassAvatar(classData.classAvatar || "")
     }
 
     const handleDeleteClassModal = () => {

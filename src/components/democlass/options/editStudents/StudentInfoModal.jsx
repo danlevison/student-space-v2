@@ -30,7 +30,7 @@ const StudentInfoModal = (
 
         {/* Full-screen container to center the panel */}
         <div className="fixed inset-0 flex items-center justify-center p-4">
-            <Dialog.Panel className="flex flex-col p-5 w-full max-w-[500px] h-full max-h-[450px] rounded-xl bg-modalBgClr overflow-auto">
+            <Dialog.Panel className="flex flex-col p-5 w-full max-w-[500px] h-full max-h-[480px] rounded-xl bg-modalBgClr overflow-auto">
                 <div className="flex justify-between items-center pb-2 z-10">
                     <Dialog.Title className="font-bold text-xl">{selectedStudent.name}</Dialog.Title>
                     <button onClick={() => setOpenStudentInfo(false)}>
@@ -43,7 +43,7 @@ const StudentInfoModal = (
                 <form onSubmit={handleStudentInfoSubmit} className="flex flex-col">
                     <StudentAvatarMenu newStudentAvatar={newStudentAvatar} setNewStudentAvatar={setNewStudentAvatar} />
                     
-                    <div className="flex flex-col">
+                    <div className="flex flex-col mt-4">
                         {alert ?
                             <p className="font-bold text-red-500 pb-1 text-lg">{alertMessage}</p> : <label htmlFor="name" className="pb-1 text-lg">First name</label> 
                         }
@@ -64,7 +64,6 @@ const StudentInfoModal = (
                         type="date"
                         id="dob"
                         name="dob"
-                        required
                         value={selectedStudent.dob}
                         onChange={updateStudentDob}
                         />
