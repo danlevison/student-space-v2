@@ -95,8 +95,9 @@ const StudentAvatarMenu = ( {newStudentAvatar, setNewStudentAvatar} ) => {
                 <Image 
                     src={newStudentAvatar}
                     alt="Student Avatar: Sketched Animal"
-                    width={80}
-                    height={80}
+                    width={90}
+                    height={90}
+                    className="rounded-xl border-2 border-black bg-white p-3"
                 />
                 <AiFillCaretDown
                     className="absolute bottom-[-1em] text-iconClr"

@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState, useEffect, useContext } from 'react'
 import StudentDataContext from "@/StudentDataContext"
 import { auth, db } from '../../utils/firebase'

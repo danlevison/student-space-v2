@@ -10,7 +10,7 @@ const CurrentDate = () => {
     }
     const fullDate = currentDate.toLocaleDateString('en-us', options)
 
-    return <p className="order-[-1] lg:text-lg">{fullDate}</p>
+    return <p className="order-[-1] lg:text-lg text-center">{fullDate}</p>
 }
 
 export default CurrentDate

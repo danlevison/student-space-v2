@@ -60,6 +60,8 @@ const ResetTablePoints = ( {setOpenResetStudentPointsModal, areAllTablesSelected
             console.error("Error resetting table points", error)
         }
         setOpenResetStudentPointsModal(false)
+        resetStudents()
+        resetTables()
         toast.success("Table points reset successfully!")
     }
 
@@ -96,7 +98,7 @@ const ResetTablePoints = ( {setOpenResetStudentPointsModal, areAllTablesSelected
                     />
                     <label 
                         htmlFor={table.tableName} 
-                        className="flex flex-col justify-center items-center h-20 w-32 cursor-pointer text-center font-bold text-lg bg-white p-4 shadow-lg rounded-xl peer-checked:bg-green-200 peer-hover:scale-105 duration-300 select-none"
+                        className="flex flex-col justify-center items-center h-20 w-32 cursor-pointer text-center font-bold text-lg bg-white p-4 border border-buttonClr rounded-xl peer-checked:bg-green-200 peer-hover:scale-105 duration-300 select-none"
                     >
                         {table.tableName}
                     </label>

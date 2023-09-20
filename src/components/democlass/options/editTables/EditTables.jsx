@@ -134,13 +134,13 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
                   <p className="text-2xl">No table data available</p>
             </div>
           ) : (
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-2 h-fit overflow-auto mt-4 p-4">
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-4 h-fit overflow-auto mt-4 p-4">
               {/* Render a button for each table name */}
               {tableNames.map((tableName) => (
                 <button
                   key={tableName}
                   onClick={() => handleTableModal(tableName)}
-                  className="text-center text-lg bg-white p-4 shadow-lg rounded-xl hover:scale-105 duration-300 break-words"
+                  className="text-center text-lg border border-buttonClr bg-white p-4 rounded-xl hover:scale-105 duration-300 break-words"
                 >
                   {tableName}
                 </button>

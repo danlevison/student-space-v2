@@ -217,7 +217,7 @@ const Instructions = ({ openInstructions, setOpenInstructions }) => {
                             disabled={instructionsList.length < 1}
                             className="w-[200px] bg-green-700 p-3 rounded-lg text-primaryTextClr text-lg disabled:bg-gray-400"
                         >
-                            Display Instructions
+                            Display instructions
                         </button>
                         <button 
                             onClick={saveInstructions}

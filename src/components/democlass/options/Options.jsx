@@ -1,3 +1,5 @@
+"use client"
+
 import { Fragment, useState, useContext } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import StudentDataContext from "@/StudentDataContext"

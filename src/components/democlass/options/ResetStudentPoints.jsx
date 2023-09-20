@@ -49,6 +49,8 @@ const ResetStudentPoints = ({ openResetStudentPointsModal, setOpenResetStudentPo
         }
 
         setOpenResetStudentPointsModal(false)
+        resetStudents()
+        resetTables()
         toast.success("Student points reset successfully!")
     }
 
@@ -149,7 +151,7 @@ const ResetStudentPoints = ({ openResetStudentPointsModal, setOpenResetStudentPo
                                         />
                                         <label 
                                             htmlFor={student.name} 
-                                            className="flex flex-col items-center w-28 cursor-pointer text-center bg-white p-4 shadow-lg rounded-xl peer-checked:bg-green-200 peer-hover:scale-105 duration-300 select-none"
+                                            className="flex flex-col items-center w-28 cursor-pointer text-center bg-white border border-buttonClr p-4 rounded-xl peer-checked:bg-green-200 peer-hover:scale-105 duration-300 select-none"
                                         >
                                             <Image 
                                             src={student.avatar} 

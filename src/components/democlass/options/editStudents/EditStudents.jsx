@@ -120,12 +120,12 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
                 <p className="text-2xl">No student data available</p>
               </div>
             ) : (
-              <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-2 mt-4 p-2">
+              <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-4 mt-4 p-2">
                 {studentData.map((student) => (
                   <button
                     key={student.uuid}
                     onClick={() => handleStudentInfoModal(student)}
-                    className="flex flex-col justify-center items-center text-center text-lg font-bold bg-white p-3 shadow-lg rounded-xl hover:scale-105 duration-300 break-words"
+                    className="flex flex-col justify-center items-center text-center text-lg border border-buttonClr font-bold bg-white p-3 rounded-xl hover:scale-105 duration-300 break-words"
                   >
                     <Image 
                       src={student.avatar} 
