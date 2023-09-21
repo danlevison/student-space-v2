@@ -1,34 +1,42 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Student Space
 
-## Getting Started
+[Student Space](https://studentspace.vercel.app/) is a web application designed for primary school teachers to manage rewards for students and provide daily tools for classroom management.
 
-First, run the development server:
+I created Student Space as a personal project to provide a one-stop platform for managing rewards for my students and to provide myself tools for my work day in the classroom.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## Features
+- Login: Users can login via their gmail account.
+- Points and Rewards: Teachers can reward students and table groups with points for their achievements, behavior, or participation in class. Students/table groups can accumulate points and redeem them for rewards after reaching a certain amount, as set by the teacher.
+- Daily Tools: The website includes a timer that can be used for various classroom activities, a task-list to manage tasks and reminders, a randomiser to choose students for specific tasks or roles and an instructions tool that can be used to display instructions set by the teacher.
+- Additional Tools: A simple form input to add students (users can copy/paste their class list)/table groups and an options menu with features including, edit students, edit tables, order A-Z and reset points.
+- User-friendly Interface: The website offers an intuitive and visually appealing interface that is easy to navigate and provides an efficient way for teachers to manage rewards and daily classroom tasks. 
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Installation
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+As a web-based application, there is no installation required to use Student Space. Simply visit the website [here](https://studentspace.vercel.app/) using a web browser to access the application.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Usage
 
-## Learn More
+1. Visit the website [here](https://studentspace.vercel.app/).
+2. Use the "Points icon" feature to reward students with points for their achievements, behavior, or participation in class.
+3. Utilise the daily tools such as the timer, todo-list, and randomiser to manage classroom tasks efficiently.
+4. Enjoy a streamlined approach to managing rewards and daily classroom tasks in one platform.
 
-To learn more about Next.js, take a look at the following resources:
+## Technologies Used
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The following technologies were used to build Student Space:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- React
+- Next.js
+- Tailwind CSS
+- Firebase
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+[MIT License](LICENSE)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Contact
+
+- Author: Daniel Levison
+- Email: dan.ejlevison@gmail.com
+- GitHub: https://github.com/danlevison

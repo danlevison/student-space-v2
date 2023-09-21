@@ -4,18 +4,18 @@ import React, {useState, useEffect} from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../../utils/firebase'
-import { StudentDataProvider } from "@/StudentDataContext"
-import ClassNav from "@/components/democlass/ClassNav"
-import CurrentDate from "@/components/democlass/DateComponent"
-import StudentGrid from "@/components/democlass/student/StudentGrid"
-import TableGrid from "@/components/democlass/table/TableGrid"
-import Toolbar from "@/components/democlass/Toolbar"
-import Greeting from "@/components/democlass/Greeting"
+import { StudentDataProvider } from "@/context/StudentDataContext"
+import ClassNav from "@/components/classroom/ClassNav"
+import CurrentDate from "@/components/classroom/DateComponent"
+import StudentGrid from "@/components/classroom/studentGrid/StudentGrid"
+import TableGrid from "@/components/classroom/tableGrid/TableGrid"
+import Toolbar from "@/components/classroom/Toolbar"
+import Greeting from "@/components/classroom/Greeting"
 import Weather from "@/components/WeatherData"
-import Birthday from "@/components/democlass/Birthday"
+import Birthday from "@/components/classroom/Birthday"
 import Scribble from "@/components/Scribble"
 import Preloader from "@/components/Preloader"
-import SwitchGridView from "@/components/democlass/SwitchGridView"
+import SwitchGridView from "@/components/classroom/SwitchGridView"
 import paperBg from "../../../public/assets/paperbg.jpg"
 
 const DemoClass = () => {
@@ -46,7 +46,7 @@ const DemoClass = () => {
     }
 
     if (!user) {
-      router.push("/login")
+      router.push("/auth/login")
     }
   }, [user, loading])
 
