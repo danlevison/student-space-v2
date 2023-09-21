@@ -35,7 +35,7 @@ const Footer = () => {
                 <Link href={"/#about"}>About</Link>
               </li>
               <li>
-                {user ? <Link href={"/dashboard"}>Dashboard</Link> : <Link href={"/login"}>Sign in</Link>}
+                {user ? <Link href={"/dashboard"}>Dashboard</Link> : <Link href={"/auth/login"}>Sign in</Link>}
               </li>
             </ul>
           </div>

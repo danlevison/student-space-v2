@@ -38,7 +38,7 @@ const Nav = () => {
             </li>
             <li>
               {!user ?
-                <NavLink href={"/login"} title={"Sign in"} />
+                <NavLink href={"/auth/login"} title={"Sign in"} />
                 :
                 <NavLink href={"/dashboard"} title={"Dashboard"} />
               }
@@ -79,7 +79,7 @@ const Nav = () => {
                     </li>
                     :
                     <li>
-                      <NavLink href={"/login"} title={"Sign in"} />
+                      <NavLink href={"/auth/login"} title={"Sign in"} />
                     </li>
                     }
                     {user && (

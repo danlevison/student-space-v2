@@ -36,7 +36,7 @@ const LandingPage = () => {
         </h3>
         {user ? 
         <Link href={"/dashboard"} className="py-3 px-16 text-lg lg:text-xl bg-buttonClr text-primaryTextClr rounded-full hover:scale-105 duration-300">Dashboard</Link>
-        : <Link href={"/login"} className="py-2 px-10 md:py-3 md:px-16 text-lg md:text-xl bg-buttonClr text-primaryTextClr rounded-full hover:scale-105 duration-300">Sign in</Link>}
+        : <Link href={"/auth/login"} className="py-2 px-10 md:py-3 md:px-16 text-lg md:text-xl bg-buttonClr text-primaryTextClr rounded-full hover:scale-105 duration-300">Sign in</Link>}
       </div>
     </section>
   )

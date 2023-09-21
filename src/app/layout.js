@@ -1,6 +1,6 @@
 import './globals.css'
 import { Nunito, Cabin_Sketch } from 'next/font/google'
-import { StudentDataProvider } from "@/StudentDataContext"
+import { StudentDataProvider } from "@/context/StudentDataContext"
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 

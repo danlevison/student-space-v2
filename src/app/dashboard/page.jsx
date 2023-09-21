@@ -4,15 +4,15 @@ import React, { useState, useEffect} from 'react'
 import Image from "next/image"
 import { useRouter } from 'next/navigation'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { auth } from '../../utils/firebase'
-import CreateClass from "./CreateClass"
+import { auth } from "@/utils/firebase"
+import CreateClass from "./_components/CreateClass"
+import DemoClassLink from "./_components/DemoClassLink"
+import UsersClasses from "./_components/UsersClasses"
+import EditClass from "@/app/dashboard/_components/editClass/EditClass"
 import Nav from "@/components/Nav"
-import UsersClasses from "@/app/dashboard/UsersClasses"
-import EditClass from "@/components/democlass/options/editClass/EditClass"
 import WordOfTheDay from "@/components/WordOfTheDay"
 import Preloader from "@/components/Preloader"
 import arrowScribble from "@/../../public/assets/Scribbles/70.svg"
-import DemoClassLink from "./DemoClassLink"
 
 const Dashboard = () => {
   const [user, loading] = useAuthState(auth)
@@ -29,7 +29,7 @@ const Dashboard = () => {
     }
     
     if (!user) {
-      router.push("/login")
+      router.push("/auth/login")
     }
   }, [user, loading])
 
