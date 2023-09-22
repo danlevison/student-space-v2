@@ -1,28 +1,15 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useContext} from 'react'
 import StudentDataContext from "@/context/StudentDataContext"
-import { collection, updateDoc, doc } from 'firebase/firestore'
-import { db } from "../../../../utils/firebase"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from "react-icons/ai"
 import TableInfoModal from "./TableInfoModal"
-import { toast } from "react-toastify"
 
 const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
-    const { studentData, setStudentData, userUid, params } = useContext(StudentDataContext)
+    const { studentData } = useContext(StudentDataContext)
     const [openTableInfo, setOpenTableInfo] = useState(false)
     const [selectedTableName, setSelectedTableName] = useState(null)
-    const [updatedTableName, setUpdatedTableName] = useState("")
-    const [alert, setAlert] = useState(false)
-    const [alertMessage, setAlertMessage] = useState("")
-    const [tempStudentData, setTempStudentData] = useState(studentData)
     const [tempSelectedTableName, setTempSelectedTableName] = useState(selectedTableName)
 
-    useEffect(() => {
-      setAlert(false)
-      setAlertMessage("")
-      setUpdatedTableName("")
-    },[openTableInfo])
-    
     // Collect unique table names using a Set
     const tableNamesSet = new Set()
     
@@ -39,73 +26,6 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
         setSelectedTableName(tableName)
         setTempSelectedTableName(tableName)
         setOpenTableInfo(true)
-    }
-
-    const updateTableName = (e) => {
-      const newTableName = e.target.value // removes empty spaces
-      const capitalisedNewTableName = newTableName.charAt(0).toUpperCase() + newTableName.slice(1)
-      setUpdatedTableName(capitalisedNewTableName)
-      setTempSelectedTableName(newTableName)
-      setAlert(false)
-    }
-
-    const handleTableInfoSubmit = async (e) => {
-      e.preventDefault()
-
-      // Check if alert is true and prevent form submission
-      if (alert) {
-        return
-      }
-
-      try {
-        const tableName = updatedTableName ? updatedTableName : selectedTableName
-        const existingTableName = studentData.find((student) => student.tableData?.tableName === tableName)
-
-          if (existingTableName && existingTableName.tableData?.tableName !== selectedTableName) {
-            setAlert(true)
-            setAlertMessage("A table with this name already exists!")
-            setUpdatedTableName("")
-            return
-          }
-        
-        // Update studentData tableData to show updatedTableName in demoClass
-        const updatedStudentData = tempStudentData.map((student) => {
-          if (student.tableData?.tableName === selectedTableName) {
-            return {...student, tableData: {...student.tableData, tableName: tableName.trim()} }
-          }
-          return student
-        })
-
-        // setStudentData(updatedStudentData)
-        setStudentData(updatedStudentData)
-
-        if (userUid && params.classroom_id) {
-          const classDocumentRef = doc(db, "users", userUid, "classes", params.classroom_id)
-      
-          await updateDoc(classDocumentRef, {
-            studentData: updatedStudentData,
-          })
-        }
-
-      } catch (error) {
-        console.error('Error updating student information:', error)
-      }
-
-      alert ? setOpenTableInfo(true) : setOpenTableInfo(false)
-      setIsEditTablesModalOpen(false)
-      setSelectedTableName(updatedTableName || selectedTableName)
-      toast.success("Table group edited successfully!")
-    }
-
-    const uncheckStudent = (selectedStudent) => {
-      setTempStudentData((prevTempStudentData) => {
-        return prevTempStudentData.map((student) => {
-          if (selectedStudent === student.name) {
-            return {...student, tableData: {...student.tableData, isOnTable: !student.tableData.isOnTable}}
-          }
-          return student
-        })
-      })
     }
 
   return (
@@ -150,17 +70,14 @@ const EditTables = ({ isEditTablesModalOpen, setIsEditTablesModalOpen }) => {
         </Dialog.Panel>
       </div>
 
-      <TableInfoModal 
+      <TableInfoModal
+        setIsEditTablesModalOpen={setIsEditTablesModalOpen} 
         openTableInfo={openTableInfo} 
         setOpenTableInfo={setOpenTableInfo}
         selectedTableName={selectedTableName}
-        handleTableInfoSubmit={handleTableInfoSubmit}
-        alert={alert}
-        alertMessage={alertMessage}
+        setSelectedTableName={setSelectedTableName}
+        setTempSelectedTableName={setTempSelectedTableName}
         tempSelectedTableName={tempSelectedTableName}
-        updateTableName={updateTableName}
-        tempStudentData={tempStudentData}
-        uncheckStudent={uncheckStudent}
       />
     </Dialog>
   )

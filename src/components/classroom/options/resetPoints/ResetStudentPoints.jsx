@@ -1,8 +1,7 @@
 import React, {useContext, useState} from 'react'
 import Image from "next/image"
 import StudentDataContext from "@/context/StudentDataContext"
-import { doc, updateDoc } from 'firebase/firestore'
-import { db } from "@/utils/firebase"
+import { updateStudentDataInClass } from "@/utils/updateStudentData"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from "react-icons/ai"
 import { toast } from "react-toastify"
@@ -23,6 +22,7 @@ const ResetStudentPoints = ({ openResetStudentPointsModal, setOpenResetStudentPo
             }
             return student
         })
+
         setStudentData(updatedStudentData)
     }
 
@@ -34,15 +34,12 @@ const ResetStudentPoints = ({ openResetStudentPointsModal, setOpenResetStudentPo
                 }
                 return student
             })
+
+            // reset student points in demoClass
             setStudentData(updatedStudentData)
 
-            if (userUid && params.classroom_id) {
-                const classDocumentRef = doc(db, "users", userUid, "classes", params.classroom_id)
-            
-                await updateDoc(classDocumentRef, {
-                  studentData: updatedStudentData,
-                })
-              }
+            // Update studentData and reset student points in the active users class
+            await updateStudentDataInClass(userUid, params.classroom_id, updatedStudentData)
 
         } catch (error) {
             console.error("Error resetting student points", error)

@@ -1,26 +1,18 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useContext} from 'react'
+import Image from "next/image"
 import StudentDataContext from "@/context/StudentDataContext"
-import { doc, updateDoc } from 'firebase/firestore'
-import { db } from "../../../../utils/firebase"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from 'react-icons/ai'
 import StudentInfoModal from "./StudentInfoModal"
-import Image from "next/image"
 
 const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) => {
-    const { studentData, setStudentData, userUid, params } = useContext(StudentDataContext)
-    const [openStudentInfo, setOpenStudentInfo] = useState(false)
+    const { studentData } = useContext(StudentDataContext)
     const [selectedStudent, setSelectedStudent] = useState({
-        name: "",
-        dob: ""
-      })
-    const [alert, setAlert] = useState(false)
-    const [alertMessage, setAlertMessage] = useState("")
+      name: "",
+      dob: ""
+    })
     const [newStudentAvatar, setNewStudentAvatar] = useState("")
-
-    useEffect(() => {
-      setAlert(false)
-    }, [openStudentInfo])
+    const [openStudentInfo, setOpenStudentInfo] = useState(false)
 
     const handleStudentInfoModal = (student) => {
       // Format the student's dob to "yyyy-MM-dd"
@@ -37,61 +29,6 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
     
       setNewStudentAvatar(student.avatar)
       setOpenStudentInfo(true)
-    }
-
-    const updateStudentName = (e) => {
-        setSelectedStudent((prevSelectedStudent) => ({
-            ...prevSelectedStudent,
-            name: e.target.value
-          }))
-    }
-
-    const updateStudentDob = (e) => {
-      setSelectedStudent((prevSelectedStudent) => ({
-        ...prevSelectedStudent,
-        dob: e.target.value
-      }))
-    }
-
-    const handleStudentInfoSubmit = async (e) => {
-      try {
-        e.preventDefault()
-        const updatedName = e.target.name.value.trim() // removes empty spaces
-        const updatedCapitalisedName = updatedName.charAt(0).toUpperCase() + updatedName.slice(1)
-        const updatedDob = e.target.dob.value
-
-        const existingStudent = studentData.find((student) => student.name === updatedCapitalisedName)
-        
-        if (existingStudent && existingStudent.uuid !== selectedStudent.uuid) {
-          setAlert(true)
-          setAlertMessage("A student with this name already exists!")
-          e.target.name.value = updatedCapitalisedName
-          return
-        }
-
-        // Update the student name, dob and avatar in the demoClass
-        const updatedStudentData = studentData.map((student) => {
-          if (student.uuid === selectedStudent.uuid) {
-            return { ...student, name: updatedCapitalisedName, dob: updatedDob, avatar:newStudentAvatar }
-          }
-          return student
-        })
-      
-        setStudentData(updatedStudentData) // Update the local state with the updated student data
-        
-        if (userUid && params.classroom_id) {
-          // User is in their own class context (Firebase)
-          const classDocumentRef = doc(db, "users", userUid, "classes", params.classroom_id)
-      
-          await updateDoc(classDocumentRef, {
-            studentData: updatedStudentData,
-          })
-        }
-        
-        setOpenStudentInfo(false)
-        } catch (error) {
-            console.error('Error updating student information:', error)
-        }
     }
 
     return (
@@ -146,13 +83,9 @@ const EditStudents = ({ isEditStudentsModalOpen, setIsEditStudentsModalOpen }) =
           openStudentInfo={openStudentInfo}
           setOpenStudentInfo={setOpenStudentInfo}
           selectedStudent={selectedStudent}
-          handleStudentInfoSubmit={handleStudentInfoSubmit}
+          setSelectedStudent={setSelectedStudent}
           newStudentAvatar={newStudentAvatar}
           setNewStudentAvatar={setNewStudentAvatar}
-          updateStudentName={updateStudentName}
-          updateStudentDob={updateStudentDob}
-          alertMessage={alertMessage}
-          alert={alert}
         />
         
       </Dialog>

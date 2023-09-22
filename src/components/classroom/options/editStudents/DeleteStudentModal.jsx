@@ -2,8 +2,7 @@ import React, {useContext} from 'react'
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from 'react-icons/ai'
 import StudentDataContext from "@/context/StudentDataContext"
-import { doc, updateDoc } from 'firebase/firestore'
-import { db } from "../../../../utils/firebase"
+import { updateStudentDataInClass } from "@/utils/updateStudentData"
 
 const DeleteStudentModal = ( { checkDeleteStudentModal, setCheckDeleteStudentModal, selectedStudent, setOpenStudentInfo } ) => {
     const { studentData, setStudentData, userUid, params} = useContext(StudentDataContext)
@@ -15,14 +14,8 @@ const DeleteStudentModal = ( { checkDeleteStudentModal, setCheckDeleteStudentMod
             // Removes student from demoClass
             setStudentData(updatedStudentData)
             
-            if (userUid && params.classroom_id) {
-            // User is in their own class context (Firebase)
-            const classDocumentRef = doc(db, "users", userUid, "classes", params.classroom_id)
-      
-            await updateDoc(classDocumentRef, {
-              studentData: updatedStudentData,
-            })
-            }
+            // Update studentData and remove student from the active users class
+            await updateStudentDataInClass(userUid, params.classroom_id, updatedStudentData)
             
           } catch (error) {
             console.error('Error removing student:', error)
