@@ -59,7 +59,7 @@ const TaskList = ( {openTaskList, setOpenTaskList, setRemainingTasks} ) => {
                 await updateDoc(classDocumentRef, {
                     taskListData: arrayUnion(newTask)
                 })
-              }
+            }
 
         } catch (error) {
             console.error("Error adding new task", error)
@@ -107,7 +107,15 @@ const TaskList = ( {openTaskList, setOpenTaskList, setRemainingTasks} ) => {
     },[tasks])
 
     return (
-        <Dialog initialFocus={inputRef} open={openTaskList} onClose={() => setOpenTaskList(false)} className="relative z-50">
+        <Dialog 
+            initialFocus={inputRef} 
+            open={openTaskList} 
+            onClose={() => {
+                setOpenTaskList(false)
+                setNewItem("")
+            }} 
+            className="relative z-50"
+        >
             {/* Backdrop */}
             <div className="fixed inset-0 bg-modalBackdropClr" aria-hidden="true" />
 
@@ -116,7 +124,11 @@ const TaskList = ( {openTaskList, setOpenTaskList, setRemainingTasks} ) => {
                 <Dialog.Panel className="p-5 w-full max-w-[800px] h-full max-h-[1000px] rounded-xl bg-blue-100 overflow-auto">
                     <div className="flex justify-between items-center pb-4">
                         <Dialog.Title className="font-bold text-xl">Task List</Dialog.Title>
-                        <button onClick={() => setOpenTaskList(false)}>
+                        <button onClick={() => {
+                                setOpenTaskList(false)
+                                setNewItem("")
+                            }}
+                        >
                             <AiOutlineClose
                                 size={28}
                                 className="bg-white text-secondaryTextClr hover:bg-buttonClr rounded-full hover:text-primaryTextClr p-1"

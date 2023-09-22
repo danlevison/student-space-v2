@@ -1,10 +1,9 @@
 import React, {useContext, useState, useRef} from 'react'
 import StudentDataContext from "@/context/StudentDataContext"
-import { updateDoc, doc } from 'firebase/firestore'
-import { db } from "../../../utils/firebase"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose, AiOutlineInfoCircle } from "react-icons/ai"
 import CopyPasteStudentList from "./CopyPasteStudentList"
+import { updateStudentDataInClass } from "@/utils/updateStudentData"
 
 const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen, avatars }) => {
 
@@ -49,7 +48,7 @@ const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen, avatars }
             dateInputRef.current.value = ""
         
             // Add the new student to the list
-            setAddedStudents((prevAddedStudents) => [...prevAddedStudents, newStudent])
+            setAddedStudents((prevAddedStudents) => [newStudent, ...prevAddedStudents])
             setStudentDob("")
             nameInputRef.current.focus()
           }
@@ -62,17 +61,13 @@ const AddStudent = ({ isAddStudentModalOpen, setIsAddStudentModalOpen, avatars }
     const handleAddStudentSubmit = async (e) => {
       e.preventDefault()
       try {
-        // Update demoStudentData and display added students in the demoClass
+        // Update studentData and display added students in the demoClass
         const updatedStudentData = studentData.concat(addedStudents)
         setStudentData(updatedStudentData)
-    
-        if (userUid && params.classroom_id) {
-          const classDocumentRef = doc(db, "users", userUid, "classes", params.classroom_id)
-      
-          await updateDoc(classDocumentRef, {
-            studentData: updatedStudentData,
-          })
-        }
+        
+        // Update studentData and display added students in the active users class
+        await updateStudentDataInClass(userUid, params.classroom_id, updatedStudentData)
+
       } catch (error) {
         console.error('Error adding student to user class collection:', error)
       }

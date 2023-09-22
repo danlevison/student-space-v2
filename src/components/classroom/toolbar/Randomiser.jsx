@@ -2,8 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import Image from "next/image"
 import { Dialog } from '@headlessui/react'
 import StudentDataContext from "@/context/StudentDataContext"
-import { doc, updateDoc } from 'firebase/firestore'
-import { db } from "../../../utils/firebase"
+import { updateStudentDataInClass } from "@/utils/updateStudentData"
 import { AiOutlineClose } from 'react-icons/ai'
 import { FaAward } from 'react-icons/fa'
 import pointsSound from "../../../../public/audio/points.mp3"
@@ -42,11 +41,15 @@ const Randomiser = ({ openRandomiser, setOpenRandomiser }) => {
           return { ...prevRandomStudent, points: prevRandomStudent.points + 1 }
         })
   
+        // Update studentData and add points to the random student in the demoClass
+        setStudentData(updatedStudentData)
+
+        // Update studentData and add points to the random student in the active users class
+        await updateStudentDataInClass(userUid, params.classroom_id, updatedStudentData)
+
         const pointsAudio = new Audio(pointsSound)
         pointsAudio.volume = 0.2
         pointsAudio.play()
-  
-        setStudentData(updatedStudentData)
 
         // Check if the student now has 50 points
         if (randomStudent.points + 1 === 50) {
@@ -56,15 +59,6 @@ const Randomiser = ({ openRandomiser, setOpenRandomiser }) => {
           setTimeout(() => {
             setShowConfetti(false)
           }, 5000)
-        }
-  
-        // Update the points in the users firebase studentData and display in the users class
-        if (userUid && params.classroom_id) {
-          const classDocumentRef = doc(db, "users", userUid, "classes", params.classroom_id)
-      
-          await updateDoc(classDocumentRef, {
-            studentData: updatedStudentData,
-          })
         }
       }
 

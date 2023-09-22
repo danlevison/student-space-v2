@@ -43,7 +43,7 @@ const CopyPasteStudentList = ( {showCopyPasteModal, setShowCopyPasteModal, avata
             setAlert(false)
             setAlertMessage("")
             pasteTextAreaRef.current.value = ""
-            setAddedStudents((prevAddedStudents) => [...prevAddedStudents, ...newStudents])
+            setAddedStudents((prevAddedStudents) => [...newStudents, ...prevAddedStudents])
             setShowCopyPasteModal(false)
         }
     }

@@ -1,4 +1,4 @@
-import React ,{Fragment} from 'react'
+import React, {Fragment} from 'react'
 import Image from "next/image"
 import { Menu, Transition } from '@headlessui/react'
 import { AiFillCaretDown } from 'react-icons/ai'

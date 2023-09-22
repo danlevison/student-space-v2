@@ -1,12 +1,10 @@
 import React, {useContext} from 'react'
 import StudentDataContext from "@/context/StudentDataContext"
-import { doc, updateDoc } from 'firebase/firestore'
-import { db } from "@/utils/firebase"
+import { updateStudentDataInClass } from "@/utils/updateStudentData"
 import { toast } from "react-toastify"
 
 const ResetTablePoints = ( {setOpenResetStudentPointsModal, areAllTablesSelected, setAreAllTablesSelected, resetStudents, resetTables} ) => {
     const { studentData, setStudentData, userUid, params } = useContext(StudentDataContext)
-
     const tableNamesMap = {} // An object to keep track of unique tableName values and their objects
 
     studentData.forEach((student) => {
@@ -46,15 +44,11 @@ const ResetTablePoints = ( {setOpenResetStudentPointsModal, areAllTablesSelected
                 return student
             })
 
+            // reset table points in demoClass
             setStudentData(updatedStudentData)
 
-            if (userUid && params.classroom_id) {
-                const classDocumentRef = doc(db, "users", userUid, "classes", params.classroom_id)
-            
-                await updateDoc(classDocumentRef, {
-                  studentData: updatedStudentData,
-                })
-              }
+            // Update studentData and reset table points in the active users class
+            await updateStudentDataInClass(userUid, params.classroom_id, updatedStudentData)
 
         } catch (error) {
             console.error("Error resetting table points", error)

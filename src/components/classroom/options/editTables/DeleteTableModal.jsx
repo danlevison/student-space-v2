@@ -2,8 +2,7 @@ import React, {useContext} from 'react'
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from "react-icons/ai"
 import StudentDataContext from "@/context/StudentDataContext"
-import { updateDoc, doc } from 'firebase/firestore'
-import { db } from "../../../../utils/firebase"
+import { updateStudentDataInClass } from "@/utils/updateStudentData"
 
 const DeleteTableModal = ( {selectedTableName, openCheckDeleteTableModal, setOpenCheckDeleteTableModal, setOpenTableInfo} ) => {
     const { studentData, setStudentData, userUid, params } = useContext(StudentDataContext)
@@ -21,13 +20,7 @@ const DeleteTableModal = ( {selectedTableName, openCheckDeleteTableModal, setOpe
           // Set the updated student data to the state
           setStudentData(updatedStudentData)
 
-          if (userUid && params.classroom_id) {
-            const classDocumentRef = doc(db, "users", userUid, "classes", params.classroom_id)
-        
-            await updateDoc(classDocumentRef, {
-              studentData: updatedStudentData,
-            })
-          }
+          await updateStudentDataInClass(userUid, params.classroom_id, updatedStudentData)
 
         } catch (error) {
           console.error('Error updating student information:', error)

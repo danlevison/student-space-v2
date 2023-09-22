@@ -1,29 +1,100 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import Image from "next/image"
+import StudentDataContext from "@/context/StudentDataContext"
+import { updateStudentDataInClass } from "@/utils/updateStudentData"
 import { Dialog } from '@headlessui/react'
 import { AiOutlineClose } from "react-icons/ai"
+import { toast } from "react-toastify"
 import DeleteTableModal from "./DeleteTableModal"
 
 const TableInfoModal = ( 
     {
-    openTableInfo, 
-    setOpenTableInfo,
-    selectedTableName,
-    handleTableInfoSubmit,
-    alert,
-    alertMessage,
-    tempSelectedTableName,
-    updateTableName,
-    tempStudentData,
-    uncheckStudent,
+        setIsEditTablesModalOpen,
+        openTableInfo, 
+        setOpenTableInfo,
+        selectedTableName,
+        setSelectedTableName,
+        setTempSelectedTableName,
+        tempSelectedTableName,
     } 
     ) => {
+        const { studentData, setStudentData, userUid, params } = useContext(StudentDataContext)
         const [openCheckDeleteTableModal, setOpenCheckDeleteTableModal] = useState(false)
+        const [tempStudentData, setTempStudentData] = useState(studentData)
+        const [updatedTableName, setUpdatedTableName] = useState("")
+        const [alert, setAlert] = useState(false)
+        const [alertMessage, setAlertMessage] = useState("")
+
+        const updateTableName = (e) => {
+            const newTableName = e.target.value // removes empty spaces
+            const capitalisedNewTableName = newTableName.charAt(0).toUpperCase() + newTableName.slice(1)
+            setUpdatedTableName(capitalisedNewTableName)
+            setTempSelectedTableName(newTableName)
+            setAlert(false)
+        }
+      
+        const uncheckStudent = (selectedStudent) => {
+            setTempStudentData((prevTempStudentData) => {
+                return prevTempStudentData.map((student) => {
+                    if (selectedStudent === student.name) {
+                        return {...student, tableData: {...student.tableData, isOnTable: !student.tableData.isOnTable}}
+                    }
+                return student
+                })
+            })
+        }
+
+        const handleTableInfoSubmit = async (e) => {
+            e.preventDefault()
+      
+            // Check if alert is true and prevent form submission
+            if (alert) {
+              return
+            }
+      
+            try {
+                const tableName = updatedTableName ? updatedTableName : selectedTableName
+                const existingTableName = studentData.find((student) => student.tableData?.tableName === tableName)
+        
+                    if (existingTableName && existingTableName.tableData?.tableName !== selectedTableName) {
+                    setAlert(true)
+                    setAlertMessage("A table with this name already exists!")
+                    setUpdatedTableName("")
+                    return
+                    }
+                
+                // Update studentData tableData to show updatedTableName in demoClass
+                const updatedStudentData = tempStudentData.map((student) => {
+                    if (student.tableData?.tableName === selectedTableName) {
+                        return {...student, tableData: {...student.tableData, tableName: tableName.trim()} }
+                    }
+                    return student
+                })
+        
+                // setStudentData(updatedStudentData)
+                setStudentData(updatedStudentData)
+      
+                // Update studentData and edit table in the active users class
+                await updateStudentDataInClass(userUid, params.classroom_id, updatedStudentData)
+      
+            } catch (error) {
+              console.error('Error updating student information:', error)
+            }
+      
+            alert ? setOpenTableInfo(true) : setOpenTableInfo(false)
+            setIsEditTablesModalOpen(false)
+            setSelectedTableName(updatedTableName || selectedTableName)
+            toast.success("Table group edited successfully!")
+          }
 
   return (
     <Dialog
         open={openTableInfo}
-        onClose={() => setOpenTableInfo(false)}
+        onClose={() => {
+            setOpenTableInfo(false)
+            setTempStudentData(studentData)
+            setAlert(false)
+        }}
         className="relative z-50"
         >
         {/* Backdrop */}
@@ -34,7 +105,12 @@ const TableInfoModal = (
             <Dialog.Panel className="flex flex-col p-5 w-full max-w-[600px] h-full max-h-[500px] rounded-xl bg-modalBgClr overflow-auto">
             <div className="flex justify-between items-center pb-2">
                 <Dialog.Title className="font-bold text-xl">{selectedTableName}</Dialog.Title>
-                <button onClick={() => setOpenTableInfo(false)}>
+                <button onClick={() => {
+                        setOpenTableInfo(false)
+                        setTempStudentData(studentData)
+                        setAlert(false)
+                    }}
+                >
                 <AiOutlineClose
                     size={28}
                     className="bg-white text-secondaryTextClr hover:bg-buttonClr rounded-full hover:text-primaryTextClr p-1"
@@ -85,7 +161,11 @@ const TableInfoModal = (
                 <div className="flex flex-row-reverse justify-between items-center pb-2"> 
                     <div className="flex items-center justify-center gap-2">
                         <button 
-                            onClick={() => setOpenTableInfo(false)} 
+                            onClick={() => {
+                                setOpenTableInfo(false)
+                                setTempStudentData(studentData)
+                                setAlert(false)
+                            }} 
                             type="button" 
                             className="bg-modalBgClr hover:bg-white rounded-2xl py-2 px-3 text-buttonClr text-sm font-bold"
                         >
