@@ -5,9 +5,11 @@ import children from "../../../public/assets/happy-children.svg"
 import { TiTickOutline } from "react-icons/ti"
 import { FiArrowRight } from "react-icons/fi"
 
+// bg-[#f6f7fa]
+
 const RewardManagement = () => {
 	return (
-		<section className="bg-[#f6f7fa] w-full py-16 lg:py-24 xl:py-40">
+		<section className=" w-full bg-white pb-16 lg:py-20">
 			<div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-16 lg:gap-32 px-8">
 				<div className="order-2 lg:order-1 flex justify-center items-center hover:scale-105 duration-300">
 					<Image

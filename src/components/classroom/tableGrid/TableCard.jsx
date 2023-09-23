@@ -93,12 +93,12 @@ const TableCard = ({ groupedStudentsByTable }) => {
 							className="absolute top-2 right-1 text-iconClr hover:text-yellow-500 hover:scale-110 duration-300 ease-in"
 						/>
 					</button>
-					<button className="absolute bottom-2 right-2">
+					{/* <button className="absolute bottom-2 right-2">
 						<IoMdSettings
 							size={20}
 							className="text-gray-400"
 						/>
-					</button>
+					</button> */}
 				</div>
 			))}
 		</>

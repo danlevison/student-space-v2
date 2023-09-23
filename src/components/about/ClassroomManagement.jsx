@@ -5,7 +5,7 @@ import teacher from "../../../public/assets/teacher-students.svg"
 
 const ClassroomManagement = () => {
 	return (
-		<section className="bg-white w-full py-16 lg:py-40">
+		<section className="bg-white w-full pb-16 lg:py-20">
 			<div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-16 lg:gap-32 px-8">
 				<div className="flex flex-col">
 					<h2 className="text-3xl md:text-4xl lg:text-5xl font-black capitalize py-4">

@@ -36,16 +36,36 @@ const Footer = () => {
 						</h2>
 						<ul className="flex flex-col gap-4 text-[#5f5f7f]">
 							<li>
-								<Link href={"/"}>Home</Link>
+								<Link
+									href={"/"}
+									className="hover:underline"
+								>
+									Home
+								</Link>
 							</li>
 							<li>
-								<Link href={"/#about"}>About</Link>
+								<Link
+									href={"/#about"}
+									className="hover:underline"
+								>
+									About
+								</Link>
 							</li>
 							<li>
 								{user ? (
-									<Link href={"/dashboard"}>Dashboard</Link>
+									<Link
+										href={"/dashboard"}
+										className="hover:underline"
+									>
+										Dashboard
+									</Link>
 								) : (
-									<Link href={"/auth/login"}>Sign in</Link>
+									<Link
+										href={"/auth/login"}
+										className="hover:underline"
+									>
+										Sign in
+									</Link>
 								)}
 							</li>
 						</ul>
