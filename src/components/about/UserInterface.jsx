@@ -5,11 +5,8 @@ import desktopView from "../../../public/assets/desktop-view.jpg"
 
 const UserInterface = () => {
 	return (
-		<section
-			className="bg-[#f6f7fa] w-full flex flex-col justify-center items-center"
-			style={{ minHeight: "calc(100vh - 6rem)" }}
-		>
-			<div className="max-w-[1440px] mx-auto px-8 py-16">
+		<section className="bg-white w-full flex flex-col justify-center items-center pb-16 lg:py-20">
+			<div className="max-w-[1440px] mx-auto px-8">
 				<div className="flex flex-col justify-center items-center">
 					<div className="md:text-center">
 						<h2 className="text-3xl md:text-4xl lg:text-5xl font-black capitalize">

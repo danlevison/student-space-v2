@@ -30,7 +30,7 @@ const Nav = () => {
 	}
 
 	return (
-		<nav className="bg-white shadow-xl fixed top-0 w-full h-[6rem] z-[10] px-8">
+		<nav className="fixed top-0 w-full h-[5.5rem] z-[10] px-8 bg-white border-b border-gray-300">
 			<div className="flex justify-between items-center gap-4 w-full h-full px-2 2xl:px-16">
 				<Logo />
 				{/* Desktop */}
@@ -39,12 +39,14 @@ const Nav = () => {
 						<NavLink
 							href={"/"}
 							title={"Home"}
+							className="hover:text-blue-400"
 						/>
 					</li>
 					<li>
 						<NavLink
 							href={"/#about"}
 							title={"About"}
+							className="hover:text-blue-400"
 						/>
 					</li>
 					<li>
@@ -52,17 +54,26 @@ const Nav = () => {
 							<NavLink
 								href={"/auth/login"}
 								title={"Sign in"}
+								className="hover:text-blue-400"
 							/>
 						) : (
 							<NavLink
 								href={"/dashboard"}
 								title={"Dashboard"}
+								className="hover:text-blue-400"
 							/>
 						)}
 					</li>
-					{user && <button onClick={() => auth.signOut()}>Sign out</button>}
+					{user && (
+						<button
+							onClick={() => auth.signOut()}
+							className="hover:text-blue-400"
+						>
+							Sign out
+						</button>
+					)}
 				</ul>
-				<div
+				<button
 					onClick={handleNav}
 					className="md:hidden cursor-pointer"
 				>
@@ -70,13 +81,15 @@ const Nav = () => {
 						size={30}
 						className="text-[#5f5f7f]"
 					/>
-				</div>
+				</button>
 			</div>
 
 			{/* Mobile */}
 			<div
 				className={
-					nav ? "md:hidden fixed left-0 top-24 w-full h-screen bg-black/70" : ""
+					nav
+						? "md:hidden fixed left-0 top-[5.5rem] w-full h-screen bg-black/70"
+						: ""
 				}
 			>
 				<div
@@ -89,12 +102,12 @@ const Nav = () => {
 					<div>
 						<div className="flex justify-between items-center pb-24">
 							<Logo closeNav={() => setNav(false)} />
-							<div onClick={handleNav}>
+							<button onClick={handleNav}>
 								<CgClose
 									size={30}
 									className="text-[#5f5f7f]"
 								/>
-							</div>
+							</button>
 						</div>
 
 						<ul className="flex flex-col items-center gap-32 font-bold text-[#5f5f7f]">
@@ -102,12 +115,14 @@ const Nav = () => {
 								<NavLink
 									href={"/"}
 									title={"Home"}
+									className="hover:text-blue-400"
 								/>
 							</li>
 							<li>
 								<NavLink
 									href={"/#about"}
 									title={"About"}
+									className="hover:text-blue-400"
 								/>
 							</li>
 							{user ? (
@@ -115,6 +130,7 @@ const Nav = () => {
 									<NavLink
 										href={"/dashboard"}
 										title={"Dashboard"}
+										className="hover:text-blue-400"
 									/>
 								</li>
 							) : (
@@ -122,6 +138,7 @@ const Nav = () => {
 									<NavLink
 										href={"/auth/login"}
 										title={"Sign in"}
+										className="hover:text-blue-400"
 									/>
 								</li>
 							)}
@@ -131,6 +148,7 @@ const Nav = () => {
 										auth.signOut()
 										setNav(false)
 									}}
+									className="hover:text-blue-400"
 								>
 									Sign out
 								</button>
