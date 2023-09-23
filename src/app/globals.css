@@ -3,20 +3,20 @@
 @tailwind utilities;
 
 @layer base {
-  /* html {
+	/* html {
     scroll-behavior: smooth !important;
   } */
-  
-  body {
-    background-color: white;
-    background-image: url(../../public/assets/paperbg.jpg);
-    background-size: auto;
-  }
-  
-  input[type="text"], input[type="date"], textarea {
-    color: #5065A8;
-    font-weight: bold;
-  }
+
+	body {
+		background-color: white;
+		background-image: url(../../public/assets/paperbg.jpg);
+		background-size: auto;
+	}
+
+	input[type="text"],
+	input[type="date"],
+	textarea {
+		color: #5065a8;
+		font-weight: bold;
+	}
 }
-
-
