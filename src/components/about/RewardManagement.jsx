@@ -5,8 +5,6 @@ import children from "../../../public/assets/happy-children.svg"
 import { TiTickOutline } from "react-icons/ti"
 import { FiArrowRight } from "react-icons/fi"
 
-// bg-[#f6f7fa]
-
 const RewardManagement = () => {
 	return (
 		<section className=" w-full bg-white pb-16 lg:py-20">

@@ -12,7 +12,7 @@ export function StudentDataProvider({ children }) {
 	const [studentData, setStudentData] = useState(demoStudentData)
 	const [userClassName, setUserClassName] = useState("")
 	const [showConfetti, setShowConfetti] = useState(false)
-	const [user, loading] = useAuthState(auth)
+	const [user] = useAuthState(auth)
 	const [userUid, setUserUid] = useState("")
 	const params = useParams()
 

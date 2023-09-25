@@ -1,7 +1,7 @@
 import Nav from "@/components/Nav"
-import LandingPage from "@/components/LandingPage"
+import LandingPage from "@/components/landingPage/LandingPage"
 import About from "@/components/about/About"
-import Footer from "@/components/Footer"
+import Footer from "@/components/footer/Footer"
 
 export default function Home() {
 	return (

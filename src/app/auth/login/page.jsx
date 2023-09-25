@@ -1,52 +1,18 @@
 "use client"
 
 import React, { useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { FcGoogle } from "react-icons/fc"
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
 import { useAuthState } from "react-firebase-hooks/auth"
-import { auth, db } from "../../../utils/firebase"
-import { setDoc, doc, getDoc, serverTimestamp } from "firebase/firestore"
+import { auth } from "@/utils/firebase"
+import { googleLogin } from "@/utils/auth"
+import { FcGoogle } from "react-icons/fc"
 import Nav from "@/components/Nav"
 import Preloader from "@/components/Preloader"
 import Scribble from "@/components/Scribble"
+import { useRouter } from "next/navigation"
 
 const Login = () => {
 	const [user, loading] = useAuthState(auth)
 	const router = useRouter()
-
-	// Sign in with Google
-	const googleProvider = new GoogleAuthProvider()
-	const googleLogin = async () => {
-		try {
-			const result = await signInWithPopup(auth, googleProvider)
-			const userDocRef = doc(db, "users", result.user.uid)
-			const docSnap = await getDoc(userDocRef)
-
-			if (docSnap.exists()) {
-				router.push("/dashboard") // Redirect user to the dashboard
-				return
-			}
-
-			// User data does not exist, create new user document
-			await setDoc(userDocRef, {
-				name: result.user.displayName,
-				createdAt: serverTimestamp()
-			})
-		} catch (error) {
-			console.error(error)
-		}
-	}
-
-	// Redirect user to dashboard if user is already logged in and tries to go to login page.
-	useEffect(() => {
-		if (user) {
-			router.push("/dashboard")
-		}
-	}, [user])
-
-	if (loading) return <Preloader />
-
 	const scribblesSvgs = [
 		{
 			src: "/assets/Scribbles/67.svg",
@@ -101,6 +67,18 @@ const Login = () => {
 		}
 	]
 
+	const handleGoogleLogin = () => {
+		googleLogin(router)
+	}
+
+	useEffect(() => {
+		if (user) {
+			router.push("/dashboard")
+		}
+	}, [user])
+
+	if (loading) return <Preloader />
+
 	return (
 		<>
 			<header>
@@ -115,7 +93,7 @@ const Login = () => {
 					</div>
 					<div>
 						<button
-							onClick={googleLogin}
+							onClick={handleGoogleLogin}
 							className="flex justify-center items-center gap-4 w-full text-primaryTextClr bg-gray-600 p-4 font-medium rounded-lg"
 						>
 							<FcGoogle
