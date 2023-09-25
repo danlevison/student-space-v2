@@ -1,16 +1,9 @@
-"use client"
-
 import React from "react"
-import Link from "next/link"
-import { useAuthState } from "react-firebase-hooks/auth"
-import { auth } from "../utils/firebase"
-import Scribble from "./Scribble"
+import Scribble from "../Scribble"
+import UserMessage from "./UserMessage"
+import ConditionalNavigationBtn from "./ConditionalNavigationBtn"
 
 const LandingPage = () => {
-	const [user, loading] = useAuthState(auth)
-	const creationTime = user?.metadata.creationTime
-	const lastSignInTime = user?.metadata.lastSignInTime
-
 	const scribblesSvgs = [
 		{
 			src: "/assets/Scribbles/24.svg",
@@ -66,28 +59,8 @@ const LandingPage = () => {
 				<h2 className="md:text-lg lg:text-2xl text-center text-secondaryTextClr capitalize">
 					Crafted exclusively for primary teachers.
 				</h2>
-				<h3 className="text-2xl md:text-xl lg:text-2xl text-center pt-10 pb-2 text-secondaryTextClr">
-					{!user
-						? "Get Started!"
-						: creationTime !== lastSignInTime
-						? "Welcome Back!"
-						: "Get Started!"}
-				</h3>
-				{user ? (
-					<Link
-						href={"/dashboard"}
-						className="py-3 px-16 text-lg lg:text-xl bg-buttonClr text-primaryTextClr rounded-full hover:scale-105 duration-300"
-					>
-						Dashboard
-					</Link>
-				) : (
-					<Link
-						href={"/auth/login"}
-						className="py-2 px-10 md:py-3 md:px-16 text-lg md:text-xl bg-buttonClr text-primaryTextClr rounded-full hover:scale-105 duration-300"
-					>
-						Sign in
-					</Link>
-				)}
+				<UserMessage />
+				<ConditionalNavigationBtn />
 			</div>
 		</section>
 	)

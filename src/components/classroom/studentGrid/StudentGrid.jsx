@@ -47,13 +47,6 @@ const StudentGrid = () => {
 		lionAvatar
 	])
 
-	// Fetch the user's student data from the Firestore subcollection
-	useEffect(() => {
-		if (params.classroom_id) {
-			fetchStudentDataFromFirestore()
-		}
-	}, [params.classroom_id])
-
 	const fetchStudentDataFromFirestore = async () => {
 		try {
 			// fetching student data from Firestore using params.classroom_id
@@ -78,6 +71,13 @@ const StudentGrid = () => {
 			console.log("Error fetching student data from Firestore:", error)
 		}
 	}
+
+	// Fetch the user's student data from the Firestore subcollection
+	useEffect(() => {
+		if (params.classroom_id) {
+			fetchStudentDataFromFirestore()
+		}
+	}, [params.classroom_id])
 
 	const handleAddStudentModal = () => {
 		setIsAddStudentModalOpen(true)

@@ -4,9 +4,9 @@ import Image from "next/image"
 const Scribble = ({ scribblesSvgs }) => {
 	return (
 		<>
-			{scribblesSvgs.map((scribble, index) => (
+			{scribblesSvgs.map((scribble) => (
 				<Image
-					key={index}
+					key={scribble.src}
 					src={scribble.src}
 					alt={""}
 					role="presentation"

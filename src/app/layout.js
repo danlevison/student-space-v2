@@ -25,17 +25,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
-			<StudentDataProvider>
-				<body
-					className={`${nunito.variable} ${cabinSketch.variable} font-nunito`}
-				>
-					{children}
-					<ToastContainer
-						position="top-center"
-						pauseOnHover={false}
-					/>
-				</body>
-			</StudentDataProvider>
+			<body
+				className={`${nunito.variable} ${cabinSketch.variable} font-nunito`}
+			>
+				<StudentDataProvider>{children}</StudentDataProvider>
+				<ToastContainer
+					position="top-center"
+					pauseOnHover={false}
+				/>
+			</body>
 		</html>
 	)
 }

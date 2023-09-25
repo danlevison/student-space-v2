@@ -1,15 +1,11 @@
-"use client"
-
 import React from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { useAuthState } from "react-firebase-hooks/auth"
-import { auth } from "@/utils/firebase"
-import footerBg from "../../public/assets/footer-bg.png"
-import Logo from "../components/Logo"
+import footerBg from "@/../../public/assets/footer-bg.png"
+import Logo from "../Logo"
+import ConditionalLink from "./ConditionalLink"
 
 const Footer = () => {
-	const [user] = useAuthState(auth)
 	const currentYear = new Date().getFullYear()
 
 	return (
@@ -52,21 +48,7 @@ const Footer = () => {
 								</Link>
 							</li>
 							<li>
-								{user ? (
-									<Link
-										href={"/dashboard"}
-										className="hover:underline"
-									>
-										Dashboard
-									</Link>
-								) : (
-									<Link
-										href={"/auth/login"}
-										className="hover:underline"
-									>
-										Sign in
-									</Link>
-								)}
+								<ConditionalLink />
 							</li>
 						</ul>
 					</div>
