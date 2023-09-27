@@ -23,10 +23,6 @@ const Classroom = () => {
 	const [toolbarMenu, setToolbarMenu] = useState(false)
 	const [showTableGrid, setShowTableGrid] = useState(false)
 
-	const handleToolbar = () => {
-		setToolbarMenu(!toolbarMenu)
-	}
-
 	useEffect(() => {
 		if (loading) {
 			// Handle loading state
@@ -77,7 +73,10 @@ const Classroom = () => {
 	return (
 		<>
 			<header>
-				<ClassNav handleToolbar={handleToolbar} />
+				<ClassNav
+					toolbarMenu={toolbarMenu}
+					setToolbarMenu={setToolbarMenu}
+				/>
 			</header>
 			<main
 				className="relative min-h-screen w-full bg-[#fbe8de] top"
