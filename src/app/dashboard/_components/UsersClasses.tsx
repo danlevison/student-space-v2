@@ -96,8 +96,12 @@ const UsersClasses = ({
 					<button
 						onClick={() => handleEditClass(userClass)}
 						className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
+						aria-label="Class settings"
 					>
-						<IoMdSettings size={30} />
+						<IoMdSettings
+							size={30}
+							aria-label="Class settings"
+						/>
 					</button>
 				</div>
 			))}

@@ -14,7 +14,10 @@ const ClassNav = ({ handleToolbar }: ClassNavProps) => {
 		<nav className="bg-white fixed z-[20] top-0 h-12 w-full px-8">
 			<ul className="flex items-center gap-8">
 				<li className="relative group">
-					<button onClick={handleToolbar}>
+					<button
+						onClick={handleToolbar}
+						aria-label="Toolbar"
+					>
 						<HiMenuAlt4
 							size={30}
 							className="text-buttonClr mt-3"
@@ -25,7 +28,10 @@ const ClassNav = ({ handleToolbar }: ClassNavProps) => {
 					</span>
 				</li>
 				<li className="relative group">
-					<Link href={"/dashboard"}>
+					<Link
+						href={"/dashboard"}
+						aria-label="Dashboard"
+					>
 						<FaHome
 							size={30}
 							className="text-buttonClr"
