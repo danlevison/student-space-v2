@@ -71,14 +71,17 @@ const Toolbar = ({ toolbarMenu }: ToolbarProps) => {
 			<div
 				className={
 					toolbarMenu
-						? "z-10 fixed top-0 left-0 md:static min-h-screen h-full w-20 flex flex-col items-center bg-white ease-in-out duration-300"
+						? "z-10 fixed top-0 left-0 bottom-0 md:static min-h-screen h-full w-20 flex flex-col items-center bg-white ease-in-out duration-300"
 						: "z-10 overflow-x-hidden fixed top-0 left-[-30%] md:static min-h-screen h-full w-0 flex flex-col items-center bg-white ease-in-out duration-300"
 				}
 			>
-				{/* <button onClick={() => setToolbarMenu(false)} className="pt-3">
-          <RiArrowLeftSLine size={30} className="text-buttonClr"/>
-        </button> */}
-				<ul className="flex flex-col justify-evenly md:justify-normal items-center md:mt-48 md:gap-32 h-full text-iconClr z-10 pb-6">
+				<ul
+					className={
+						toolbarMenu
+							? "flex flex-col justify-evenly md:justify-normal items-center md:mt-48 md:gap-32 h-full w-full text-iconClr z-10 pb-6"
+							: "flex flex-col justify-evenly md:justify-normal items-center md:mt-48 md:gap-32 h-full text-iconClr z-10 pb-6 w-0"
+					}
+				>
 					<ToolbarIcon
 						icon={<RiTimerFill size={26} />}
 						text="Countdown Timer"

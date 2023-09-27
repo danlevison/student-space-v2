@@ -24,10 +24,6 @@ const DemoClass = () => {
 	const [showTableGrid, setShowTableGrid] = useState(false)
 	const router = useRouter()
 
-	const handleToolbar = () => {
-		setToolbarMenu(!toolbarMenu)
-	}
-
 	const scribblesSvgs = [
 		{
 			src: "/assets/Scribbles/4.svg",
@@ -78,7 +74,10 @@ const DemoClass = () => {
 	return (
 		<StudentDataProvider>
 			<header>
-				<ClassNav handleToolbar={handleToolbar} />
+				<ClassNav
+					toolbarMenu={toolbarMenu}
+					setToolbarMenu={setToolbarMenu}
+				/>
 			</header>
 			<main
 				className="relative min-h-screen w-full bg-blue-100"
