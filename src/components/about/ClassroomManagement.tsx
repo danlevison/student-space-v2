@@ -4,6 +4,20 @@ import Image from "next/image"
 import teacher from "../../../public/assets/teacher-students.svg"
 
 const ClassroomManagement = () => {
+	const list = [
+		{
+			text: "Student Randomiser"
+		},
+		{
+			text: "Task-List"
+		},
+		{
+			text: "Create Instructions"
+		},
+		{
+			text: "And More!"
+		}
+	]
 	return (
 		<section className="bg-white w-full pb-16 lg:py-20">
 			<div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-16 lg:gap-32 px-8">
@@ -21,48 +35,24 @@ const ClassroomManagement = () => {
 						focus on what truly matters - your students&apos; education.
 					</p>
 
-					<div className="flex flex-col gap-6 pt-4 font-bold text-secondaryTextClr capitalize text-sm sm:text-base">
-						<div className="flex items-center gap-2">
-							<div className="border-2 border-yellow-500 rounded-full">
-								<TiTickOutline
-									size={20}
-									className="text-yellow-500"
-									role="presentation"
-								/>
-							</div>
-							<p>Student randomiser</p>
-						</div>
-						<div className="flex items-center gap-2">
-							<div className="border-2 border-yellow-500 rounded-full">
-								<TiTickOutline
-									size={20}
-									className="text-yellow-500"
-									role="presentation"
-								/>
-							</div>
-							<p>Task-list</p>
-						</div>
-						<div className="flex items-center gap-2">
-							<div className="border-2 border-yellow-500 rounded-full">
-								<TiTickOutline
-									size={20}
-									className="text-yellow-500"
-									role="presentation"
-								/>
-							</div>
-							<p>Create Instructions</p>
-						</div>
-						<div className="flex items-center gap-2">
-							<div className="border-2 border-yellow-500 rounded-full">
-								<TiTickOutline
-									size={20}
-									className="text-yellow-500"
-									role="presentation"
-								/>
-							</div>
-							<p>And more!</p>
-						</div>
-					</div>
+					<ul className="flex flex-col gap-6 pt-4 font-bold text-secondaryTextClr capitalize text-sm sm:text-base">
+						{list.map((item) => (
+							<li
+								key={item.text}
+								className="flex items-center gap-2"
+							>
+								<div className="border-2 border-yellow-500 rounded-full">
+									<TiTickOutline
+										size={20}
+										className="text-yellow-500"
+										role="presentation"
+										aria-hidden="true"
+									/>
+								</div>
+								<p>{item.text}</p>
+							</li>
+						))}
+					</ul>
 				</div>
 				<div>
 					<div className="flex justify-center items-center">

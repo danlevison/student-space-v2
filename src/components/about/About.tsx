@@ -7,6 +7,17 @@ import UserInterface from "./UserInterface"
 import studentRewardImg from "../../../public/assets/student-reward.svg"
 
 const About = () => {
+	const list = [
+		{
+			text: "Manage rewards"
+		},
+		{
+			text: "Daily management tools"
+		},
+		{
+			text: "User-friendly interface"
+		}
+	]
 	return (
 		<>
 			<section
@@ -33,38 +44,24 @@ const About = () => {
 								facilitating daily classroom management through a single,
 								comprehensive toolkit.
 							</p>
-							<div className="font-bold text-secondaryTextClr capitalize pt-3 text-sm sm:text-base">
-								<div className="flex items-center gap-2">
-									<div className="border-2 border-yellow-500 rounded-full">
-										<TiTickOutline
-											size={20}
-											className="text-yellow-500"
-											role="presentation"
-										/>
-									</div>
-									<p>Manage rewards</p>
-								</div>
-								<div className="flex items-center py-6 gap-2">
-									<div className="border-2 border-yellow-500 rounded-full">
-										<TiTickOutline
-											size={20}
-											className="text-yellow-500"
-											role="presentation"
-										/>
-									</div>
-									<p>Daily management tools</p>
-								</div>
-								<div className="flex items-center gap-2">
-									<div className="border-2 border-yellow-500 rounded-full">
-										<TiTickOutline
-											size={20}
-											className="text-yellow-500"
-											role="presentation"
-										/>
-									</div>
-									<p>User-friendly interface</p>
-								</div>
-							</div>
+							<ul className="flex flex-col gap-6 font-bold text-secondaryTextClr capitalize pt-3 text-sm sm:text-base">
+								{list.map((item) => (
+									<li
+										key={item.text}
+										className="flex items-center gap-2"
+									>
+										<div className="border-2 border-yellow-500 rounded-full">
+											<TiTickOutline
+												size={20}
+												className="text-yellow-500"
+												role="presentation"
+												aria-hidden="true"
+											/>
+										</div>
+										<p>{item.text}</p>
+									</li>
+								))}
+							</ul>
 						</div>
 
 						<div className="flex justify-center items-center">
