@@ -12,8 +12,6 @@ type CopyPasteStudentListProps = {
 	studentDob: string
 	addedStudents: StudentData[]
 	setAddedStudents: React.Dispatch<React.SetStateAction<StudentData[]>>
-	alert: boolean
-	setAlert: React.Dispatch<React.SetStateAction<boolean>>
 	alertMessage: string
 	setAlertMessage: React.Dispatch<React.SetStateAction<string>>
 }
@@ -25,8 +23,6 @@ const CopyPasteStudentList = ({
 	studentDob,
 	addedStudents,
 	setAddedStudents,
-	alert,
-	setAlert,
 	alertMessage,
 	setAlertMessage
 }: CopyPasteStudentListProps) => {
@@ -74,12 +70,10 @@ const CopyPasteStudentList = ({
 		)
 
 		if (isDuplicate) {
-			setAlert(true)
 			setAlertMessage(
 				"It looks like you're trying to add a student to this class twice"
 			)
 		} else {
-			setAlert(false)
 			setAlertMessage("")
 			pasteTextAreaRef.current.value = ""
 			setAddedStudents((prevAddedStudents) => [
@@ -122,7 +116,7 @@ const CopyPasteStudentList = ({
 							You can add your students&apos; dates of birth later to display
 							their birthdays.
 						</p>
-						{alert ? (
+						{alertMessage ? (
 							<p className="font-bold text-red-500 pb-1">{alertMessage}</p>
 						) : (
 							<label

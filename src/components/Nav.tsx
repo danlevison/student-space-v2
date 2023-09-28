@@ -58,7 +58,7 @@ const Nav = () => {
 					<li>
 						{!user ? (
 							<NavLink
-								href={"/auth/login"}
+								href={"/login"}
 								title={"Sign in"}
 								className="hover:text-blue-400"
 							/>
@@ -142,7 +142,7 @@ const Nav = () => {
 							) : (
 								<li>
 									<NavLink
-										href={"/auth/login"}
+										href={"/login"}
 										title={"Sign in"}
 										className="hover:text-blue-400"
 									/>

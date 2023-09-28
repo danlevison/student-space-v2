@@ -64,7 +64,7 @@ const RewardManagement = () => {
 							))}
 						</ul>
 						<Link
-							href={"/auth/login"}
+							href={"/register"}
 							className="group flex items-center gap-2 text-yellow-500 w-fit pt-6"
 						>
 							Get Started Now!

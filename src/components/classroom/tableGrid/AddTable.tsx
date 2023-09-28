@@ -1,4 +1,5 @@
 import React, { useContext, useState, useRef } from "react"
+import { useAuth } from "@/context/AuthContext"
 import StudentDataContext from "@/context/StudentDataContext"
 import { updateDoc, doc } from "firebase/firestore"
 import { db } from "../../../utils/firebase"
@@ -16,9 +17,8 @@ const AddTable = ({
 	isAddTableModalOpen,
 	setIsAddTableModalOpen
 }: AddTableProps) => {
-	const { studentData, setStudentData, userUid, params } =
-		useContext(StudentDataContext)
-	const [alert, setAlert] = useState(false)
+	const { studentData, setStudentData, params } = useContext(StudentDataContext)
+	const { currentUser } = useAuth()
 	const [alertMessage, setAlertMessage] = useState("")
 	const [tableName, setTableName] = useState("")
 	const tableInputRef = useRef<HTMLInputElement>(null)
@@ -44,11 +44,11 @@ const AddTable = ({
 			// Set the updated student data to the state
 			setStudentData(updatedStudentData)
 
-			if (userUid && params.classroom_id) {
+			if (currentUser.uid && params.classroom_id) {
 				const classDocumentRef = doc(
 					db,
 					"users",
-					userUid,
+					currentUser.uid,
 					"classes",
 					params.classroom_id
 				)
@@ -74,7 +74,6 @@ const AddTable = ({
 			)
 
 			if (existingTable) {
-				setAlert(true)
 				setAlertMessage("A table with this name already exists!")
 				return
 			}
@@ -97,11 +96,11 @@ const AddTable = ({
 
 			setStudentData(updatedStudentData)
 
-			if (userUid && params.classroom_id) {
+			if (currentUser.uid && params.classroom_id) {
 				const classDocumentRef = doc(
 					db,
 					"users",
-					userUid,
+					currentUser.uid,
 					"classes",
 					params.classroom_id
 				)
@@ -116,6 +115,7 @@ const AddTable = ({
 
 		tableInputRef.current.value = ""
 		setIsAddTableModalOpen(false)
+		setAlertMessage("")
 		toast.success("Table group created successfully!")
 	}
 
@@ -171,7 +171,7 @@ const AddTable = ({
 							className="flex flex-col py-4 overflow-auto"
 						>
 							<div className="flex flex-col items-center">
-								{alert ? (
+								{alertMessage ? (
 									<p className="font-bold text-xl text-red-500 pb-1">
 										{alertMessage}
 									</p>
@@ -193,7 +193,7 @@ const AddTable = ({
 									maxLength={20}
 									ref={tableInputRef}
 									className={
-										alert
+										alertMessage
 											? "w-full sm:w-[400px] border-2 border-red-500 rounded-lg p-2 outline-none"
 											: "w-full sm:w-[400px] border-2 border-gray-400 rounded-lg p-2 outline-inputOutlineClr"
 									}

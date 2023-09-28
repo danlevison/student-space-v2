@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext, useCallback } from "react"
-import { auth, db } from "../../../../utils/firebase"
-import { useAuthState } from "react-firebase-hooks/auth"
+import { db } from "../../../../utils/firebase"
 import { doc, updateDoc, getDoc, arrayUnion } from "firebase/firestore"
+import { useAuth } from "@/context/AuthContext"
 import StudentDataContext from "@/context/StudentDataContext"
 import { Dialog } from "@headlessui/react"
 import { AiOutlineClose, AiOutlineArrowLeft } from "react-icons/ai"
@@ -45,9 +45,8 @@ const Instructions = ({
 		number | null
 	>(null)
 	const [isEditInstructionActive, setIsEditInstructionActive] = useState(false)
-
-	const [user, loading] = useAuthState(auth)
-	const { userUid, params } = useContext(StudentDataContext)
+	const { params } = useContext(StudentDataContext)
+	const { currentUser } = useAuth()
 
 	// Handlers for opening and closing modals
 	const handleCreateInstructionsModal = () => {
@@ -116,11 +115,11 @@ const Instructions = ({
 				])
 			}
 
-			if (userUid && params.classroom_id) {
+			if (currentUser.uid && params.classroom_id) {
 				const classDocumentRef = doc(
 					db,
 					"users",
-					userUid,
+					currentUser.uid,
 					"classes",
 					params.classroom_id
 				)
@@ -140,7 +139,7 @@ const Instructions = ({
 			const classDocumentRef = doc(
 				db,
 				"users",
-				user.uid,
+				currentUser.uid,
 				"classes",
 				params.classroom_id
 			)
@@ -157,14 +156,14 @@ const Instructions = ({
 		} catch (error) {
 			console.log("Error fetching instructions data from Firestore:", error)
 		}
-	}, [params.classroom_id, user.uid])
+	}, [params.classroom_id, currentUser.uid])
 
-	// Fetch the user's instructions data from the Firestore subcollection when userUid and className are available
+	// Fetch the user's instructions data from the Firestore subcollection when currentUser.uid and className are available
 	useEffect(() => {
-		if (userUid && params.classroom_id) {
+		if (currentUser.uid && params.classroom_id) {
 			fetchInstructionData()
 		}
-	}, [userUid, params.classroom_id, fetchInstructionData])
+	}, [currentUser.uid, params.classroom_id, fetchInstructionData])
 
 	// Displaying instructions + saving them
 	const displayInstructions = () => {

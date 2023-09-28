@@ -1,6 +1,7 @@
 import React, { useContext } from "react"
 import { Dialog } from "@headlessui/react"
 import { AiOutlineClose } from "react-icons/ai"
+import { useAuth } from "@/context/AuthContext"
 import StudentDataContext from "@/context/StudentDataContext"
 import { updateStudentDataInClass } from "@/utils/updateStudentData"
 
@@ -17,8 +18,8 @@ const DeleteTableModal = ({
 	setOpenCheckDeleteTableModal,
 	setOpenTableInfo
 }: DeleteTableModalProps) => {
-	const { studentData, setStudentData, userUid, params } =
-		useContext(StudentDataContext)
+	const { studentData, setStudentData, params } = useContext(StudentDataContext)
+	const { currentUser } = useAuth()
 
 	const deleteTable = async () => {
 		try {
@@ -42,7 +43,7 @@ const DeleteTableModal = ({
 			setStudentData(updatedStudentData)
 
 			await updateStudentDataInClass(
-				userUid,
+				currentUser.uid,
 				params.classroom_id,
 				updatedStudentData
 			)

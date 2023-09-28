@@ -18,7 +18,7 @@ const ConditionalLink = () => {
 				</Link>
 			) : (
 				<Link
-					href={"/auth/login"}
+					href={"/login"}
 					className="hover:underline"
 				>
 					Sign in

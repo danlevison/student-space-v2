@@ -1,11 +1,12 @@
 "use client"
 
 import React, { useState, useEffect, useContext, useCallback } from "react"
+import { useAuth } from "@/context/AuthContext"
 import StudentDataContext from "@/context/StudentDataContext"
 import { doc, getDoc } from "firebase/firestore"
-import { auth, db } from "../../../utils/firebase"
-import { useAuthState } from "react-firebase-hooks/auth"
+import { db } from "../../../utils/firebase"
 import { RiAddLine } from "react-icons/ri"
+import StudentCard from "./StudentCard"
 import AddStudent from "./AddStudent"
 import Confetti from "react-confetti"
 import { useWindowSize } from "@reactuses/core"
@@ -25,13 +26,12 @@ import dogAvatar from "../../../../public/assets/avatars/dog.svg"
 import cheetahAvatar from "../../../../public/assets/avatars/cheetah.svg"
 import lionAvatar from "../../../../public/assets/avatars/lion.svg"
 import otterAvatar from "../../../../public/assets/avatars/otter.svg"
-import StudentCard from "./StudentCard"
 
 const StudentGrid = () => {
-	const { studentData, setStudentData, params, showConfetti } =
-		useContext(StudentDataContext)
-	const [user, loading] = useAuthState(auth)
+	const { studentData, setStudentData, params } = useContext(StudentDataContext)
+	const { currentUser } = useAuth()
 	const [isAddStudentModalOpen, setIsAddStudentModalOpen] = useState(false)
+	const [showConfetti, setShowConfetti] = useState(false)
 	const { width, height } = useWindowSize()
 	const avatars: HTMLImageElement[] = [
 		monkeyAvatar,
@@ -55,7 +55,7 @@ const StudentGrid = () => {
 			const classDocumentRef = doc(
 				db,
 				"users",
-				user.uid,
+				currentUser.uid,
 				"classes",
 				params.classroom_id
 			)
@@ -73,7 +73,7 @@ const StudentGrid = () => {
 		} catch (error) {
 			console.log("Error fetching student data from Firestore:", error)
 		}
-	}, [params.classroom_id, setStudentData, user.uid])
+	}, [params.classroom_id, setStudentData, currentUser.uid])
 
 	// Fetch the user's student data from the Firestore subcollection
 	useEffect(() => {
@@ -106,7 +106,10 @@ const StudentGrid = () => {
 				</div>
 			) : (
 				<div className="grid grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-4 items-center px-10">
-					<StudentCard avatars={avatars} />
+					<StudentCard
+						avatars={avatars}
+						setShowConfetti={setShowConfetti}
+					/>
 					<button
 						onClick={handleAddStudentModal}
 						className="flex flex-col justify-center items-center max-w-[435px] p-[2.40rem] shadow-lg rounded-md bg-[#f5f5f5] hover:scale-105 duration-300"

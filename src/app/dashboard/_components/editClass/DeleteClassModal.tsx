@@ -3,7 +3,7 @@ import { Dialog } from "@headlessui/react"
 import { AiOutlineClose } from "react-icons/ai"
 import { doc, deleteDoc } from "firebase/firestore"
 import { db } from "../../../../utils/firebase"
-import StudentDataContext from "@/context/StudentDataContext"
+import { useAuth } from "@/context/AuthContext"
 // import bagAvatar from "@/../../public/assets/avatars/bag.svg"
 import { toast } from "react-toastify"
 
@@ -30,16 +30,16 @@ const DeleteClassModal = ({
 	setIsEditClassModalOpen,
 	classData
 }: DeleteClassModalProps) => {
-	const { userUid } = useContext(StudentDataContext)
+	const { currentUser } = useAuth()
 
 	const deleteClass = async () => {
 		try {
-			if (userUid) {
+			if (currentUser.uid) {
 				// User has created their own class (Firebase)
 				const classDocRef = doc(
 					db,
 					"users",
-					userUid,
+					currentUser.uid,
 					"classes",
 					classData.classId
 				)

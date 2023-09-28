@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react"
-import StudentDataContext from "@/context/StudentDataContext"
+import React, { useState, useEffect } from "react"
+import { useAuth } from "@/context/AuthContext"
 import { doc, updateDoc } from "firebase/firestore"
 import { db } from "@/utils/firebase"
 import { Dialog } from "@headlessui/react"
@@ -29,7 +29,7 @@ const EditClass = ({
 	setIsEditClassModalOpen,
 	classData
 }: EditClassProps) => {
-	const { userUid } = useContext(StudentDataContext)
+	const { currentUser } = useAuth()
 	const [userClassName, setUserClassName] = useState(classData?.className || "")
 	const [userClassAvatar, setUserClassAvatar] = useState(
 		classData?.classAvatar || ""
@@ -50,7 +50,13 @@ const EditClass = ({
 		e.preventDefault()
 		try {
 			if (classData.classId) {
-				const docRef = doc(db, "users", userUid, "classes", classData.classId)
+				const docRef = doc(
+					db,
+					"users",
+					currentUser.uid,
+					"classes",
+					classData.classId
+				)
 				await updateDoc(docRef, {
 					className: userClassName.trim(),
 					classAvatar: userClassAvatar

@@ -2,6 +2,7 @@
 
 import React, { useContext } from "react"
 import Image from "next/image"
+import { useAuth } from "@/context/AuthContext"
 import StudentDataContext from "@/context/StudentDataContext"
 import { doc, updateDoc } from "firebase/firestore"
 import { db } from "../../../utils/firebase"
@@ -10,11 +11,12 @@ import pointsSound from "../../../../public/audio/points.mp3"
 
 type StudentCardProps = {
 	avatars: HTMLImageElement[]
+	setShowConfetti: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const StudentCard = ({ avatars }: StudentCardProps) => {
-	const { studentData, setStudentData, userUid, params, setShowConfetti } =
-		useContext(StudentDataContext)
+const StudentCard = ({ avatars, setShowConfetti }: StudentCardProps) => {
+	const { studentData, setStudentData, params } = useContext(StudentDataContext)
+	const { currentUser } = useAuth()
 
 	const handlePointClick = async (uuid: string) => {
 		try {
@@ -54,11 +56,11 @@ const StudentCard = ({ avatars }: StudentCardProps) => {
 			}
 
 			// Update the points in the users firebase studentData and display in the users class
-			if (userUid && params.classroom_id) {
+			if (currentUser.uid && params.classroom_id) {
 				const classDocumentRef = doc(
 					db,
 					"users",
-					userUid,
+					currentUser.uid,
 					"classes",
 					params.classroom_id
 				)
@@ -107,11 +109,11 @@ const StudentCard = ({ avatars }: StudentCardProps) => {
 			setStudentData(updatedStudentData)
 
 			// Update the avatar in the users firebase studentData and display in the users class
-			if (userUid && params.classroom_id) {
+			if (currentUser.uid && params.classroom_id) {
 				const classDocumentRef = doc(
 					db,
 					"users",
-					userUid,
+					currentUser.uid,
 					"classes",
 					params.classroom_id
 				)

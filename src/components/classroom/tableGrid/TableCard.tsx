@@ -2,6 +2,7 @@
 
 import React, { useContext } from "react"
 import Image from "next/image"
+import { useAuth } from "@/context/AuthContext"
 import StudentDataContext from "@/context/StudentDataContext"
 import { updateDoc, doc } from "firebase/firestore"
 import { db } from "../../../utils/firebase"
@@ -16,8 +17,8 @@ type TableCardProps = {
 }
 
 const TableCard = ({ groupedStudentsByTable }: TableCardProps) => {
-	const { studentData, setStudentData, userUid, params } =
-		useContext(StudentDataContext)
+	const { studentData, setStudentData, params } = useContext(StudentDataContext)
+	const { currentUser } = useAuth()
 
 	const handlePointClick = async (tableName: string) => {
 		try {
@@ -42,11 +43,11 @@ const TableCard = ({ groupedStudentsByTable }: TableCardProps) => {
 			// Set the updated student data to the state
 			setStudentData(updatedStudentData)
 
-			if (userUid && params.classroom_id) {
+			if (currentUser.uid && params.classroom_id) {
 				const classDocumentRef = doc(
 					db,
 					"users",
-					userUid,
+					currentUser.uid,
 					"classes",
 					params.classroom_id
 				)

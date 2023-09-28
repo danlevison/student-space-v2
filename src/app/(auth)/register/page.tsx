@@ -1,18 +1,10 @@
-"use client"
-
-import React, { useEffect } from "react"
-import { useAuthState } from "react-firebase-hooks/auth"
-import { auth } from "@/utils/firebase"
-import { googleLogin } from "@/utils/auth"
-import { FcGoogle } from "react-icons/fc"
+import React from "react"
+import Link from "next/link"
+import Signup from "@/app/(auth)/register/_components/Signup"
 import Nav from "@/components/Nav"
-import Preloader from "@/components/Preloader"
 import Scribble from "@/components/Scribble"
-import { useRouter } from "next/navigation"
 
-const Login = () => {
-	const [user, loading] = useAuthState(auth)
-	const router = useRouter()
+const Register = () => {
 	const scribblesSvgs = [
 		{
 			src: "/assets/Scribbles/67.svg",
@@ -66,19 +58,6 @@ const Login = () => {
 				"hidden 2xl:block absolute right-24 lg:right-80 xl:right-96 w-[50px] rotate-180"
 		}
 	]
-
-	const handleGoogleLogin = () => {
-		googleLogin(router)
-	}
-
-	useEffect(() => {
-		if (user) {
-			router.push("/dashboard")
-		}
-	}, [user, router])
-
-	if (loading) return <Preloader />
-
 	return (
 		<>
 			<header>
@@ -86,28 +65,18 @@ const Login = () => {
 			</header>
 			<main className="py-16 px-10 min-h-screen flex flex-col items-center justify-center relative">
 				<Scribble scribblesSvgs={scribblesSvgs} />
-				<div className="text-center shadow-xl text-secondaryTextClr mt-24 py-8 px-5 sm:p-10 rounded-lg bg-[#fbe8de] z-0">
-					<h1 className="text-3xl md:text-4xl font-bold">Sign in</h1>
-					<div className="py-4">
-						<h3 className="md:text-lg">Sign in with your Google account</h3>
-					</div>
-					<div>
-						<button
-							onClick={handleGoogleLogin}
-							className="flex justify-center items-center gap-4 w-full text-primaryTextClr bg-gray-600 p-4 font-medium rounded-lg"
-						>
-							<FcGoogle
-								size={30}
-								aria-label="/"
-								role="presentation"
-							/>
-							Sign in with Google
-						</button>
-					</div>
+				<Signup />
+				<div className="mt-4">
+					<p>
+						Already have an account?{" "}
+						<span>
+							<Link href={"/login"}>Log in</Link>
+						</span>
+					</p>
 				</div>
 			</main>
 		</>
 	)
 }
 
-export default Login
+export default Register

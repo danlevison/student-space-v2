@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react"
 import Image from "next/image"
+import { useAuth } from "@/context/AuthContext"
 import StudentDataContext from "@/context/StudentDataContext"
 import { updateStudentDataInClass } from "@/utils/updateStudentData"
 import { Dialog } from "@headlessui/react"
@@ -26,13 +27,12 @@ const TableInfoModal = ({
 	setTempSelectedTableName,
 	tempSelectedTableName
 }: TableInfoModalProps) => {
-	const { studentData, setStudentData, userUid, params } =
-		useContext(StudentDataContext)
+	const { studentData, setStudentData, params } = useContext(StudentDataContext)
+	const { currentUser } = useAuth()
 	const [openCheckDeleteTableModal, setOpenCheckDeleteTableModal] =
 		useState(false)
 	const [tempStudentData, setTempStudentData] = useState(studentData)
 	const [updatedTableName, setUpdatedTableName] = useState("")
-	const [alert, setAlert] = useState(false)
 	const [alertMessage, setAlertMessage] = useState("")
 
 	const updateTableName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,7 +41,6 @@ const TableInfoModal = ({
 			newTableName.charAt(0).toUpperCase() + newTableName.slice(1)
 		setUpdatedTableName(capitalisedNewTableName)
 		setTempSelectedTableName(newTableName)
-		setAlert(false)
 	}
 
 	const uncheckStudent = (selectedStudentName: string) => {
@@ -64,11 +63,6 @@ const TableInfoModal = ({
 	const handleTableInfoSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
-		// Check if alert is true and prevent form submission
-		if (alert) {
-			return
-		}
-
 		try {
 			const tableName = updatedTableName ? updatedTableName : selectedTableName
 			const existingTableName = studentData.find(
@@ -79,9 +73,7 @@ const TableInfoModal = ({
 				existingTableName &&
 				existingTableName.tableData?.tableName !== selectedTableName
 			) {
-				setAlert(true)
 				setAlertMessage("A table with this name already exists!")
-				setUpdatedTableName("")
 				return
 			}
 
@@ -101,7 +93,7 @@ const TableInfoModal = ({
 
 			// Update studentData and edit table in the active users class
 			await updateStudentDataInClass(
-				userUid,
+				currentUser.uid,
 				params.classroom_id,
 				updatedStudentData
 			)
@@ -109,7 +101,7 @@ const TableInfoModal = ({
 			console.error("Error updating student information:", error)
 		}
 
-		alert ? setOpenTableInfo(true) : setOpenTableInfo(false)
+		alertMessage ? setOpenTableInfo(true) : setOpenTableInfo(false)
 		setIsEditTablesModalOpen(false)
 		setSelectedTableName(updatedTableName || selectedTableName)
 		toast.success("Table group edited successfully!")
@@ -121,7 +113,7 @@ const TableInfoModal = ({
 			onClose={() => {
 				setOpenTableInfo(false)
 				setTempStudentData(studentData)
-				setAlert(false)
+				setAlertMessage("")
 			}}
 			className="relative z-50"
 		>
@@ -142,7 +134,7 @@ const TableInfoModal = ({
 							onClick={() => {
 								setOpenTableInfo(false)
 								setTempStudentData(studentData)
-								setAlert(false)
+								setAlertMessage("")
 							}}
 						>
 							<AiOutlineClose
@@ -155,7 +147,7 @@ const TableInfoModal = ({
 						onSubmit={handleTableInfoSubmit}
 						className="flex flex-col h-full"
 					>
-						{alert ? (
+						{alertMessage ? (
 							<p className="font-bold text-red-500 pb-1">{alertMessage}</p>
 						) : (
 							<label
@@ -167,7 +159,7 @@ const TableInfoModal = ({
 						)}
 						<input
 							className={
-								alert
+								alertMessage
 									? "border-2 border-red-500 w-full rounded-lg p-3 outline-none"
 									: "border-2 border-gray-400 w-full rounded-lg p-3 outline-inputOutlineClr"
 							}
@@ -224,7 +216,7 @@ const TableInfoModal = ({
 									onClick={() => {
 										setOpenTableInfo(false)
 										setTempStudentData(studentData)
-										setAlert(false)
+										setAlertMessage("")
 									}}
 									type="button"
 									className="bg-modalBgClr hover:bg-white rounded-2xl py-2 px-3 text-buttonClr text-sm font-bold"

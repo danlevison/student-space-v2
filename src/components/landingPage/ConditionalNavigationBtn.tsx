@@ -19,10 +19,10 @@ const ConditionalNavigationBtn = () => {
 				</Link>
 			) : (
 				<Link
-					href={"/auth/login"}
+					href={"/register"}
 					className="py-2 px-10 md:py-3 md:px-16 text-lg md:text-xl bg-buttonClr text-primaryTextClr rounded-full hover:scale-105 duration-300"
 				>
-					Sign in
+					Sign up
 				</Link>
 			)}
 		</>

@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react"
+import { useAuth } from "@/context/AuthContext"
 import StudentDataContext from "@/context/StudentDataContext"
 import { updateStudentDataInClass } from "@/utils/updateStudentData"
 import { Dialog } from "@headlessui/react"
@@ -25,10 +26,9 @@ const StudentInfoModal = ({
 	newStudentAvatar,
 	setNewStudentAvatar
 }: StudentInfoModalProps) => {
-	const { studentData, setStudentData, userUid, params } =
-		useContext(StudentDataContext)
+	const { studentData, setStudentData, params } = useContext(StudentDataContext)
+	const { currentUser } = useAuth()
 	const [checkDeleteStudentModal, setCheckDeleteStudentModal] = useState(false)
-	const [alert, setAlert] = useState(false)
 	const [alertMessage, setAlertMessage] = useState("")
 
 	const updateStudentName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,7 +60,6 @@ const StudentInfoModal = ({
 			)
 
 			if (existingStudent && existingStudent.uuid !== selectedStudent?.uuid) {
-				setAlert(true)
 				setAlertMessage("A student with this name already exists!")
 				// e.target.name.value = updatedCapitalisedName
 				return
@@ -83,7 +82,7 @@ const StudentInfoModal = ({
 
 			// Update studentData and edit student in the active users class
 			await updateStudentDataInClass(
-				userUid,
+				currentUser.uid,
 				params.classroom_id,
 				updatedStudentData
 			)
@@ -92,6 +91,7 @@ const StudentInfoModal = ({
 		} catch (error) {
 			console.error("Error updating student information:", error)
 		}
+		setAlertMessage("")
 	}
 
 	return (
@@ -99,7 +99,7 @@ const StudentInfoModal = ({
 			open={openStudentInfo}
 			onClose={() => {
 				setOpenStudentInfo(false)
-				setAlert(false)
+				setAlertMessage("")
 			}}
 			className="relative z-50"
 		>
@@ -119,7 +119,7 @@ const StudentInfoModal = ({
 						<button
 							onClick={() => {
 								setOpenStudentInfo(false)
-								setAlert(false)
+								setAlertMessage("")
 							}}
 						>
 							<AiOutlineClose
@@ -138,7 +138,7 @@ const StudentInfoModal = ({
 						/>
 
 						<div className="flex flex-col mt-4">
-							{alert ? (
+							{alertMessage ? (
 								<p className="font-bold text-red-500 pb-1 text-lg">
 									{alertMessage}
 								</p>
@@ -152,7 +152,7 @@ const StudentInfoModal = ({
 							)}
 							<input
 								className={
-									alert
+									alertMessage
 										? "border-2 border-red-500 w-full rounded-lg p-3 outline-none"
 										: "border-2 border-gray-400 w-full rounded-lg p-3 outline-inputOutlineClr"
 								}
@@ -186,7 +186,7 @@ const StudentInfoModal = ({
 								<button
 									onClick={() => {
 										setOpenStudentInfo(false)
-										setAlert(false)
+										setAlertMessage("")
 									}}
 									type="button"
 									className="bg-modalBgClr hover:bg-white rounded-2xl py-2 px-3 text-buttonClr font-bold text-sm"

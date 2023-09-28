@@ -6,9 +6,9 @@ import React, {
 	useCallback
 } from "react"
 import { Dialog } from "@headlessui/react"
-import { auth, db } from "@/utils/firebase"
-import { useAuthState } from "react-firebase-hooks/auth"
+import { db } from "@/utils/firebase"
 import { doc, updateDoc, getDoc, arrayUnion } from "firebase/firestore"
+import { useAuth } from "@/context/AuthContext"
 import StudentDataContext from "@/context/StudentDataContext"
 import { AiOutlineClose } from "react-icons/ai"
 
@@ -29,8 +29,8 @@ const TaskList = ({
 	setOpenTaskList,
 	setRemainingTasks
 }: TaskListProps) => {
-	const [user, loading] = useAuthState(auth)
-	const { userUid, params } = useContext(StudentDataContext)
+	const { params } = useContext(StudentDataContext)
+	const { currentUser } = useAuth()
 	const [newItem, setNewItem] = useState("")
 	const [tasks, setTasks] = useState<TasksType[]>([])
 	const inputRef = useRef<HTMLInputElement>(null)
@@ -40,7 +40,7 @@ const TaskList = ({
 			const classDocumentRef = doc(
 				db,
 				"users",
-				user.uid,
+				currentUser.uid,
 				"classes",
 				params.classroom_id
 			)
@@ -58,13 +58,13 @@ const TaskList = ({
 		} catch (error) {
 			console.log("Error fetching task list data from Firestore:", error)
 		}
-	}, [params.classroom_id, user.uid])
+	}, [params.classroom_id, currentUser.uid])
 
 	useEffect(() => {
-		if (userUid && params.classroom_id) {
+		if (currentUser.uid && params.classroom_id) {
 			fetchTaskListData()
 		}
-	}, [userUid, params.classroom_id, fetchTaskListData])
+	}, [currentUser.uid, params.classroom_id, fetchTaskListData])
 
 	const handleSubmit = async (e: React.SyntheticEvent) => {
 		e.preventDefault()
@@ -80,11 +80,11 @@ const TaskList = ({
 				return [...currentTasks, newTask]
 			})
 
-			if (userUid && params.classroom_id) {
+			if (currentUser.uid && params.classroom_id) {
 				const classDocumentRef = doc(
 					db,
 					"users",
-					userUid,
+					currentUser.uid,
 					"classes",
 					params.classroom_id
 				)
@@ -112,11 +112,11 @@ const TaskList = ({
 
 		setTasks(updatedTasks)
 
-		if (userUid && params.classroom_id) {
+		if (currentUser.uid && params.classroom_id) {
 			const classDocumentRef = doc(
 				db,
 				"users",
-				userUid,
+				currentUser.uid,
 				"classes",
 				params.classroom_id
 			)
@@ -131,11 +131,11 @@ const TaskList = ({
 		const updatedTasks = tasks.filter((task) => task.id !== id)
 		setTasks(updatedTasks)
 
-		if (userUid && params.classroom_id) {
+		if (currentUser.uid && params.classroom_id) {
 			const classDocumentRef = doc(
 				db,
 				"users",
-				userUid,
+				currentUser.uid,
 				"classes",
 				params.classroom_id
 			)

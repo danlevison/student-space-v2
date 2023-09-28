@@ -3,6 +3,7 @@ import { Nunito, Cabin_Sketch } from "next/font/google"
 import { StudentDataProvider } from "@/context/StudentDataContext"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import { AuthProvider } from "@/context/AuthContext"
 
 const nunito = Nunito({
 	subsets: ["latin"],
@@ -32,11 +33,13 @@ export default function RootLayout({
 			<body
 				className={`${nunito.variable} ${cabinSketch.variable} font-nunito`}
 			>
-				<StudentDataProvider>{children}</StudentDataProvider>
-				<ToastContainer
-					position="top-center"
-					pauseOnHover={false}
-				/>
+				<AuthProvider>
+					<StudentDataProvider>{children}</StudentDataProvider>
+					<ToastContainer
+						position="top-center"
+						pauseOnHover={false}
+					/>
+				</AuthProvider>
 			</body>
 		</html>
 	)

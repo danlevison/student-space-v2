@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { useRouter } from "next/navigation"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { auth } from "@/utils/firebase"
@@ -16,25 +16,12 @@ import Scribble from "@/components/Scribble"
 import Preloader from "@/components/Preloader"
 import paperBg from "@/../../public/assets/paperbg.jpg"
 import SwitchGridView from "@/components/classroom/SwitchGridView"
+import PrivateRoute from "@/components/PrivateRoute"
 
 const Classroom = () => {
-	const [user, loading] = useAuthState(auth)
-	const router = useRouter()
+	const [loading] = useAuthState(auth)
 	const [toolbarMenu, setToolbarMenu] = useState(false)
 	const [showTableGrid, setShowTableGrid] = useState(false)
-
-	useEffect(() => {
-		if (loading) {
-			// Handle loading state
-			return // Don't proceed until loading is complete
-		}
-
-		if (!user) {
-			router.push("/auth/login")
-		}
-	}, [user, loading, router])
-
-	if (loading) return <Preloader />
 
 	const scribblesSvgs = [
 		{
@@ -110,4 +97,4 @@ const Classroom = () => {
 	)
 }
 
-export default Classroom
+export default PrivateRoute(Classroom)
