@@ -17,6 +17,7 @@ import Scribble from "@/components/Scribble"
 import Preloader from "@/components/Preloader"
 import SwitchGridView from "@/components/classroom/SwitchGridView"
 import paperBg from "../../../public/assets/paperbg.jpg"
+import PrivateRoute from "@/components/PrivateRoute"
 
 const DemoClass = () => {
 	const [user, loading] = useAuthState(auth)
@@ -58,19 +59,6 @@ const DemoClass = () => {
 		}
 	]
 
-	useEffect(() => {
-		if (loading) {
-			// Handle loading state
-			return // Don't proceed until loading is complete
-		}
-
-		if (!user) {
-			router.push("/auth/login")
-		}
-	}, [user, loading, router])
-
-	if (loading) return <Preloader />
-
 	return (
 		<StudentDataProvider>
 			<header>
@@ -111,4 +99,4 @@ const DemoClass = () => {
 	)
 }
 
-export default DemoClass
+export default PrivateRoute(DemoClass)

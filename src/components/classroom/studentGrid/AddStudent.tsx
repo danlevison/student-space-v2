@@ -1,4 +1,5 @@
 import React, { useContext, useState, useRef } from "react"
+import { useAuth } from "@/context/AuthContext"
 import StudentDataContext from "@/context/StudentDataContext"
 import { Dialog } from "@headlessui/react"
 import { AiOutlineClose, AiOutlineInfoCircle } from "react-icons/ai"
@@ -18,12 +19,11 @@ const AddStudent = ({
 	setIsAddStudentModalOpen,
 	avatars
 }: AddStudentProps) => {
-	const { studentData, setStudentData, userUid, params } =
-		useContext(StudentDataContext)
+	const { studentData, setStudentData, params } = useContext(StudentDataContext)
+	const { currentUser } = useAuth()
 	const [studentName, setStudentName] = useState("")
 	const [studentDob, setStudentDob] = useState("")
 	const [addedStudents, setAddedStudents] = useState<StudentData[] | null>([])
-	const [alert, setAlert] = useState(false)
 	const [alertMessage, setAlertMessage] = useState("")
 	const [showCopyPasteModal, setShowCopyPasteModal] = useState(false)
 	const nameInputRef = useRef<HTMLInputElement>(null)
@@ -58,12 +58,10 @@ const AddStudent = ({
 			studentData.some((student) => student.name === studentName)
 
 		if (isDuplicate) {
-			setAlert(true)
 			setAlertMessage(
 				"It looks like you're trying to add a student to this class twice"
 			)
 		} else {
-			setAlert(false)
 			setAlertMessage("")
 			nameInputRef.current.value = ""
 			dateInputRef.current.value = ""
@@ -95,7 +93,7 @@ const AddStudent = ({
 
 			// Update studentData and display added students in the active users class
 			await updateStudentDataInClass(
-				userUid,
+				currentUser.uid,
 				params.classroom_id,
 				updatedStudentData
 			)
@@ -106,7 +104,7 @@ const AddStudent = ({
 		nameInputRef.current.value = ""
 		dateInputRef.current.value = ""
 		nameInputRef.current.focus()
-		setAlert(false)
+		setAlertMessage("")
 		setIsAddStudentModalOpen(false)
 	}
 
@@ -147,7 +145,7 @@ const AddStudent = ({
 							className="flex flex-col"
 						>
 							<div className="p-5">
-								{alert ? (
+								{alertMessage ? (
 									<p className="font-bold text-red-500 pb-1">{alertMessage}</p>
 								) : (
 									<label
@@ -166,7 +164,7 @@ const AddStudent = ({
 										}
 									}}
 									className={
-										alert
+										alertMessage
 											? "border-2 border-red-500 w-full rounded-lg p-3 outline-none"
 											: "border-2 border-gray-400 w-full rounded-lg p-3 outline-inputOutlineClr"
 									}
@@ -269,8 +267,6 @@ const AddStudent = ({
 					avatars={avatars}
 					addedStudents={addedStudents}
 					setAddedStudents={setAddedStudents}
-					alert={alert}
-					setAlert={setAlert}
 					alertMessage={alertMessage}
 					setAlertMessage={setAlertMessage}
 				/>

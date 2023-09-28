@@ -1,4 +1,5 @@
 import React, { useContext } from "react"
+import { useAuth } from "@/context/AuthContext"
 import StudentDataContext from "@/context/StudentDataContext"
 import { updateStudentDataInClass } from "@/utils/updateStudentData"
 import { toast } from "react-toastify"
@@ -23,8 +24,8 @@ const ResetTablePoints = ({
 	resetStudents,
 	resetTables
 }: ResetStudentPointsProps) => {
-	const { studentData, setStudentData, userUid, params } =
-		useContext(StudentDataContext)
+	const { studentData, setStudentData, params } = useContext(StudentDataContext)
+	const { currentUser } = useAuth()
 	const tableNamesMap: { [key: string]: TableNamesMapType } = {}
 
 	studentData.forEach((student) => {
@@ -78,7 +79,7 @@ const ResetTablePoints = ({
 
 			// Update studentData and reset table points in the active users class
 			await updateStudentDataInClass(
-				userUid,
+				currentUser.uid,
 				params.classroom_id,
 				updatedStudentData
 			)

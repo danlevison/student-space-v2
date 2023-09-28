@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react"
 import { db } from "../../../../utils/firebase"
 import { doc, updateDoc } from "firebase/firestore"
+import { useAuth } from "@/context/AuthContext"
 import StudentDataContext from "@/context/StudentDataContext"
 import { Dialog } from "@headlessui/react"
 import { AiOutlineClose, AiOutlineArrowLeft } from "react-icons/ai"
@@ -45,7 +46,8 @@ const EditSavedInstructions = ({
 	setIsEditInstructionActive,
 	activeSavedInstruction
 }: EditSavedInstructionsProps) => {
-	const { userUid, params } = useContext(StudentDataContext)
+	const { params } = useContext(StudentDataContext)
+	const { currentUser } = useAuth()
 	const [tempSavedInstructions, setTempSavedInstructions] = useState(
 		savedInstructions || []
 	)
@@ -110,11 +112,11 @@ const EditSavedInstructions = ({
 		try {
 			setSavedInstructions(tempSavedInstructions)
 
-			if (userUid && params.classroom_id) {
+			if (currentUser.uid && params.classroom_id) {
 				const classDocumentRef = doc(
 					db,
 					"users",
-					userUid,
+					currentUser.uid,
 					"classes",
 					params.classroom_id
 				)
@@ -138,11 +140,11 @@ const EditSavedInstructions = ({
 			setSavedInstructions(updatedInstructions)
 			setTempSavedInstructions(updatedInstructions)
 
-			if (userUid && params.classroom_id) {
+			if (currentUser.uid && params.classroom_id) {
 				const classDocumentRef = doc(
 					db,
 					"users",
-					userUid,
+					currentUser.uid,
 					"classes",
 					params.classroom_id
 				)

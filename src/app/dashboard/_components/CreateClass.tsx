@@ -1,7 +1,7 @@
 import { useState, useContext } from "react"
+import { useAuth } from "@/context/AuthContext"
 import StudentDataContext from "@/context/StudentDataContext"
-import { useAuthState } from "react-firebase-hooks/auth"
-import { auth, db } from "@/utils/firebase"
+import { db } from "@/utils/firebase"
 import {
 	doc,
 	getDoc,
@@ -20,10 +20,9 @@ type CreateClassProps = {
 
 function CreateClass({ setShouldFetchClassData }: CreateClassProps) {
 	const [isOpen, setIsOpen] = useState(false)
-	const { userClassName, setUserClassName, userUid } =
-		useContext(StudentDataContext)
+	const { userClassName, setUserClassName } = useContext(StudentDataContext)
+	const { currentUser } = useAuth()
 	const classId = crypto.randomUUID()
-	const [user, loading] = useAuthState(auth)
 	const [classAvatar, setClassAvatar] = useState<string>(bagAvatar)
 
 	const handleClickOpen = () => {
@@ -38,12 +37,12 @@ function CreateClass({ setShouldFetchClassData }: CreateClassProps) {
 		e.preventDefault()
 
 		try {
-			if (!user) {
+			if (!currentUser) {
 				console.log("User not authenticated.")
 				return
 			}
 
-			const docRef = doc(db, "users", userUid)
+			const docRef = doc(db, "users", currentUser.uid)
 			const docSnap = await getDoc(docRef)
 
 			if (docSnap.exists()) {

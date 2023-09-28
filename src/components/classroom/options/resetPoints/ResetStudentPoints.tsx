@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react"
 import Image from "next/image"
+import { useAuth } from "@/context/AuthContext"
 import StudentDataContext from "@/context/StudentDataContext"
 import { updateStudentDataInClass } from "@/utils/updateStudentData"
 import { Dialog } from "@headlessui/react"
@@ -16,8 +17,8 @@ const ResetStudentPoints = ({
 	openResetStudentPointsModal,
 	setOpenResetStudentPointsModal
 }: ResetStudentPointsProps) => {
-	const { studentData, setStudentData, userUid, params } =
-		useContext(StudentDataContext)
+	const { studentData, setStudentData, params } = useContext(StudentDataContext)
+	const { currentUser } = useAuth()
 	const [areAllStudentsSelected, setAreAllStudentSelected] = useState(false)
 	const [areAllTablesSelected, setAreAllTablesSelected] = useState(false)
 	const [studentView, setStudentView] = useState(true)
@@ -49,7 +50,7 @@ const ResetStudentPoints = ({
 
 			// Update studentData and reset student points in the active users class
 			await updateStudentDataInClass(
-				userUid,
+				currentUser.uid,
 				params.classroom_id,
 				updatedStudentData
 			)

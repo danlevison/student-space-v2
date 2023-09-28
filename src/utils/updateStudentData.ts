@@ -1,13 +1,20 @@
 import { db } from "./firebase"
 import { doc, updateDoc } from "firebase/firestore"
+import { StudentData } from "../../types/types"
 
 export async function updateStudentDataInClass(
-	userUid,
-	classroomId,
-	updatedStudentData
+	currentUserId: string,
+	classroomId: string,
+	updatedStudentData: StudentData[]
 ) {
-	if (userUid && classroomId) {
-		const classDocumentRef = doc(db, "users", userUid, "classes", classroomId)
+	if (currentUserId && classroomId) {
+		const classDocumentRef = doc(
+			db,
+			"users",
+			currentUserId,
+			"classes",
+			classroomId
+		)
 
 		await updateDoc(classDocumentRef, {
 			studentData: updatedStudentData

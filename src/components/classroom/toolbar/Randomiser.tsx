@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react"
 import Image from "next/image"
 import { Dialog } from "@headlessui/react"
+import { useAuth } from "@/context/AuthContext"
 import StudentDataContext from "@/context/StudentDataContext"
 import { updateStudentDataInClass } from "@/utils/updateStudentData"
 import { AiOutlineClose } from "react-icons/ai"
@@ -17,15 +18,10 @@ type RandomiserProps = {
 }
 
 const Randomiser = ({ openRandomiser, setOpenRandomiser }: RandomiserProps) => {
-	const {
-		studentData,
-		setStudentData,
-		userUid,
-		params,
-		showConfetti,
-		setShowConfetti
-	} = useContext(StudentDataContext)
+	const { studentData, setStudentData, params } = useContext(StudentDataContext)
+	const { currentUser } = useAuth()
 	const [randomStudent, setRandomStudent] = useState<StudentData | null>(null)
+	const [showConfetti, setShowConfetti] = useState(false)
 	const { width, height } = useWindowSize()
 
 	const getRandomStudent = () => {
@@ -61,7 +57,7 @@ const Randomiser = ({ openRandomiser, setOpenRandomiser }: RandomiserProps) => {
 
 				// Update studentData and add points to the random student in the active users class
 				await updateStudentDataInClass(
-					userUid,
+					currentUser.uid,
 					params.classroom_id,
 					updatedStudentData
 				)
