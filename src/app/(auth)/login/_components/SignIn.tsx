@@ -49,7 +49,7 @@ const SignIn = () => {
 	}
 
 	return (
-		<div className="w-full max-w-[450px] bg-[#fbe8de] p-5 rounded-lg shadow-xl z-50">
+		<div className="w-full max-w-[450px] bg-[#fbe8de] p-5 rounded-lg shadow-xl z-10">
 			<h1 className="text-3xl md:text-4xl font-bold text-center">Sign in</h1>
 			{error && (
 				<div className="bg-red-300 text-red-900 font-bold text-center p-3 rounded-md mt-2">
@@ -101,10 +101,10 @@ const SignIn = () => {
 			<p className="text-center text-gray-600 py-5">Or sign in with </p>
 			<button
 				onClick={handleGoogleLogin}
-				className="flex justify-center items-center gap-4 w-full text-primaryTextClr bg-gray-600 p-2 font-medium rounded-lg"
+				className="flex justify-center items-center gap-2 w-full text-primaryTextClr bg-gray-600 p-2 font-medium rounded-lg"
 			>
 				<FcGoogle
-					size={30}
+					size={24}
 					aria-label="/"
 					role="presentation"
 				/>
