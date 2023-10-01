@@ -22,6 +22,7 @@ const Timer = ({ openTimer, setOpenTimer }: TimerProps) => {
 	alarmSound.volume = 0.2
 
 	const handleMinutes = (e: React.ChangeEvent<HTMLInputElement>) => {
+		// sets minutes to the inputted minutes
 		const inputMinutes = parseInt(e.target.value)
 		setInputtedMinutes(inputMinutes)
 
@@ -33,6 +34,7 @@ const Timer = ({ openTimer, setOpenTimer }: TimerProps) => {
 	}
 
 	const handleSeconds = (e: React.ChangeEvent<HTMLInputElement>) => {
+		// sets seconds to the inputted seconds
 		const inputSeconds = parseInt(e.target.value)
 		setInputtedSeconds(inputSeconds)
 
@@ -80,15 +82,19 @@ const Timer = ({ openTimer, setOpenTimer }: TimerProps) => {
 	}, [start, minutes, seconds])
 
 	// If the timer is running and mute is false then play the alarm when the timer reaches 0.
-	if (
-		start &&
-		!mute &&
-		(seconds === 0 || inputtedSeconds === 0) &&
-		(minutes === 0 || inputtedMinutes === 0)
-	) {
-		alarmSound.play()
-		setStart(false)
+	const playAlarmIfNecessary = () => {
+		if (
+			start &&
+			!mute &&
+			(seconds === 0 || inputtedSeconds === 0) &&
+			(minutes === 0 || inputtedMinutes === 0)
+		) {
+			alarmSound.play()
+			setStart(false)
+		}
 	}
+
+	playAlarmIfNecessary()
 
 	return (
 		openTimer && (

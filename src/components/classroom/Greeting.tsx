@@ -1,9 +1,9 @@
 "use client"
 
 import React, { useState, useEffect, useContext, useCallback } from "react"
+import { useAuth } from "@/context/AuthContext"
 import StudentDataContext from "@/context/StudentDataContext"
-import { auth, db } from "@/utils/firebase"
-import { useAuthState } from "react-firebase-hooks/auth"
+import { db } from "@/utils/firebase"
 import { getDocs, collection } from "firebase/firestore"
 
 type ClassDataType = {
@@ -12,7 +12,7 @@ type ClassDataType = {
 }
 
 const Greeting = () => {
-	const [user, loading] = useAuthState(auth)
+	const { currentUser } = useAuth()
 	const { params } = useContext(StudentDataContext)
 	const [greeting, setGreeting] = useState("")
 	const currentTime = new Date().getHours()
@@ -20,15 +20,20 @@ const Greeting = () => {
 
 	const fetchClass = useCallback(async () => {
 		try {
-			const userClassesRef = collection(db, "users", user.uid, "classes")
-			const querySnapshot = await getDocs(userClassesRef)
+			const currentUserClassesRef = collection(
+				db,
+				"users",
+				currentUser.uid,
+				"classes"
+			)
+			const querySnapshot = await getDocs(currentUserClassesRef)
 			const data: ClassDataType[] = []
 
 			querySnapshot.forEach((doc) => {
 				const classId = doc.id
 				const className: string = doc.data().className
 
-				// Store classId and userClassName as an object
+				// Store classId and currentUserClassName as an object
 				data.push({ classId, className })
 			})
 
@@ -36,7 +41,15 @@ const Greeting = () => {
 		} catch (error) {
 			console.error("Error fetching class data:", error)
 		}
-	}, [user.uid])
+	}, [currentUser.uid])
+
+	const getCurrentUsersClass = useCallback(() => {
+		if (classData && params.classroom_id) {
+			return classData.find(
+				(classInfo) => classInfo.classId === params.classroom_id
+			)
+		}
+	}, [classData, params.classroom_id])
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -46,26 +59,17 @@ const Greeting = () => {
 	}, [fetchClass])
 
 	useEffect(() => {
-		if (classData && params.classroom_id) {
-			// Find the user's current class
-			const currentUserClass = classData.find(
-				(classItem) => classItem.classId === params.classroom_id
+		if (getCurrentUsersClass()) {
+			// Set the greeting based on the className of the currentUser's current class
+			setGreeting(
+				`Good ${currentTime < 12 ? "Morning" : "Afternoon"}, ${
+					getCurrentUsersClass().className
+				}!`
 			)
-
-			if (currentUserClass) {
-				// Set the greeting based on the className of the user's current class
-				setGreeting(
-					`Good ${currentTime < 12 ? "Morning" : "Afternoon"}, ${
-						currentUserClass.className
-					}!`
-				)
-			} else {
-				setGreeting(`Good ${currentTime < 12 ? "Morning" : "Afternoon"}!`)
-			}
 		} else {
 			setGreeting(`Good ${currentTime < 12 ? "Morning" : "Afternoon"}!`)
 		}
-	}, [classData, params.classroom_id, currentTime])
+	}, [classData, params.classroom_id, currentTime, getCurrentUsersClass])
 
 	return (
 		<h1 className="text-5xl sm:text-6xl md:text-7xl text-center font-cabinSketch font-[700]">

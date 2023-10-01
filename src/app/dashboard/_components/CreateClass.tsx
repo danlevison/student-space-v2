@@ -1,6 +1,5 @@
-import { useState, useContext } from "react"
+import { useState } from "react"
 import { useAuth } from "@/context/AuthContext"
-import StudentDataContext from "@/context/StudentDataContext"
 import { db } from "@/utils/firebase"
 import {
 	doc,
@@ -20,7 +19,7 @@ type CreateClassProps = {
 
 function CreateClass({ setShouldFetchClassData }: CreateClassProps) {
 	const [isOpen, setIsOpen] = useState(false)
-	const { userClassName, setUserClassName } = useContext(StudentDataContext)
+	const [classroomName, setClassroomName] = useState("")
 	const { currentUser } = useAuth()
 	const classId = crypto.randomUUID()
 	const [classAvatar, setClassAvatar] = useState<string>(bagAvatar)
@@ -30,7 +29,7 @@ function CreateClass({ setShouldFetchClassData }: CreateClassProps) {
 	}
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-		setUserClassName(e.target.value.trim())
+		setClassroomName(e.target.value.trim())
 	}
 
 	const handleCreateClass = async (e: React.SyntheticEvent) => {
@@ -49,7 +48,7 @@ function CreateClass({ setShouldFetchClassData }: CreateClassProps) {
 				const data = docSnap.data()
 
 				// Ensure userClassName is not empty
-				if (userClassName === "") {
+				if (classroomName === "") {
 					console.log("Invalid class name")
 					return
 				}
@@ -63,7 +62,7 @@ function CreateClass({ setShouldFetchClassData }: CreateClassProps) {
 					// If the document doesn't exist, create it with studentData, className and classAvatar
 					await setDoc(classDocumentRef, {
 						studentData: [],
-						className: userClassName,
+						className: classroomName,
 						classAvatar: classAvatar,
 						createdAt: serverTimestamp()
 					})
@@ -142,7 +141,7 @@ function CreateClass({ setShouldFetchClassData }: CreateClassProps) {
 									Cancel
 								</button>
 								<button
-									disabled={!userClassName}
+									disabled={!classroomName}
 									className="w-full text-sm sm:text-xl text-white bg-buttonClr py-3 rounded-xl shadow-md hover:scale-105 duration-300 disabled:bg-gray-400 disabled:hover:scale-100 disabled:duration-0"
 								>
 									Create Class

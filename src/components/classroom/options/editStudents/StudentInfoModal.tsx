@@ -45,23 +45,28 @@ const StudentInfoModal = ({
 		}))
 	}
 
+	const capitaliseStudentName = () => {
+		const updatedCapitalisedName =
+			selectedStudent?.name.charAt(0).toUpperCase() +
+			selectedStudent?.name.slice(1)
+		return updatedCapitalisedName
+	}
+
 	const handleStudentInfoSubmit = async (
 		e: React.FormEvent<HTMLFormElement>
 	) => {
 		try {
 			e.preventDefault()
-			const updatedName = selectedStudent?.name.trim() // removes empty spaces
-			const updatedCapitalisedName =
-				updatedName.charAt(0).toUpperCase() + updatedName.slice(1)
+
+			capitaliseStudentName()
 			const updatedDob = selectedStudent?.dob
 
 			const existingStudent = studentData.find(
-				(student) => student.name === updatedCapitalisedName
+				(student) => student.name === capitaliseStudentName()
 			)
 
 			if (existingStudent && existingStudent.uuid !== selectedStudent?.uuid) {
 				setAlertMessage("A student with this name already exists!")
-				// e.target.name.value = updatedCapitalisedName
 				return
 			}
 
@@ -70,7 +75,7 @@ const StudentInfoModal = ({
 				if (student.uuid === selectedStudent?.uuid) {
 					return {
 						...student,
-						name: updatedCapitalisedName,
+						name: capitaliseStudentName(),
 						dob: updatedDob,
 						avatar: newStudentAvatar
 					}

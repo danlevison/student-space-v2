@@ -4,13 +4,12 @@ import React, { useContext } from "react"
 import Image from "next/image"
 import { useAuth } from "@/context/AuthContext"
 import StudentDataContext from "@/context/StudentDataContext"
-import { updateDoc, doc } from "firebase/firestore"
-import { db } from "../../../utils/firebase"
 import { FaAward } from "react-icons/fa"
 import { IoMdSettings } from "react-icons/io"
 import pointsSound from "../../../../public/audio/points.mp3"
 // Types
 import { StudentData } from "../../../../types/types"
+import { updateStudentDataInClass } from "@/utils/updateStudentData"
 
 type TableCardProps = {
 	groupedStudentsByTable: Record<string, StudentData[]>
@@ -36,29 +35,27 @@ const TableCard = ({ groupedStudentsByTable }: TableCardProps) => {
 				return student
 			})
 
-			const pointsAudio = new Audio(pointsSound)
-			pointsAudio.volume = 0.2
-			pointsAudio.play()
-
-			// Set the updated student data to the state
+			// Increment/update student points in demoClass
 			setStudentData(updatedStudentData)
 
-			if (currentUser.uid && params.classroom_id) {
-				const classDocumentRef = doc(
-					db,
-					"users",
-					currentUser.uid,
-					"classes",
-					params.classroom_id
-				)
+			// Increment/update student points in current users class
+			await updateStudentDataInClass(
+				currentUser.uid,
+				params.classroom_id,
+				studentData
+			)
 
-				await updateDoc(classDocumentRef, {
-					studentData: updatedStudentData
-				})
-			}
+			// plays a sound when the points are incremented
+			playPointsSound()
 		} catch (error) {
 			console.error("Error updating student information:", error)
 		}
+	}
+
+	const playPointsSound = () => {
+		const pointsAudio = new Audio(pointsSound)
+		pointsAudio.volume = 0.2
+		pointsAudio.play()
 	}
 
 	return (

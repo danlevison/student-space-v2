@@ -13,7 +13,6 @@ type TableInfoModalProps = {
 	openTableInfo: boolean
 	setOpenTableInfo: React.Dispatch<React.SetStateAction<boolean>>
 	selectedTableName: string
-	setSelectedTableName: React.Dispatch<React.SetStateAction<string>>
 	setTempSelectedTableName: React.Dispatch<React.SetStateAction<string>>
 	tempSelectedTableName: string
 }
@@ -23,27 +22,28 @@ const TableInfoModal = ({
 	openTableInfo,
 	setOpenTableInfo,
 	selectedTableName,
-	setSelectedTableName,
 	setTempSelectedTableName,
 	tempSelectedTableName
 }: TableInfoModalProps) => {
 	const { studentData, setStudentData, params } = useContext(StudentDataContext)
 	const { currentUser } = useAuth()
+	const [tempStudentData, setTempStudentData] = useState(studentData)
+	const [alertMessage, setAlertMessage] = useState("")
 	const [openCheckDeleteTableModal, setOpenCheckDeleteTableModal] =
 		useState(false)
-	const [tempStudentData, setTempStudentData] = useState(studentData)
-	const [updatedTableName, setUpdatedTableName] = useState("")
-	const [alertMessage, setAlertMessage] = useState("")
 
 	const updateTableName = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const newTableName = e.target.value
-		const capitalisedNewTableName =
-			newTableName.charAt(0).toUpperCase() + newTableName.slice(1)
-		setUpdatedTableName(capitalisedNewTableName)
-		setTempSelectedTableName(newTableName)
+		setTempSelectedTableName(e.target.value)
 	}
 
-	const uncheckStudent = (selectedStudentName: string) => {
+	const capitaliseTableName = () => {
+		const capitalisedTableName =
+			tempSelectedTableName.charAt(0).toUpperCase() +
+			tempSelectedTableName.slice(1)
+		return capitalisedTableName
+	}
+
+	const toggleStudent = (selectedStudentName: string) => {
 		setTempStudentData((prevTempStudentData) => {
 			return prevTempStudentData.map((student) => {
 				if (selectedStudentName === student.name) {
@@ -64,7 +64,7 @@ const TableInfoModal = ({
 		e.preventDefault()
 
 		try {
-			const tableName = updatedTableName ? updatedTableName : selectedTableName
+			const tableName = capitaliseTableName()
 			const existingTableName = studentData.find(
 				(student) => student.tableData?.tableName === tableName
 			)
@@ -103,7 +103,6 @@ const TableInfoModal = ({
 
 		alertMessage ? setOpenTableInfo(true) : setOpenTableInfo(false)
 		setIsEditTablesModalOpen(false)
-		setSelectedTableName(updatedTableName || selectedTableName)
 		toast.success("Table group edited successfully!")
 	}
 
@@ -183,7 +182,7 @@ const TableInfoModal = ({
 										className="flex justify-center"
 									>
 										<input
-											onChange={() => uncheckStudent(student.name)}
+											onChange={() => toggleStudent(student.name)}
 											type="checkbox"
 											checked={student.tableData.isOnTable}
 											id={student.name}

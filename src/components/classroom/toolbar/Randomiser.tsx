@@ -39,7 +39,7 @@ const Randomiser = ({ openRandomiser, setOpenRandomiser }: RandomiserProps) => {
 	const handlePointClick = async () => {
 		try {
 			if (randomStudent && randomStudent.name) {
-				// Increment the points in the studentData state
+				// Increment the students points in the studentData state
 				const updatedStudentData = studentData.map((student) => {
 					if (student.name === randomStudent.name) {
 						return { ...student, points: student.points + 1 }
@@ -47,7 +47,7 @@ const Randomiser = ({ openRandomiser, setOpenRandomiser }: RandomiserProps) => {
 					return student
 				})
 
-				// Update the randomStudent state with the updated points
+				// Update the randomStudent state with the updated points to match students points in studentData
 				setRandomStudent((prevRandomStudent) => {
 					return { ...prevRandomStudent, points: prevRandomStudent.points + 1 }
 				})
@@ -62,23 +62,33 @@ const Randomiser = ({ openRandomiser, setOpenRandomiser }: RandomiserProps) => {
 					updatedStudentData
 				)
 
-				const pointsAudio = new Audio(pointsSound)
-				pointsAudio.volume = 0.2
-				pointsAudio.play()
+				// plays a sound when the points are incremented
+				playPointsSound()
 
 				// Check if the student now has 50 points
 				if (randomStudent.points + 1 === 50) {
-					setShowConfetti(true)
-
-					// After 5 seconds, hide the confetti
-					setTimeout(() => {
-						setShowConfetti(false)
-					}, 5000)
+					// Show confetti for 5 seconds
+					showConfettiForDuration(5000)
 				}
 			}
 		} catch (error) {
 			console.error("Error updating student points:", error)
 		}
+	}
+
+	const playPointsSound = () => {
+		const pointsAudio = new Audio(pointsSound)
+		pointsAudio.volume = 0.2
+		pointsAudio.play()
+	}
+
+	const showConfettiForDuration = (duration: number) => {
+		setShowConfetti(true)
+
+		// After the specified duration, hide the confetti
+		setTimeout(() => {
+			setShowConfetti(false)
+		}, duration)
 	}
 
 	return (

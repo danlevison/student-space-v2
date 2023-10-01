@@ -41,7 +41,7 @@ const Options = () => {
 	}
 
 	return (
-		<div>
+		<>
 			<Menu
 				as="div"
 				className="inline-block text-left"
@@ -196,7 +196,7 @@ const Options = () => {
 					setIsEditTablesModalOpen={setIsEditTablesModalOpen}
 				/>
 			)}
-		</div>
+		</>
 	)
 }
 

@@ -53,9 +53,11 @@ const AddStudent = ({
 			uuid: uuid
 		}
 
-		const isDuplicate =
-			addedStudents.some((student) => student.name === studentName) ||
-			studentData.some((student) => student.name === studentName)
+		const isDuplicate = checkForDuplicates(
+			studentName,
+			addedStudents,
+			studentData
+		)
 
 		if (isDuplicate) {
 			setAlertMessage(
@@ -63,6 +65,7 @@ const AddStudent = ({
 			)
 		} else {
 			setAlertMessage("")
+			setStudentName("")
 			nameInputRef.current.value = ""
 			dateInputRef.current.value = ""
 
@@ -76,6 +79,17 @@ const AddStudent = ({
 		}
 	}
 
+	const checkForDuplicates = (
+		studentName: string,
+		addedStudents: StudentData[],
+		studentData: StudentData[]
+	) => {
+		return (
+			addedStudents.some((student) => student.name === studentName) ||
+			studentData.some((student) => student.name === studentName)
+		)
+	}
+
 	const removeStudent = (studentId: string) => {
 		setAddedStudents((prevAddedStudents) =>
 			prevAddedStudents.filter((student) => student.uuid != studentId)
@@ -87,8 +101,9 @@ const AddStudent = ({
 	) => {
 		e.preventDefault()
 		try {
-			// Update studentData and display added students in the demoClass
 			const updatedStudentData = studentData.concat(addedStudents)
+
+			// Update studentData and display added students in the demoClass
 			setStudentData(updatedStudentData)
 
 			// Update studentData and display added students in the active users class
@@ -201,9 +216,7 @@ const AddStudent = ({
 								<button
 									onClick={addStudent}
 									type="button"
-									disabled={
-										!nameInputRef.current || !nameInputRef.current.value.trim()
-									}
+									disabled={!studentName}
 									className="block bg-white w-full sm:w-[200px] mx-auto p-2 rounded-lg border-2 border-green-600 mt-4 disabled:bg-gray-400 disabled:border-gray-400 disabled:text-white"
 								>
 									Add

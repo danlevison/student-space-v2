@@ -11,7 +11,12 @@ import {
 	sendPasswordResetEmail
 } from "firebase/auth"
 import { auth } from "../utils/firebase"
-import { UserCredential, User } from "firebase/auth"
+import {
+	UserCredential,
+	User,
+	updateEmail,
+	updatePassword
+} from "firebase/auth"
 
 type AuthContextType = {
 	signup: (email: string, password: string) => Promise<UserCredential>
@@ -19,6 +24,8 @@ type AuthContextType = {
 	googleLogin: () => Promise<UserCredential>
 	logout: () => Promise<void>
 	resetPassword: (email: string) => Promise<void>
+	updateUserEmail: (email: string) => Promise<void>
+	updateUserPassword: (password: string) => Promise<void>
 	currentUser: User | null
 }
 
@@ -53,6 +60,14 @@ export const AuthProvider = ({ children }) => {
 		return sendPasswordResetEmail(auth, email)
 	}
 
+	const updateUserEmail = (email: string) => {
+		return updateEmail(currentUser, email)
+	}
+
+	const updateUserPassword = (password: string) => {
+		return updatePassword(currentUser, password)
+	}
+
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
 			setCurrentUser(currentUser)
@@ -63,7 +78,16 @@ export const AuthProvider = ({ children }) => {
 
 	return (
 		<AuthContext.Provider
-			value={{ signup, login, googleLogin, logout, resetPassword, currentUser }}
+			value={{
+				signup,
+				login,
+				googleLogin,
+				logout,
+				resetPassword,
+				updateUserEmail,
+				updateUserPassword,
+				currentUser
+			}}
 		>
 			{!loading && children}
 		</AuthContext.Provider>

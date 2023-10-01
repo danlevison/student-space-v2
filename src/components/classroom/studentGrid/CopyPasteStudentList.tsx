@@ -34,14 +34,39 @@ const CopyPasteStudentList = ({
 		setPastedText(e.target.value)
 	}
 
-	const handlePasteStudents = () => {
-		// Extract student names from pasted text
+	const extractValidStudentNames = (pastedText: string) => {
 		const studentNames = pastedText
-			.split("\n")
-			.map((name) => name.charAt(0).toUpperCase() + name.slice(1).trim())
+			.split("\n") // split strings into array based on being on a new line
+			.map(
+				(name: string) =>
+					name.charAt(0).toUpperCase() + name.slice(1).toLowerCase().trim()
+			)
 
-		// Filter out empty names
-		const validStudentNames = studentNames.filter((name) => name.length > 0)
+		return filterExtractedNames(studentNames)
+	}
+
+	const filterExtractedNames = (studentNames: string[]) => {
+		// Filter out empty names (empty lines) and any duplicate names
+		return studentNames.filter(
+			(name: string, index: number) =>
+				name.length > 0 && studentNames.indexOf(name) === index
+		)
+	}
+
+	const checkForDuplicates = (
+		namesToCheck: string[],
+		addedStudents: StudentData[],
+		studentData: StudentData[]
+	) => {
+		return namesToCheck.some(
+			(name) =>
+				addedStudents.some((student) => student.name === name) ||
+				studentData.some((student) => student.name === name)
+		)
+	}
+
+	const handleAddPastedStudents = () => {
+		const validStudentNames = extractValidStudentNames(pastedText)
 
 		// Add valid student names to the list
 		const newStudents = validStudentNames.map((name) => {
@@ -63,10 +88,10 @@ const CopyPasteStudentList = ({
 			}
 		})
 
-		const isDuplicate = validStudentNames.some(
-			(name) =>
-				addedStudents.some((student) => student.name === name) ||
-				studentData.some((student) => student.name === name)
+		const isDuplicate = checkForDuplicates(
+			validStudentNames,
+			addedStudents,
+			studentData
 		)
 
 		if (isDuplicate) {
@@ -76,6 +101,8 @@ const CopyPasteStudentList = ({
 		} else {
 			setAlertMessage("")
 			pasteTextAreaRef.current.value = ""
+
+			// Add the new student to the list
 			setAddedStudents((prevAddedStudents) => [
 				...newStudents,
 				...prevAddedStudents
@@ -116,6 +143,10 @@ const CopyPasteStudentList = ({
 							You can add your students&apos; dates of birth later to display
 							their birthdays.
 						</p>
+						<p className="text-center text-sm mb-5">
+							We&apos;ll automatically import your list and any duplicate
+							entries will be removed during the process.
+						</p>
 						{alertMessage ? (
 							<p className="font-bold text-red-500 pb-1">{alertMessage}</p>
 						) : (
@@ -135,7 +166,7 @@ const CopyPasteStudentList = ({
 							className="text-lg font-bold border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr placeholder:text-lg placeholder:text-iconClr placeholder:font-bold"
 						/>
 						<button
-							onClick={handlePasteStudents}
+							onClick={handleAddPastedStudents}
 							type="button"
 							disabled={
 								!pasteTextAreaRef.current ||

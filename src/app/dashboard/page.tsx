@@ -12,6 +12,7 @@ import Preloader from "@/components/Preloader"
 import ConditionalHeading from "./_components/ConditionalHeading"
 import ConditionalText from "./_components/ConditionalText"
 import PrivateRoute from "@/components/PrivateRoute"
+import ProfileMenu from "@/app/dashboard/_components/account/ProfileMenu"
 
 type SelectedUser = {
 	classId: string
@@ -44,11 +45,14 @@ const Dashboard = () => {
 
 	return (
 		<>
-			<header>
+			<header className="relative">
 				<Nav />
 			</header>
-			<main className="py-40 px-8 min-h-screen w-full">
-				<div className="flex flex-col justify-center items-center text-center">
+			<main className="relative py-40 min-h-screen w-full">
+				<div className="fixed top-[5.5rem] flex justify-end items-center px-8 bg-white w-full h-12 border-b border-gray-300">
+					<ProfileMenu />
+				</div>
+				<div className="flex flex-col justify-center items-center text-center px-8">
 					<ConditionalHeading />
 					{/* <WordOfTheDay /> */}
 

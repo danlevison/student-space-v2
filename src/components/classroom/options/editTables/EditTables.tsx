@@ -91,7 +91,6 @@ const EditTables = ({
 				openTableInfo={openTableInfo}
 				setOpenTableInfo={setOpenTableInfo}
 				selectedTableName={selectedTableName}
-				setSelectedTableName={setSelectedTableName}
 				setTempSelectedTableName={setTempSelectedTableName}
 				tempSelectedTableName={tempSelectedTableName}
 			/>

@@ -45,10 +45,12 @@ const PasswordReset = () => {
 				onSubmit={handleSubmit}
 				className="flex flex-col mt-4"
 			>
-				<label>Email</label>
+				<label htmlFor="email">Email</label>
 				<input
 					onChange={(e) => setEmail(e.target.value)}
 					type="email"
+					id="email"
+					name="email"
 					required
 					className="border border-gray-300 p-2 rounded-md"
 				/>
@@ -60,7 +62,12 @@ const PasswordReset = () => {
 				</button>
 			</form>
 			<div className="text-center mt-4">
-				<Link href={"/login"}>Sign in</Link>
+				<Link
+					href={"/login"}
+					className="underline text-blue-700"
+				>
+					Sign in
+				</Link>
 			</div>
 		</div>
 	)

@@ -1,12 +1,11 @@
 import React, { useContext, useState, useRef } from "react"
 import { useAuth } from "@/context/AuthContext"
 import StudentDataContext from "@/context/StudentDataContext"
-import { updateDoc, doc } from "firebase/firestore"
-import { db } from "../../../utils/firebase"
 import { Dialog } from "@headlessui/react"
 import { AiOutlineClose } from "react-icons/ai"
 import Image from "next/image"
 import { toast } from "react-toastify"
+import { updateStudentDataInClass } from "@/utils/updateStudentData"
 
 type AddTableProps = {
 	isAddTableModalOpen: boolean
@@ -23,11 +22,13 @@ const AddTable = ({
 	const [tableName, setTableName] = useState("")
 	const tableInputRef = useRef<HTMLInputElement>(null)
 
-	const getSelectedStudent = async (e: React.ChangeEvent<HTMLInputElement>) => {
+	const toggleSelectedStudent = async (
+		e: React.ChangeEvent<HTMLInputElement>
+	) => {
 		try {
 			const studentName = e.target.name
 
-			// Update studentData with the new selected status for the student in demoClass
+			// Toggles the selected property value
 			const updatedStudentData = studentData.map((student) => {
 				if (student.name === studentName) {
 					return {
@@ -41,51 +42,48 @@ const AddTable = ({
 				return student
 			})
 
-			// Set the updated student data to the state
+			// Set the updated student data in the demoClass
 			setStudentData(updatedStudentData)
 
-			if (currentUser.uid && params.classroom_id) {
-				const classDocumentRef = doc(
-					db,
-					"users",
-					currentUser.uid,
-					"classes",
-					params.classroom_id
-				)
-
-				await updateDoc(classDocumentRef, {
-					studentData: updatedStudentData
-				})
-			}
+			// Update studentData in the active users class
+			await updateStudentDataInClass(
+				currentUser.uid,
+				params.classroom_id,
+				updatedStudentData
+			)
 		} catch (error) {
 			console.error("Error updating student information:", error)
 		}
 	}
 
+	const capitaliseTableName = () => {
+		return tableName.charAt(0).toUpperCase() + tableName.slice(1).trim()
+	}
+
+	const checkExistingTable = () => {
+		return studentData.find(
+			(student) => student.tableData.tableName === capitaliseTableName()
+		)
+	}
+
 	const handleAddTableSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-
 		try {
-			const capitalisedTableName =
-				tableName.charAt(0).toUpperCase() + tableName.slice(1).trim()
-
-			const existingTable = studentData.find(
-				(student) => student.tableData.tableName === capitalisedTableName
-			)
+			const existingTable = checkExistingTable()
 
 			if (existingTable) {
 				setAlertMessage("A table with this name already exists!")
 				return
 			}
 
-			// Update demoStudentData tableData locally in demoClass context
+			// Update demoStudentData tableData in the demoClass
 			const updatedStudentData = studentData.map((student) => {
 				if (student.tableData.selected) {
 					return {
 						...student,
 						tableData: {
 							...student.tableData,
-							tableName: capitalisedTableName,
+							tableName: capitaliseTableName(),
 							isOnTable: true,
 							selected: false
 						}
@@ -94,21 +92,15 @@ const AddTable = ({
 				return student
 			})
 
+			// Adds a new table in the demoClass
 			setStudentData(updatedStudentData)
 
-			if (currentUser.uid && params.classroom_id) {
-				const classDocumentRef = doc(
-					db,
-					"users",
-					currentUser.uid,
-					"classes",
-					params.classroom_id
-				)
-
-				await updateDoc(classDocumentRef, {
-					studentData: updatedStudentData
-				})
-			}
+			// Adds a new table in the current users class
+			await updateStudentDataInClass(
+				currentUser.uid,
+				params.classroom_id,
+				updatedStudentData
+			)
 		} catch (error) {
 			console.error("Error updating tableData in user class collection:", error)
 		}
@@ -206,7 +198,7 @@ const AddTable = ({
 										className="mx-auto py-2 h-fit"
 									>
 										<input
-											onChange={getSelectedStudent}
+											onChange={toggleSelectedStudent}
 											type="checkbox"
 											id={student.name}
 											name={student.name}

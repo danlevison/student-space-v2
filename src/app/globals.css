@@ -19,4 +19,8 @@
 		color: #5065a8;
 		font-weight: bold;
 	}
+
+	input[type="email"] {
+		font-weight: bold;
+	}
 }
