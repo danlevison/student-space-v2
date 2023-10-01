@@ -17,12 +17,12 @@ const TableGrid = () => {
 	}
 
 	// Filter out students whos tableName property is truthy (i.e they have a tableName)
-	const filteredStudents = studentData.filter(
+	const studentsWithTableName = studentData.filter(
 		(student) => student.tableData?.tableName !== ""
 	)
 
 	const groupedStudentsByTable: Record<string, StudentData[]> =
-		filteredStudents.reduce((groups, student) => {
+		studentsWithTableName.reduce((groups, student) => {
 			// 1. Get the tableName from student's tableData property, or use an empty string if it's not present.
 			const tableName = student.tableData?.tableName || ""
 

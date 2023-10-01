@@ -24,17 +24,18 @@ const EditStudents = ({
 		useState<HTMLImageElement | null>(null)
 	const [openStudentInfo, setOpenStudentInfo] = useState(false)
 
-	const handleStudentInfoModal = (student: StudentData) => {
-		// Format the student's dob to "yyyy-MM-dd"
+	const formatDob = (student: StudentData) => {
 		const studentDob = new Date(student.dob)
 		const year = studentDob.toLocaleString("default", { year: "numeric" })
 		const month = studentDob.toLocaleString("default", { month: "2-digit" })
 		const day = studentDob.toLocaleString("default", { day: "2-digit" })
-		const formattedDob = `${year}-${month}-${day}`
+		return `${year}-${month}-${day}`
+	}
 
+	const handleStudentInfoModal = (student: StudentData) => {
 		setSelectedStudent({
 			...student,
-			dob: formattedDob
+			dob: formatDob(student)
 		})
 
 		setNewStudentAvatar(student.avatar)

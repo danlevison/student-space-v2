@@ -76,6 +76,7 @@ const TaskList = ({
 				completed: false
 			}
 
+			// Adds a new task to the tasks array
 			setTasks((currentTasks) => {
 				return [...currentTasks, newTask]
 			})
@@ -89,7 +90,7 @@ const TaskList = ({
 					params.classroom_id
 				)
 
-				// Add a new field to the class collection
+				// Add a new field to the class collection with the tasks
 				await updateDoc(classDocumentRef, {
 					taskListData: arrayUnion(newTask)
 				})
@@ -102,7 +103,7 @@ const TaskList = ({
 		inputRef.current?.focus()
 	}
 
-	const toggleTask = async (id: string, completed: boolean) => {
+	const toggleTaskCompleted = async (id: string, completed: boolean) => {
 		const updatedTasks = tasks.map((task) => {
 			if (task.id === id) {
 				return { ...task, completed }
@@ -232,7 +233,9 @@ const TaskList = ({
 										<input
 											type="checkbox"
 											checked={task.completed}
-											onChange={(e) => toggleTask(task.id, e.target.checked)}
+											onChange={(e) =>
+												toggleTaskCompleted(task.id, e.target.checked)
+											}
 											className="w-4"
 										/>
 										{task.title}

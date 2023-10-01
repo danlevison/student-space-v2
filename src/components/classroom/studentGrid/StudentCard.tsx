@@ -4,8 +4,7 @@ import React, { useContext } from "react"
 import Image from "next/image"
 import { useAuth } from "@/context/AuthContext"
 import StudentDataContext from "@/context/StudentDataContext"
-import { doc, updateDoc } from "firebase/firestore"
-import { db } from "../../../utils/firebase"
+import { updateStudentDataInClass } from "@/utils/updateStudentData"
 import { FaAward } from "react-icons/fa"
 import pointsSound from "../../../../public/audio/points.mp3"
 
@@ -38,40 +37,42 @@ const StudentCard = ({ avatars, setShowConfetti }: StudentCardProps) => {
 				return student
 			})
 
-			const pointsAudio = new Audio(pointsSound)
-			pointsAudio.volume = 0.2
-			pointsAudio.play()
-
 			// Update the studentData state to reflect the new points in the demoClass
 			setStudentData(updatedStudentData)
 
+			// Update the points in the users firebase studentData and display in the users class
+			await updateStudentDataInClass(
+				currentUser.uid,
+				params.classroom_id,
+				updatedStudentData
+			)
+
+			// plays a sound when the points are incremented
+			playPointsSound()
+
 			// Check if the student now has 50 points
 			if (studentToUpdate.points + 1 === 50) {
-				setShowConfetti(true)
-
-				// After 5 seconds, hide the confetti
-				setTimeout(() => {
-					setShowConfetti(false)
-				}, 5000)
-			}
-
-			// Update the points in the users firebase studentData and display in the users class
-			if (currentUser.uid && params.classroom_id) {
-				const classDocumentRef = doc(
-					db,
-					"users",
-					currentUser.uid,
-					"classes",
-					params.classroom_id
-				)
-
-				await updateDoc(classDocumentRef, {
-					studentData: updatedStudentData
-				})
+				// Show confetti for 5 seconds
+				showConfettiForDuration(5000)
 			}
 		} catch (error) {
 			console.error("Error updating student points:", error)
 		}
+	}
+
+	const playPointsSound = () => {
+		const pointsAudio = new Audio(pointsSound)
+		pointsAudio.volume = 0.2
+		pointsAudio.play()
+	}
+
+	const showConfettiForDuration = (duration: number) => {
+		setShowConfetti(true)
+
+		// After the specified duration, hide the confetti
+		setTimeout(() => {
+			setShowConfetti(false)
+		}, duration)
 	}
 
 	const handleAvatarClick = async (uuid: string) => {
@@ -109,19 +110,11 @@ const StudentCard = ({ avatars, setShowConfetti }: StudentCardProps) => {
 			setStudentData(updatedStudentData)
 
 			// Update the avatar in the users firebase studentData and display in the users class
-			if (currentUser.uid && params.classroom_id) {
-				const classDocumentRef = doc(
-					db,
-					"users",
-					currentUser.uid,
-					"classes",
-					params.classroom_id
-				)
-
-				await updateDoc(classDocumentRef, {
-					studentData: updatedStudentData
-				})
-			}
+			await updateStudentDataInClass(
+				currentUser.uid,
+				params.classroom_id,
+				updatedStudentData
+			)
 		} catch (error) {
 			console.error("Error updating student avatar:", error)
 		}

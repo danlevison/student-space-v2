@@ -54,26 +54,42 @@ const Signup = () => {
 				onSubmit={handleSubmit}
 				className="flex flex-col mt-4"
 			>
-				<label>Email</label>
+				<label htmlFor="email">Email</label>
 				<input
 					onChange={(e) => setEmail(e.target.value)}
 					type="email"
+					id="email"
+					name="email"
 					required
 					ref={emailRef}
 					className="border border-gray-300 p-2 rounded-md"
 				/>
-				<label className="mt-4">Password</label>
+				<label
+					htmlFor="password"
+					className="mt-4"
+				>
+					Password
+				</label>
 				<input
 					onChange={(e) => setPassword(e.target.value)}
 					type="password"
+					id="password"
+					name="password"
 					required
 					ref={passwordRef}
 					className="border border-gray-300 p-2 rounded-md"
 				/>
-				<label className="mt-4">Confirm Password</label>
+				<label
+					htmlFor="confirm-password"
+					className="mt-4"
+				>
+					Confirm Password
+				</label>
 				<input
 					onChange={(e) => setPasswordConfirmation(e.target.value)}
 					type="password"
+					id="confirm-password"
+					name="confirm-password"
 					required
 					ref={passwordConfirmationRef}
 					className="border border-gray-300 p-2 rounded-md"
