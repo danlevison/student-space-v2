@@ -41,7 +41,7 @@ const Signup = () => {
 	}
 
 	return (
-		<div className="w-full max-w-[450px] bg-[#fbe8de] p-5 rounded-lg shadow-xl z-50">
+		<div className="w-full max-w-[450px] bg-[#fbe8de] p-5 rounded-lg shadow-xl z-10">
 			<h1 className="text-3xl md:text-4xl font-bold mb-5 text-center">
 				Sign up
 			</h1>

@@ -13,15 +13,15 @@ const Register = () => {
 		{
 			src: "/assets/Scribbles/37.svg",
 			className:
-				"absolute bottom-32 md:bottom-1 right-20 w-[75px] md:w-[100px] 2xl:w-[150px]"
+				"absolute bottom-24 md:bottom-1 right-20 w-[75px] md:w-[100px] 2xl:w-[150px]"
 		},
 		{
 			src: "/assets/Scribbles/66.svg",
-			className: "absolute top-60 right-16 md:right-80 w-[50px] md:w-[100px]"
+			className: "absolute top-40 right-24 md:right-80 w-[50px] md:w-[100px]"
 		},
 		{
 			src: "/assets/Scribbles/5.svg",
-			className: "absolute bottom-16 left-2 w-[150px] md:w-[200px]"
+			className: "absolute bottom-16 left-2 w-[100px] md:w-[200px]"
 		},
 		{
 			src: "/assets/Scribbles/55.svg",
@@ -58,15 +58,16 @@ const Register = () => {
 				"hidden 2xl:block absolute right-24 lg:right-80 xl:right-96 w-[50px] rotate-180"
 		}
 	]
+
 	return (
 		<>
 			<header>
 				<Nav />
 			</header>
-			<main className="py-16 px-10 min-h-screen flex flex-col items-center justify-center relative">
+			<main className="py-24 px-10 min-h-screen flex flex-col items-center justify-center relative">
 				<Scribble scribblesSvgs={scribblesSvgs} />
 				<Signup />
-				<div className="mt-4">
+				<div className="mt-4 z-10">
 					<p>
 						Already have an account?{" "}
 						<span>

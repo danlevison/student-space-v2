@@ -109,7 +109,7 @@ const AccountSettings = ({
 							type="email"
 							defaultValue={currentUser?.email}
 							required
-							className="border-2 border-gray-400 p-3 rounded-md"
+							className="border-2 border-gray-400 p-3 rounded-md text-[#5065a8]"
 						/>
 						<label
 							htmlFor="password"
@@ -123,7 +123,7 @@ const AccountSettings = ({
 							name="password"
 							type="password"
 							placeholder="Leave blank to remain unchanged"
-							className="border-2 border-gray-400 p-3 rounded-md"
+							className="border-2 border-gray-400 p-3 rounded-md text-[#5065a8]"
 						/>
 						<label
 							htmlFor="confirm-password"
@@ -137,7 +137,7 @@ const AccountSettings = ({
 							name="confirm-password"
 							type="password"
 							placeholder="Leave blank to remain unchanged"
-							className="border-2 border-gray-400 p-3 rounded-md"
+							className="border-2 border-gray-400 p-3 rounded-md text-[#5065a8]"
 						/>
 						<button className="mt-4 text-sm font-bold bg-white hover:bg-green-200 rounded-2xl py-3 px-5 disabled:bg-gray-400 disabled:hover:bg-gray-400">
 							Save changes

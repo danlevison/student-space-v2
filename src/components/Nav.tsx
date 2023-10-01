@@ -36,7 +36,7 @@ const Nav = () => {
 	}
 
 	return (
-		<nav className="fixed top-0 w-full h-[5.5rem] z-[10] px-8 bg-white border-b border-gray-300">
+		<nav className="fixed top-0 w-full h-[5.5rem] px-8 bg-white border-b border-gray-300 z-50">
 			<div className="flex justify-between items-center gap-4 w-full h-full px-2 2xl:px-16">
 				<Logo />
 				{/* Desktop */}

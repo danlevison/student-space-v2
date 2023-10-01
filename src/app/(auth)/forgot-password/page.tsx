@@ -17,11 +17,11 @@ const ForgotPassword = () => {
 		},
 		{
 			src: "/assets/Scribbles/66.svg",
-			className: "absolute top-60 right-16 md:right-80 w-[50px] md:w-[100px]"
+			className: "absolute top-52 right-24 md:right-80 w-[50px] md:w-[100px]"
 		},
 		{
 			src: "/assets/Scribbles/5.svg",
-			className: "absolute bottom-16 left-2 w-[150px] md:w-[200px]"
+			className: "absolute bottom-24 left-2 w-[100px] md:w-[200px]"
 		},
 		{
 			src: "/assets/Scribbles/55.svg",
@@ -64,10 +64,10 @@ const ForgotPassword = () => {
 			<header>
 				<Nav />
 			</header>
-			<main className="py-16 px-10 min-h-screen flex flex-col items-center justify-center relative">
+			<main className="py-24 px-10 min-h-screen flex flex-col items-center justify-center relative">
 				<Scribble scribblesSvgs={scribblesSvgs} />
 				<PasswordReset />
-				<div className="mt-4">
+				<div className="mt-4 z-10">
 					<p>
 						Need an account?{" "}
 						<span>
