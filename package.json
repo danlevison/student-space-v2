@@ -1,36 +1,36 @@
 {
-  "name": "student-space",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@headlessui/react": "^1.7.15",
-    "@reactuses/core": "^4.0.7",
-    "autoprefixer": "10.4.14",
-    "eslint": "8.42.0",
-    "eslint-config-next": "^13.4.8",
-    "firebase": "^9.22.2",
-    "next": "^13.4.8",
-    "postcss": "8.4.24",
-    "react": "^18.2.0",
-    "react-confetti": "^6.1.0",
-    "react-dom": "^18.2.0",
-    "react-draggable": "^4.4.5",
-    "react-firebase-hooks": "^5.1.1",
-    "react-icons": "^4.9.0",
-    "react-toastify": "^9.1.3",
-    "sharp": "^0.32.5",
-    "swr": "^2.2.2",
-    "tailwindcss": "3.3.2"
-  },
-  "devDependencies": {
-    "@types/react": "18.2.22",
-    "encoding": "^0.1.13",
-    "file-loader": "^6.2.0"
-  }
+	"name": "student-space",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"@headlessui/react": "^1.7.15",
+		"@reactuses/core": "^4.0.7",
+		"autoprefixer": "^10.4.16",
+		"eslint": "^8.50.0",
+		"eslint-config-next": "^13.5.3",
+		"firebase": "^10.4.0",
+		"next": "^13.5.3",
+		"postcss": "^8.4.31",
+		"react": "^18.2.0",
+		"react-confetti": "^6.1.0",
+		"react-dom": "^18.2.0",
+		"react-draggable": "^4.4.5",
+		"react-firebase-hooks": "^5.1.1",
+		"react-icons": "^4.9.0",
+		"react-toastify": "^9.1.3",
+		"sharp": "^0.32.6",
+		"swr": "^2.2.4",
+		"tailwindcss": "^3.3.3"
+	},
+	"devDependencies": {
+		"@types/react": "18.2.22",
+		"encoding": "^0.1.13",
+		"file-loader": "^6.2.0"
+	}
 }
