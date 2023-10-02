@@ -8,31 +8,12 @@ import Logo from "./Logo"
 import { FiMenu } from "react-icons/fi"
 import { CgClose } from "react-icons/cg"
 
-type NavLinkProps = {
-	href: string
-	title: string
-	className: string
-}
-
 const Nav = () => {
 	const [user, loading] = useAuthState(auth)
 	const [nav, setNav] = useState(false)
 
 	const handleNav = () => {
 		setNav(!nav)
-	}
-
-	const NavLink = ({ href, title, className = "" }: NavLinkProps) => {
-		return (
-			<Link
-				onClick={() => setNav(false)}
-				scroll={false}
-				href={href}
-				className={`${className}`}
-			>
-				{title}
-			</Link>
-		)
 	}
 
 	return (
@@ -42,32 +23,40 @@ const Nav = () => {
 				{/* Desktop */}
 				<ul className="hidden md:flex items-center gap-16 font-bold text-[#5f5f7f]">
 					<li>
-						<NavLink
+						<Link
 							href={"/"}
 							title={"Home"}
 							className="hover:text-blue-400"
-						/>
+						>
+							Home
+						</Link>
 					</li>
 					<li>
-						<NavLink
+						<Link
 							href={"/#about"}
 							title={"About"}
 							className="hover:text-blue-400"
-						/>
+						>
+							About
+						</Link>
 					</li>
 					<li>
 						{!user ? (
-							<NavLink
+							<Link
 								href={"/login"}
 								title={"Sign in"}
 								className="hover:text-blue-400"
-							/>
+							>
+								Sign in
+							</Link>
 						) : (
-							<NavLink
+							<Link
 								href={"/dashboard"}
 								title={"Dashboard"}
 								className="hover:text-blue-400"
-							/>
+							>
+								Dashboard
+							</Link>
 						)}
 					</li>
 					{user && (
@@ -118,34 +107,46 @@ const Nav = () => {
 
 						<ul className="flex flex-col items-center gap-32 font-bold text-[#5f5f7f]">
 							<li>
-								<NavLink
+								<Link
+									onClick={() => setNav(false)}
 									href={"/"}
 									title={"Home"}
 									className="hover:text-blue-400"
-								/>
+								>
+									Home
+								</Link>
 							</li>
 							<li>
-								<NavLink
+								<Link
+									onClick={() => setNav(false)}
 									href={"/#about"}
 									title={"About"}
 									className="hover:text-blue-400"
-								/>
+								>
+									About
+								</Link>
 							</li>
 							{user ? (
 								<li>
-									<NavLink
+									<Link
+										onClick={() => setNav(false)}
 										href={"/dashboard"}
 										title={"Dashboard"}
 										className="hover:text-blue-400"
-									/>
+									>
+										Dashboard
+									</Link>
 								</li>
 							) : (
 								<li>
-									<NavLink
+									<Link
+										onClick={() => setNav(false)}
 										href={"/login"}
 										title={"Sign in"}
 										className="hover:text-blue-400"
-									/>
+									>
+										Sign in
+									</Link>
 								</li>
 							)}
 							{user && (

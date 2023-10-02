@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import Draggable from "react-draggable"
 import alarmAudio from "@/../../public/audio/alarm.mp3"
 import { AiOutlineClose } from "react-icons/ai"
@@ -20,6 +20,7 @@ const Timer = ({ openTimer, setOpenTimer }: TimerProps) => {
 	const [mute, setMute] = useState(false)
 	const alarmSound: HTMLAudioElement = new Audio(alarmAudio)
 	alarmSound.volume = 0.2
+	const nodeRef = React.useRef(null)
 
 	const handleMinutes = (e: React.ChangeEvent<HTMLInputElement>) => {
 		// sets minutes to the inputted minutes
@@ -100,10 +101,14 @@ const Timer = ({ openTimer, setOpenTimer }: TimerProps) => {
 		openTimer && (
 			<div className="fixed inset-0 z-[-100]">
 				<Draggable
+					nodeRef={nodeRef}
 					bounds="parent"
 					cancel=".clickable"
 				>
-					<div className="absolute top-[30%] mx-4 sm:mx-0 sm:top-[60%] sm:right-[3%] p-5 w-auto sm:w-[450px] h-auto sm:h-[250px] rounded-xl bg-[#32416c] z-[-10] cursor-move text-white">
+					<div
+						ref={nodeRef}
+						className="absolute top-[30%] mx-4 sm:mx-0 sm:top-[60%] sm:right-[3%] p-5 w-auto sm:w-[450px] h-auto sm:h-[250px] rounded-xl bg-[#32416c] z-[-10] cursor-move text-white"
+					>
 						<div className="flex justify-between items-center gap-4 pb-4 sm:pb-0">
 							<div className="flex gap-6">
 								<h2 className="font-bold text-xl capitalize">
