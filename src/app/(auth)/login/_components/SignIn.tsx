@@ -40,7 +40,7 @@ const SignIn = () => {
 				return
 			}
 			await setDoc(userDocRef, {
-				emaik: result.user.email,
+				email: result.user.email,
 				createdAt: serverTimestamp()
 			})
 		} catch (error) {
