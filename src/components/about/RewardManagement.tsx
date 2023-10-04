@@ -1,7 +1,7 @@
 import React from "react"
 import Link from "next/link"
 import Image from "next/image"
-import children from "../../../public/assets/happy-children.svg"
+import children from "@/../../public/assets/happy-children.svg"
 import { TiTickOutline } from "react-icons/ti"
 import { FiArrowRight } from "react-icons/fi"
 

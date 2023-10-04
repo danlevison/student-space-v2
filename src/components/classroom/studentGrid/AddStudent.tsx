@@ -31,7 +31,22 @@ const AddStudent = ({
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const inputName = e.target.value.trim()
-		setStudentName(inputName.charAt(0).toUpperCase() + inputName.slice(1))
+		setStudentName(inputName)
+	}
+
+	const capitaliseStudentName = () => {
+		return studentName.charAt(0).toUpperCase() + studentName.slice(1)
+	}
+
+	const checkForDuplicates = (
+		studentName: string,
+		addedStudents: StudentData[],
+		studentData: StudentData[]
+	) => {
+		return (
+			addedStudents.some((student) => student.name === studentName) ||
+			studentData.some((student) => student.name === studentName)
+		)
 	}
 
 	const addStudent = () => {
@@ -39,7 +54,7 @@ const AddStudent = ({
 		const uuid = crypto.randomUUID()
 
 		const newStudent = {
-			name: studentName,
+			name: capitaliseStudentName(),
 			dob: studentDob,
 			points: 0,
 			avatar: avatars[randomIndex],
@@ -77,17 +92,6 @@ const AddStudent = ({
 			setStudentDob("")
 			nameInputRef.current.focus()
 		}
-	}
-
-	const checkForDuplicates = (
-		studentName: string,
-		addedStudents: StudentData[],
-		studentData: StudentData[]
-	) => {
-		return (
-			addedStudents.some((student) => student.name === studentName) ||
-			studentData.some((student) => student.name === studentName)
-		)
 	}
 
 	const removeStudent = (studentId: string) => {

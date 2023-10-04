@@ -1,0 +1,6 @@
+process.env.NEXT_PUBLIC_API_KEY = "mockApiKey"
+process.env.NEXT_PUBLIC_AUTH_DOMAIN = "mockAuthDomain"
+process.env.NEXT_PUBLIC_PROJECT_ID = "mockProjectId"
+process.env.NEXT_PUBLIC_STORAGE_BUCKET = "mockStorageBucket"
+process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID = "mockMessagingSenderId"
+process.env.NEXT_PUBLIC_APP_ID = "mockPublicAppId"
