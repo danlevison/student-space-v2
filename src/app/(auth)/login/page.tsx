@@ -7,7 +7,7 @@ import Nav from "@/components/Nav"
 import Preloader from "@/components/Preloader"
 import Scribble from "@/components/Scribble"
 import { useRouter } from "next/navigation"
-import SignIn from "./_components/SignIn"
+import SignIn from "./_components/SignIn/SignIn"
 
 const Login = () => {
 	const [loading, setLoading] = useState(false)
