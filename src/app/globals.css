@@ -3,10 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-	/* html {
-    scroll-behavior: smooth !important;
-  } */
-
 	body {
 		background-color: white;
 		background-image: url(../../public/assets/paperbg.jpg);

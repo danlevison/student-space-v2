@@ -23,6 +23,7 @@ const About = () => {
 			<section
 				id="about"
 				className="bg-white w-full flex flex-col justify-center items-center py-16 lg:py-20"
+				style={{ scrollMarginTop: "4em" }}
 			>
 				<div className="max-w-[1440px] w-full flex justify-center items-center">
 					<div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-10 lg:gap-0 px-8">

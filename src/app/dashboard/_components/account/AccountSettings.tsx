@@ -13,7 +13,7 @@ const AccountSettings = ({
 	setOpenAccountSettings
 }: AccountSettingsProps) => {
 	const { currentUser, updateUserEmail, updateUserPassword } = useAuth()
-	const [email, setEmail] = useState("")
+	const [email, setEmail] = useState(currentUser?.email)
 	const [password, setPassword] = useState("")
 	const [passwordConfirmation, setPasswordConfirmation] = useState("")
 	const [error, setError] = useState("")
@@ -21,17 +21,33 @@ const AccountSettings = ({
 	const [loading, setLoading] = useState(false)
 
 	useEffect(() => {
+		setEmail(currentUser?.email)
 		setPassword("")
 		setPasswordConfirmation("")
 		setError("")
 		setMessage("")
 		setLoading(false)
-	}, [openAccountSettings])
+	}, [openAccountSettings, currentUser?.email])
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
+
+		// Validation
+		if (!email) {
+			return setError("Email is required")
+		}
+
+		const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+		if (!emailRegex.test(email)) {
+			return setError("Invalid email")
+		}
+
 		if (password !== passwordConfirmation) {
 			return setError("Passwords do not match")
+		}
+
+		if (password.length && passwordConfirmation.length < 6) {
+			return setError("Password should be at least 6 characters")
 		}
 
 		const promises: Promise<void>[] = []
@@ -100,6 +116,7 @@ const AccountSettings = ({
 					<form
 						onSubmit={handleSubmit}
 						className="flex flex-col mt-4"
+						noValidate
 					>
 						<label htmlFor="email">Email</label>
 						<input
