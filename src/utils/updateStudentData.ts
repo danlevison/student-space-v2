@@ -1,6 +1,6 @@
 import { db } from "./firebase"
 import { doc, updateDoc } from "firebase/firestore"
-import { StudentData } from "../../types/types"
+import { StudentData } from "../types/types"
 
 export async function updateStudentDataInClass(
 	currentUserId: string,

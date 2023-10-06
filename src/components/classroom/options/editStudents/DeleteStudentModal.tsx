@@ -5,7 +5,7 @@ import { useAuth } from "@/context/AuthContext"
 import StudentDataContext from "@/context/StudentDataContext"
 import { updateStudentDataInClass } from "@/utils/updateStudentData"
 // Types
-import { StudentData } from "../../../../../types/types"
+import { StudentData } from "../../../../types/types"
 
 type DeleteStudentModalProps = {
 	checkDeleteStudentModal: boolean

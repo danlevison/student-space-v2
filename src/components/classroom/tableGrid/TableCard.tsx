@@ -8,7 +8,7 @@ import { FaAward } from "react-icons/fa"
 import { IoMdSettings } from "react-icons/io"
 import pointsSound from "../../../../public/audio/points.mp3"
 // Types
-import { StudentData } from "../../../../types/types"
+import { StudentData } from "../../../types/types"
 import { updateStudentDataInClass } from "@/utils/updateStudentData"
 
 type TableCardProps = {

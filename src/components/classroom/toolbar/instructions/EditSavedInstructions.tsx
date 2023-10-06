@@ -7,7 +7,7 @@ import { Dialog } from "@headlessui/react"
 import { AiOutlineClose, AiOutlineArrowLeft } from "react-icons/ai"
 import AddInstructions from "./AddInstructions"
 // Types
-import { InstructionSetType } from "../../../../../types/types"
+import { InstructionSetType } from "../../../../types/types"
 
 type EditSavedInstructionsProps = {
 	showAddInstructionModalEdit: boolean

@@ -3,7 +3,7 @@ import StudentDataContext from "@/context/StudentDataContext"
 import { Dialog } from "@headlessui/react"
 import { AiOutlineClose } from "react-icons/ai"
 // Types
-import { StudentData } from "../../../../types/types"
+import { StudentData } from "../../../types/types"
 
 type CopyPasteStudentListProps = {
 	showCopyPasteModal: boolean

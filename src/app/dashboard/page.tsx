@@ -1,16 +1,16 @@
 "use client"
 
-import React, { useState } from "react"
-import { redirect } from "next/navigation"
+import React, { useState, useEffect } from "react"
+import { db } from "@/utils/firebase"
+import { getDocs, collection } from "firebase/firestore"
+import { useAuth } from "@/context/AuthContext"
 import CreateClass from "./_components/CreateClass"
 import DemoClassLink from "./_components/DemoClassLink"
 import UsersClasses from "./_components/UsersClasses"
 import EditClass from "@/app/dashboard/_components/editClass/EditClass"
 import Nav from "@/components/Nav"
-import WordOfTheDay from "@/components/WordOfTheDay"
 import Preloader from "@/components/Preloader"
 import ConditionalHeading from "./_components/ConditionalHeading"
-import ConditionalText from "./_components/ConditionalText"
 import PrivateRoute from "@/components/PrivateRoute"
 import ProfileMenu from "@/app/dashboard/_components/account/ProfileMenu"
 
@@ -26,22 +26,79 @@ type SelectedUser = {
 	}
 }
 
+type ClassDataType = {
+	classId: string
+	className: string
+	classAvatar: ClassAvatarType
+	createdAt: CreatedAtType
+}
+
+type CreatedAtType = {
+	nanoseconds: number
+	seconds: number
+}
+
+type ClassAvatarType = {
+	height: number
+	width: number
+	blurWidth: number
+	src: string
+	blurHeight: number
+}
+
 const Dashboard = () => {
+	const { currentUser } = useAuth()
 	const [shouldFetchClassData, setShouldFetchClassData] = useState(true)
+	const [loading, setLoading] = useState(true)
 	const [isEditClassModalOpen, setIsEditClassModalOpen] = useState(false)
 	const [selectedClass, setSelectedClass] = useState<SelectedUser | null>(null)
+	const [classData, setClassData] = useState<ClassDataType[] | null>(null)
 
-	// useEffect(() => {
-	// 	if (loading) {
-	// 		return
-	// 	}
+	useEffect(() => {
+		const fetchClassData = async () => {
+			try {
+				if (currentUser) {
+					const userClassesRef = collection(
+						db,
+						"users",
+						currentUser.uid,
+						"classes"
+					)
+					const querySnapshot = await getDocs(userClassesRef)
+					const data: ClassDataType[] = []
 
-	// 	if (!user) {
-	// 		router.push("/login")
-	// 	}
-	// }, [user, loading, router])
+					querySnapshot.forEach((doc) => {
+						const classId = doc.id
+						const className: string = doc.data().className
+						const classAvatar: ClassAvatarType = doc.data().classAvatar
+						const createdAt: CreatedAtType = doc.data().createdAt
 
-	// if (loading) return <Preloader />
+						// Store classId and userClassName as an object
+						data.push({ classId, className, classAvatar, createdAt })
+					})
+
+					setClassData(data)
+					orderClassesByCreationTime(data)
+					setShouldFetchClassData(false)
+				}
+			} catch (error) {
+				console.error("Error fetching class data:", error)
+			}
+			setLoading(false)
+		}
+		fetchClassData()
+	}, [currentUser, isEditClassModalOpen, shouldFetchClassData, setLoading])
+
+	const orderClassesByCreationTime = (data: ClassDataType[]) => {
+		if (data) {
+			const sortedData = [...data].sort((a, b) => {
+				return b.createdAt.seconds - a.createdAt.seconds
+			})
+			setClassData(sortedData)
+		}
+	}
+
+	if (loading) return <Preloader />
 
 	return (
 		<>
@@ -54,20 +111,14 @@ const Dashboard = () => {
 				</div>
 				<div className="flex flex-col justify-center items-center text-center px-8">
 					<ConditionalHeading />
-					{/* <WordOfTheDay /> */}
 
 					<div className="relative grid grid-cols-[repeat(auto-fit,minmax(230px,230px))] gap-10 w-full items-center justify-center mt-12">
-						<div className="relative">
-							<DemoClassLink />
-							<ConditionalText />
-						</div>
+						<DemoClassLink />
 
 						<UsersClasses
+							classData={classData}
 							setSelectedClass={setSelectedClass}
 							setIsEditClassModalOpen={setIsEditClassModalOpen}
-							isEditClassModalOpen={isEditClassModalOpen}
-							shouldFetchClassData={shouldFetchClassData}
-							setShouldFetchClassData={setShouldFetchClassData}
 						/>
 
 						<EditClass
