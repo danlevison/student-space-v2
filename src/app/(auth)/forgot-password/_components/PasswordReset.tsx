@@ -13,6 +13,16 @@ const PasswordReset = () => {
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
+
+		if (!email) {
+			return setError("Email is required")
+		}
+
+		const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+		if (!emailRegex.test(email)) {
+			return setError("Invalid email")
+		}
+
 		try {
 			setMessage("")
 			setError("")
@@ -20,7 +30,11 @@ const PasswordReset = () => {
 			await resetPassword(email)
 			setMessage("A reset password link has been sent to your inbox")
 		} catch (error) {
-			setError("Failed to reset password"), error
+			if (error.code.includes("auth/user-not-found")) {
+				setError("An account with that email does not exist")
+			} else {
+				setError("Failed to reset password"), error
+			}
 		}
 
 		setLoading(false)
@@ -44,6 +58,7 @@ const PasswordReset = () => {
 			<form
 				onSubmit={handleSubmit}
 				className="flex flex-col mt-4"
+				noValidate
 			>
 				<label htmlFor="email">Email</label>
 				<input

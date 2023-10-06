@@ -16,6 +16,21 @@ const SignIn = () => {
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
+
+		// Validation
+		if (!email) {
+			return setError("Email is required")
+		}
+
+		const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+		if (!emailRegex.test(email)) {
+			return setError("Invalid email")
+		}
+
+		if (!password) {
+			return setError("Password is required")
+		}
+
 		try {
 			setError("")
 			setLoading(true)
@@ -46,6 +61,8 @@ const SignIn = () => {
 		} catch (error) {
 			setError("Failed to sign in"), error
 		}
+
+		// setLoading(false)
 	}
 
 	return (
@@ -53,12 +70,13 @@ const SignIn = () => {
 			<h1 className="text-3xl md:text-4xl font-bold text-center">Sign in</h1>
 			{error && (
 				<div className="bg-red-300 text-red-900 font-bold text-center p-3 rounded-md mt-2">
-					<p>{error}</p>
+					<p data-testid="error">{error}</p>
 				</div>
 			)}
 			<form
 				onSubmit={handleSubmit}
 				className="flex flex-col mt-4"
+				noValidate
 			>
 				<label htmlFor="email">Email</label>
 				<input
@@ -68,6 +86,7 @@ const SignIn = () => {
 					name="email"
 					required
 					className="border border-gray-300 p-2 rounded-md"
+					data-testid="email-input"
 				/>
 				<label
 					htmlFor="password"
@@ -82,12 +101,13 @@ const SignIn = () => {
 					name="password"
 					required
 					className="border border-gray-300 p-2 rounded-md"
+					data-testid="password-input"
 				/>
 				<button
 					className="w-full bg-buttonClr text-white p-2 mt-4 rounded-md"
 					disabled={loading}
 				>
-					Log in
+					{loading ? "Please wait" : "Log in"}
 				</button>
 			</form>
 			<div className="text-center mt-4">
@@ -102,6 +122,7 @@ const SignIn = () => {
 			<button
 				onClick={handleGoogleLogin}
 				className="flex justify-center items-center gap-2 w-full text-primaryTextClr bg-gray-600 p-2 font-medium rounded-lg"
+				disabled={loading}
 			>
 				<FcGoogle
 					size={24}

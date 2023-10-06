@@ -3,6 +3,7 @@
 import React, { useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { doc, setDoc, serverTimestamp } from "firebase/firestore"
+import { AuthErrorCodes } from "firebase/auth"
 import { db } from "@/utils/firebase"
 import { useAuth } from "@/context/AuthContext"
 
@@ -20,6 +21,13 @@ const Signup = () => {
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
+
+		// Validation
+		const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+		if (!emailRegex.test(email)) {
+			return setError("Invalid email")
+		}
+
 		if (password !== passwordConfirmation) {
 			return setError("Passwords do not match")
 		}
@@ -34,7 +42,13 @@ const Signup = () => {
 			})
 			router.push("/login")
 		} catch (error) {
-			setError("Failed to create an account"), error
+			if (error.code === AuthErrorCodes.EMAIL_EXISTS) {
+				setError("Email address is already registered"), error
+			} else if (error.code === AuthErrorCodes.WEAK_PASSWORD) {
+				setError("Password should be at least 6 characters")
+			} else {
+				setError("Failed to create an account"), error
+			}
 		}
 
 		setLoading(false)
@@ -53,6 +67,7 @@ const Signup = () => {
 			<form
 				onSubmit={handleSubmit}
 				className="flex flex-col mt-4"
+				noValidate
 			>
 				<label htmlFor="email">Email</label>
 				<input
@@ -95,8 +110,8 @@ const Signup = () => {
 					className="border border-gray-300 p-2 rounded-md"
 				/>
 				<button
-					className="w-full bg-buttonClr text-white p-2 mt-4 rounded-md"
-					disabled={loading}
+					className="w-full bg-buttonClr text-white p-2 mt-4 rounded-md disabled:bg-gray-400"
+					disabled={loading || !(email && password && passwordConfirmation)}
 				>
 					Sign Up
 				</button>
