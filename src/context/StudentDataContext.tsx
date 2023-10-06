@@ -4,7 +4,7 @@ import React, { createContext, useState } from "react"
 import { useParams } from "next/navigation"
 import demoStudentData from "../demoStudentData"
 // Types
-import { StudentData } from "../../types/types"
+import { StudentData } from "../types/types"
 
 type ParamsType = {
 	classroom_id?: string

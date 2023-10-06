@@ -6,7 +6,7 @@ import AddTable from "@/components/classroom/tableGrid/AddTable"
 import { RiAddLine } from "react-icons/ri"
 import TableCard from "./TableCard"
 // Types
-import { StudentData } from "../../../../types/types"
+import { StudentData } from "../../../types/types"
 
 const TableGrid = () => {
 	const { studentData } = useContext(StudentDataContext)

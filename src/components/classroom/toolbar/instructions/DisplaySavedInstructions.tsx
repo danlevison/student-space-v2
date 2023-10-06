@@ -2,7 +2,7 @@ import React from "react"
 import { Dialog } from "@headlessui/react"
 import { AiOutlineClose } from "react-icons/ai"
 //Types
-import { InstructionSetType } from "../../../../../types/types"
+import { InstructionSetType } from "../../../../types/types"
 
 type DisplaySavedInstructionsProps = {
 	displaySavedInstructionsModal: boolean

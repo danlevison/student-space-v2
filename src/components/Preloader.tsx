@@ -8,6 +8,7 @@ const Preloader = () => {
 			<Image
 				src={loader}
 				alt="Loading spinner"
+				priority
 				width={150}
 				height={150}
 			/>

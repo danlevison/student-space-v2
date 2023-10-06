@@ -1,17 +1,12 @@
 "use client"
 
-import React, { useState, useEffect, useContext, useCallback } from "react"
-import { useAuth } from "@/context/AuthContext"
+import React, { useState, useContext } from "react"
 import StudentDataContext from "@/context/StudentDataContext"
-import { doc, getDoc } from "firebase/firestore"
-import { db } from "../../../utils/firebase"
 import { RiAddLine } from "react-icons/ri"
 import StudentCard from "./StudentCard"
 import AddStudent from "./AddStudent"
 import Confetti from "react-confetti"
 import { useWindowSize } from "@reactuses/core"
-//Types
-import { StudentData } from "../../../../types/types"
 // Avatars
 import sheepAvatar from "../../../../public/assets/avatars/sheep.svg"
 import monkeyAvatar from "../../../../public/assets/avatars/monkey.svg"
@@ -28,8 +23,7 @@ import lionAvatar from "../../../../public/assets/avatars/lion.svg"
 import otterAvatar from "../../../../public/assets/avatars/otter.svg"
 
 const StudentGrid = () => {
-	const { studentData, setStudentData, params } = useContext(StudentDataContext)
-	const { currentUser } = useAuth()
+	const { studentData } = useContext(StudentDataContext)
 	const [isAddStudentModalOpen, setIsAddStudentModalOpen] = useState(false)
 	const [showConfetti, setShowConfetti] = useState(false)
 	const { width, height } = useWindowSize()
@@ -48,39 +42,6 @@ const StudentGrid = () => {
 		frogAvatar,
 		lionAvatar
 	]
-
-	const fetchStudentDataFromFirestore = useCallback(async () => {
-		try {
-			// fetching student data from Firestore using params.classroom_id
-			const classDocumentRef = doc(
-				db,
-				"users",
-				currentUser.uid,
-				"classes",
-				params.classroom_id
-			)
-			const classDocSnapshot = await getDoc(classDocumentRef)
-
-			if (classDocSnapshot.exists()) {
-				const classData = classDocSnapshot.data()
-				if (classData) {
-					const fetchedStudentData: StudentData[] | null =
-						classData.studentData || []
-					setStudentData(fetchedStudentData)
-					// Now studentData contains the data from the specific classId (params.classroom_id)
-				}
-			}
-		} catch (error) {
-			console.log("Error fetching student data from Firestore:", error)
-		}
-	}, [params.classroom_id, setStudentData, currentUser.uid])
-
-	// Fetch the user's student data from the Firestore subcollection
-	useEffect(() => {
-		if (params.classroom_id) {
-			fetchStudentDataFromFirestore()
-		}
-	}, [params.classroom_id, fetchStudentDataFromFirestore])
 
 	const handleAddStudentModal = () => {
 		setIsAddStudentModalOpen(true)

@@ -11,7 +11,7 @@ import DisplayInstructions from "./DisplayInstructions"
 import DisplaySavedInstructions from "./DisplaySavedInstructions"
 import EditSavedInstructions from "./EditSavedInstructions"
 // Types
-import { InstructionSetType } from "../../../../../types/types"
+import { InstructionSetType } from "../../../../types/types"
 
 type InstructionsProps = {
 	openInstructions: boolean

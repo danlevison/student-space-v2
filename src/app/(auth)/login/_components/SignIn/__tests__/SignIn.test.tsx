@@ -10,11 +10,19 @@ import {
 	onAuthStateChanged
 } from "firebase/auth"
 
-// jest.mock("firebase/auth", () => ({
-// 	getAuth: jest.fn(),
-// 	signInWithEmailAndPassword: jest.fn(),
-// 	onAuthStateChanged: jest.fn()
-// }))
+// const mockSignInWithEmailAndPassword = () => {
+// 	return Promise.resolve(null)
+// }
+
+jest.mock("firebase/auth", () => ({
+	getAuth: jest.fn(),
+	signInWithEmailAndPassword: jest.fn(() => {
+		return Promise.resolve(null)
+	}),
+	onAuthStateChanged: jest.fn((auth, fn) => {
+		fn(null)
+	})
+}))
 
 function renderSignIn() {
 	const push = jest.fn() // simulates router behavior
@@ -28,6 +36,10 @@ function renderSignIn() {
 }
 
 describe("SignIn", () => {
+	afterEach(() => {
+		jest.clearAllMocks()
+	})
+
 	describe("Render", () => {
 		it("should render an email label", async () => {
 			renderSignIn()
@@ -62,43 +74,6 @@ describe("SignIn", () => {
 			})
 			expect(loginButtonEl).toBeInTheDocument()
 		})
-
-		// //TODO:
-		// it("should render button text please wait when sign in form is submitted", async () => {
-		// 	const user = userEvent.setup()
-		// 	renderSignIn()
-
-		// 	const emailInput = await screen.findByTestId("email-input")
-		// 	const passwordInput = await screen.findByTestId("password-input")
-		// 	const loginButtonEl = await screen.findByRole("button", {
-		// 		name: /log in/i
-		// 	})
-
-		// 	await user.type(emailInput, "test@email.com")
-		// 	await user.type(passwordInput, "123456")
-		// 	await user.click(loginButtonEl)
-
-		// 	expect(loginButtonEl).toHaveTextContent(/please wait/i)
-		// })
-
-		// it("should NOT render button text please wait after sign in form is submitted", async () => {
-		// 	const user = userEvent.setup()
-		// 	renderSignIn()
-
-		// 	const emailInput = await screen.findByTestId("email-input")
-		// 	const passwordInput = await screen.findByTestId("password-input")
-		// 	const loginButtonEl = await screen.findByRole("button", {
-		// 		name: /log in/i
-		// 	})
-
-		// 	await user.type(emailInput, "test@email.com")
-		// 	await user.type(passwordInput, "123456")
-		// 	await user.click(loginButtonEl)
-
-		// 	await waitFor(() => {
-		// 		expect(loginButtonEl).not.toHaveTextContent(/please wait/i)
-		// 	})
-		// })
 
 		it("should render a forgot password link", async () => {
 			renderSignIn()
@@ -137,7 +112,7 @@ describe("SignIn", () => {
 
 			const errorMessageEl = screen.getByTestId("error")
 			expect(errorMessageEl).toHaveTextContent(/email is required/i)
-			// expect(signInWithEmailAndPassword).toHaveBeenCalledTimes(0)
+			expect(signInWithEmailAndPassword).toHaveBeenCalledTimes(0)
 		})
 
 		it("should render an error message for invalid email", async () => {
@@ -156,7 +131,7 @@ describe("SignIn", () => {
 
 			const errorMessageEl = screen.getByTestId("error")
 			expect(errorMessageEl).toHaveTextContent(/invalid email/i)
-			//TODO: expect login function to be called 0 times
+			expect(signInWithEmailAndPassword).toHaveBeenCalledTimes(0)
 		})
 
 		it("should render an error message for empty password input", async () => {
@@ -173,7 +148,7 @@ describe("SignIn", () => {
 
 			const errorMessageEl = screen.getByTestId("error")
 			expect(errorMessageEl).toHaveTextContent(/password is required/i)
-			//TODO: expect login function to be called 0 times
+			expect(signInWithEmailAndPassword).toHaveBeenCalledTimes(0)
 		})
 	})
 	describe("Behaviour", () => {

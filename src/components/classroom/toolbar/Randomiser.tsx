@@ -10,7 +10,7 @@ import pointsSound from "../../../../public/audio/points.mp3"
 import Confetti from "react-confetti"
 import { useWindowSize } from "@reactuses/core"
 // Types
-import { StudentData } from "../../../../types/types"
+import { StudentData } from "../../../types/types"
 
 type RandomiserProps = {
 	openRandomiser: boolean

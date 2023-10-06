@@ -5,8 +5,9 @@
 @layer base {
 	body {
 		background-color: white;
-		background-image: url(../../public/assets/paperbg.jpg);
+		background-image: url(../../public/assets/paperbg.png);
 		background-size: auto;
+		background-repeat: repeat;
 	}
 
 	input[type="text"],

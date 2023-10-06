@@ -3,7 +3,7 @@
 import React, { useState, useContext, useEffect } from "react"
 import StudentDataContext from "@/context/StudentDataContext"
 // Types
-import { StudentData } from "../../../types/types"
+import { StudentData } from "../../types/types"
 
 const Birthday = () => {
 	const { studentData } = useContext(StudentDataContext)

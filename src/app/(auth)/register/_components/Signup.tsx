@@ -40,7 +40,7 @@ const Signup = () => {
 				email: result.user.email,
 				createdAt: serverTimestamp()
 			})
-			router.push("/login")
+			router.push("/dashboard")
 		} catch (error) {
 			if (error.code === AuthErrorCodes.EMAIL_EXISTS) {
 				setError("Email address is already registered"), error

@@ -30,11 +30,7 @@ const PasswordReset = () => {
 			await resetPassword(email)
 			setMessage("A reset password link has been sent to your inbox")
 		} catch (error) {
-			if (error.code.includes("auth/user-not-found")) {
-				setError("An account with that email does not exist")
-			} else {
-				setError("Failed to reset password"), error
-			}
+			setError("Failed to reset password"), error
 		}
 
 		setLoading(false)

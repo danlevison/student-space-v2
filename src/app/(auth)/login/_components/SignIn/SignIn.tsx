@@ -5,6 +5,7 @@ import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore"
 import { db } from "@/utils/firebase"
 import { FcGoogle } from "react-icons/fc"
 import { useRouter } from "next/navigation"
+import { AuthErrorCodes } from "firebase/auth"
 
 const SignIn = () => {
 	const [email, setEmail] = useState("")
@@ -37,7 +38,13 @@ const SignIn = () => {
 			await login(email, password)
 			router.push("/dashboard")
 		} catch (error) {
-			setError("Failed to sign in"), error
+			if (error.code.includes("auth/user-not-found")) {
+				setError("Incorrect email or password")
+			} else if (error.code === AuthErrorCodes.INVALID_PASSWORD) {
+				setError("Incorrect email or password")
+			} else {
+				setError("Failed to sign in"), error
+			}
 		}
 
 		setLoading(false)
@@ -46,7 +53,6 @@ const SignIn = () => {
 	const handleGoogleLogin = async () => {
 		try {
 			setError("")
-			setLoading(true)
 			const result = await googleLogin()
 			const userDocRef = doc(db, "users", result.user.uid)
 			const docSnap = await getDoc(userDocRef)
@@ -61,8 +67,6 @@ const SignIn = () => {
 		} catch (error) {
 			setError("Failed to sign in"), error
 		}
-
-		// setLoading(false)
 	}
 
 	return (

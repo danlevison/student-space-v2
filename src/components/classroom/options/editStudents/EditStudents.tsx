@@ -5,7 +5,7 @@ import { Dialog } from "@headlessui/react"
 import { AiOutlineClose } from "react-icons/ai"
 import StudentInfoModal from "./StudentInfoModal"
 // Types
-import { StudentData } from "../../../../../types/types"
+import { StudentData } from "../../../../types/types"
 
 type EditStudentsProps = {
 	isEditStudentsModalOpen: boolean

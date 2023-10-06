@@ -6,7 +6,7 @@ import { AiOutlineClose, AiOutlineInfoCircle } from "react-icons/ai"
 import CopyPasteStudentList from "./CopyPasteStudentList"
 import { updateStudentDataInClass } from "@/utils/updateStudentData"
 // Types
-import { StudentData } from "../../../../types/types"
+import { StudentData } from "../../../types/types"
 
 type AddStudentProps = {
 	isAddStudentModalOpen: boolean

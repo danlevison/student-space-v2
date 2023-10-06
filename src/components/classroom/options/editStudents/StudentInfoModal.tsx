@@ -7,7 +7,7 @@ import { AiOutlineClose } from "react-icons/ai"
 import StudentAvatarMenu from "./StudentAvatarMenu"
 import DeleteStudentModal from "./DeleteStudentModal"
 // Types
-import { StudentData } from "../../../../../types/types"
+import { StudentData } from "../../../../types/types"
 
 type StudentInfoModalProps = {
 	openStudentInfo: boolean

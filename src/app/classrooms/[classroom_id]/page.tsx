@@ -1,9 +1,10 @@
 "use client"
 
-import React, { useState } from "react"
-import { useRouter } from "next/navigation"
-import { useAuthState } from "react-firebase-hooks/auth"
-import { auth } from "@/utils/firebase"
+import React, { useState, useEffect, useContext } from "react"
+import { doc, getDoc, getDocs, collection } from "firebase/firestore"
+import { db } from "../../../utils/firebase"
+import StudentDataContext from "@/context/StudentDataContext"
+import { useAuth } from "@/context/AuthContext"
 import ClassNav from "@/components/classroom/ClassNav"
 import CurrentDate from "@/components/classroom/DateComponent"
 import StudentGrid from "@/components/classroom/studentGrid/StudentGrid"
@@ -17,11 +18,85 @@ import Preloader from "@/components/Preloader"
 import paperBg from "@/../../public/assets/paperbg.jpg"
 import SwitchGridView from "@/components/classroom/SwitchGridView"
 import PrivateRoute from "@/components/PrivateRoute"
+//Types
+import { StudentData } from "@/types/types"
+
+type ClassDataType = {
+	classId: string
+	className: string
+}
 
 const Classroom = () => {
-	const [loading] = useAuthState(auth)
+	const { setStudentData, params } = useContext(StudentDataContext)
+	const { currentUser } = useAuth()
+	const [loading, setLoading] = useState(true)
+	const [classData, setClassData] = useState<ClassDataType[] | null>([])
 	const [toolbarMenu, setToolbarMenu] = useState(false)
 	const [showTableGrid, setShowTableGrid] = useState(false)
+
+	// Fetch the user's student data from the Firestore subcollection
+	useEffect(() => {
+		if (params.classroom_id) {
+			const fetchStudentDataFromFirestore = async () => {
+				try {
+					// fetching student data from Firestore using params.classroom_id
+					const classDocumentRef = doc(
+						db,
+						"users",
+						currentUser.uid,
+						"classes",
+						params.classroom_id
+					)
+					const classDocSnapshot = await getDoc(classDocumentRef)
+
+					if (classDocSnapshot.exists()) {
+						const classData = classDocSnapshot.data()
+						if (classData) {
+							const fetchedStudentData: StudentData[] | null =
+								classData.studentData || []
+							setStudentData(fetchedStudentData)
+							// Now studentData contains the data from the specific classId (params.classroom_id)
+						}
+					}
+				} catch (error) {
+					console.log("Error fetching student data from Firestore:", error)
+				}
+			}
+			fetchStudentDataFromFirestore()
+		}
+	}, [params.classroom_id, currentUser.uid, setStudentData])
+
+	// fetch class name
+	useEffect(() => {
+		if (params.classroom_id) {
+			const fetchClass = async () => {
+				try {
+					const currentUserClassesRef = collection(
+						db,
+						"users",
+						currentUser.uid,
+						"classes"
+					)
+					const querySnapshot = await getDocs(currentUserClassesRef)
+					const data: ClassDataType[] = []
+
+					querySnapshot.forEach((doc) => {
+						const classId = doc.id
+						const className: string = doc.data().className
+
+						// Store classId and currentUserClassName as an object
+						data.push({ classId, className })
+					})
+
+					setClassData(data)
+				} catch (error) {
+					console.error("Error fetching class data:", error)
+				}
+				setLoading(false)
+			}
+			fetchClass()
+		}
+	}, [params.classroom_id, currentUser.uid])
 
 	const scribblesSvgs = [
 		{
@@ -57,6 +132,8 @@ const Classroom = () => {
 		}
 	]
 
+	if (loading) return <Preloader />
+
 	return (
 		<>
 			<header>
@@ -80,7 +157,7 @@ const Classroom = () => {
 
 					<div className="flex flex-col mx-auto w-full py-20 z-0">
 						<div className="flex flex-col justify-center items-center pb-10 sm:pb-0 px-8">
-							<Greeting />
+							<Greeting classData={classData} />
 							<Birthday />
 							<CurrentDate />
 							<Weather />

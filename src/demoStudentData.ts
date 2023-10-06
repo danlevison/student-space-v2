@@ -13,7 +13,7 @@ import lionAvatar from "../public/assets/avatars/lion.svg"
 import otterAvatar from "../public/assets/avatars/otter.svg"
 
 // Types
-import { StudentData } from "../types/types"
+import { StudentData } from "./types/types"
 
 const currentDate = new Date()
 const date = currentDate.getDate()
