@@ -15,7 +15,7 @@ import Weather from "@/components/WeatherData"
 import Birthday from "@/components/classroom/Birthday"
 import Scribble from "@/components/Scribble"
 import Preloader from "@/components/Preloader"
-import paperBg from "@/../../public/assets/paperbg.jpg"
+import paperBg from "@/../../public/assets/paperbg.png"
 import SwitchGridView from "@/components/classroom/SwitchGridView"
 import PrivateRoute from "@/components/PrivateRoute"
 //Types

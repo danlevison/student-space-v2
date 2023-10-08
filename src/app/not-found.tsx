@@ -1,6 +1,6 @@
 import React from "react"
 import Link from "next/link"
-import paperBg from "@/../public/assets/paperbg.jpg"
+import paperBg from "@/../public/assets/paperbg.png"
 import notFoundImg from "@/../public/assets/404.png"
 import Image from "next/image"
 
