@@ -90,7 +90,11 @@ function CreateClass({ setShouldFetchClassData }: CreateClassProps) {
 			>
 				<div className="flex flex-col justify-center items-center">
 					<p className="text-lg">Create class</p>
-					<RiAddLine size={70} />
+					<RiAddLine
+						size={70}
+						role="presentation"
+						aria-hidden="true"
+					/>
 				</div>
 			</button>
 			<Dialog

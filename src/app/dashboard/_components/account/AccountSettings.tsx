@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react"
 import { Dialog } from "@headlessui/react"
 import { AiOutlineClose } from "react-icons/ai"
 import { useAuth } from "@/context/AuthContext"
+import { db } from "@/utils/firebase"
+import { updateDoc, doc } from "firebase/firestore"
 
 type AccountSettingsProps = {
 	openAccountSettings: boolean
@@ -29,7 +31,7 @@ const AccountSettings = ({
 		setLoading(false)
 	}, [openAccountSettings, currentUser?.email])
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
 		// Validation
@@ -54,9 +56,15 @@ const AccountSettings = ({
 		setError("")
 		setMessage("")
 		setLoading(true)
+
 		if (email !== currentUser.email) {
 			promises.push(updateUserEmail(email))
+			const docRef = doc(db, "users", currentUser.uid)
+			await updateDoc(docRef, {
+				email: email
+			})
 		}
+
 		if (password) {
 			promises.push(updateUserPassword(password))
 		}
