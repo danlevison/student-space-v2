@@ -30,7 +30,7 @@ const AddInstructions = ({
 
 			{/* Full-screen container to center the panel */}
 			<div className="fixed inset-0 flex items-center justify-center p-4">
-				<Dialog.Panel className="p-5 w-full max-w-[550px] h-full max-h-[250px] rounded-xl bg-blue-100 overflow-auto">
+				<Dialog.Panel className="p-5 w-full max-w-[550px] h-full max-h-[250px] rounded-xl bg-modalBgClr border-2 border-modalBorderClr overflow-auto">
 					<div className="flex flex-col justify-between h-full">
 						<div className="flex flex-col">
 							<label
@@ -44,7 +44,7 @@ const AddInstructions = ({
 								id="instruction"
 								rows={4}
 								placeholder="e.g. Take out your reading book"
-								className="p-2 rounded-lg border-2 border-gray-400"
+								className="p-2 rounded-lg"
 								value={instruction}
 								onChange={(e) => setInstruction(e.target.value)}
 							/>

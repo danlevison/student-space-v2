@@ -211,8 +211,8 @@ const Instructions = ({
 
 			{/* Full-screen container to center the panel */}
 			<div className="fixed inset-0 flex items-center justify-center p-4">
-				<Dialog.Panel className="p-5 w-full max-w-[600px] h-full max-h-[500px] rounded-xl bg-blue-100 overflow-auto">
-					<div className="flex justify-between items-center pb-4">
+				<Dialog.Panel className="w-full max-w-[600px] h-full max-h-[500px] rounded-xl bg-modalBgClr border-2 border-modalBorderClr overflow-auto">
+					<div className="p-5 flex justify-between items-center border-b-2 border-gray-300">
 						<button onClick={() => setShowCreateInstructionsModal(false)}>
 							<AiOutlineArrowLeft size={25} />
 						</button>
@@ -227,7 +227,7 @@ const Instructions = ({
 						</button>
 					</div>
 
-					<div className="flex flex-col justify-center">
+					<div className="flex flex-col justify-center p-5">
 						<div className="flex flex-col w-full">
 							<label
 								htmlFor="instruction-title"
@@ -240,7 +240,7 @@ const Instructions = ({
 								id="instruction-title"
 								name="instruction-title"
 								placeholder="e.g. Morning routine"
-								className="p-4 w-full rounded-lg border-2 border-gray-400"
+								className="p-4 w-full rounded-lg"
 								value={instructionTitle}
 								onChange={(e) => setInstructionTitle(e.target.value)}
 							/>
@@ -318,8 +318,8 @@ const Instructions = ({
 
 			{/* Full-screen container to center the panel */}
 			<div className="fixed inset-0 flex items-center justify-center p-4">
-				<Dialog.Panel className="p-5 w-full max-w-[600px] h-full max-h-[500px] rounded-xl bg-blue-100 overflow-auto">
-					<div className="flex justify-between items-center pb-4">
+				<Dialog.Panel className="w-full max-w-[600px] h-full max-h-[500px] rounded-xl bg-modalBgClr border-2 border-modalBorderClr overflow-auto">
+					<div className="p-5 flex justify-between items-center border-b-2 border-gray-300">
 						<Dialog.Title className="font-bold text-xl">
 							Instructions
 						</Dialog.Title>
@@ -331,7 +331,7 @@ const Instructions = ({
 						</button>
 					</div>
 
-					<div className="flex flex-col justify-center items-center">
+					<div className="flex flex-col justify-center items-center p-5">
 						<button
 							onClick={handleCreateInstructionsModal}
 							className="w-full p-6 md:p-10 text-xl sm:text-2xl text-center bg-buttonClr text-primaryTextClr rounded-lg hover:scale-[1.02] duration-300"

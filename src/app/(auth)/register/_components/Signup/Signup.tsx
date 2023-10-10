@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useRef, useState } from "react"
+import React, { useState } from "react"
 import { useRouter } from "next/navigation"
 import { doc, setDoc, serverTimestamp } from "firebase/firestore"
 import { AuthErrorCodes } from "firebase/auth"
@@ -8,9 +8,6 @@ import { db } from "@/utils/firebase"
 import { useAuth } from "@/context/AuthContext"
 
 const Signup = () => {
-	const emailRef = useRef()
-	const passwordRef = useRef()
-	const passwordConfirmationRef = useRef()
 	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
 	const [passwordConfirmation, setPasswordConfirmation] = useState("")
@@ -61,7 +58,7 @@ const Signup = () => {
 			</h1>
 			{error && (
 				<div className="bg-red-300 text-red-900 font-bold text-center p-3 rounded-md mt-2">
-					<p>{error}</p>
+					<p data-testid="error">{error}</p>
 				</div>
 			)}
 			<form
@@ -76,11 +73,12 @@ const Signup = () => {
 					id="email"
 					name="email"
 					required
-					ref={emailRef}
-					className="border border-gray-300 p-2 rounded-md"
+					data-testid="email-input"
+					className="p-2 rounded-md border border-gray-300"
 				/>
 				<label
 					htmlFor="password"
+					data-testid="password-label"
 					className="mt-4"
 				>
 					Password
@@ -91,11 +89,12 @@ const Signup = () => {
 					id="password"
 					name="password"
 					required
-					ref={passwordRef}
-					className="border border-gray-300 p-2 rounded-md"
+					data-testid="password-input"
+					className="p-2 rounded-md border border-gray-300"
 				/>
 				<label
 					htmlFor="confirm-password"
+					data-testid="confirm-password-label"
 					className="mt-4"
 				>
 					Confirm Password
@@ -106,8 +105,8 @@ const Signup = () => {
 					id="confirm-password"
 					name="confirm-password"
 					required
-					ref={passwordConfirmationRef}
-					className="border border-gray-300 p-2 rounded-md"
+					data-testid="confirm-password-input"
+					className="p-2 rounded-md border border-gray-300"
 				/>
 				<button
 					className="w-full bg-buttonClr text-white p-2 mt-4 rounded-md disabled:bg-gray-400"

@@ -87,8 +87,8 @@ const AccountSettings = ({
 
 			{/* Full-screen container to center the panel */}
 			<div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-				<Dialog.Panel className="flex flex-col p-5 w-full max-w-[550px] max-h-fit rounded-xl bg-modalBgClr">
-					<div className="flex justify-between items-center pb-2 z-10">
+				<Dialog.Panel className="flex flex-col w-full max-w-[550px] max-h-fit rounded-xl bg-modalBgClr border-2 border-modalBorderClr">
+					<div className="p-5 flex justify-between items-center border-b-2 border-gray-300 z-10">
 						<Dialog.Title className="font-bold text-xl">
 							Account Settings
 						</Dialog.Title>
@@ -104,18 +104,18 @@ const AccountSettings = ({
 						</button>
 					</div>
 					{error && (
-						<div className="bg-red-300 text-red-900 font-bold text-center p-3 rounded-md mt-2">
+						<div className="bg-red-300 text-red-900 font-bold text-center p-3 rounded-md mt-5 mx-5">
 							<p>{error}</p>
 						</div>
 					)}
 					{message && (
-						<div className="bg-green-200 text-green-900 font-bold text-center p-3 rounded-md mt-2">
+						<div className="bg-green-200 text-green-900 font-bold text-center p-3 rounded-md mt-5 mx-5">
 							<p>{message}</p>
 						</div>
 					)}
 					<form
 						onSubmit={handleSubmit}
-						className="flex flex-col mt-4"
+						className="flex flex-col p-5"
 						noValidate
 					>
 						<label htmlFor="email">Email</label>
@@ -156,7 +156,7 @@ const AccountSettings = ({
 							placeholder="Leave blank to remain unchanged"
 							className="border-2 border-gray-400 p-3 rounded-md text-[#5065a8]"
 						/>
-						<button className="mt-4 text-sm font-bold bg-white hover:bg-green-200 rounded-2xl py-3 px-5 disabled:bg-gray-400 disabled:hover:bg-gray-400">
+						<button className="mt-4 text-sm font-bold bg-gray-100 hover:bg-green-200 rounded-2xl py-3 px-5 disabled:bg-gray-400 disabled:hover:bg-gray-400">
 							Save changes
 						</button>
 					</form>

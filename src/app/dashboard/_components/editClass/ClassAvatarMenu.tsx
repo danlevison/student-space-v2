@@ -133,7 +133,7 @@ const ClassAvatarMenu = ({
 						/>
 					)}
 					<AiFillCaretDown
-						className="absolute bottom-0 text-iconClr"
+						className="absolute bottom-[-1em] text-iconClr"
 						size={15}
 						aria-hidden="true"
 					/>

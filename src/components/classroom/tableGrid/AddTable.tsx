@@ -141,8 +141,8 @@ const AddTable = ({
 
 				{/* Full-screen container to center the panel */}
 				<div className="fixed inset-0 flex items-center justify-center p-4">
-					<Dialog.Panel className="flex flex-col p-5 w-full max-w-[800px] h-full max-h-[1000px] rounded-xl bg-blue-100">
-						<div className="flex justify-between items-center">
+					<Dialog.Panel className="flex flex-col w-full max-w-[800px] h-full max-h-[1000px] rounded-xl bg-modalBgClr border-2 border-modalBorderClr">
+						<div className="p-5 flex justify-between items-center border-b-2 border-gray-300">
 							<Dialog.Title className="font-bold text-xl capitalize">
 								Add table
 							</Dialog.Title>
@@ -160,7 +160,8 @@ const AddTable = ({
 						</div>
 						<form
 							onSubmit={handleAddTableSubmit}
-							className="flex flex-col py-4 overflow-auto"
+							className="p-5 flex flex-col h-full overflow-auto"
+							id="form"
 						>
 							<div className="flex flex-col items-center">
 								{alertMessage ? (
@@ -187,7 +188,7 @@ const AddTable = ({
 									className={
 										alertMessage
 											? "w-full sm:w-[400px] border-2 border-red-500 rounded-lg p-2 outline-none"
-											: "w-full sm:w-[400px] border-2 border-gray-400 rounded-lg p-2 outline-inputOutlineClr"
+											: "w-full sm:w-[400px] rounded-lg p-2 outline-inputOutlineClr"
 									}
 								/>
 							</div>
@@ -225,31 +226,31 @@ const AddTable = ({
 									</div>
 								))}
 							</div>
-
-							<div className="flex justify-end gap-10 mt-5 mx-2">
-								<button
-									onClick={() => {
-										setIsAddTableModalOpen(false)
-										reset()
-									}}
-									type="button"
-									className="w-full text-sm sm:text-base sm:w-32 bg-buttonClr p-3 rounded-lg text-primaryTextClr hover:scale-105 duration-300"
-									aria-label="Cancel"
-								>
-									Cancel
-								</button>
-								<button
-									type="submit"
-									className="w-full text-sm sm:text-base sm:w-32 bg-buttonClr p-3 rounded-lg text-primaryTextClr hover:scale-105 duration-300 disabled:bg-gray-400 disabled:hover:scale-100 disabled:duration-0"
-									aria-label="Submit add student form"
-									disabled={
-										!studentData.some((student) => student.tableData.selected)
-									}
-								>
-									Add Table
-								</button>
-							</div>
 						</form>
+						<div className="flex justify-end gap-10 border-t-2 border-gray-300 w-full px-5 py-3">
+							<button
+								onClick={() => {
+									setIsAddTableModalOpen(false)
+									reset()
+								}}
+								type="button"
+								className="w-full text-sm sm:text-base sm:w-32 bg-buttonClr p-3 rounded-lg text-primaryTextClr hover:scale-105 duration-300"
+								aria-label="Cancel"
+							>
+								Cancel
+							</button>
+							<button
+								type="submit"
+								form="form"
+								className="w-full text-sm sm:text-base sm:w-32 bg-buttonClr p-3 rounded-lg text-primaryTextClr hover:scale-105 duration-300 disabled:bg-gray-400 disabled:hover:scale-100 disabled:duration-0"
+								aria-label="Submit add student form"
+								disabled={
+									!studentData.some((student) => student.tableData.selected)
+								}
+							>
+								Add Table
+							</button>
+						</div>
 					</Dialog.Panel>
 				</div>
 			</Dialog>

@@ -15,7 +15,7 @@ import {
 // }
 
 jest.mock("firebase/auth", () => ({
-	getAuth: jest.fn(),
+	getAuth: jest.fn(() => {}),
 	signInWithEmailAndPassword: jest.fn(() => {
 		return Promise.resolve(null)
 	}),
@@ -41,69 +41,68 @@ describe("SignIn", () => {
 	})
 
 	describe("Render", () => {
-		it("should render an email label", async () => {
+		it("should render an email label", () => {
 			renderSignIn()
-			const emailLabel = await screen.findByLabelText(/email/i)
+			const emailLabel = screen.getByLabelText(/email/i)
 			expect(emailLabel).toBeInTheDocument()
 		})
 
-		it("should render an email input", async () => {
+		it("should render an email input", () => {
 			renderSignIn()
-			const emailInput = await screen.findByTestId("email-input")
+			const emailInput = screen.getByTestId("email-input")
 			expect(emailInput).toBeInTheDocument()
 			expect(emailInput).toHaveAttribute("type", "email")
 		})
 
-		it("should render a password label", async () => {
+		it("should render a password label", () => {
 			renderSignIn()
-			const passwordLabel = await screen.findByLabelText(/password/i)
+			const passwordLabel = screen.getByLabelText(/password/i)
 			expect(passwordLabel).toBeInTheDocument()
 		})
 
-		it("should render a password input", async () => {
+		it("should render a password input", () => {
 			renderSignIn()
-			const passwordInput = await screen.findByTestId("password-input")
+			const passwordInput = screen.getByTestId("password-input")
 			expect(passwordInput).toBeInTheDocument()
 			expect(passwordInput).toHaveAttribute("type", "password")
 		})
 
-		it("should render a log in button", async () => {
+		it("should render a log in button", () => {
 			renderSignIn()
-			const loginButtonEl = await screen.findByRole("button", {
+			const loginButtonEl = screen.getByRole("button", {
 				name: /log in/i
 			})
 			expect(loginButtonEl).toBeInTheDocument()
 		})
 
-		it("should render a forgot password link", async () => {
+		it("should render a forgot password link", () => {
 			renderSignIn()
-			const forgotPasswordLinkEl = await screen.findByRole("link", {
+			const forgotPasswordLinkEl = screen.getByRole("link", {
 				name: /forgot password?/i
 			})
 			expect(forgotPasswordLinkEl).toBeInTheDocument()
 		})
 
-		it("should render a Google log in button", async () => {
+		it("should render a Google log in button", () => {
 			renderSignIn()
-			const googleLoginButtonEl = await screen.findByRole("button", {
+			const googleLoginButtonEl = screen.getByRole("button", {
 				name: /google/i
 			})
 			expect(googleLoginButtonEl).toBeInTheDocument()
 		})
 
-		// TODO:
-		// it("should not initially render an error message", async () => {
-		// 	renderSignIn()
-		// 	const errorMessageEl = screen.queryByTestId("error")
-		// 	expect(errorMessageEl).toBeNull()
-		// })
+		it("should not initially render an error message", () => {
+			renderSignIn()
+			const errorMessageEl = screen.queryByTestId("error")
+			expect(errorMessageEl).not.toBeInTheDocument()
+		})
 
 		it("should render an error message for empty email input", async () => {
 			const user = userEvent.setup()
 			renderSignIn()
 
-			const passwordInput = await screen.findByTestId("password-input")
-			const loginButtonEl = await screen.findByRole("button", {
+			const passwordInput = screen.getByTestId("password-input")
+			const loginButtonEl = screen.getByRole("button", {
 				name: /log in/i
 			})
 
@@ -119,9 +118,9 @@ describe("SignIn", () => {
 			const user = userEvent.setup()
 			renderSignIn()
 
-			const emailInput = await screen.findByTestId("email-input")
-			const passwordInput = await screen.findByTestId("password-input")
-			const loginButtonEl = await screen.findByRole("button", {
+			const emailInput = screen.getByTestId("email-input")
+			const passwordInput = screen.getByTestId("password-input")
+			const loginButtonEl = screen.getByRole("button", {
 				name: /log in/i
 			})
 
@@ -138,8 +137,8 @@ describe("SignIn", () => {
 			const user = userEvent.setup()
 			renderSignIn()
 
-			const emailInput = await screen.findByTestId("email-input")
-			const loginButtonEl = await screen.findByRole("button", {
+			const emailInput = screen.getByTestId("email-input")
+			const loginButtonEl = screen.getByRole("button", {
 				name: /log in/i
 			})
 
@@ -150,13 +149,42 @@ describe("SignIn", () => {
 			expect(errorMessageEl).toHaveTextContent(/password is required/i)
 			expect(signInWithEmailAndPassword).toHaveBeenCalledTimes(0)
 		})
+
+		// TODO:
+		// it("should render an error message if the email is incorrect", async () => {
+		// 	const user = userEvent.setup()
+		// 	renderSignIn()
+
+		// 	const testEmail = "testemail@email.com"
+		// 	const testPassword = "123456"
+		// 	const auth = getAuth()
+
+		// 	const emailInput = await screen.findByTestId("email-input")
+		// 	const passwordInput = await screen.findByTestId("password-input")
+		// 	const loginButtonEl = await screen.findByRole("button", {
+		// 		name: /log in/i
+		// 	})
+
+		// 	await user.type(emailInput, testEmail)
+		// 	await user.type(passwordInput, testPassword)
+		// 	await user.click(loginButtonEl)
+
+		// 	expect(signInWithEmailAndPassword).toHaveBeenCalledWith(
+		// 		auth,
+		// 		testEmail,
+		// 		testPassword
+		// 	)
+
+		// 	const errorMessageEl = await screen.findByTestId("error")
+		// 	expect(errorMessageEl).toHaveTextContent(/incorrect email or password/i)
+		// })
 	})
 	describe("Behaviour", () => {
 		it("should allow users to type in the email input", async () => {
 			const user = userEvent.setup()
 			renderSignIn()
 
-			const emailInput = await screen.findByTestId("email-input")
+			const emailInput = screen.getByTestId("email-input")
 			await user.type(emailInput, "test@email.com")
 			expect(emailInput).toHaveValue("test@email.com")
 		})
@@ -165,7 +193,7 @@ describe("SignIn", () => {
 			const user = userEvent.setup()
 			renderSignIn()
 
-			const passwordInput = await screen.findByTestId("password-input")
+			const passwordInput = screen.getByTestId("password-input")
 			await user.type(passwordInput, "test")
 			expect(passwordInput).toHaveValue("test")
 		})

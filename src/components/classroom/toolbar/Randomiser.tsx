@@ -115,8 +115,8 @@ const Randomiser = ({ openRandomiser, setOpenRandomiser }: RandomiserProps) => {
 
 				{/* Full-screen container to center the panel */}
 				<div className="fixed inset-0 flex items-center justify-center p-4">
-					<Dialog.Panel className="p-5 w-full max-w-[600px] h-full max-h-[400px] rounded-xl bg-blue-100">
-						<div className="flex justify-between items-center pb-4">
+					<Dialog.Panel className="w-full max-w-[600px] h-full max-h-[450px] rounded-xl bg-modalBgClr border-2 border-modalBorderClr">
+						<div className="p-5 flex justify-between items-center border-b-2 border-gray-300">
 							<Dialog.Title className="font-bold text-xl">
 								Random Student
 							</Dialog.Title>
@@ -128,10 +128,10 @@ const Randomiser = ({ openRandomiser, setOpenRandomiser }: RandomiserProps) => {
 							</button>
 						</div>
 
-						<div className="flex flex-col justify-center items-center gap-6 h-full">
+						<div className="flex flex-col justify-center items-center gap-6 h-full p-5">
 							<div
 								key={randomStudent?.uuid}
-								className="relative flex flex-col justify-center items-center p-8 shadow-lg rounded-md bg-[#f5f5f5] w-full max-w-[400px] h-[250px]"
+								className="relative flex flex-col justify-center items-center p-8 shadow-lg rounded-md bg-[#f5f5f5] border w-full max-w-[400px] h-[250px]"
 							>
 								{randomStudent ? (
 									<>

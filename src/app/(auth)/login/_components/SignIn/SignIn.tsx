@@ -89,7 +89,7 @@ const SignIn = () => {
 					id="email"
 					name="email"
 					required
-					className="border border-gray-300 p-2 rounded-md"
+					className="p-2 rounded-md border border-gray-300"
 					data-testid="email-input"
 				/>
 				<label
@@ -104,7 +104,7 @@ const SignIn = () => {
 					id="password"
 					name="password"
 					required
-					className="border border-gray-300 p-2 rounded-md"
+					className="p-2 rounded-md border border-gray-300"
 					data-testid="password-input"
 				/>
 				<button

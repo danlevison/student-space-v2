@@ -1,6 +1,6 @@
 import React from "react"
 import Link from "next/link"
-import Signup from "@/app/(auth)/register/_components/Signup"
+import Signup from "@/app/(auth)/register/_components/Signup/Signup"
 import Nav from "@/components/Nav"
 import Scribble from "@/components/Scribble"
 
