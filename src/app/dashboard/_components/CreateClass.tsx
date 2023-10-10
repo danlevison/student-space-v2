@@ -107,9 +107,9 @@ function CreateClass({ setShouldFetchClassData }: CreateClassProps) {
 				{/* Full-screen container to center the panel */}
 				<div className="fixed inset-0 flex items-center justify-center p-4">
 					{/* The actual dialog panel  */}
-					<Dialog.Panel className="flex flex-col p-6 mx-auto w-[500px] h-[300px] rounded-3xl bg-modalBgClr">
+					<Dialog.Panel className="flex flex-col p-6 mx-auto w-[500px] h-[300px] rounded-3xl bg-modalBgClr border-2 border-modalBorderClr">
 						<Dialog.Title className="text-3xl font-bold text-center">
-							Create Class
+							Create New Class
 						</Dialog.Title>
 						<form
 							onSubmit={handleCreateClass}
@@ -129,7 +129,7 @@ function CreateClass({ setShouldFetchClassData }: CreateClassProps) {
 									name="classname"
 									required
 									maxLength={25}
-									className="py-3 px-2 border border-gray-400 rounded-lg outline-inputOutlineClr"
+									className="py-3 px-2 rounded-lg outline-inputOutlineClr"
 								/>
 							</div>
 							<div className="flex justify-center gap-8">

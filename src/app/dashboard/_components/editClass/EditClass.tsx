@@ -98,8 +98,8 @@ const EditClass = ({
 
 			{/* Full-screen container to center the panel */}
 			<div className="fixed inset-0 flex items-center justify-center p-4">
-				<Dialog.Panel className="p-5 w-full max-w-[500px] h-full max-h-[450px] min-h-[30vh] rounded-xl bg-blue-100 overflow-auto">
-					<div className="flex justify-between items-center">
+				<Dialog.Panel className="w-full max-w-[500px] h-full max-h-[465px] min-h-[30vh] rounded-xl bg-modalBgClr border-2 border-modalBorderClr overflow-auto">
+					<div className="p-5 flex justify-between items-center border-b-2 border-gray-300 mb-10">
 						<Dialog.Title className="font-bold text-xl">
 							Edit {userClassName}
 						</Dialog.Title>
@@ -118,7 +118,8 @@ const EditClass = ({
 
 					<form
 						onSubmit={handleClassInfoSubmit}
-						className="flex flex-col mt-16"
+						className="flex flex-col p-5"
+						id="form"
 					>
 						<div className="flex justify-center items-center">
 							<ClassAvatarMenu
@@ -133,7 +134,7 @@ const EditClass = ({
 							Class name
 						</label>
 						<input
-							className="border-2 border-gray-400 w-full rounded-lg p-3 outline-inputOutlineClr text-xl"
+							className="w-full rounded-lg p-3 outline-inputOutlineClr text-xl"
 							type="text"
 							id="classroomName"
 							name="classroomName"
@@ -141,34 +142,36 @@ const EditClass = ({
 							onChange={updateClassName}
 							required
 						/>
-						<div className="flex flex-row-reverse justify-between items-center pt-32">
-							<div className="flex items-center justify-center gap-2">
-								<button
-									onClick={() => {
-										setIsEditClassModalOpen(false)
-										resetForm()
-									}}
-									type="button"
-									className="bg-modalBgClr hover:bg-white rounded-2xl py-2 px-3 text-buttonClr font-bold text-sm"
-								>
-									Cancel
-								</button>
-								<button
-									// disabled={!userClassName.trim()}
-									className="font-bold text-sm bg-white hover:bg-green-200 rounded-2xl py-2 px-5 disabled:bg-gray-400 disabled:hover:bg-gray-400"
-								>
-									Save
-								</button>
-							</div>
+					</form>
+					<div className="flex flex-row-reverse justify-between items-center border-t-2 border-gray-300 w-full px-5 py-3 mt-24">
+						<div className="flex items-center justify-center gap-2">
 							<button
-								onClick={handleDeleteClassModal}
+								onClick={() => {
+									setIsEditClassModalOpen(false)
+									resetForm()
+								}}
 								type="button"
-								className="w-[110px] bg-red-500 hover:bg-red-700 rounded-2xl py-2 px-3 text-primaryTextClr text-sm font-bold"
+								className="bg-modalBgClr hover:bg-white rounded-2xl py-2 px-3 text-buttonClr font-bold text-sm"
 							>
-								Delete class
+								Cancel
+							</button>
+							<button
+								type="submit"
+								form="form"
+								// disabled={!userClassName.trim()}
+								className="font-bold text-sm bg-white hover:bg-green-200 rounded-2xl py-2 px-5 disabled:bg-gray-400 disabled:hover:bg-gray-400"
+							>
+								Save
 							</button>
 						</div>
-					</form>
+						<button
+							onClick={handleDeleteClassModal}
+							type="button"
+							className="w-[110px] bg-red-500 hover:bg-red-700 rounded-2xl py-2 px-3 text-primaryTextClr text-sm font-bold"
+						>
+							Delete class
+						</button>
+					</div>
 				</Dialog.Panel>
 			</div>
 			<DeleteClassModal

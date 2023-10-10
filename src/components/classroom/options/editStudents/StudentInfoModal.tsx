@@ -116,8 +116,8 @@ const StudentInfoModal = ({
 
 			{/* Full-screen container to center the panel */}
 			<div className="fixed inset-0 flex items-center justify-center p-4">
-				<Dialog.Panel className="flex flex-col p-5 w-full max-w-[500px] h-full max-h-[480px] rounded-xl bg-modalBgClr overflow-auto">
-					<div className="flex justify-between items-center pb-2 z-10">
+				<Dialog.Panel className="flex flex-col w-full max-w-[500px] h-full max-h-[490px] rounded-xl bg-modalBgClr border-2 border-modalBorderClr overflow-auto">
+					<div className="p-5 flex justify-between items-center border-b-2 border-gray-300 z-10">
 						<Dialog.Title className="font-bold text-xl">
 							{selectedStudent?.name}
 						</Dialog.Title>
@@ -135,7 +135,8 @@ const StudentInfoModal = ({
 					</div>
 					<form
 						onSubmit={handleStudentInfoSubmit}
-						className="flex flex-col"
+						className="flex flex-col p-5"
+						id="form"
 					>
 						<StudentAvatarMenu
 							newStudentAvatar={newStudentAvatar}
@@ -159,7 +160,7 @@ const StudentInfoModal = ({
 								className={
 									alertMessage
 										? "border-2 border-red-500 w-full rounded-lg p-3 outline-none"
-										: "border-2 border-gray-400 w-full rounded-lg p-3 outline-inputOutlineClr"
+										: "w-full rounded-lg p-3 outline-inputOutlineClr"
 								}
 								type="text"
 								id="name"
@@ -177,7 +178,7 @@ const StudentInfoModal = ({
 								Date of birth
 							</label>
 							<input
-								className="border-2 border-gray-400 bg-white rounded-lg p-3 outline-inputOutlineClr"
+								className=" bg-white rounded-lg p-3 outline-inputOutlineClr"
 								type="date"
 								id="dob"
 								name="dob"
@@ -185,37 +186,38 @@ const StudentInfoModal = ({
 								onChange={updateStudentDob}
 							/>
 						</div>
-
-						<div className="flex justify-between flex-row-reverse items-center pt-[4.5rem]">
-							<div className="flex items-center justify-center gap-2">
-								<button
-									onClick={() => {
-										setOpenStudentInfo(false)
-										setAlertMessage("")
-									}}
-									type="button"
-									className="bg-modalBgClr hover:bg-white rounded-2xl py-2 px-3 text-buttonClr font-bold text-sm"
-								>
-									Cancel
-								</button>
-								<button
-									disabled={!selectedStudent?.name.trim()}
-									className="text-sm font-bold bg-white hover:bg-green-200 rounded-2xl py-2 px-5 disabled:bg-gray-400 disabled:hover:bg-gray-400"
-								>
-									Save
-								</button>
-							</div>
+					</form>
+					<div className="flex justify-between flex-row-reverse items-center border-t-2 border-gray-300 mt-3 px-5 py-4">
+						<div className="flex items-center justify-center gap-2">
 							<button
-								onClick={() =>
-									setCheckDeleteStudentModal(!checkDeleteStudentModal)
-								}
+								onClick={() => {
+									setOpenStudentInfo(false)
+									setAlertMessage("")
+								}}
 								type="button"
-								className="w-[150px] bg-red-500 hover:bg-red-700 rounded-2xl py-2 px-3 text-sm text-primaryTextClr font-bold"
+								className="bg-modalBgClr hover:bg-white rounded-2xl py-2 px-3 text-buttonClr font-bold text-sm"
 							>
-								Remove student
+								Cancel
+							</button>
+							<button
+								type="submit"
+								form="form"
+								disabled={!selectedStudent?.name.trim()}
+								className="text-sm font-bold bg-white hover:bg-green-200 rounded-2xl py-2 px-5 disabled:bg-gray-400 disabled:hover:bg-gray-400"
+							>
+								Save
 							</button>
 						</div>
-					</form>
+						<button
+							onClick={() =>
+								setCheckDeleteStudentModal(!checkDeleteStudentModal)
+							}
+							type="button"
+							className="w-[150px] bg-red-500 hover:bg-red-700 rounded-2xl py-2 px-3 text-sm text-primaryTextClr font-bold"
+						>
+							Remove student
+						</button>
+					</div>
 				</Dialog.Panel>
 			</div>
 			<DeleteStudentModal

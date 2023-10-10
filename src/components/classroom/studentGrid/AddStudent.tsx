@@ -147,8 +147,8 @@ const AddStudent = ({
 
 				{/* Full-screen container to center the panel */}
 				<div className="fixed inset-0 flex items-center justify-center p-4">
-					<Dialog.Panel className="w-full max-w-[500px] h-full max-h-[675px] rounded-xl bg-modalBgClr overflow-auto">
-						<div className="p-5 flex justify-between items-center">
+					<Dialog.Panel className="w-full max-w-[500px] h-full max-h-[680px] rounded-xl bg-modalBgClr border-2 border-modalBorderClr overflow-auto">
+						<div className="p-5 flex justify-between items-center border-b-2 border-gray-300">
 							<Dialog.Title className="font-bold text-xl capitalize">
 								Add student
 							</Dialog.Title>
@@ -185,7 +185,7 @@ const AddStudent = ({
 									className={
 										alertMessage
 											? "border-2 border-red-500 w-full rounded-lg p-3 outline-none"
-											: "border-2 border-gray-400 w-full rounded-lg p-3 outline-inputOutlineClr"
+											: "w-full rounded-lg p-3 outline-inputOutlineClr"
 									}
 									type="text"
 									id="name"
@@ -211,7 +211,7 @@ const AddStudent = ({
 											addStudent() // Call addStudent function when Enter key is pressed
 										}
 									}}
-									className="border-2 border-gray-400 w-full bg-white rounded-lg p-3 outline-inputOutlineClr"
+									className="w-full bg-white rounded-lg p-3 outline-inputOutlineClr"
 									type="date"
 									id="dob"
 									name="dob"
@@ -229,7 +229,7 @@ const AddStudent = ({
 
 							<div className="mt-2">
 								{addedStudents.length > 0 ? (
-									<div className="bg-[#f1f3f8] p-5 border-y-2 border-gray-400 h-[250px] overflow-auto">
+									<div className="bg-[#f1f3f8] p-5 border-y-2 border-gray-300 h-[250px] overflow-auto">
 										<p className="font-bold">
 											{addedStudents.length}{" "}
 											{addedStudents.length === 1 ? "student" : "students"}
@@ -252,7 +252,7 @@ const AddStudent = ({
 										))}
 									</div>
 								) : (
-									<div className="flex justify-center items-center bg-[#f1f3f8] p-5 text-center h-[250px] border-y-2 border-gray-400">
+									<div className="flex justify-center items-center bg-[#f1f3f8] p-5 text-center h-[250px] border-y-2 border-gray-300">
 										No students added yet
 									</div>
 								)}
@@ -267,7 +267,7 @@ const AddStudent = ({
 									Or, copy and paste your student list
 								</button>
 								<button
-									className="text-sm font-bold bg-white hover:bg-green-200 rounded-2xl py-2 px-5 hover:scale-105 duration-300 disabled:bg-gray-400 disabled:hover:scale-100 disabled:duration-0"
+									className="text-sm font-bold bg-white hover:bg-green-200 rounded-2xl py-2 px-5 hover:scale-105 duration-300 disabled:bg-gray-400 disabled:text-white disabled:hover:scale-100 disabled:duration-0"
 									disabled={addedStudents.length === 0}
 									aria-label="Submit add student form"
 								>

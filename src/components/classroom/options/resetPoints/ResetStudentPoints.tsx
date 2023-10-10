@@ -120,8 +120,8 @@ const ResetStudentPoints = ({
 
 			{/* Full-screen container to center the panel */}
 			<div className="fixed inset-0 flex items-center justify-center p-4">
-				<Dialog.Panel className="flex flex-col justify-between p-5 w-full max-w-[800px] h-full max-h-[1000px] rounded-xl bg-modalBgClr">
-					<div className="flex justify-between items-center">
+				<Dialog.Panel className="flex flex-col justify-between w-full max-w-[800px] h-full max-h-[1000px] rounded-xl bg-modalBgClr border-2 border-modalBorderClr">
+					<div className="p-5 flex justify-between items-center border-b-2 border-gray-300">
 						<Dialog.Title className="font-bold text-xl">
 							Reset Points
 						</Dialog.Title>
@@ -169,7 +169,7 @@ const ResetStudentPoints = ({
 					</Dialog.Description>
 					{studentView ? (
 						<>
-							<div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] overflow-auto h-[600px]">
+							<div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] overflow-auto h-[600px] p-5">
 								{studentData.map((student) => (
 									<div
 										key={student.uuid}
@@ -201,7 +201,7 @@ const ResetStudentPoints = ({
 									</div>
 								))}
 							</div>
-							<div className="flex flex-row justify-end items-center pt-2 text-sm">
+							<div className="flex flex-row justify-end items-center text-sm border-t-2 border-gray-300 px-5 py-3">
 								{areAllStudentsSelected ? (
 									<button
 										onClick={deselectAllStudents}

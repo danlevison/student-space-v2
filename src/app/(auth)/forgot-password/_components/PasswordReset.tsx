@@ -63,7 +63,7 @@ const PasswordReset = () => {
 					id="email"
 					name="email"
 					required
-					className="border border-gray-300 p-2 rounded-md"
+					className="p-2 rounded-md border border-gray-300"
 				/>
 				<button
 					className="w-full bg-buttonClr text-white p-2 mt-4 rounded-md"

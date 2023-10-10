@@ -68,7 +68,7 @@ const DeleteTableModal = ({
 
 			{/* Full-screen container to center the panel */}
 			<div className="fixed inset-0 flex items-center justify-center p-4">
-				<Dialog.Panel className="flex flex-col p-5 w-full max-w-[550px] h-auto overflow-auto rounded-xl bg-modalBgClr">
+				<Dialog.Panel className="flex flex-col p-5 w-full max-w-[550px] h-auto overflow-auto rounded-xl bg-modalBgClr border-2 border-modalBorderClr">
 					<div className="flex justify-between items-center border-b border-gray-400 pb-4">
 						<Dialog.Title className="font-bold text-lg">
 							Delete this table group?

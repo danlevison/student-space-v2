@@ -53,8 +53,8 @@ const EditTables = ({
 
 			{/* Full-screen container to center the panel */}
 			<div className="fixed inset-0 flex items-center justify-center p-4">
-				<Dialog.Panel className="p-5 w-full max-w-[800px] h-full max-h-[1000px] rounded-xl bg-modalBgClr overflow-auto">
-					<div className="flex justify-between items-center">
+				<Dialog.Panel className="w-full max-w-[800px] h-full max-h-[1000px] rounded-xl bg-modalBgClr border-2 border-modalBorderClr overflow-auto">
+					<div className="p-5 flex justify-between items-center border-b-2 border-gray-300">
 						<Dialog.Title className="font-bold text-xl">
 							Edit Tables
 						</Dialog.Title>
@@ -70,7 +70,7 @@ const EditTables = ({
 							<p className="text-2xl">No table data available</p>
 						</div>
 					) : (
-						<div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-4 h-fit overflow-auto mt-4 p-4">
+						<div className="grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] gap-4 h-fit overflow-auto mt-4 p-4">
 							{/* Render a button for each table name */}
 							{tableNames.map((tableName) => (
 								<button

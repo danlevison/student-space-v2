@@ -118,7 +118,7 @@ const ResetTablePoints = ({
 
 	return (
 		<>
-			<div className="grid grid-cols-[repeat(auto-fill,minmax(130px,1fr))] gap-1 overflow-auto h-[600px]">
+			<div className="grid grid-cols-[repeat(auto-fill,minmax(130px,1fr))] gap-1 overflow-auto h-[600px] p-5">
 				{tables.map((table) => (
 					<div
 						key={table.tableName}
@@ -141,7 +141,7 @@ const ResetTablePoints = ({
 					</div>
 				))}
 			</div>
-			<div className="flex flex-row justify-end items-center pt-2 text-sm">
+			<div className="flex flex-row justify-end items-center text-sm border-t-2 border-gray-300 px-5 py-3">
 				{areAllTablesSelected ? (
 					<button
 						onClick={deselectAllTables}

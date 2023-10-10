@@ -170,8 +170,8 @@ const TaskList = ({
 
 			{/* Full-screen container to center the panel */}
 			<div className="fixed inset-0 flex items-center justify-center p-4">
-				<Dialog.Panel className="p-5 w-full max-w-[800px] h-full max-h-[1000px] rounded-xl bg-blue-100 overflow-auto">
-					<div className="flex justify-between items-center pb-4">
+				<Dialog.Panel className="w-full max-w-[800px] h-full max-h-[1000px] rounded-xl bg-modalBgClr border-2 border-modalBorderClr overflow-auto">
+					<div className="p-5 flex justify-between items-center border-b-2 border-gray-300">
 						<Dialog.Title className="font-bold text-xl">Task List</Dialog.Title>
 						<button
 							onClick={() => {
@@ -186,7 +186,10 @@ const TaskList = ({
 						</button>
 					</div>
 
-					<form onSubmit={handleSubmit}>
+					<form
+						onSubmit={handleSubmit}
+						className="p-5"
+					>
 						<div className="flex flex-col">
 							<label
 								htmlFor="item"
@@ -201,7 +204,7 @@ const TaskList = ({
 									onChange={(e) => setNewItem(e.target.value)}
 									id="item"
 									ref={inputRef}
-									className="border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr"
+									className="w-full rounded-lg p-2 outline-inputOutlineClr"
 								/>
 								<button
 									className="flex justify-center items-center w-full sm:w-[200px] text-lg bg-buttonClr p-2 rounded-lg text-primaryTextClr hover:scale-[1.02] duration-300 disabled:bg-gray-400 disabled:scale-100 disabled:duration-0"
@@ -212,8 +215,8 @@ const TaskList = ({
 							</div>
 						</div>
 					</form>
-					<h2 className="text-2xl py-4">Your tasks</h2>
-					<ul className="flex flex-col gap-4">
+					<h2 className="text-2xl p-5">Your tasks</h2>
+					<ul className="flex flex-col gap-4 p-5">
 						{tasks.length === 0 && (
 							<p className="text-center">All done! No tasks left for now.</p>
 						)}

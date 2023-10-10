@@ -124,8 +124,8 @@ const TableInfoModal = ({
 
 			{/* Full-screen container to center the panel */}
 			<div className="fixed inset-0 flex items-center justify-center p-4">
-				<Dialog.Panel className="flex flex-col p-5 w-full max-w-[600px] h-full max-h-[500px] rounded-xl bg-modalBgClr overflow-auto">
-					<div className="flex justify-between items-center pb-2">
+				<Dialog.Panel className="flex flex-col w-full max-w-[750px] h-full max-h-[500px] rounded-xl bg-modalBgClr border-2 border-modalBorderClr">
+					<div className="p-5 flex justify-between items-center border-b-2 border-gray-300">
 						<Dialog.Title className="font-bold text-xl">
 							{selectedTableName}
 						</Dialog.Title>
@@ -144,7 +144,8 @@ const TableInfoModal = ({
 					</div>
 					<form
 						onSubmit={handleTableInfoSubmit}
-						className="flex flex-col h-full"
+						className="flex flex-col h-full p-5 overflow-auto"
+						id="form"
 					>
 						{alertMessage ? (
 							<p className="font-bold text-red-500 pb-1">{alertMessage}</p>
@@ -160,7 +161,7 @@ const TableInfoModal = ({
 							className={
 								alertMessage
 									? "border-2 border-red-500 w-full rounded-lg p-3 outline-none"
-									: "border-2 border-gray-400 w-full rounded-lg p-3 outline-inputOutlineClr"
+									: "w-full rounded-lg p-3 outline-inputOutlineClr"
 							}
 							id="tableName"
 							name="tableName"
@@ -207,36 +208,38 @@ const TableInfoModal = ({
 									</div>
 								))}
 						</div>
-
-						<div className="flex-grow" />
-						<div className="flex flex-row-reverse justify-between items-center pb-2">
-							<div className="flex items-center justify-center gap-2">
-								<button
-									onClick={() => {
-										setOpenTableInfo(false)
-										setTempStudentData(studentData)
-										setAlertMessage("")
-									}}
-									type="button"
-									className="bg-modalBgClr hover:bg-white rounded-2xl py-2 px-3 text-buttonClr text-sm font-bold"
-								>
-									Cancel
-								</button>
-								<button className="font-bold text-sm bg-white hover:bg-green-200 rounded-2xl py-2 px-5 disabled:bg-gray-400">
-									Save
-								</button>
-							</div>
+					</form>
+					<div className="flex flex-row-reverse justify-between items-center border-t-2 border-gray-300 px-5 py-3">
+						<div className="flex items-center justify-center gap-2">
 							<button
-								onClick={() =>
-									setOpenCheckDeleteTableModal(!openCheckDeleteTableModal)
-								}
+								onClick={() => {
+									setOpenTableInfo(false)
+									setTempStudentData(studentData)
+									setAlertMessage("")
+								}}
 								type="button"
-								className="w-[110px] bg-red-500 hover:bg-red-700 rounded-2xl py-2 px-3 text-primaryTextClr text-sm font-bold"
+								className="bg-modalBgClr hover:bg-white rounded-2xl py-2 px-3 text-buttonClr text-sm font-bold"
 							>
-								Delete table
+								Cancel
+							</button>
+							<button
+								type="submit"
+								form="form"
+								className="font-bold text-sm bg-white hover:bg-green-200 rounded-2xl py-2 px-5 disabled:bg-gray-400"
+							>
+								Save
 							</button>
 						</div>
-					</form>
+						<button
+							onClick={() =>
+								setOpenCheckDeleteTableModal(!openCheckDeleteTableModal)
+							}
+							type="button"
+							className="w-[110px] bg-red-500 hover:bg-red-700 rounded-2xl py-2 px-3 text-primaryTextClr text-sm font-bold"
+						>
+							Delete table
+						</button>
+					</div>
 				</Dialog.Panel>
 			</div>
 

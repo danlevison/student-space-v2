@@ -125,8 +125,8 @@ const CopyPasteStudentList = ({
 
 			{/* Full-screen container to center the panel */}
 			<div className="fixed inset-0 flex items-center justify-center p-4">
-				<Dialog.Panel className="w-full max-w-[650px] h-full max-h-[660px] rounded-xl bg-modalBgClr overflow-auto">
-					<div className="p-5 flex justify-between items-center">
+				<Dialog.Panel className="w-full max-w-[650px] h-full max-h-[740px] rounded-xl bg-modalBgClr border-2 border-modalBorderClr overflow-auto">
+					<div className="p-5 flex justify-between items-center border-b-2 border-gray-300">
 						<Dialog.Title className="font-bold text-xl capitalize">
 							Copy/Paste student list
 						</Dialog.Title>
@@ -161,10 +161,12 @@ const CopyPasteStudentList = ({
 							onChange={handleTextareaChange}
 							ref={pasteTextAreaRef}
 							id="pasteNames"
-							rows={9}
+							rows={10}
 							placeholder={`Copy/Paste your student names here. Put each name on a new line.\n\nExample:\n\nFirst Name\nFirst Name\nFirst Name`}
-							className="text-lg font-bold border-2 border-gray-400 w-full rounded-lg p-2 outline-inputOutlineClr placeholder:text-lg placeholder:text-iconClr placeholder:font-bold"
+							className="text-lg font-bold w-full rounded-lg p-2 outline-inputOutlineClr placeholder:text-lg placeholder:text-iconClr placeholder:font-bold"
 						/>
+					</div>
+					<div className="flex justify-end items-center w-full border-t-2 border-gray-300 mt-[7.5rem] px-5 py-3">
 						<button
 							onClick={handleAddPastedStudents}
 							type="button"
@@ -172,7 +174,7 @@ const CopyPasteStudentList = ({
 								!pasteTextAreaRef.current ||
 								!pasteTextAreaRef.current.value.trim()
 							}
-							className="block bg-white w-full sm:w-[200px] mx-auto p-2 rounded-lg border-2 border-green-600 mt-4 disabled:bg-gray-400 disabled:border-gray-400 disabled:text-white"
+							className="bg-white w-full sm:w-[150px] p-2 rounded-lg border-2 border-green-600 disabled:bg-gray-400 disabled:border-gray-400 disabled:text-white"
 						>
 							Import list
 						</button>

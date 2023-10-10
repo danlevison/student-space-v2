@@ -13,6 +13,8 @@ import Preloader from "@/components/Preloader"
 import ConditionalHeading from "./_components/ConditionalHeading"
 import PrivateRoute from "@/components/PrivateRoute"
 import ProfileMenu from "@/app/dashboard/_components/account/ProfileMenu"
+import Scribble from "@/components/Scribble"
+import CurrentDate from "@/components/classroom/DateComponent"
 
 type SelectedUser = {
 	classId: string
@@ -98,6 +100,45 @@ const Dashboard = () => {
 		}
 	}
 
+	const scribblesSvgs = [
+		{
+			src: "/assets/Scribbles/24.svg",
+			className: "absolute top-16 left-0 w-[75px] md:w-[100px] 2xl:w-[150px]"
+		},
+		{
+			src: "/assets/Scribbles/72.svg",
+			className:
+				"absolute bottom-20 md:bottom-5 right-20 w-[75px] md:w-[100px] 2xl:w-[150px] rotate-12"
+		},
+		{
+			src: "/assets/Scribbles/1.svg",
+			className: "absolute top-32 right-6 w-[50px] md:w-[75px] 2xl:w-[130px]"
+		},
+		{
+			src: "/assets/Scribbles/21.svg",
+			className: "absolute bottom-32 left-16 w-[50px] md:w-[75px]"
+		},
+		{
+			src: "/assets/Scribbles/63.svg",
+			className:
+				"absolute bottom-[30%] md:bottom-44 2xl:bottom-96 right-7 md:right-56 2xl:right-56 w-[40px] md:w-[50px] 2xl:w-[75px]"
+		},
+		{
+			src: "/assets/Scribbles/6.svg",
+			className:
+				"absolute bottom-[50%] lg:bottom-72 left-10 md:left-24 w-[30px] md:w-[40px]"
+		},
+		{
+			src: "/assets/Scribbles/45.svg",
+			className:
+				"hidden 2xl:block absolute top-72 left-72 w-[30px] 2xl:w-[40px]"
+		},
+		{
+			src: "/assets/Scribbles/35.svg",
+			className: "hidden lg:block absolute bottom-10 w-[75px] 2xl:w-[100px]"
+		}
+	]
+
 	if (loading) return <Preloader />
 
 	return (
@@ -106,10 +147,12 @@ const Dashboard = () => {
 				<Nav />
 			</header>
 			<main className="relative py-40 min-h-screen w-full">
-				<div className="fixed top-[5.5rem] flex justify-end items-center px-8 bg-white w-full h-12 border-b border-gray-300 z-10">
+				<div className="fixed top-[5.5rem] flex justify-between items-center px-8 bg-white w-full h-12 border-b border-gray-300 z-10">
 					<ProfileMenu />
+					<CurrentDate />
 				</div>
-				<div className="flex flex-col justify-center items-center text-center px-8">
+				<div className="flex flex-col justify-center items-center text-center px-8 py-10">
+					<Scribble scribblesSvgs={scribblesSvgs} />
 					<ConditionalHeading />
 
 					<div className="relative grid grid-cols-[repeat(auto-fit,minmax(230px,230px))] gap-10 w-full items-center justify-center mt-12">
