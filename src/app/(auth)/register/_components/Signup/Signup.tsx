@@ -112,7 +112,7 @@ const Signup = () => {
 					className="w-full bg-buttonClr text-white p-2 mt-4 rounded-md disabled:bg-gray-400"
 					disabled={loading || !(email && password && passwordConfirmation)}
 				>
-					Sign Up
+					{loading ? "Please wait" : "Sign up"}
 				</button>
 			</form>
 		</div>
