@@ -52,33 +52,28 @@ const AccountSettings = ({
 			return setError("Password should be at least 6 characters")
 		}
 
-		const promises: Promise<void>[] = []
-		setError("")
-		setMessage("")
-		setLoading(true)
-
-		if (email !== currentUser.email) {
-			promises.push(updateUserEmail(email))
-			const docRef = doc(db, "users", currentUser.uid)
-			await updateDoc(docRef, {
-				email: email
-			})
+		try {
+			setError("")
+			setMessage("")
+			setLoading(true)
+			if (email !== currentUser.email) {
+				await updateUserEmail(email).then(() =>
+					setMessage("Account information successfully updated")
+				)
+				const docRef = doc(db, "users", currentUser.uid)
+				await updateDoc(docRef, {
+					email: email
+				})
+			}
+			if (password) {
+				await updateUserPassword(password)
+			}
+			setMessage("Account information successfully updated")
+		} catch (error) {
+			setError("Failed to update account information"), error
 		}
 
-		if (password) {
-			promises.push(updateUserPassword(password))
-		}
-
-		Promise.all(promises)
-			.then(() => {
-				setMessage("Account information successfully updated")
-			})
-			.catch(() => {
-				setError("Failed to update account information")
-			})
-			.finally(() => {
-				setLoading(false)
-			})
+		setLoading(false)
 	}
 
 	return (
