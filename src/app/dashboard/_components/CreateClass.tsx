@@ -22,7 +22,6 @@ function CreateClass({ setShouldFetchClassData }: CreateClassProps) {
 	const [classroomName, setClassroomName] = useState("")
 	const { currentUser } = useAuth()
 	const classId = crypto.randomUUID()
-	const [classAvatar, setClassAvatar] = useState<string>(bagAvatar)
 
 	const handleClickOpen = () => {
 		setIsOpen(true)
@@ -63,7 +62,7 @@ function CreateClass({ setShouldFetchClassData }: CreateClassProps) {
 					await setDoc(classDocumentRef, {
 						studentData: [],
 						className: classroomName,
-						classAvatar: classAvatar,
+						classAvatar: bagAvatar,
 						createdAt: serverTimestamp()
 					})
 

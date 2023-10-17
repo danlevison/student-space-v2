@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useEffect, useContext } from "react"
+import Link from "next/link"
 import { doc, getDoc, getDocs, collection } from "firebase/firestore"
 import { db } from "../../../utils/firebase"
 import StudentDataContext from "@/context/StudentDataContext"
@@ -30,6 +31,7 @@ const Classroom = () => {
 	const { setStudentData, params } = useContext(StudentDataContext)
 	const { currentUser } = useAuth()
 	const [loading, setLoading] = useState(true)
+	const [error, setError] = useState<string | null>(null)
 	const [classData, setClassData] = useState<ClassDataType[] | null>([])
 	const [toolbarMenu, setToolbarMenu] = useState(false)
 	const [showTableGrid, setShowTableGrid] = useState(false)
@@ -60,11 +62,12 @@ const Classroom = () => {
 					}
 				} catch (error) {
 					console.log("Error fetching student data from Firestore:", error)
+					setError("It looks like something went wrong!")
 				}
 			}
 			fetchStudentDataFromFirestore()
 		}
-	}, [params.classroom_id, currentUser.uid, setStudentData])
+	}, [params.classroom_id, currentUser?.uid, setStudentData])
 
 	// fetch class name
 	useEffect(() => {
@@ -91,12 +94,14 @@ const Classroom = () => {
 					setClassData(data)
 				} catch (error) {
 					console.error("Error fetching class data:", error)
+					setError("It looks like something went wrong!")
+				} finally {
+					setLoading(false)
 				}
-				setLoading(false)
 			}
 			fetchClass()
 		}
-	}, [params.classroom_id, currentUser.uid])
+	}, [params.classroom_id, currentUser?.uid])
 
 	const scribblesSvgs = [
 		{
@@ -133,6 +138,23 @@ const Classroom = () => {
 	]
 
 	if (loading) return <Preloader />
+
+	if (error)
+		return (
+			<div className="bg-red-200 py-3 px-8 text-center">
+				<h1 className="text-2xl text-red-800 font-bold mb-2">{error}</h1>
+				<span className="text-lg">
+					Please{" "}
+					<Link
+						className="text-blue-600 font-bold underline"
+						href={"/dashboard"}
+					>
+						refresh the page
+					</Link>{" "}
+					and try again.
+				</span>
+			</div>
+		)
 
 	return (
 		<>

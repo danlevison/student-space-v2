@@ -88,7 +88,6 @@ const TableInfoModal = ({
 				return student
 			})
 
-			// setStudentData(updatedStudentData)
 			setStudentData(updatedStudentData)
 
 			// Update studentData and edit table in the active users class
