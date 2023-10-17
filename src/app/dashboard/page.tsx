@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
+import Link from "next/link"
 import { db } from "@/utils/firebase"
 import { getDocs, collection } from "firebase/firestore"
 import { useAuth } from "@/context/AuthContext"
@@ -52,6 +53,7 @@ const Dashboard = () => {
 	const { currentUser } = useAuth()
 	const [shouldFetchClassData, setShouldFetchClassData] = useState(true)
 	const [loading, setLoading] = useState(true)
+	const [error, setError] = useState<string | null>(null)
 	const [isEditClassModalOpen, setIsEditClassModalOpen] = useState(false)
 	const [selectedClass, setSelectedClass] = useState<SelectedUser | null>(null)
 	const [classData, setClassData] = useState<ClassDataType[] | null>(null)
@@ -85,11 +87,13 @@ const Dashboard = () => {
 				}
 			} catch (error) {
 				console.error("Error fetching class data:", error)
+				setError("It looks like something went wrong!")
+			} finally {
+				setLoading(false)
 			}
-			setLoading(false)
 		}
 		fetchClassData()
-	}, [currentUser, isEditClassModalOpen, shouldFetchClassData, setLoading])
+	}, [currentUser, isEditClassModalOpen, shouldFetchClassData])
 
 	const orderClassesByCreationTime = (data: ClassDataType[]) => {
 		if (data) {
@@ -151,28 +155,44 @@ const Dashboard = () => {
 					<ProfileMenu />
 					<CurrentDate />
 				</div>
-				<div className="flex flex-col justify-center items-center text-center px-8 py-10">
-					<Scribble scribblesSvgs={scribblesSvgs} />
-					<ConditionalHeading />
-
-					<div className="relative grid grid-cols-[repeat(auto-fit,minmax(230px,230px))] gap-10 w-full items-center justify-center mt-12">
-						<DemoClassLink />
-
-						<UsersClasses
-							classData={classData}
-							setSelectedClass={setSelectedClass}
-							setIsEditClassModalOpen={setIsEditClassModalOpen}
-						/>
-
-						<EditClass
-							isEditClassModalOpen={isEditClassModalOpen}
-							setIsEditClassModalOpen={setIsEditClassModalOpen}
-							classData={selectedClass}
-						/>
-
-						<CreateClass setShouldFetchClassData={setShouldFetchClassData} />
+				{error ? (
+					<div className="bg-red-200 py-3 px-8 text-center -mt-6">
+						<h1 className="text-2xl text-red-800 font-bold">{error}</h1>
+						<span className="text-lg">
+							Please{" "}
+							<Link
+								className="text-blue-600 font-bold underline"
+								href={"/"}
+							>
+								refresh the page
+							</Link>{" "}
+							and try again.
+						</span>
 					</div>
-				</div>
+				) : (
+					<div className="flex flex-col justify-center items-center text-center px-8 py-10">
+						<Scribble scribblesSvgs={scribblesSvgs} />
+						<ConditionalHeading />
+
+						<div className="relative grid grid-cols-[repeat(auto-fit,minmax(230px,230px))] gap-10 w-full items-center justify-center mt-12">
+							<DemoClassLink />
+
+							<UsersClasses
+								classData={classData}
+								setSelectedClass={setSelectedClass}
+								setIsEditClassModalOpen={setIsEditClassModalOpen}
+							/>
+
+							<EditClass
+								isEditClassModalOpen={isEditClassModalOpen}
+								setIsEditClassModalOpen={setIsEditClassModalOpen}
+								classData={selectedClass}
+							/>
+
+							<CreateClass setShouldFetchClassData={setShouldFetchClassData} />
+						</div>
+					</div>
+				)}
 			</main>
 		</>
 	)
