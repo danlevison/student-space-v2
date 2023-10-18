@@ -56,7 +56,7 @@ const TaskList = ({
 			}
 			setTasks(taskListData.flat()) // merge arrays into a single array
 		} catch (error) {
-			console.log("Error fetching task list data from Firestore:", error)
+			console.error("Error fetching task list data from Firestore:", error)
 		}
 	}, [params.classroom_id, currentUser.uid])
 

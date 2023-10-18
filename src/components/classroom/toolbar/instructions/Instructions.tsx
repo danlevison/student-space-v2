@@ -154,7 +154,7 @@ const Instructions = ({
 				console.error("instructionsData is not an array or is undefined.")
 			}
 		} catch (error) {
-			console.log("Error fetching instructions data from Firestore:", error)
+			console.error("Error fetching instructions data from Firestore:", error)
 		}
 	}, [params.classroom_id, currentUser.uid])
 

@@ -54,7 +54,7 @@ const Login = () => {
 		{
 			src: "/assets/Scribbles/48.svg",
 			className:
-				"hidden md:block absolute bottom-4 2xl:bottom-32 w-[20px] 2xl:w-[25px] rotate-180"
+				"hidden md:block absolute bottom-4 2xl:bottom-10 w-[20px] 2xl:w-[25px] rotate-180"
 		},
 		{
 			src: "/assets/Scribbles/34.svg",

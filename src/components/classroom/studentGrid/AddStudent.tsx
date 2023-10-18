@@ -7,6 +7,7 @@ import CopyPasteStudentList from "./CopyPasteStudentList"
 import { updateStudentDataInClass } from "@/utils/updateStudentData"
 // Types
 import { StudentData } from "../../../types/types"
+import { toast } from "react-toastify"
 
 type AddStudentProps = {
 	isAddStudentModalOpen: boolean
@@ -118,6 +119,7 @@ const AddStudent = ({
 			)
 		} catch (error) {
 			console.error("Error adding student to user class collection:", error)
+			toast.error("Error adding student")
 		}
 
 		nameInputRef.current.value = ""
