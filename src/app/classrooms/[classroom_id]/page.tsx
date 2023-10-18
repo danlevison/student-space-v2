@@ -49,25 +49,29 @@ const Classroom = () => {
 						"classes",
 						params.classroom_id
 					)
+
 					const classDocSnapshot = await getDoc(classDocumentRef)
 
 					if (classDocSnapshot.exists()) {
 						const classData = classDocSnapshot.data()
 						if (classData) {
-							const fetchedStudentData: StudentData[] | null =
-								classData.studentData || []
+							const fetchedStudentData = classData.studentData || []
 							setStudentData(fetchedStudentData)
 							// Now studentData contains the data from the specific classId (params.classroom_id)
 						}
+					} else {
+						// Handle the case where the document doesn't exist (i.e if params.classroom_id is invalid)
+						console.error("Error: class document not found")
+						setError("It looks like something went wrong!")
 					}
 				} catch (error) {
-					console.log("Error fetching student data from Firestore:", error)
+					console.error("Error fetching student data from Firestore:", error)
 					setError("It looks like something went wrong!")
 				}
 			}
 			fetchStudentDataFromFirestore()
 		}
-	}, [params.classroom_id, currentUser?.uid, setStudentData])
+	}, [params.classroom_id, currentUser?.uid, setStudentData, setError])
 
 	// fetch class name
 	useEffect(() => {

@@ -42,7 +42,7 @@ const LandingPage = () => {
 		},
 		{
 			src: "/assets/Scribbles/50.svg",
-			className: "hidden lg:block absolute bottom-0 w-[100px] 2xl:w-[200px]"
+			className: "hidden lg:block absolute bottom-0 w-[100px] 2xl:w-[150px]"
 		}
 	]
 

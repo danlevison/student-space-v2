@@ -44,14 +44,15 @@ const DeleteClassModal = ({
 					classData.classId
 				)
 				await deleteDoc(classDocRef)
+				toast.success("Class successfully deleted!")
 			}
 		} catch (error) {
-			console.log("Error deleting class", error)
+			console.error("Error deleting class", error)
+			toast.error("Error deleting class, please try again.")
 		}
 
 		setOpenDeleteClassModal(false)
 		setIsEditClassModalOpen(false)
-		toast.success("Class successfully deleted!")
 	}
 	return (
 		<Dialog

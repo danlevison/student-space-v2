@@ -64,12 +64,13 @@ const EditClass = ({
 			}
 			setUserClassName(userClassName)
 			setUserClassAvatar(userClassAvatar)
+			toast.success("Class edited successfully!")
 		} catch (error) {
-			console.error("Class name could not be updated", error)
+			console.error("Class could not be edited", error)
+			toast.error("Error editing class, please try again.")
 		}
 
 		setIsEditClassModalOpen(false)
-		toast.success("Class edited successfully!")
 	}
 
 	const resetForm = () => {

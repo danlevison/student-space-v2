@@ -36,7 +36,7 @@ function CreateClass({ setShouldFetchClassData }: CreateClassProps) {
 
 		try {
 			if (!currentUser) {
-				console.log("User not authenticated.")
+				console.error("User not authenticated.")
 				return
 			}
 
@@ -44,14 +44,6 @@ function CreateClass({ setShouldFetchClassData }: CreateClassProps) {
 			const docSnap = await getDoc(docRef)
 
 			if (docSnap.exists()) {
-				const data = docSnap.data()
-
-				// Ensure userClassName is not empty
-				if (classroomName === "") {
-					console.log("Invalid class name")
-					return
-				}
-
 				const classDocumentRef = doc(collection(docRef, "classes"), classId)
 
 				// Check if the document already exists
@@ -68,17 +60,18 @@ function CreateClass({ setShouldFetchClassData }: CreateClassProps) {
 
 					// Class successfully created
 					setShouldFetchClassData(true)
-					setIsOpen(false)
 					toast.success("Class successfully created!")
 				} else {
-					console.log("Class already exists.")
+					console.error("Class already exists.")
 				}
 			} else {
-				console.log("User document does not exist")
+				console.error("User document does not exist")
 			}
 		} catch (error) {
-			console.error(error)
+			console.error("Error creating class", error)
+			toast.error("Error creating class, please try again.")
 		}
+		setIsOpen(false)
 	}
 
 	return (
