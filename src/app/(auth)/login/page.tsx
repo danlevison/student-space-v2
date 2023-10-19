@@ -1,19 +1,15 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import Link from "next/link"
 import { useAuth } from "@/context/AuthContext"
 import Nav from "@/components/Nav"
-import Preloader from "@/components/Preloader"
 import Scribble from "@/components/Scribble"
-import { useRouter } from "next/navigation"
+import { redirect } from "next/navigation"
 import SignIn from "./_components/SignIn/SignIn"
 
 const Login = () => {
-	const [loading, setLoading] = useState(false)
 	const { currentUser } = useAuth()
-	const router = useRouter()
-	// const [loading] = useAuthState(auth)
 	const scribblesSvgs = [
 		{
 			src: "/assets/Scribbles/67.svg",
@@ -70,11 +66,11 @@ const Login = () => {
 
 	useEffect(() => {
 		if (currentUser) {
-			router.push("/dashboard")
+			// 'redirect' by default replaces the sign up page in browser history stack
+			// this allows users to use back button on dashboard to go back to their previous page that isn't the sign up page
+			redirect("/dashboard")
 		}
-	}, [currentUser, router])
-
-	if (loading) return <Preloader />
+	}, [currentUser])
 
 	return (
 		<>

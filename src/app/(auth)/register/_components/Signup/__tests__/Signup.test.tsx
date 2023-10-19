@@ -4,10 +4,12 @@ import Signup from "../Signup"
 import { AuthProvider } from "@/context/AuthContext"
 import { AppRouterContextProviderMock } from "@/__mocks__/AppRouterContextProviderMock"
 import userEvent from "@testing-library/user-event"
+import { auth } from "@/utils/firebase"
 import {
 	getAuth,
 	createUserWithEmailAndPassword,
-	onAuthStateChanged
+	onAuthStateChanged,
+	AuthErrorCodes
 } from "firebase/auth"
 
 jest.mock("firebase/auth", () => ({
@@ -130,6 +132,13 @@ describe("SignIn", () => {
 		// 	const user = userEvent.setup()
 		// 	renderSignup()
 
+		// 	// Mock the createUserWithEmailAndPassword function to throw a weak password error
+		// 	const mockCreateUserWithEmailAndPassword = jest
+		// 		.fn()
+		// 		.mockResolvedValue(
+		// 			new Error("Password should be at least 6 characters")
+		// 		)
+
 		// 	const emailInput = screen.getByTestId("email-input")
 		// 	const passwordInput = screen.getByTestId("password-input")
 		// 	const confirmPasswordInput = screen.getByTestId("confirm-password-input")
@@ -142,7 +151,16 @@ describe("SignIn", () => {
 		// 	await user.type(confirmPasswordInput, "test")
 		// 	await user.click(signupButtonEl)
 
-		// 	const errorMessageEl = screen.getByTestId("error")
+		// 	await mockCreateUserWithEmailAndPassword("testemail@email.com", "test")
+
+		// 	expect(mockCreateUserWithEmailAndPassword).toHaveBeenCalledWith(
+		// 		"testemail@email.com",
+		// 		"test"
+		// 	)
+		// 	expect(mockCreateUserWithEmailAndPassword).toHaveBeenCalledTimes(1)
+
+		// 	// wait for the error message to be displayed
+		// 	const errorMessageEl = await screen.findByTestId("error")
 		// 	expect(errorMessageEl).toHaveTextContent(
 		// 		/password should be at least 6 characters/i
 		// 	)
@@ -234,5 +252,29 @@ describe("SignIn", () => {
 
 			expect(signupButtonEl).toBeEnabled()
 		})
+
+		//TODO:
+		// it("should register a user", async () => {
+		// 	const user = userEvent.setup()
+		// 	renderSignup()
+
+		// 	const emailInput = screen.getByTestId("email-input")
+		// 	const passwordInput = screen.getByTestId("password-input")
+		// 	const confirmPasswordInput = screen.getByTestId("confirm-password-input")
+		// 	const signupButtonEl = screen.getByRole("button", {
+		// 		name: /sign up/i
+		// 	})
+
+		// 	await user.type(emailInput, "testemail@email.com")
+		// 	await user.type(passwordInput, "testpassword")
+		// 	await user.type(confirmPasswordInput, "testpassword")
+		// 	await user.click(signupButtonEl)
+
+		// 	expect(createUserWithEmailAndPassword).toBeCalledWith(
+		// 		auth,
+		// 		"testemail@email.com",
+		// 		"testpassword"
+		// 	)
+		// })
 	})
 })

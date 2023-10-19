@@ -1,10 +1,15 @@
-import React from "react"
+"use client"
+
+import React, { useEffect } from "react"
 import Link from "next/link"
+import { redirect } from "next/navigation"
+import { useAuth } from "@/context/AuthContext"
 import Signup from "@/app/(auth)/register/_components/Signup/Signup"
 import Nav from "@/components/Nav"
 import Scribble from "@/components/Scribble"
 
 const Register = () => {
+	const { currentUser } = useAuth()
 	const scribblesSvgs = [
 		{
 			src: "/assets/Scribbles/67.svg",
@@ -58,6 +63,14 @@ const Register = () => {
 				"hidden 2xl:block absolute right-24 lg:right-80 xl:right-96 w-[50px] rotate-180"
 		}
 	]
+
+	useEffect(() => {
+		if (currentUser) {
+			// 'redirect' by default replaces the sign in page in browser history stack
+			// this allows users to use back button on dashboard to go back to their previous page that isn't the sign in page
+			redirect("/dashboard")
+		}
+	}, [currentUser])
 
 	return (
 		<>
