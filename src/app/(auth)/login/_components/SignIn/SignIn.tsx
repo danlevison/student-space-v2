@@ -4,7 +4,6 @@ import { useAuth } from "@/context/AuthContext"
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore"
 import { db } from "@/utils/firebase"
 import { FcGoogle } from "react-icons/fc"
-import { useRouter } from "next/navigation"
 import { AuthErrorCodes } from "firebase/auth"
 
 const SignIn = () => {
@@ -13,7 +12,6 @@ const SignIn = () => {
 	const [error, setError] = useState("")
 	const [loading, setLoading] = useState(false)
 	const { login, googleLogin } = useAuth()
-	const router = useRouter()
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
@@ -36,7 +34,6 @@ const SignIn = () => {
 			setError("")
 			setLoading(true)
 			await login(email, password)
-			router.push("/dashboard")
 		} catch (error) {
 			if (error.code.includes("auth/user-not-found")) {
 				setError("Incorrect email or password")
@@ -45,9 +42,9 @@ const SignIn = () => {
 			} else {
 				setError("Failed to sign in"), error
 			}
+		} finally {
+			setLoading(false)
 		}
-
-		setLoading(false)
 	}
 
 	const handleGoogleLogin = async () => {
@@ -57,7 +54,7 @@ const SignIn = () => {
 			const userDocRef = doc(db, "users", result.user.uid)
 			const docSnap = await getDoc(userDocRef)
 			if (docSnap.exists()) {
-				router.push("/dashboard") // Redirect user to the dashboard
+				// If it exists, return early to avoid creating duplicate records.
 				return
 			}
 			await setDoc(userDocRef, {

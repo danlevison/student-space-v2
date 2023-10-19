@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState } from "react"
-import { useRouter } from "next/navigation"
 import { doc, setDoc, serverTimestamp } from "firebase/firestore"
 import { AuthErrorCodes } from "firebase/auth"
 import { db } from "@/utils/firebase"
@@ -14,7 +13,6 @@ const Signup = () => {
 	const [error, setError] = useState("")
 	const [loading, setLoading] = useState(false)
 	const { signup } = useAuth()
-	const router = useRouter()
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
@@ -37,7 +35,6 @@ const Signup = () => {
 				email: result.user.email,
 				createdAt: serverTimestamp()
 			})
-			router.push("/dashboard")
 		} catch (error) {
 			if (error.code === AuthErrorCodes.EMAIL_EXISTS) {
 				setError("Email address is already registered"), error
@@ -46,9 +43,9 @@ const Signup = () => {
 			} else {
 				setError("Failed to create an account"), error
 			}
+		} finally {
+			setLoading(false)
 		}
-
-		setLoading(false)
 	}
 
 	return (
