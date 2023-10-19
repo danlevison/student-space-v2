@@ -58,13 +58,13 @@ const TaskList = ({
 		} catch (error) {
 			console.error("Error fetching task list data from Firestore:", error)
 		}
-	}, [params.classroom_id, currentUser.uid])
+	}, [params.classroom_id, currentUser?.uid])
 
 	useEffect(() => {
-		if (currentUser.uid && params.classroom_id) {
+		if (currentUser?.uid && params.classroom_id) {
 			fetchTaskListData()
 		}
-	}, [currentUser.uid, params.classroom_id, fetchTaskListData])
+	}, [currentUser?.uid, params.classroom_id, fetchTaskListData])
 
 	const handleSubmit = async (e: React.SyntheticEvent) => {
 		e.preventDefault()
