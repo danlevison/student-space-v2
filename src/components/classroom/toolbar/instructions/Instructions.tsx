@@ -156,14 +156,14 @@ const Instructions = ({
 		} catch (error) {
 			console.error("Error fetching instructions data from Firestore:", error)
 		}
-	}, [params.classroom_id, currentUser.uid])
+	}, [params.classroom_id, currentUser?.uid])
 
 	// Fetch the user's instructions data from the Firestore subcollection when currentUser.uid and className are available
 	useEffect(() => {
-		if (currentUser.uid && params.classroom_id) {
+		if (currentUser?.uid && params.classroom_id) {
 			fetchInstructionData()
 		}
-	}, [currentUser.uid, params.classroom_id, fetchInstructionData])
+	}, [currentUser?.uid, params.classroom_id, fetchInstructionData])
 
 	// Displaying instructions + saving them
 	const displayInstructions = () => {
