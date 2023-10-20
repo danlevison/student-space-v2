@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect, useContext } from "react"
 import Link from "next/link"
-import { doc, getDoc, getDocs, collection } from "firebase/firestore"
-import { db } from "../../../utils/firebase"
+import { fetchStudentData, fetchClassData } from "@/api"
 import StudentDataContext from "@/context/StudentDataContext"
 import { useAuth } from "@/context/AuthContext"
 import ClassNav from "@/components/classroom/ClassNav"
@@ -19,8 +18,6 @@ import Preloader from "@/components/Preloader"
 import paperBg from "@/../../public/assets/paperbg.png"
 import SwitchGridView from "@/components/classroom/SwitchGridView"
 import PrivateRoute from "@/components/PrivateRoute"
-//Types
-import { StudentData } from "@/types/types"
 
 type ClassDataType = {
 	classId: string
@@ -36,29 +33,15 @@ const Classroom = () => {
 	const [toolbarMenu, setToolbarMenu] = useState(false)
 	const [showTableGrid, setShowTableGrid] = useState(false)
 
-	// Fetch the user's student data from the Firestore subcollection
 	useEffect(() => {
 		if (params.classroom_id) {
-			const fetchStudentDataFromFirestore = async () => {
+			const loadStudentData = async () => {
 				try {
-					// fetching student data from Firestore using params.classroom_id
-					const classDocumentRef = doc(
-						db,
-						"users",
-						currentUser.uid,
-						"classes",
-						params.classroom_id
-					)
-
-					const classDocSnapshot = await getDoc(classDocumentRef)
-
-					if (classDocSnapshot.exists()) {
-						const classData = classDocSnapshot.data()
-						if (classData) {
-							const fetchedStudentData = classData.studentData || []
-							setStudentData(fetchedStudentData)
-							// Now studentData contains the data from the specific classId (params.classroom_id)
-						}
+					const data = await fetchStudentData(currentUser, params.classroom_id)
+					if (data) {
+						const fetchedStudentData = data.studentData || []
+						setStudentData(fetchedStudentData)
+						// Now studentData contains the data from the specific classId (params.classroom_id)
 					} else {
 						// Handle the case where the document doesn't exist (i.e if params.classroom_id is invalid)
 						console.error("Error: class document not found")
@@ -69,32 +52,15 @@ const Classroom = () => {
 					setError("It looks like something went wrong!")
 				}
 			}
-			fetchStudentDataFromFirestore()
+			loadStudentData()
 		}
-	}, [params.classroom_id, currentUser?.uid, setStudentData, setError])
+	}, [currentUser, params.classroom_id, setStudentData])
 
-	// fetch class name
 	useEffect(() => {
 		if (params.classroom_id) {
-			const fetchClass = async () => {
+			const loadClassData = async () => {
 				try {
-					const currentUserClassesRef = collection(
-						db,
-						"users",
-						currentUser.uid,
-						"classes"
-					)
-					const querySnapshot = await getDocs(currentUserClassesRef)
-					const data: ClassDataType[] = []
-
-					querySnapshot.forEach((doc) => {
-						const classId = doc.id
-						const className: string = doc.data().className
-
-						// Store classId and currentUserClassName as an object
-						data.push({ classId, className })
-					})
-
+					const data = await fetchClassData(currentUser)
 					setClassData(data)
 				} catch (error) {
 					console.error("Error fetching class data:", error)
@@ -103,9 +69,9 @@ const Classroom = () => {
 					setLoading(false)
 				}
 			}
-			fetchClass()
+			loadClassData()
 		}
-	}, [params.classroom_id, currentUser?.uid])
+	}, [currentUser, params.classroom_id])
 
 	const scribblesSvgs = [
 		{
