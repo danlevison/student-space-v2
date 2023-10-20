@@ -1,13 +1,8 @@
-import React, {
-	useState,
-	useRef,
-	useContext,
-	useEffect,
-	useCallback
-} from "react"
+import React, { useState, useRef, useContext, useEffect } from "react"
 import { Dialog } from "@headlessui/react"
+import { fetchTaskListData } from "@/api"
 import { db } from "@/utils/firebase"
-import { doc, updateDoc, getDoc, arrayUnion } from "firebase/firestore"
+import { doc, updateDoc, arrayUnion } from "firebase/firestore"
 import { useAuth } from "@/context/AuthContext"
 import StudentDataContext from "@/context/StudentDataContext"
 import { AiOutlineClose } from "react-icons/ai"
@@ -35,36 +30,25 @@ const TaskList = ({
 	const [tasks, setTasks] = useState<TasksType[]>([])
 	const inputRef = useRef<HTMLInputElement>(null)
 
-	const fetchTaskListData = useCallback(async () => {
-		try {
-			const classDocumentRef = doc(
-				db,
-				"users",
-				currentUser.uid,
-				"classes",
-				params.classroom_id
-			)
-			const classDocSnapshot = await getDoc(classDocumentRef)
-			const taskListData: TasksType[] =
-				classDocSnapshot.data()?.taskListData || []
-
-			// Verify that taskListData is an array
-			if (Array.isArray(taskListData)) {
-				setTasks(taskListData)
-			} else {
-				console.error("taskListData is not an array or is undefined.")
-			}
-			setTasks(taskListData.flat()) // merge arrays into a single array
-		} catch (error) {
-			console.error("Error fetching task list data from Firestore:", error)
-		}
-	}, [params.classroom_id, currentUser?.uid])
-
 	useEffect(() => {
-		if (currentUser?.uid && params.classroom_id) {
-			fetchTaskListData()
+		const loadTaskListData = async () => {
+			try {
+				const taskListData = await fetchTaskListData(
+					currentUser,
+					params.classroom_id
+				)
+
+				if (Array.isArray(taskListData)) {
+					setTasks(taskListData)
+				} else {
+					console.error("taskListData is not an array or is undefined.")
+				}
+			} catch (error) {
+				console.error("Error fetching task list data from Firestore:", error)
+			}
 		}
-	}, [currentUser?.uid, params.classroom_id, fetchTaskListData])
+		loadTaskListData()
+	}, [currentUser, params.classroom_id])
 
 	const handleSubmit = async (e: React.SyntheticEvent) => {
 		e.preventDefault()

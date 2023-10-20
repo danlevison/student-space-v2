@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect } from "react"
 import Link from "next/link"
-import { db } from "@/utils/firebase"
-import { getDocs, collection } from "firebase/firestore"
+import { fetchClassData } from "@/api"
 import { useAuth } from "@/context/AuthContext"
 import CreateClass from "./_components/CreateClass"
 import DemoClassLink from "./_components/DemoClassLink"
@@ -59,28 +58,10 @@ const Dashboard = () => {
 	const [classData, setClassData] = useState<ClassDataType[] | null>(null)
 
 	useEffect(() => {
-		const fetchClassData = async () => {
+		const loadClassData = async () => {
 			try {
 				if (currentUser) {
-					const userClassesRef = collection(
-						db,
-						"users",
-						currentUser.uid,
-						"classes"
-					)
-					const querySnapshot = await getDocs(userClassesRef)
-					const data: ClassDataType[] = []
-
-					querySnapshot.forEach((doc) => {
-						const classId = doc.id
-						const className: string = doc.data().className
-						const classAvatar: ClassAvatarType = doc.data().classAvatar
-						const createdAt: CreatedAtType = doc.data().createdAt
-
-						// Store classId and userClassName as an object
-						data.push({ classId, className, classAvatar, createdAt })
-					})
-
+					const data = await fetchClassData(currentUser)
 					setClassData(data)
 					orderClassesByCreationTime(data)
 					setShouldFetchClassData(false)
@@ -92,7 +73,7 @@ const Dashboard = () => {
 				setLoading(false)
 			}
 		}
-		fetchClassData()
+		loadClassData()
 	}, [currentUser, isEditClassModalOpen, shouldFetchClassData])
 
 	const orderClassesByCreationTime = (data: ClassDataType[]) => {

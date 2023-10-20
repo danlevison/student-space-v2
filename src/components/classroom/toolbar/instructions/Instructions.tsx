@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useContext, useCallback } from "react"
+import React, { useEffect, useState, useContext } from "react"
 import { db } from "../../../../utils/firebase"
-import { doc, updateDoc, getDoc, arrayUnion } from "firebase/firestore"
+import { doc, updateDoc, arrayUnion } from "firebase/firestore"
+import { fetchIntructionData } from "@/api"
 import { useAuth } from "@/context/AuthContext"
 import StudentDataContext from "@/context/StudentDataContext"
 import { Dialog } from "@headlessui/react"
@@ -47,6 +48,26 @@ const Instructions = ({
 	const [isEditInstructionActive, setIsEditInstructionActive] = useState(false)
 	const { params } = useContext(StudentDataContext)
 	const { currentUser } = useAuth()
+
+	useEffect(() => {
+		const loadInstructionData = async () => {
+			try {
+				const instructionsData = await fetchIntructionData(
+					currentUser,
+					params.classroom_id
+				)
+
+				if (Array.isArray(instructionsData)) {
+					setSavedInstructions(instructionsData)
+				} else {
+					console.error("instructionsData is not an array or is undefined.")
+				}
+			} catch (error) {
+				console.error("Error fetching instructions data from Firestore:", error)
+			}
+		}
+		loadInstructionData()
+	}, [currentUser, params.classroom_id])
 
 	// Handlers for opening and closing modals
 	const handleCreateInstructionsModal = () => {
@@ -133,37 +154,6 @@ const Instructions = ({
 			console.error("Error adding instruction data:", error)
 		}
 	}
-
-	const fetchInstructionData = useCallback(async () => {
-		try {
-			const classDocumentRef = doc(
-				db,
-				"users",
-				currentUser.uid,
-				"classes",
-				params.classroom_id
-			)
-			const classSnapshot = await getDoc(classDocumentRef)
-			const instructionsData: InstructionSetType[] =
-				classSnapshot.data()?.instructionsData || [] // Access instructionsData - empty array as a default if it's not present or null
-
-			// Verify that instructionsData is an array
-			if (Array.isArray(instructionsData)) {
-				setSavedInstructions(instructionsData)
-			} else {
-				console.error("instructionsData is not an array or is undefined.")
-			}
-		} catch (error) {
-			console.error("Error fetching instructions data from Firestore:", error)
-		}
-	}, [params.classroom_id, currentUser?.uid])
-
-	// Fetch the user's instructions data from the Firestore subcollection when currentUser.uid and className are available
-	useEffect(() => {
-		if (currentUser?.uid && params.classroom_id) {
-			fetchInstructionData()
-		}
-	}, [currentUser?.uid, params.classroom_id, fetchInstructionData])
 
 	// Displaying instructions + saving them
 	const displayInstructions = () => {
