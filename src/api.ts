@@ -37,18 +37,16 @@ export async function fetchClassData(currentUser: User) {
 		"classes"
 	)
 	const querySnapshot = await getDocs(userClassesCollectionRef)
-	const data: ClassDataType[] = []
 
-	querySnapshot.forEach((doc) => {
-		const classId = doc.id
-		const className: string = doc.data().className
-		const classAvatar: ClassAvatarType = doc.data().classAvatar
-		const createdAt: CreatedAtType = doc.data().createdAt
-
-		// Store classId and userClassName as an object
-		data.push({ classId, className, classAvatar, createdAt })
+	const classData: ClassDataType[] = querySnapshot.docs.map((doc) => {
+		return {
+			classId: doc.id,
+			className: doc.data().className as string,
+			classAvatar: doc.data().classAvatar as ClassAvatarType,
+			createdAt: doc.data().createdAt as CreatedAtType
+		}
 	})
-	return data
+	return classData
 }
 
 export async function fetchStudentData(currentUser: User, classroomId: string) {
