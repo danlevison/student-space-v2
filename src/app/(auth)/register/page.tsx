@@ -5,7 +5,7 @@ import Link from "next/link"
 import { redirect } from "next/navigation"
 import { useAuth } from "@/context/AuthContext"
 import Signup from "@/app/(auth)/register/_components/Signup/Signup"
-import Nav from "@/components/Nav"
+import Nav from "@/components/Nav/Nav"
 import Scribble from "@/components/Scribble"
 
 const Register = () => {

@@ -157,7 +157,6 @@ describe("SignIn", () => {
 
 		// 	const testEmail = "testemail@email.com"
 		// 	const testPassword = "123456"
-		// 	const auth = getAuth()
 
 		// 	const emailInput = await screen.findByTestId("email-input")
 		// 	const passwordInput = await screen.findByTestId("password-input")
@@ -170,7 +169,7 @@ describe("SignIn", () => {
 		// 	await user.click(loginButtonEl)
 
 		// 	expect(signInWithEmailAndPassword).toHaveBeenCalledWith(
-		// 		auth,
+		// 		undefined,
 		// 		testEmail,
 		// 		testPassword
 		// 	)
