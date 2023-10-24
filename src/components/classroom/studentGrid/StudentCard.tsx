@@ -127,7 +127,11 @@ const StudentCard = ({ avatars, setShowConfetti }: StudentCardProps) => {
 					key={student.uuid}
 					className="relative flex flex-col justify-center items-center p-8 shadow-lg rounded-md bg-[#f5f5f5]"
 				>
-					<p className="font-bold tracking-wide text-center">{student.name}</p>
+					<p className="font-bold tracking-wide text-center">
+						{student.name.length > 9
+							? student.name.slice(0, 9) + "..."
+							: student.name}
+					</p>
 					<p className="text-center text-primaryTextClr w-[50px] p-2 bg-iconClr rounded-lg mx-auto my-1">
 						{student.points}
 					</p>

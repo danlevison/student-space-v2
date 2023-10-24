@@ -118,30 +118,34 @@ const ResetTablePoints = ({
 
 	return (
 		<>
-			<div className="grid grid-cols-[repeat(auto-fill,minmax(130px,1fr))] gap-1 overflow-auto h-[600px] p-5">
-				{tables.map((table) => (
-					<div
-						key={table.tableName}
-						className="mx-auto h-fit my-2"
-					>
-						<input
-							onChange={toggleSelectedTable}
-							type="checkbox"
-							id={table.tableName}
-							name={table.tableName}
-							checked={table.selected}
-							className="hidden peer"
-						/>
-						<label
-							htmlFor={table.tableName}
-							className="flex flex-col justify-center items-center h-20 w-32 cursor-pointer text-center font-bold text-lg bg-white p-4 border border-buttonClr rounded-xl peer-checked:bg-green-200 peer-hover:scale-105 duration-300 select-none"
+			<div className="h-full overflow-auto">
+				<div className="grid grid-cols-[repeat(auto-fill,minmax(130px,1fr))] p-5">
+					{tables.map((table) => (
+						<div
+							key={table.tableName}
+							className="mx-auto h-fit my-2"
 						>
-							{table.tableName}
-						</label>
-					</div>
-				))}
+							<input
+								onChange={toggleSelectedTable}
+								type="checkbox"
+								id={table.tableName}
+								name={table.tableName}
+								checked={table.selected}
+								className="hidden peer"
+							/>
+							<label
+								htmlFor={table.tableName}
+								className="flex flex-col justify-center items-center h-20 w-32 cursor-pointer text-center font-bold text-lg bg-white p-4 border border-buttonClr rounded-xl peer-checked:bg-green-200 peer-hover:scale-105 duration-300 select-none"
+							>
+								{table.tableName.length > 9
+									? table.tableName.slice(0, 9) + "..."
+									: table.tableName}
+							</label>
+						</div>
+					))}
+				</div>
 			</div>
-			<div className="flex flex-row justify-end items-center text-sm border-t-2 border-gray-300 px-5 py-3">
+			<div className="flex justify-end items-center text-sm border-t-2 border-gray-300 px-5 py-3">
 				{areAllTablesSelected ? (
 					<button
 						onClick={deselectAllTables}

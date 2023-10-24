@@ -124,7 +124,7 @@ function CreateClass({ setShouldFetchClassData }: CreateClassProps) {
 									id="classname"
 									name="classname"
 									required
-									maxLength={25}
+									maxLength={30}
 									className="py-3 px-2 rounded-lg outline-inputOutlineClr"
 								/>
 							</div>

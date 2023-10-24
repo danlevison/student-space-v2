@@ -50,23 +50,28 @@ const Instructions = ({
 	const { currentUser } = useAuth()
 
 	useEffect(() => {
-		const loadInstructionData = async () => {
-			try {
-				const instructionsData = await fetchIntructionData(
-					currentUser,
-					params.classroom_id
-				)
+		if (params.classroom_id) {
+			const loadInstructionData = async () => {
+				try {
+					const instructionsData = await fetchIntructionData(
+						currentUser,
+						params.classroom_id
+					)
 
-				if (Array.isArray(instructionsData)) {
-					setSavedInstructions(instructionsData)
-				} else {
-					console.error("instructionsData is not an array or is undefined.")
+					if (Array.isArray(instructionsData)) {
+						setSavedInstructions(instructionsData)
+					} else {
+						console.error("instructionsData is not an array or is undefined.")
+					}
+				} catch (error) {
+					console.error(
+						"Error fetching instructions data from Firestore:",
+						error
+					)
 				}
-			} catch (error) {
-				console.error("Error fetching instructions data from Firestore:", error)
 			}
+			loadInstructionData()
 		}
-		loadInstructionData()
 	}, [currentUser, params.classroom_id])
 
 	// Handlers for opening and closing modals
@@ -233,6 +238,7 @@ const Instructions = ({
 								className="p-4 w-full rounded-lg"
 								value={instructionTitle}
 								onChange={(e) => setInstructionTitle(e.target.value)}
+								maxLength={50}
 							/>
 						</div>
 						<button
@@ -248,7 +254,9 @@ const Instructions = ({
 									key={index}
 									className="flex justify-between items-center bg-white border-2 border-black rounded-lg p-3 mb-2"
 								>
-									<p className="text-lg">{`${index + 1}. ${instruction}`}</p>
+									<p className="text-lg w-[90%] break-words">{`${
+										index + 1
+									}. ${instruction}`}</p>
 									<button onClick={() => removeInstruction(index)}>
 										<AiOutlineClose size={25} />
 									</button>
@@ -342,7 +350,9 @@ const Instructions = ({
 												onClick={() => displaySavedInstructions(index)}
 												className="p-4 border-2 border-gray-400 bg-white w-full text-lg rounded-lg mt-4"
 											>
-												{savedInstruction.title}
+												{savedInstruction.title.length > 16
+													? savedInstruction.title.slice(0, 16) + "..."
+													: savedInstruction.title}
 											</button>
 
 											<button

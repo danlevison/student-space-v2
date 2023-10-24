@@ -120,7 +120,7 @@ const ResetStudentPoints = ({
 
 			{/* Full-screen container to center the panel */}
 			<div className="fixed inset-0 flex items-center justify-center p-4">
-				<Dialog.Panel className="flex flex-col justify-between w-full max-w-[800px] h-full max-h-[1000px] rounded-xl bg-modalBgClr border-2 border-modalBorderClr">
+				<Dialog.Panel className="flex flex-col w-full max-w-[800px] h-full max-h-[1000px] rounded-xl bg-modalBgClr border-2 border-modalBorderClr">
 					<div className="p-5 flex justify-between items-center border-b-2 border-gray-300">
 						<Dialog.Title className="font-bold text-xl">
 							Reset Points
@@ -169,39 +169,43 @@ const ResetStudentPoints = ({
 					</Dialog.Description>
 					{studentView ? (
 						<>
-							<div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] overflow-auto h-[600px] p-5">
-								{studentData.map((student) => (
-									<div
-										key={student.uuid}
-										className="mx-auto h-fit my-2"
-									>
-										<input
-											onChange={toggleSelectedStudent}
-											type="checkbox"
-											id={student.name}
-											name={student.name}
-											checked={student.selected}
-											className="hidden peer"
-										/>
-										<label
-											htmlFor={student.name}
-											className="flex flex-col items-center w-28 cursor-pointer text-center bg-white border border-buttonClr p-4 rounded-xl peer-checked:bg-green-200 peer-hover:scale-105 duration-300 select-none"
+							<div className="h-full overflow-auto">
+								<div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] p-5">
+									{studentData.map((student) => (
+										<div
+											key={student.uuid}
+											className="mx-auto h-fit my-2"
 										>
-											<Image
-												src={student.avatar}
-												alt="/"
-												width={40}
-												height={40}
-												className="select-none"
+											<input
+												onChange={toggleSelectedStudent}
+												type="checkbox"
+												id={student.name}
+												name={student.name}
+												checked={student.selected}
+												className="hidden peer"
 											/>
-											<span className="font-bold mt-1 text-lg">
-												{student.name}
-											</span>
-										</label>
-									</div>
-								))}
+											<label
+												htmlFor={student.name}
+												className="flex flex-col items-center w-[7.3rem] cursor-pointer text-center bg-white border border-buttonClr p-4 rounded-xl peer-checked:bg-green-200 peer-hover:scale-105 duration-300 select-none"
+											>
+												<Image
+													src={student.avatar}
+													alt="/"
+													width={40}
+													height={40}
+													className="select-none"
+												/>
+												<span className="font-bold mt-1 text-lg">
+													{student.name.length > 9
+														? student.name.slice(0, 9) + "..."
+														: student.name}
+												</span>
+											</label>
+										</div>
+									))}
+								</div>
 							</div>
-							<div className="flex flex-row justify-end items-center text-sm border-t-2 border-gray-300 px-5 py-3">
+							<div className="flex justify-end items-center text-sm border-t-2 border-gray-300 px-5 py-3">
 								{areAllStudentsSelected ? (
 									<button
 										onClick={deselectAllStudents}

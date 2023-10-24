@@ -56,9 +56,9 @@ const UsersClasses = ({
 								width={100}
 								height={100}
 							/>
-							<h2 className="text-4xl font-cabinSketch font-[400]">
-								{userClass.className.length > 12
-									? `${userClass.className.slice(0, 12)}...`
+							<h2 className="text-3xl font-cabinSketch font-[400]">
+								{userClass.className.length > 9
+									? `${userClass.className.slice(0, 9)}...`
 									: userClass.className}
 							</h2>
 						</div>

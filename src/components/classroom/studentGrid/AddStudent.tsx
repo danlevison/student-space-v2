@@ -193,6 +193,7 @@ const AddStudent = ({
 									id="name"
 									name="name"
 									ref={nameInputRef}
+									maxLength={30}
 								/>
 								<div className="flex items-center gap-2 pt-4 relative">
 									<label htmlFor="dob">{`Date of birth (optional or add later)`}</label>

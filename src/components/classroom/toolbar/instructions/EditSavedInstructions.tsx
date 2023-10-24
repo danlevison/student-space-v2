@@ -188,7 +188,7 @@ const EditSavedInstructions = ({
 						>
 							<AiOutlineArrowLeft size={25} />
 						</button>
-						<Dialog.Title className="font-bold text-xl text-center">
+						<Dialog.Title className="font-bold text-xl text-center w-3/4 break-words">
 							Edit {savedInstruction.title}
 						</Dialog.Title>
 						<button onClick={() => setOpenInstructions(false)}>
@@ -234,9 +234,9 @@ const EditSavedInstructions = ({
 								(instruction, instructionIndex) => (
 									<div
 										key={instructionIndex}
-										className="flex justify-between items-center w-full bg-white border-2 border-black rounded-lg p-3 mb-2"
+										className="flex justify-between items-center w-full bg-white border-2 border-black rounded-lg p-3 mb-2 px-3"
 									>
-										<p className="text-lg">{`${
+										<p className="text-lg w-[90%] break-words">{`${
 											instructionIndex + 1
 										}. ${instruction}`}</p>
 										<button

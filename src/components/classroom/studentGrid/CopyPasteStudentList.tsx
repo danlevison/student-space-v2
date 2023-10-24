@@ -65,6 +65,10 @@ const CopyPasteStudentList = ({
 		)
 	}
 
+	const checkForTooLongName = (namesToCheck: string[]) => {
+		return namesToCheck.some((student) => student.length > 30)
+	}
+
 	const handleAddPastedStudents = () => {
 		const validStudentNames = extractValidStudentNames(pastedText)
 
@@ -88,11 +92,18 @@ const CopyPasteStudentList = ({
 			}
 		})
 
+		const isNameTooLong = checkForTooLongName(validStudentNames)
+
 		const isDuplicate = checkForDuplicates(
 			validStudentNames,
 			addedStudents,
 			studentData
 		)
+
+		if (isNameTooLong) {
+			setAlertMessage("Please enter a first name with 30 letters or fewer")
+			return
+		}
 
 		if (isDuplicate) {
 			setAlertMessage(

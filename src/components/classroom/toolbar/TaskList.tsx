@@ -31,23 +31,25 @@ const TaskList = ({
 	const inputRef = useRef<HTMLInputElement>(null)
 
 	useEffect(() => {
-		const loadTaskListData = async () => {
-			try {
-				const taskListData = await fetchTaskListData(
-					currentUser,
-					params.classroom_id
-				)
+		if (params.classroom_id) {
+			const loadTaskListData = async () => {
+				try {
+					const taskListData = await fetchTaskListData(
+						currentUser,
+						params.classroom_id
+					)
 
-				if (Array.isArray(taskListData)) {
-					setTasks(taskListData)
-				} else {
-					console.error("taskListData is not an array or is undefined.")
+					if (Array.isArray(taskListData)) {
+						setTasks(taskListData)
+					} else {
+						console.error("taskListData is not an array or is undefined.")
+					}
+				} catch (error) {
+					console.error("Error fetching task list data from Firestore:", error)
 				}
-			} catch (error) {
-				console.error("Error fetching task list data from Firestore:", error)
 			}
+			loadTaskListData()
 		}
-		loadTaskListData()
 	}, [currentUser, params.classroom_id])
 
 	const handleSubmit = async (e: React.SyntheticEvent) => {
@@ -208,14 +210,12 @@ const TaskList = ({
 							return (
 								<li
 									key={task.id}
-									className="flex justify-between items-center"
+									className="flex justify-between items-center gap-5"
 								>
 									<label
-										className={
-											task.completed
-												? "text-lg text-gray-400 flex gap-2"
-												: "text-lg flex gap-2"
-										}
+										className={`text-lg flex gap-2 w-3/4 ${
+											task.completed ? "text-gray-400" : ""
+										}`}
 									>
 										<input
 											type="checkbox"
@@ -225,7 +225,7 @@ const TaskList = ({
 											}
 											className="w-4"
 										/>
-										{task.title}
+										<span className="w-full break-words">{task.title}</span>
 									</label>
 									<button
 										onClick={() => deleteTask(task.id)}

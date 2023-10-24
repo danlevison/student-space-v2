@@ -118,7 +118,7 @@ const StudentInfoModal = ({
 			<div className="fixed inset-0 flex items-center justify-center p-4">
 				<Dialog.Panel className="flex flex-col w-full max-w-[500px] h-full max-h-[490px] rounded-xl bg-modalBgClr border-2 border-modalBorderClr overflow-auto">
 					<div className="p-5 flex justify-between items-center border-b-2 border-gray-300 z-10">
-						<Dialog.Title className="font-bold text-xl">
+						<Dialog.Title className="font-bold text-xl break-words w-3/4">
 							{selectedStudent?.name}
 						</Dialog.Title>
 						<button
@@ -168,6 +168,7 @@ const StudentInfoModal = ({
 								required
 								value={selectedStudent?.name}
 								onChange={updateStudentName}
+								maxLength={30}
 							/>
 						</div>
 						<div className="flex flex-col">

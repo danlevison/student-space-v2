@@ -63,9 +63,11 @@ const TableCard = ({ groupedStudentsByTable }: TableCardProps) => {
 			{Object.entries(groupedStudentsByTable).map(([tableName, students]) => (
 				<div
 					key={tableName}
-					className="relative flex flex-col justify-between items-center h-[270px] p-8 shadow-lg rounded-md bg-[#f5f5f5]"
+					className="relative flex flex-col justify-between items-center text-center h-[270px] p-8 shadow-lg rounded-md bg-[#f5f5f5]"
 				>
-					<h2 className="font-bold tracking-wide text-2xl">{tableName}</h2>
+					<p className="font-bold tracking-wide text-2xl w-full break-words md:w-auto">
+						{tableName.length > 18 ? tableName.slice(0, 18) + "..." : tableName}
+					</p>
 					<p className="text-center text-primaryTextClr text-xl w-[50px] p-2 bg-iconClr rounded-lg mx-auto my-1">
 						{/* assume that all students in the same table have the same number of points, so render points of the first student only */}
 						{students[0].tableData?.tablePoints || 0}
