@@ -3,7 +3,7 @@
 import React, { useEffect } from "react"
 import Link from "next/link"
 import { useAuth } from "@/context/AuthContext"
-import Nav from "@/components/Nav"
+import Nav from "@/components/Nav/Nav"
 import Scribble from "@/components/Scribble"
 import { redirect } from "next/navigation"
 import SignIn from "./_components/SignIn/SignIn"

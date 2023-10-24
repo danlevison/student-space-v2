@@ -2,14 +2,13 @@
 
 import React from "react"
 import Link from "next/link"
-import { useAuthState } from "react-firebase-hooks/auth"
-import { auth } from "@/utils/firebase"
+import { useAuth } from "@/context/AuthContext"
 
 const ConditionalLink = () => {
-	const [user] = useAuthState(auth)
+	const { currentUser } = useAuth()
 	return (
 		<>
-			{user ? (
+			{currentUser ? (
 				<Link
 					href={"/dashboard"}
 					className="hover:underline"

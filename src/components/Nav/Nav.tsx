@@ -2,14 +2,14 @@
 
 import React, { useState } from "react"
 import Link from "next/link"
-import { useAuthState } from "react-firebase-hooks/auth"
-import { auth } from "../utils/firebase"
-import Logo from "./Logo"
+import { auth } from "../../utils/firebase"
+import { useAuth } from "@/context/AuthContext"
+import Logo from "../Logo"
 import { FiMenu } from "react-icons/fi"
 import { CgClose } from "react-icons/cg"
 
 const Nav = () => {
-	const [user, loading] = useAuthState(auth)
+	const { currentUser } = useAuth()
 	const [nav, setNav] = useState(false)
 
 	const handleNav = () => {
@@ -41,7 +41,7 @@ const Nav = () => {
 						</Link>
 					</li>
 					<li>
-						{!user ? (
+						{!currentUser ? (
 							<Link
 								href={"/login"}
 								title={"Sign in"}
@@ -59,7 +59,7 @@ const Nav = () => {
 							</Link>
 						)}
 					</li>
-					{user && (
+					{currentUser && (
 						<button
 							onClick={() => auth.signOut()}
 							className="hover:text-blue-400"
@@ -126,7 +126,7 @@ const Nav = () => {
 									About
 								</Link>
 							</li>
-							{user ? (
+							{currentUser ? (
 								<li>
 									<Link
 										onClick={() => setNav(false)}
@@ -149,7 +149,7 @@ const Nav = () => {
 									</Link>
 								</li>
 							)}
-							{user && (
+							{currentUser && (
 								<button
 									onClick={() => {
 										auth.signOut()

@@ -1,6 +1,6 @@
 import React from "react"
 import Link from "next/link"
-import Nav from "@/components/Nav"
+import Nav from "@/components/Nav/Nav"
 import Scribble from "@/components/Scribble"
 import PasswordReset from "./_components/PasswordReset"
 
