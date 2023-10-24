@@ -78,7 +78,9 @@ const EditTables = ({
 									onClick={() => handleTableModal(tableName)}
 									className="text-center text-lg border border-buttonClr bg-white p-4 rounded-xl hover:scale-105 duration-300 break-words"
 								>
-									{tableName}
+									{tableName.length > 9
+										? tableName.slice(0, 9) + "..."
+										: tableName}
 								</button>
 							))}
 						</div>

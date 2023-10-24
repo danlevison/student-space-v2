@@ -125,7 +125,7 @@ const TableInfoModal = ({
 			<div className="fixed inset-0 flex items-center justify-center p-4">
 				<Dialog.Panel className="flex flex-col w-full max-w-[750px] h-full max-h-[500px] rounded-xl bg-modalBgClr border-2 border-modalBorderClr">
 					<div className="p-5 flex justify-between items-center border-b-2 border-gray-300">
-						<Dialog.Title className="font-bold text-xl">
+						<Dialog.Title className="font-bold text-xl break-words w-3/4">
 							{selectedTableName}
 						</Dialog.Title>
 						<button
@@ -167,7 +167,7 @@ const TableInfoModal = ({
 							value={tempSelectedTableName}
 							onChange={updateTableName}
 							type="text"
-							maxLength={20}
+							maxLength={30}
 						/>
 
 						<div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-4 items-center py-4">
@@ -201,7 +201,9 @@ const TableInfoModal = ({
 												className="select-none"
 											/>
 											<span className="font-bold mt-1 text-lg">
-												{student.name}
+												{student.name.length > 9
+													? student.name.slice(0, 9) + "..."
+													: student.name}
 											</span>
 										</label>
 									</div>

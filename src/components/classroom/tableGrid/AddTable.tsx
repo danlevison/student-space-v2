@@ -183,7 +183,7 @@ const AddTable = ({
 									id="tableName"
 									name="tableName"
 									required
-									maxLength={20}
+									maxLength={30}
 									ref={tableInputRef}
 									className={
 										alertMessage
@@ -209,7 +209,7 @@ const AddTable = ({
 										/>
 										<label
 											htmlFor={student.name}
-											className="flex flex-col items-center w-28 cursor-pointer text-center bg-white border border-buttonClr p-4 rounded-xl peer-disabled:bg-gray-200 peer-checked:bg-green-200 peer-hover:scale-105 duration-300 select-none"
+											className="flex flex-col items-center w-[7.3rem] cursor-pointer text-center bg-white border border-buttonClr p-4 rounded-xl peer-disabled:bg-gray-200 peer-checked:bg-green-200 peer-hover:scale-105 duration-300 select-none"
 										>
 											<Image
 												src={student.avatar}
@@ -219,9 +219,15 @@ const AddTable = ({
 												className="select-none"
 											/>
 											<span className="font-bold mt-1 text-lg">
-												{student.name}
+												{student.name.length > 9
+													? student.name.slice(0, 9) + "..."
+													: student.name}
 											</span>
-											<span>{student.tableData.tableName}</span>
+											<span>
+												{student.tableData.tableName.length > 9
+													? student.tableData.tableName.slice(0, 9) + "..."
+													: student.tableData.tableName}
+											</span>
 										</label>
 									</div>
 								))}

@@ -101,7 +101,7 @@ const EditClass = ({
 			<div className="fixed inset-0 flex items-center justify-center p-4">
 				<Dialog.Panel className="w-full max-w-[500px] h-full max-h-[465px] min-h-[30vh] rounded-xl bg-modalBgClr border-2 border-modalBorderClr overflow-auto">
 					<div className="p-5 flex justify-between items-center border-b-2 border-gray-300 mb-10">
-						<Dialog.Title className="font-bold text-xl">
+						<Dialog.Title className="font-bold text-xl w-3/4 break-words">
 							Edit {userClassName}
 						</Dialog.Title>
 						<button
@@ -142,6 +142,7 @@ const EditClass = ({
 							value={userClassName}
 							onChange={updateClassName}
 							required
+							maxLength={30}
 						/>
 					</form>
 					<div className="flex flex-row-reverse justify-between items-center border-t-2 border-gray-300 w-full px-5 py-3 mt-24">

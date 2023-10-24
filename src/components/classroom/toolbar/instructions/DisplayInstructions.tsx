@@ -31,7 +31,7 @@ const DisplayInstructions = ({
 			<div className="fixed inset-0 flex items-center justify-center p-4">
 				<Dialog.Panel className="p-2 sm:p-5 md:p-10 w-full h-full rounded-xl bg-blue-100 border-[20px] md:border-[50px] border-blue-400 overflow-auto">
 					<div className="flex justify-between items-center">
-						<Dialog.Title className="font-bold text-3xl sm:text-5xl md:text-6xl">
+						<Dialog.Title className="font-bold text-3xl sm:text-5xl md:text-6xl w-[95%] break-words">
 							{instructionTitle}
 						</Dialog.Title>
 						<button onClick={() => setOpenInstructions(false)}>
@@ -45,7 +45,7 @@ const DisplayInstructions = ({
 						{instructionsList.map((instruction, index) => (
 							<p
 								key={index}
-								className="text-3xl sm:text-4xl md:text-5xl mb-10"
+								className="text-3xl sm:text-4xl md:text-5xl mb-10 w-full break-words"
 							>
 								{`${index + 1}. ${instruction}`}
 							</p>

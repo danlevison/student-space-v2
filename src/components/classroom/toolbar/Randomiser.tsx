@@ -136,7 +136,9 @@ const Randomiser = ({ openRandomiser, setOpenRandomiser }: RandomiserProps) => {
 								{randomStudent ? (
 									<>
 										<p className="font-bold text-3xl tracking-wide">
-											{randomStudent.name}
+											{randomStudent.name.length > 9
+												? randomStudent.name.slice(0, 9) + "..."
+												: randomStudent.name}
 										</p>
 										<p className="text-center text-primaryTextClr text-2xl w-[60px] p-2 bg-iconClr rounded-lg mx-auto my-1">
 											{randomStudent.points}

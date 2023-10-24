@@ -78,7 +78,7 @@ const EditStudents = ({
 								<button
 									key={student.uuid}
 									onClick={() => handleStudentInfoModal(student)}
-									className="flex flex-col justify-center items-center text-center text-lg border border-buttonClr font-bold bg-white p-3 rounded-xl hover:scale-105 duration-300 break-words"
+									className="flex flex-col justify-center items-center text-center text-lg border border-buttonClr font-bold bg-white p-3 rounded-xl hover:scale-105 duration-300"
 								>
 									<Image
 										src={student.avatar}
@@ -87,7 +87,11 @@ const EditStudents = ({
 										height={40}
 										className="select-none"
 									/>
-									{student.name}
+									<span className="">
+										{student.name.length > 9
+											? student.name.slice(0, 9) + "..."
+											: student.name}
+									</span>
 								</button>
 							))}
 						</div>

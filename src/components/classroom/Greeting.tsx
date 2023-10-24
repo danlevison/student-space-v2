@@ -39,7 +39,7 @@ const Greeting = ({ classData }: GreetingProps) => {
 	}, [classData, params.classroom_id, currentTime, getCurrentUsersClass])
 
 	return (
-		<h1 className="text-5xl sm:text-6xl md:text-7xl text-center font-cabinSketch font-[700]">
+		<h1 className="text-5xl sm:text-6xl md:text-7xl text-center font-cabinSketch font-[700] break-words w-full">
 			{greeting}
 		</h1>
 	)
