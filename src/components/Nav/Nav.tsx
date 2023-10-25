@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import Link from "next/link"
 import { auth } from "../../utils/firebase"
 import { useAuth } from "@/context/AuthContext"
@@ -16,6 +16,16 @@ const Nav = () => {
 		setNav(!nav)
 	}
 
+	useEffect(() => {
+		document.body.style.overflow = nav ? "hidden" : "unset"
+		document.documentElement.style.overflow = nav ? "hidden" : "unset"
+
+		return () => {
+			document.body.style.overflow = "unset"
+			document.documentElement.style.overflow = "unset"
+		}
+	}, [nav])
+
 	return (
 		<nav className="fixed top-0 w-full h-[5.5rem] px-8 bg-white border-b border-gray-300 z-50">
 			<div className="flex justify-between items-center gap-4 w-full h-full px-2 2xl:px-16">
@@ -25,7 +35,6 @@ const Nav = () => {
 					<li>
 						<Link
 							href={"/"}
-							title={"Home"}
 							className="hover:text-blue-400"
 						>
 							Home
@@ -34,7 +43,6 @@ const Nav = () => {
 					<li>
 						<Link
 							href={"/#about"}
-							title={"About"}
 							className="hover:text-blue-400"
 						>
 							About
@@ -44,7 +52,6 @@ const Nav = () => {
 						{!currentUser ? (
 							<Link
 								href={"/login"}
-								title={"Sign in"}
 								className="hover:text-blue-400"
 							>
 								Sign in
@@ -52,7 +59,6 @@ const Nav = () => {
 						) : (
 							<Link
 								href={"/dashboard"}
-								title={"Dashboard"}
 								className="hover:text-blue-400"
 							>
 								Dashboard
@@ -110,7 +116,6 @@ const Nav = () => {
 								<Link
 									onClick={() => setNav(false)}
 									href={"/"}
-									title={"Home"}
 									className="hover:text-blue-400"
 								>
 									Home
@@ -120,7 +125,6 @@ const Nav = () => {
 								<Link
 									onClick={() => setNav(false)}
 									href={"/#about"}
-									title={"About"}
 									className="hover:text-blue-400"
 								>
 									About
@@ -131,7 +135,6 @@ const Nav = () => {
 									<Link
 										onClick={() => setNav(false)}
 										href={"/dashboard"}
-										title={"Dashboard"}
 										className="hover:text-blue-400"
 									>
 										Dashboard
@@ -142,7 +145,6 @@ const Nav = () => {
 									<Link
 										onClick={() => setNav(false)}
 										href={"/login"}
-										title={"Sign in"}
 										className="hover:text-blue-400"
 									>
 										Sign in
