@@ -11,6 +11,7 @@ import { CgClose } from "react-icons/cg"
 const Nav = () => {
 	const { currentUser } = useAuth()
 	const [nav, setNav] = useState(false)
+	const [windowWidth, setWindowWidth] = useState(null)
 
 	const handleNav = () => {
 		setNav(!nav)
@@ -25,6 +26,23 @@ const Nav = () => {
 			document.documentElement.style.overflow = "unset"
 		}
 	}, [nav])
+
+	useEffect(() => {
+		const handleResize = () => {
+			setWindowWidth(window.innerWidth)
+			const newWidth = window.innerWidth
+			setWindowWidth(newWidth)
+			if (newWidth >= 768) {
+				setNav(false)
+			}
+		}
+
+		window.addEventListener("resize", handleResize)
+
+		return () => {
+			window.removeEventListener("resize", handleResize)
+		}
+	}, [])
 
 	return (
 		<nav className="fixed top-0 w-full h-[5.5rem] px-8 bg-white border-b border-gray-300 z-50">
