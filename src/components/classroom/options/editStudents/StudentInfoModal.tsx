@@ -45,11 +45,15 @@ const StudentInfoModal = ({
 		}))
 	}
 
-	const capitaliseStudentName = () => {
-		const updatedCapitalisedName =
-			selectedStudent?.name.charAt(0).toUpperCase() +
-			selectedStudent?.name.slice(1)
-		return updatedCapitalisedName
+	const formatStudentName = () => {
+		const parts = selectedStudent?.name.split(" ")
+		const formattedParts = parts.map((part) => {
+			if (part) {
+				return part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
+			}
+			return part
+		})
+		return formattedParts.join(" ").trim()
 	}
 
 	const handleStudentInfoSubmit = async (
@@ -57,12 +61,10 @@ const StudentInfoModal = ({
 	) => {
 		try {
 			e.preventDefault()
-
-			capitaliseStudentName()
 			const updatedDob = selectedStudent?.dob
 
 			const existingStudent = studentData.find(
-				(student) => student.name === capitaliseStudentName()
+				(student) => student.name === formatStudentName()
 			)
 
 			if (existingStudent && existingStudent.uuid !== selectedStudent?.uuid) {
@@ -75,7 +77,7 @@ const StudentInfoModal = ({
 				if (student.uuid === selectedStudent?.uuid) {
 					return {
 						...student,
-						name: capitaliseStudentName(),
+						name: formatStudentName(),
 						dob: updatedDob,
 						avatar: newStudentAvatar
 					}

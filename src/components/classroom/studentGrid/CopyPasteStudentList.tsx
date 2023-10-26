@@ -36,11 +36,17 @@ const CopyPasteStudentList = ({
 
 	const extractValidStudentNames = (pastedText: string) => {
 		const studentNames = pastedText
-			.split("\n") // split strings into array based on being on a new line
-			.map(
-				(name: string) =>
-					name.charAt(0).toUpperCase() + name.slice(1).toLowerCase().trim()
-			)
+			.split("\n") // split strings into an array based on being on a new line
+			.map((name: string) => {
+				const formattedName = name
+					.trim()
+					.split(" ")
+					.map(
+						(part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
+					)
+					.join(" ")
+				return formattedName
+			})
 
 		return filterExtractedNames(studentNames)
 	}
@@ -136,7 +142,7 @@ const CopyPasteStudentList = ({
 
 			{/* Full-screen container to center the panel */}
 			<div className="fixed inset-0 flex items-center justify-center p-4">
-				<Dialog.Panel className="w-full max-w-[650px] h-full max-h-[740px] rounded-xl bg-modalBgClr border-2 border-modalBorderClr overflow-auto">
+				<Dialog.Panel className="w-full max-w-[650px] h-full max-h-[745px] rounded-xl bg-modalBgClr border-2 border-modalBorderClr overflow-auto">
 					<div className="p-5 flex justify-between items-center border-b-2 border-gray-300">
 						<Dialog.Title className="font-bold text-xl capitalize">
 							Copy/Paste student list
@@ -170,6 +176,7 @@ const CopyPasteStudentList = ({
 						)}
 						<textarea
 							onChange={handleTextareaChange}
+							value={pastedText}
 							ref={pasteTextAreaRef}
 							id="pasteNames"
 							rows={10}
