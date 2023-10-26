@@ -159,6 +159,8 @@ const StudentInfoModal = ({
 								</label>
 							)}
 							<input
+								onChange={updateStudentName}
+								value={selectedStudent?.name}
 								className={
 									alertMessage
 										? "border-2 border-red-500 w-full rounded-lg p-3 outline-none"
@@ -168,8 +170,6 @@ const StudentInfoModal = ({
 								id="name"
 								name="name"
 								required
-								value={selectedStudent?.name}
-								onChange={updateStudentName}
 								maxLength={30}
 							/>
 						</div>
@@ -181,12 +181,12 @@ const StudentInfoModal = ({
 								Date of birth
 							</label>
 							<input
+								onChange={updateStudentDob}
+								value={selectedStudent?.dob}
 								className=" bg-white rounded-lg p-3 outline-inputOutlineClr"
 								type="date"
 								id="dob"
 								name="dob"
-								value={selectedStudent?.dob}
-								onChange={updateStudentDob}
 							/>
 						</div>
 					</form>

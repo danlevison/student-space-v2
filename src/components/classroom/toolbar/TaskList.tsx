@@ -185,9 +185,9 @@ const TaskList = ({
 							</label>
 							<div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
 								<input
-									type="text"
-									value={newItem}
 									onChange={(e) => setNewItem(e.target.value)}
+									value={newItem}
+									type="text"
 									id="item"
 									ref={inputRef}
 									className="w-full rounded-lg p-2 outline-inputOutlineClr"
@@ -218,11 +218,11 @@ const TaskList = ({
 										}`}
 									>
 										<input
-											type="checkbox"
-											checked={task.completed}
 											onChange={(e) =>
 												toggleTaskCompleted(task.id, e.target.checked)
 											}
+											checked={task.completed}
+											type="checkbox"
 											className="w-4"
 										/>
 										<span className="w-full break-words">{task.title}</span>

@@ -212,10 +212,10 @@ const AddTable = ({
 									>
 										<input
 											onChange={toggleSelectedStudent}
+											checked={student.tableData.selected}
 											type="checkbox"
 											id={student.name}
 											name={student.name}
-											checked={student.tableData.selected}
 											className="hidden peer"
 											disabled={student.tableData.tableName ? true : false}
 										/>

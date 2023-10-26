@@ -178,10 +178,10 @@ const ResetStudentPoints = ({
 										>
 											<input
 												onChange={toggleSelectedStudent}
+												checked={student.selected}
 												type="checkbox"
 												id={student.name}
 												name={student.name}
-												checked={student.selected}
 												className="hidden peer"
 											/>
 											<label

@@ -1,9 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { useAuthState } from "react-firebase-hooks/auth"
-import { auth } from "../../utils/firebase"
+import React, { useState } from "react"
 import { StudentDataProvider } from "@/context/StudentDataContext"
 import ClassNav from "@/components/classroom/ClassNav"
 import CurrentDate from "@/components/classroom/DateComponent"
@@ -14,16 +11,13 @@ import Greeting from "@/components/classroom/Greeting"
 import Weather from "@/components/WeatherData"
 import Birthday from "@/components/classroom/Birthday"
 import Scribble from "@/components/Scribble"
-import Preloader from "@/components/Preloader"
 import SwitchGridView from "@/components/classroom/SwitchGridView"
 import paperBg from "../../../public/assets/paperbg.png"
 import PrivateRoute from "@/components/PrivateRoute"
 
 const DemoClass = () => {
-	const [user, loading] = useAuthState(auth)
 	const [toolbarMenu, setToolbarMenu] = useState(false)
 	const [showTableGrid, setShowTableGrid] = useState(false)
-	const router = useRouter()
 
 	const scribblesSvgs = [
 		{

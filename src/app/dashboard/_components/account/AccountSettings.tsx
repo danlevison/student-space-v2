@@ -124,10 +124,10 @@ const AccountSettings = ({
 						<label htmlFor="email">Email</label>
 						<input
 							onChange={(e) => setEmail(e.target.value)}
+							value={email}
 							id="email"
 							name="email"
 							type="email"
-							defaultValue={currentUser?.email}
 							required
 							className="border-2 border-gray-400 p-3 rounded-md text-[#5065a8]"
 						/>
@@ -139,6 +139,7 @@ const AccountSettings = ({
 						</label>
 						<input
 							onChange={(e) => setPassword(e.target.value)}
+							value={password}
 							id="password"
 							name="password"
 							type="password"
@@ -153,14 +154,18 @@ const AccountSettings = ({
 						</label>
 						<input
 							onChange={(e) => setPasswordConfirmation(e.target.value)}
+							value={passwordConfirmation}
 							id="confirm-password"
 							name="confirm-password"
 							type="password"
 							placeholder="Leave blank to remain unchanged"
 							className="border-2 border-gray-400 p-3 rounded-md text-[#5065a8]"
 						/>
-						<button className="mt-4 text-sm font-bold bg-gray-100 hover:bg-green-200 rounded-2xl py-3 px-5 disabled:bg-gray-400 disabled:hover:bg-gray-400">
-							Save changes
+						<button
+							disabled={loading}
+							className="mt-4 text-sm font-bold bg-gray-100 hover:bg-green-200 rounded-2xl py-3 px-5 disabled:bg-gray-400 disabled:text-white"
+						>
+							{loading ? "Saving changes" : "Save changes"}
 						</button>
 					</form>
 				</Dialog.Panel>

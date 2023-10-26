@@ -59,6 +59,7 @@ const PasswordReset = () => {
 				<label htmlFor="email">Email</label>
 				<input
 					onChange={(e) => setEmail(e.target.value)}
+					value={email}
 					type="email"
 					id="email"
 					name="email"

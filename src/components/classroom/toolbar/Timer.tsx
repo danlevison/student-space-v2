@@ -136,22 +136,22 @@ const Timer = ({ openTimer, setOpenTimer }: TimerProps) => {
 							{!start && (
 								<div className="flex justify-center items-center gap-2 text-black">
 									<input
+										onChange={handleMinutes}
+										value={minutes.toString().padStart(1, "0")}
 										onClick={stopPropagation}
 										onMouseDown={stopPropagation}
 										onMouseUp={stopPropagation}
 										type="number"
-										value={minutes.toString().padStart(1, "0")}
-										onChange={handleMinutes}
 										className="clickable text-center w-full max-w-[130px] h-20 rounded-xl text-6xl border-2 border-black [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
 									/>
 									<span className="text-7xl text-white">:</span>
 									<input
+										onChange={handleSeconds}
+										value={seconds.toString().padStart(2, "0")}
 										onClick={stopPropagation}
 										onMouseDown={stopPropagation}
 										onMouseUp={stopPropagation}
 										type="number"
-										value={seconds.toString().padStart(2, "0")}
-										onChange={handleSeconds}
 										className="clickable text-center w-full max-w-[130px] h-20 rounded-xl text-6xl border-2 border-black [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
 									/>
 								</div>

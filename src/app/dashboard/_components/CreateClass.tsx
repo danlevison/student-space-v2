@@ -28,7 +28,7 @@ function CreateClass({ setShouldFetchClassData }: CreateClassProps) {
 	}
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-		setClassroomName(e.target.value.trim())
+		setClassroomName(e.target.value)
 	}
 
 	const handleCreateClass = async (e: React.SyntheticEvent) => {
@@ -45,15 +45,13 @@ function CreateClass({ setShouldFetchClassData }: CreateClassProps) {
 
 			if (docSnap.exists()) {
 				const classDocumentRef = doc(collection(docRef, "classes"), classId)
-
-				// Check if the document already exists
 				const classDocSnap = await getDoc(classDocumentRef)
 
 				if (!classDocSnap.exists()) {
 					// If the document doesn't exist, create it with studentData, className and classAvatar
 					await setDoc(classDocumentRef, {
 						studentData: [],
-						className: classroomName,
+						className: classroomName.trim(),
 						classAvatar: bagAvatar,
 						createdAt: serverTimestamp()
 					})
@@ -120,6 +118,7 @@ function CreateClass({ setShouldFetchClassData }: CreateClassProps) {
 								</label>
 								<input
 									onChange={handleInputChange}
+									value={classroomName}
 									type="text"
 									id="classname"
 									name="classname"
