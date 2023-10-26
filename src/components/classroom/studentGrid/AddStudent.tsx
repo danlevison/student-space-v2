@@ -31,12 +31,19 @@ const AddStudent = ({
 	const dateInputRef = useRef<HTMLInputElement>(null)
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const inputName = e.target.value.trim()
+		const inputName = e.target.value
 		setStudentName(inputName)
 	}
 
-	const capitaliseStudentName = () => {
-		return studentName.charAt(0).toUpperCase() + studentName.slice(1)
+	const formatStudentName = () => {
+		const parts = studentName.split(" ")
+		const formattedParts = parts.map((part) => {
+			if (part) {
+				return part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
+			}
+			return part
+		})
+		return formattedParts.join(" ").trim()
 	}
 
 	const checkForDuplicates = (
@@ -55,7 +62,7 @@ const AddStudent = ({
 		const uuid = crypto.randomUUID()
 
 		const newStudent = {
-			name: capitaliseStudentName(),
+			name: formatStudentName(),
 			dob: studentDob,
 			points: 0,
 			avatar: avatars[randomIndex],
@@ -70,7 +77,7 @@ const AddStudent = ({
 		}
 
 		const isDuplicate = checkForDuplicates(
-			studentName,
+			newStudent.name,
 			addedStudents,
 			studentData
 		)
@@ -149,7 +156,7 @@ const AddStudent = ({
 
 				{/* Full-screen container to center the panel */}
 				<div className="fixed inset-0 flex items-center justify-center p-4">
-					<Dialog.Panel className="w-full max-w-[500px] h-full max-h-[680px] rounded-xl bg-modalBgClr border-2 border-modalBorderClr overflow-auto">
+					<Dialog.Panel className="w-full max-w-[500px] h-full max-h-[685px] rounded-xl bg-modalBgClr border-2 border-modalBorderClr overflow-auto">
 						<div className="p-5 flex justify-between items-center border-b-2 border-gray-300">
 							<Dialog.Title className="font-bold text-xl capitalize">
 								Add student
@@ -178,6 +185,7 @@ const AddStudent = ({
 								)}
 								<input
 									onChange={handleInputChange}
+									value={studentName}
 									onKeyDown={(e) => {
 										if (e.key === "Enter") {
 											e.preventDefault() // Prevent form submission
@@ -208,6 +216,7 @@ const AddStudent = ({
 								</div>
 								<input
 									onChange={(e) => setStudentDob(e.target.value)}
+									value={studentDob}
 									onKeyDown={(e) => {
 										if (e.key === "Enter") {
 											e.preventDefault() // Prevent form submission

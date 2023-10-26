@@ -36,11 +36,15 @@ const TableInfoModal = ({
 		setTempSelectedTableName(e.target.value)
 	}
 
-	const capitaliseTableName = () => {
-		const capitalisedTableName =
-			tempSelectedTableName.charAt(0).toUpperCase() +
-			tempSelectedTableName.slice(1)
-		return capitalisedTableName
+	const formatTableName = () => {
+		const parts = tempSelectedTableName.split(" ")
+		const formattedParts = parts.map((part) => {
+			if (part) {
+				return part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
+			}
+			return part
+		})
+		return formattedParts.join(" ").trim()
 	}
 
 	const toggleStudent = (selectedStudentName: string) => {
@@ -64,7 +68,7 @@ const TableInfoModal = ({
 		e.preventDefault()
 
 		try {
-			const tableName = capitaliseTableName()
+			const tableName = formatTableName()
 			const existingTableName = studentData.find(
 				(student) => student.tableData?.tableName === tableName
 			)
@@ -183,8 +187,8 @@ const TableInfoModal = ({
 									>
 										<input
 											onChange={() => toggleStudent(student.name)}
-											type="checkbox"
 											checked={student.tableData.isOnTable}
+											type="checkbox"
 											id={student.name}
 											name={student.name}
 											className="hidden peer"

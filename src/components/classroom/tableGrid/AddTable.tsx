@@ -22,6 +22,11 @@ const AddTable = ({
 	const [tableName, setTableName] = useState("")
 	const tableInputRef = useRef<HTMLInputElement>(null)
 
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const inputName = e.target.value
+		setTableName(inputName)
+	}
+
 	const toggleSelectedStudent = async (
 		e: React.ChangeEvent<HTMLInputElement>
 	) => {
@@ -56,13 +61,20 @@ const AddTable = ({
 		}
 	}
 
-	const capitaliseTableName = () => {
-		return tableName.charAt(0).toUpperCase() + tableName.slice(1).trim()
+	const formatTableName = () => {
+		const parts = tableName.split(" ")
+		const formattedParts = parts.map((part) => {
+			if (part) {
+				return part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
+			}
+			return part
+		})
+		return formattedParts.join(" ").trim()
 	}
 
 	const checkExistingTable = () => {
 		return studentData.find(
-			(student) => student.tableData.tableName === capitaliseTableName()
+			(student) => student.tableData.tableName === formatTableName()
 		)
 	}
 
@@ -83,7 +95,7 @@ const AddTable = ({
 						...student,
 						tableData: {
 							...student.tableData,
-							tableName: capitaliseTableName(),
+							tableName: formatTableName(),
 							isOnTable: true,
 							selected: false
 						}
@@ -177,7 +189,7 @@ const AddTable = ({
 									</label>
 								)}
 								<input
-									onChange={(e) => setTableName(e.target.value)}
+									onChange={handleInputChange}
 									value={tableName}
 									type="text"
 									id="tableName"
