@@ -161,6 +161,8 @@ const TableInfoModal = ({
 							</label>
 						)}
 						<input
+							onChange={updateTableName}
+							value={tempSelectedTableName}
 							className={
 								alertMessage
 									? "border-2 border-red-500 w-full rounded-lg p-3 outline-none"
@@ -168,8 +170,6 @@ const TableInfoModal = ({
 							}
 							id="tableName"
 							name="tableName"
-							value={tempSelectedTableName}
-							onChange={updateTableName}
 							type="text"
 							maxLength={30}
 						/>

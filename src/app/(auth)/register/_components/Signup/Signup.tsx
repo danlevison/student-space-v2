@@ -66,6 +66,7 @@ const Signup = () => {
 				<label htmlFor="email">Email</label>
 				<input
 					onChange={(e) => setEmail(e.target.value)}
+					value={email}
 					type="email"
 					id="email"
 					name="email"
@@ -82,6 +83,7 @@ const Signup = () => {
 				</label>
 				<input
 					onChange={(e) => setPassword(e.target.value)}
+					value={password}
 					type="password"
 					id="password"
 					name="password"
@@ -98,6 +100,7 @@ const Signup = () => {
 				</label>
 				<input
 					onChange={(e) => setPasswordConfirmation(e.target.value)}
+					value={passwordConfirmation}
 					type="password"
 					id="confirm-password"
 					name="confirm-password"

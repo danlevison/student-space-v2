@@ -211,13 +211,13 @@ const EditSavedInstructions = ({
 								Instruction name {"(optional)"}
 							</label>
 							<input
+								onChange={updateSavedInstructionTitle}
+								value={tempSavedInstructions[activeSavedInstruction].title}
 								type="text"
 								id="instruction-title"
 								name="instruction-title"
 								placeholder="e.g. Morning routine"
 								className="p-4 w-full rounded-lg"
-								value={tempSavedInstructions[activeSavedInstruction].title}
-								onChange={updateSavedInstructionTitle}
 							/>
 						</div>
 						<button

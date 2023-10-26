@@ -231,13 +231,13 @@ const Instructions = ({
 								Instruction name {"(optional)"}
 							</label>
 							<input
+								onChange={(e) => setInstructionTitle(e.target.value)}
+								value={instructionTitle}
 								type="text"
 								id="instruction-title"
 								name="instruction-title"
 								placeholder="e.g. Morning routine"
 								className="p-4 w-full rounded-lg"
-								value={instructionTitle}
-								onChange={(e) => setInstructionTitle(e.target.value)}
 								maxLength={50}
 							/>
 						</div>

@@ -135,12 +135,12 @@ const EditClass = ({
 							Class name
 						</label>
 						<input
+							onChange={updateClassName}
+							value={userClassName}
 							className="w-full rounded-lg p-3 outline-inputOutlineClr text-xl"
 							type="text"
 							id="classroomName"
 							name="classroomName"
-							value={userClassName}
-							onChange={updateClassName}
 							required
 							maxLength={30}
 						/>

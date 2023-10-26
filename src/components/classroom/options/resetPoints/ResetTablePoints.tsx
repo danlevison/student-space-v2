@@ -127,10 +127,10 @@ const ResetTablePoints = ({
 						>
 							<input
 								onChange={toggleSelectedTable}
+								checked={table.selected}
 								type="checkbox"
 								id={table.tableName}
 								name={table.tableName}
-								checked={table.selected}
 								className="hidden peer"
 							/>
 							<label

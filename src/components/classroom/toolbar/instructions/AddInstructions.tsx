@@ -40,13 +40,13 @@ const AddInstructions = ({
 								Enter an instruction
 							</label>
 							<textarea
+								onChange={(e) => setInstruction(e.target.value)}
+								value={instruction}
 								name="instruction"
 								id="instruction"
 								rows={4}
 								placeholder="e.g. Take out your reading book"
 								className="p-2 rounded-lg"
-								value={instruction}
-								onChange={(e) => setInstruction(e.target.value)}
 							/>
 						</div>
 						<div className="flex justify-end items-center gap-10 pt-4">
