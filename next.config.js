@@ -16,7 +16,12 @@ const nextConfig = {
 		return config
 	},
 	images: {
-		domains: ["openweathermap.org"]
+		remotePatterns: [
+			{
+				protocol: "https",
+				hostname: "openweathermap.org"
+			}
+		]
 	}
 }
 
