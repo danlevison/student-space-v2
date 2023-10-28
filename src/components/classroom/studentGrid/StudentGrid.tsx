@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useContext } from "react"
+import Image from "next/image"
 import StudentDataContext from "@/context/StudentDataContext"
 import { RiAddLine } from "react-icons/ri"
 import StudentCard from "./StudentCard"
@@ -8,6 +9,7 @@ import AddStudent from "./AddStudent"
 import Confetti from "react-confetti"
 import { useWindowSize } from "@reactuses/core"
 // Avatars
+import coinAvatar from "../../../../public/assets/avatars/coin.png"
 import sheepAvatar from "../../../../public/assets/avatars/sheep.svg"
 import monkeyAvatar from "../../../../public/assets/avatars/monkey.svg"
 import rabbitAvatar from "../../../../public/assets/avatars/rabbit.svg"
@@ -47,6 +49,10 @@ const StudentGrid = () => {
 		setIsAddStudentModalOpen(true)
 	}
 
+	const classTotal = studentData.reduce((acc, curr) => {
+		return acc + curr.points
+	}, 0)
+
 	return (
 		<>
 			{studentData.length === 0 ? (
@@ -67,6 +73,22 @@ const StudentGrid = () => {
 				</div>
 			) : (
 				<div className="grid grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-4 items-center px-10">
+					<div className="relative flex flex-col justify-center items-center p-8 shadow-lg rounded-md bg-[#f5f5f5]">
+						<p className="font-bold tracking-wide text-center">Class Total</p>
+						<p className="text-center text-primaryTextClr w-[50px] p-2 bg-iconClr rounded-lg mx-auto my-1">
+							{classTotal}
+						</p>
+						<Image
+							src={coinAvatar}
+							alt="Sketched coin"
+							width={55}
+							height={55}
+							className="absolute top-1 left-1"
+							style={{
+								objectFit: "cover"
+							}}
+						/>
+					</div>
 					<StudentCard
 						avatars={avatars}
 						setShowConfetti={setShowConfetti}
