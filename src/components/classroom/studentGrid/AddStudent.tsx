@@ -156,7 +156,7 @@ const AddStudent = ({
 
 				{/* Full-screen container to center the panel */}
 				<div className="fixed inset-0 flex items-center justify-center p-4">
-					<Dialog.Panel className="w-full max-w-[500px] h-full max-h-[685px] rounded-xl bg-modalBgClr border-2 border-modalBorderClr overflow-auto">
+					<Dialog.Panel className="w-full max-w-[500px] h-full max-h-[680px] rounded-xl bg-modalBgClr border-2 border-modalBorderClr overflow-auto">
 						<div className="p-5 flex justify-between items-center border-b-2 border-gray-300">
 							<Dialog.Title className="font-bold text-xl capitalize">
 								Add student
@@ -270,7 +270,7 @@ const AddStudent = ({
 								)}
 							</div>
 
-							<div className="flex items-center justify-between gap-2 p-5">
+							<div className="flex justify-between items-center p-5">
 								<button
 									onClick={handleCopyPasteModal}
 									type="button"
