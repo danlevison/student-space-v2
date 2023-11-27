@@ -137,7 +137,7 @@ const StudentInfoModal = ({
 					</div>
 					<form
 						onSubmit={handleStudentInfoSubmit}
-						className="flex flex-col p-5"
+						className="flex flex-col p-5 h-full overflow-auto"
 						id="form"
 					>
 						<StudentAvatarMenu
@@ -190,7 +190,7 @@ const StudentInfoModal = ({
 							/>
 						</div>
 					</form>
-					<div className="flex justify-between flex-row-reverse items-center border-t-2 border-gray-300 mt-3 px-5 py-4">
+					<div className="flex justify-between flex-row-reverse items-center border-t-2 border-gray-300 px-5 py-3">
 						<div className="flex items-center justify-center gap-2">
 							<button
 								onClick={() => {
