@@ -172,7 +172,7 @@ const AddTable = ({
 						</div>
 						<form
 							onSubmit={handleAddTableSubmit}
-							className="p-5 flex flex-col h-full overflow-auto"
+							className="px-5 pt-5 flex flex-col h-full overflow-auto"
 							id="form"
 						>
 							<div className="flex flex-col items-center">
