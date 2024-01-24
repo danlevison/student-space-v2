@@ -20,11 +20,14 @@ type CreateClassProps = {
 function CreateClass({ setShouldFetchClassData }: CreateClassProps) {
 	const [isOpen, setIsOpen] = useState(false)
 	const [classroomName, setClassroomName] = useState("")
+	const [error, setError] = useState("")
 	const { currentUser } = useAuth()
 	const classId = crypto.randomUUID()
 
 	const handleClickOpen = () => {
 		setIsOpen(true)
+		setError("")
+		setClassroomName("")
 	}
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -34,7 +37,13 @@ function CreateClass({ setShouldFetchClassData }: CreateClassProps) {
 	const handleCreateClass = async (e: React.SyntheticEvent) => {
 		e.preventDefault()
 
+		if (classroomName.trim() === "") {
+			setError("Please enter a class name")
+			return
+		}
+
 		try {
+			setError("")
 			if (!currentUser) {
 				console.error("User not authenticated.")
 				return
@@ -68,8 +77,9 @@ function CreateClass({ setShouldFetchClassData }: CreateClassProps) {
 		} catch (error) {
 			console.error("Error creating class", error)
 			toast.error("Error creating class, please try again.")
+		} finally {
+			setIsOpen(false)
 		}
-		setIsOpen(false)
 	}
 
 	return (
@@ -126,6 +136,7 @@ function CreateClass({ setShouldFetchClassData }: CreateClassProps) {
 									maxLength={30}
 									className="py-3 px-2 rounded-lg outline-inputOutlineClr"
 								/>
+								{error && <p className="text-red-500">{error}</p>}
 							</div>
 							<div className="flex justify-center gap-8">
 								<button

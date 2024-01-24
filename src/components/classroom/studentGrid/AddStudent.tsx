@@ -5,9 +5,9 @@ import { Dialog } from "@headlessui/react"
 import { AiOutlineClose, AiOutlineInfoCircle } from "react-icons/ai"
 import CopyPasteStudentList from "./CopyPasteStudentList"
 import { updateStudentDataInClass } from "@/utils/updateStudentData"
+import { toast } from "react-toastify"
 // Types
 import { StudentData } from "../../../types/types"
-import { toast } from "react-toastify"
 
 type AddStudentProps = {
 	isAddStudentModalOpen: boolean
@@ -86,6 +86,8 @@ const AddStudent = ({
 			setAlertMessage(
 				"It looks like you're trying to add a student to this class twice"
 			)
+		} else if (studentName.trim() === "") {
+			setAlertMessage("You must enter a student name")
 		} else {
 			setAlertMessage("")
 			setStudentName("")
@@ -156,7 +158,7 @@ const AddStudent = ({
 
 				{/* Full-screen container to center the panel */}
 				<div className="fixed inset-0 flex items-center justify-center p-4">
-					<Dialog.Panel className="w-full max-w-[500px] h-full max-h-[680px] rounded-xl bg-modalBgClr border-2 border-modalBorderClr overflow-auto">
+					<Dialog.Panel className="w-full max-w-[500px] h-fit max-h-full rounded-xl bg-modalBgClr border-2 border-modalBorderClr overflow-auto">
 						<div className="p-5 flex justify-between items-center border-b-2 border-gray-300">
 							<Dialog.Title className="font-bold text-xl capitalize">
 								Add student
