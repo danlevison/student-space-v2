@@ -1,182 +1,140 @@
-"use client"
+"use client";
 
-import React, { useState, useEffect } from "react"
-import Link from "next/link"
-import { fetchClassData } from "@/api"
-import { useAuth } from "@/context/AuthContext"
-import CreateClass from "./_components/CreateClass"
-import DemoClassLink from "./_components/DemoClassLink"
-import UsersClasses from "./_components/UsersClasses"
-import EditClass from "@/app/dashboard/_components/editClass/EditClass"
-import Nav from "@/components/Nav/Nav"
-import Preloader from "@/components/Preloader"
-import ConditionalHeading from "./_components/ConditionalHeading"
-import PrivateRoute from "@/components/PrivateRoute"
-import ProfileMenu from "@/app/dashboard/_components/account/ProfileMenu"
-import Scribble from "@/components/Scribble"
-import CurrentDate from "@/components/classroom/DateComponent"
+import React, { useState, useEffect } from "react";
+import { fetchClassData } from "@/api";
+import { useAuth } from "@/context/AuthContext";
+import CreateClass from "./_components/CreateClass";
+import DemoClassLink from "./_components/DemoClassLink";
+import UsersClasses from "./_components/UsersClasses";
+import EditClass from "@/app/dashboard/_components/editClass/EditClass";
+import Nav from "@/components/Nav/Nav";
+import Preloader from "@/components/Preloader";
+import ConditionalHeading from "./_components/ConditionalHeading";
+import PrivateRoute from "@/components/PrivateRoute";
+import ProfileMenu from "@/app/dashboard/_components/account/ProfileMenu";
+import Scribble from "@/components/Scribble";
+import { dashboardScribbles } from "@/utils/scribbles";
+import CurrentDate from "@/components/classroom/DateComponent";
+import Error from "@/components/Error";
 
 type SelectedUser = {
-	classId: string
-	className: string
-	classAvatar: {
-		height: number
-		width: number
-		blurWidth: number
-		src: string
-		blurHeight: number
-	}
-}
+  classId: string;
+  className: string;
+  classAvatar: {
+    height: number;
+    width: number;
+    blurWidth: number;
+    src: string;
+    blurHeight: number;
+  };
+};
 
 type ClassDataType = {
-	classId: string
-	className: string
-	classAvatar: ClassAvatarType
-	createdAt: CreatedAtType
-}
+  classId: string;
+  className: string;
+  classAvatar: ClassAvatarType;
+  createdAt: CreatedAtType;
+};
 
 type CreatedAtType = {
-	nanoseconds: number
-	seconds: number
-}
+  nanoseconds: number;
+  seconds: number;
+};
 
 type ClassAvatarType = {
-	height: number
-	width: number
-	blurWidth: number
-	src: string
-	blurHeight: number
-}
+  height: number;
+  width: number;
+  blurWidth: number;
+  src: string;
+  blurHeight: number;
+};
 
 const Dashboard = () => {
-	const { currentUser } = useAuth()
-	const [shouldFetchClassData, setShouldFetchClassData] = useState(true)
-	const [loading, setLoading] = useState(true)
-	const [error, setError] = useState<string | null>(null)
-	const [isEditClassModalOpen, setIsEditClassModalOpen] = useState(false)
-	const [selectedClass, setSelectedClass] = useState<SelectedUser | null>(null)
-	const [classData, setClassData] = useState<ClassDataType[] | null>(null)
+  const { currentUser } = useAuth();
+  const [shouldFetchClassData, setShouldFetchClassData] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [isEditClassModalOpen, setIsEditClassModalOpen] = useState(false);
+  const [selectedClass, setSelectedClass] = useState<SelectedUser | null>(null);
+  const [classData, setClassData] = useState<ClassDataType[] | null>(null);
+  const [formKey, setFormKey] = useState(0);
 
-	useEffect(() => {
-		const loadClassData = async () => {
-			try {
-				if (currentUser) {
-					const data = await fetchClassData(currentUser)
-					setClassData(data)
-					orderClassesByCreationTime(data)
-					setShouldFetchClassData(false)
-				}
-			} catch (error) {
-				console.error("Error fetching class data:", error)
-				setError("It looks like something went wrong!")
-			} finally {
-				setLoading(false)
-			}
-		}
-		loadClassData()
-	}, [currentUser, isEditClassModalOpen, shouldFetchClassData])
+  useEffect(() => {
+    const loadClassData = async () => {
+      try {
+        if (currentUser) {
+          const data = await fetchClassData(currentUser);
+          setClassData(data);
+          orderClassesByCreationTime(data);
+          setShouldFetchClassData(false);
+        }
+      } catch (error) {
+        console.error("Error fetching class data:", error);
+        setError("It looks like something went wrong!");
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadClassData();
+  }, [currentUser, isEditClassModalOpen, shouldFetchClassData]);
 
-	const orderClassesByCreationTime = (data: ClassDataType[]) => {
-		if (data) {
-			const sortedData = [...data].sort((a, b) => {
-				return b.createdAt.seconds - a.createdAt.seconds
-			})
-			setClassData(sortedData)
-		}
-	}
+  const orderClassesByCreationTime = (data: ClassDataType[]) => {
+    if (data) {
+      const sortedData = [...data].sort((a, b) => {
+        return b.createdAt.seconds - a.createdAt.seconds;
+      });
+      setClassData(sortedData);
+    }
+  };
 
-	const scribblesSvgs = [
-		{
-			src: "/assets/Scribbles/24.svg",
-			className: "absolute top-16 left-0 w-[75px] md:w-[100px] 2xl:w-[150px]"
-		},
-		{
-			src: "/assets/Scribbles/72.svg",
-			className:
-				"absolute bottom-20 md:bottom-5 right-20 w-[75px] md:w-[100px] 2xl:w-[150px] rotate-12"
-		},
-		{
-			src: "/assets/Scribbles/1.svg",
-			className: "absolute top-32 right-6 w-[50px] md:w-[75px] 2xl:w-[130px]"
-		},
-		{
-			src: "/assets/Scribbles/21.svg",
-			className: "absolute bottom-32 left-16 w-[50px] md:w-[75px]"
-		},
-		{
-			src: "/assets/Scribbles/63.svg",
-			className:
-				"absolute bottom-[30%] md:bottom-44 2xl:bottom-96 right-7 md:right-56 2xl:right-56 w-[40px] md:w-[50px] 2xl:w-[75px]"
-		},
-		{
-			src: "/assets/Scribbles/6.svg",
-			className:
-				"absolute bottom-[50%] lg:bottom-72 left-10 md:left-24 w-[30px] md:w-[40px]"
-		},
-		{
-			src: "/assets/Scribbles/45.svg",
-			className:
-				"hidden 2xl:block absolute top-72 left-72 w-[30px] 2xl:w-[40px]"
-		},
-		{
-			src: "/assets/Scribbles/35.svg",
-			className: "hidden lg:block absolute bottom-10 w-[75px] 2xl:w-[100px]"
-		}
-	]
+  const reset = () => {
+    setFormKey(formKey + 1);
+  };
 
-	if (loading) return <Preloader />
+  if (loading) return <Preloader />;
 
-	return (
-		<>
-			<header className="relative">
-				<Nav />
-			</header>
-			<main className="relative py-40 min-h-screen w-full">
-				<div className="fixed top-[5.5rem] flex justify-between items-center px-8 bg-white w-full h-12 border-b border-gray-300 z-10">
-					<ProfileMenu />
-					<CurrentDate />
-				</div>
-				{error ? (
-					<div className="bg-red-200 py-3 px-8 text-center -mt-6">
-						<h1 className="text-2xl text-red-800 font-bold">{error}</h1>
-						<span className="text-lg">
-							Please{" "}
-							<Link
-								className="text-blue-600 font-bold underline"
-								href={"/"}
-							>
-								refresh the page
-							</Link>{" "}
-							and try again.
-						</span>
-					</div>
-				) : (
-					<div className="flex flex-col justify-center items-center text-center px-8 py-10">
-						<Scribble scribblesSvgs={scribblesSvgs} />
-						<ConditionalHeading />
+  return (
+    <>
+      <header className="relative">
+        <Nav />
+      </header>
+      <main className="relative py-40 min-h-screen w-full">
+        <div className="fixed top-[5.5rem] flex justify-between items-center px-8 bg-white w-full h-12 border-b border-gray-300 z-10">
+          <ProfileMenu />
+          <CurrentDate />
+        </div>
 
-						<div className="relative grid grid-cols-[repeat(auto-fit,minmax(230px,230px))] gap-10 w-full items-center justify-center mt-12">
-							<DemoClassLink />
+        {error ? (
+          <Error errorMessage={error} marginTopClassName="-mt-6" />
+        ) : (
+          <div className="flex flex-col justify-center items-center text-center px-8 py-10">
+            <Scribble scribblesSvgs={dashboardScribbles} />
+            <ConditionalHeading />
 
-							<UsersClasses
-								classData={classData}
-								setSelectedClass={setSelectedClass}
-								setIsEditClassModalOpen={setIsEditClassModalOpen}
-							/>
+            <div className="relative grid grid-cols-[repeat(auto-fit,minmax(230px,230px))] gap-10 w-full items-center justify-center mt-12">
+              <DemoClassLink />
 
-							<EditClass
-								isEditClassModalOpen={isEditClassModalOpen}
-								setIsEditClassModalOpen={setIsEditClassModalOpen}
-								classData={selectedClass}
-							/>
+              <UsersClasses
+                classData={classData}
+                setSelectedClass={setSelectedClass}
+                setIsEditClassModalOpen={setIsEditClassModalOpen}
+              />
 
-							<CreateClass setShouldFetchClassData={setShouldFetchClassData} />
-						</div>
-					</div>
-				)}
-			</main>
-		</>
-	)
-}
+              <EditClass
+                isEditClassModalOpen={isEditClassModalOpen}
+                setIsEditClassModalOpen={setIsEditClassModalOpen}
+                classData={selectedClass}
+                key={formKey}
+                reset={reset}
+              />
 
-export default PrivateRoute(Dashboard)
+              <CreateClass setShouldFetchClassData={setShouldFetchClassData} />
+            </div>
+          </div>
+        )}
+      </main>
+    </>
+  );
+};
+
+export default PrivateRoute(Dashboard);
