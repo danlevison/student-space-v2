@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useContext } from "react"
+import Image from "next/image"
 import StudentDataContext from "@/context/StudentDataContext"
 import { RiAddLine } from "react-icons/ri"
 import StudentCard from "./StudentCard"
@@ -8,6 +9,7 @@ import AddStudent from "./AddStudent"
 import Confetti from "react-confetti"
 import { useWindowSize } from "@reactuses/core"
 // Avatars
+import coinAvatar from "../../../../public/assets/avatars/coin.png"
 import sheepAvatar from "../../../../public/assets/avatars/sheep.svg"
 import monkeyAvatar from "../../../../public/assets/avatars/monkey.svg"
 import rabbitAvatar from "../../../../public/assets/avatars/rabbit.svg"
